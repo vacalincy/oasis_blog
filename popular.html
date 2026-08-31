@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Popular — Oasis Blog</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="images/favicon2.svg">
+
+    <script src="main.js"></script>
+
+</head>
+<body>
+
+<div class="page-gradient"></div>
+
+<!-- ============================================= -->
+<!-- HEADER START                                   -->
+<!-- ============================================= -->
+<nav>
+    <div class="container nav__container">
+
+        <a href="discover.html" class="nav__logo">
+            <img src="images/logo.svg" alt="OASIS Logo">
+        </a>
+
+        <ul class="nav__items">
+            <li><button id="close__nav-btn">✕</button></li>
+            <li><a href="discover.html">Discover</a></li>
+            <li><a href="following.html">Following</a></li>
+            <li><a href="popular.html" class="active">Popular</a></li>
+            <li><a href="topics.html">Topics</a></li>
+        </ul>
+
+        <div class="nav__actions">
+            <div class="search-bar">
+                <img src="images/search.svg" alt="Search">
+                <input type="text" placeholder="Search stories..." aria-label="Search stories">
+            </div>
+            <button class="notification-btn" aria-label="Notifications">
+                <img src="images/bell.svg" alt="Notifications">
+            </button>
+            <a href="profile.html" class="avatar">EA</a>
+            <button id="open__nav-btn">☰</button>
+        </div>
+
+    </div>
+</nav>
+<!-- ============================================= -->
+<!-- HEADER END                                     -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- BOTTOM TAB BAR START (mobile only)             -->
+<!-- ============================================= -->
+<nav class="tab-bar">
+    <a href="discover.html" class="tab-bar__item">
+        <img src="images/home.svg" alt="Home">
+    </a>
+    <a href="search.html" class="tab-bar__item">
+        <img src="images/search2.svg" alt="Search">
+    </a>
+    <a href="add-post.html" class="tab-bar__item">
+        <img src="images/plus.svg" alt="Add post">
+    </a>
+    <a href="profile.html" class="tab-bar__item">
+        <img src="images/Profile.svg" alt="Profile">
+    </a>
+</nav>
+<!-- ============================================= -->
+<!-- BOTTOM TAB BAR END                             -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- SECTION 1: HERO (gradient + centered title)    -->
+<!-- ============================================= -->
+<section class="popular-hero">
+    <h1 class="popular-hero__title">Timeless Reads And Current Trends.</h1>
+</section>
+<!-- ============================================= -->
+<!-- SECTION 1: HERO END                            -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- SECTION 1.5: POPULAR PICKS (3-card grid)       -->
+<!-- ============================================= -->
+<section class="popular-picks">
+    <div class="container popular-picks__grid">
+
+        <!-- Card 1 -->
+        <article class="pick-card">
+            <a href="post.html" class="pick-card__image">
+                <img src="images/dunes.jpg" alt="Warm Palettes & Natural Textures">
+            </a>
+            <div class="pick-card__overlay">
+                <span class="pick-card__badge">Design &amp; Interfaces</span>
+                <h3 class="pick-card__title">
+                    <a href="post.html">Warm Palettes &amp; Natural <br>Textures</a>
+                </h3>
+                <div class="pick-card__footer">
+                    <p class="pick-card__excerpt">How to draw inspiration from extreme landscapes to build</p>
+                    <a href="post.html" class="pick-card__arrow" aria-label="Read article">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="pick-card">
+            <a href="post.html" class="pick-card__image">
+                <img src="images/lake-mountains.jpg" alt="Alpine Routes: The Ultimate Hiking Guide">
+            </a>
+            <div class="pick-card__overlay">
+                <span class="pick-card__badge">Travel &amp; Outdoors</span>
+                <h3 class="pick-card__title">
+                    <a href="post.html">Alpine Routes: The Ultimate <br>Hiking Guide</a>
+                </h3>
+                <div class="pick-card__footer">
+                    <p class="pick-card__excerpt">Planning your next mountain hike with essential gear checklists</p>
+                    <a href="post.html" class="pick-card__arrow" aria-label="Read article">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="pick-card">
+            <a href="post.html" class="pick-card__image">
+                <img src="images/field-tree.jpg" alt="Mastering Exposure in Bright Backlight">
+            </a>
+            <div class="pick-card__overlay">
+                <span class="pick-card__badge">Photography &amp; Film</span>
+                <h3 class="pick-card__title">
+                    <a href="post.html">Mastering Exposure in <br>Bright Backlight</a>
+                </h3>
+                <div class="pick-card__footer">
+                    <p class="pick-card__excerpt">Technical camera settings for managing harsh sunlight and</p>
+                    <a href="post.html" class="pick-card__arrow" aria-label="Read article">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </article>
+
+    </div>
+</section>
+<!-- ============================================= -->
+<!-- SECTION 1.5: POPULAR PICKS END                 -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- SECTION 1: TRENDING THIS WEEK START             -->
+<!-- ============================================= -->
+<section class="trending">
+
+    <div class="trending__bar">
+        <span class="trending__label">This Week</span>
+        <div class="trending__filters">
+            <button class="trending__filter-btn active">This Week</button>
+            <button class="trending__filter-btn">This Month</button>
+            <button class="trending__filter-btn">All Time</button>
+        </div>
+    </div>
+
+    <ul class="trending__list">
+        <li class="trending__item">
+            <span class="trending__number">01</span>
+            <a href="post.html" class="trending__title">The Art of Mountain Photography</a>
+        </li>
+        <li class="trending__item">
+            <span class="trending__number">02</span>
+            <a href="post.html" class="trending__title">Designing Responsive Layouts</a>
+        </li>
+        <li class="trending__item">
+            <span class="trending__number">03</span>
+            <a href="post.html" class="trending__title">Advanced Typography in Web Design</a>
+        </li>
+    </ul>
+
+</section>
+<!-- ============================================= -->
+<!-- SECTION 1: TRENDING THIS WEEK END               -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- SECTION 2: ALL-TIME CLASSICS START              -->
+<!-- ============================================= -->
+<section class="classics">
+
+    <div class="classics__header">
+        <h2 class="classics__title">All-Time <br>Classics</h2>
+    </div>
+
+    <!-- row 1 — image left, text right -->
+    <article class="classics__row">
+        <div class="classics__image">
+            <a href="post.html">
+                <img src="images/concert_box.jpg" alt="Crowd at a concert with stage lights">
+            </a>
+        </div>
+        <div class="classics__content">
+            <a href="category-posts.html" class="classics__badge">Music</a>
+
+            <h3 class="classics__row-title">
+                <a href="post.html" class="classics__title-link">The Evolution of Progressive Rock: Pink Floyd &amp; Led Zeppelin</a>
+            </h3>
+
+            <p class="classics__excerpt">How two bands stretched the three-minute single into sprawling, cinematic suites — and quietly rewrote the rules of the album.</p>
+
+            <div class="classics__meta">
+                <a href="profile.html" class="classics__author">Jane Doe</a>
+                <span>·</span>
+                <time datetime="2023-10-12">Oct 12, 2023</time>
+            </div>
+
+            <a href="post.html" class="classics__link">Read Article ↗</a>
+        </div>
+    </article>
+
+    <!-- row 2 — text left, image right -->
+    <article class="classics__row classics__row--reverse">
+        <div class="classics__content">
+            <a href="category-posts.html" class="classics__badge">Technology</a>
+
+            <h3 class="classics__row-title">
+                <a href="post.html" class="classics__title-link">Mastering CSS Grid &amp; Flexbox Layouts</a>
+            </h3>
+
+            <p class="classics__excerpt">A practical field guide to comparing resilient, two-dimensional layouts — when to reach for grid, when flexbox wins, and how to set them cooperate.</p>
+
+            <div class="classics__meta">
+                <a href="profile.html" class="classics__author">Jane Doe</a>
+                <span>·</span>
+                <time datetime="2023-10-12">Oct 12, 2023</time>
+            </div>
+
+            <a href="post.html" class="classics__link">Read Article ↗</a>
+        </div>
+        <div class="classics__image">
+            <a href="post.html">
+                <img src="images/select_box.jpg" alt="Modern building facade">
+            </a>
+        </div>
+    </article>
+
+</section>
+<!-- ============================================= -->
+<!-- SECTION 2: ALL-TIME CLASSICS END                -->
+<!-- ============================================= -->
+
+
+<section class="discussions">
+
+    <h2 class="discussions__title">Hot Discussions</h2>
+
+    <div class="discussions__item">
+        <input type="checkbox" id="discussion-1" class="discussions__toggle-input" checked>
+        <div class="discussions__row">
+            <a href="post.html" class="discussions__title-link">Sony A6400: Perfect Settings for Backlit Mountains</a>
+            <label for="discussion-1" class="discussions__toggle-btn" aria-label="Toggle discussion"></label>
+        </div>
+        <div class="discussions__body">
+            <p class="discussions__text">Achieving the perfect exposure when shooting directly into the sun requires balancing your highlights while recovering shadow detail. In this discussion, users share their custom profiles and metering modes for capturing crisp silhouettes and vibrant sunbeams using Sony's APS-C mirrorless systems.</p>
+            <img src="images/sony.jpg" alt="Backlit mountain landscape" class="discussions__image">
+        </div>
+    </div>
+
+    <div class="discussions__item">
+        <input type="checkbox" id="discussion-2" class="discussions__toggle-input">
+        <div class="discussions__row">
+            <a href="post.html" class="discussions__title-link">The Ultimate Quinoa &amp; Bulgur Guide</a>
+            <label for="discussion-2" class="discussions__toggle-btn" aria-label="Toggle discussion"></label>
+        </div>
+        <div class="discussions__body">
+            <p class="discussions__text">A deep dive into cooking ratios, soaking times, and flavor pairings for two of the most versatile ancient grains.</p>
+        </div>
+    </div>
+
+    <div class="discussions__item">
+        <input type="checkbox" id="discussion-3" class="discussions__toggle-input">
+        <div class="discussions__row">
+            <a href="post.html" class="discussions__title-link">Troubleshooting the Apple Ecosystem</a>
+            <label for="discussion-3" class="discussions__toggle-btn" aria-label="Toggle discussion"></label>
+        </div>
+        <div class="discussions__body">
+            <p class="discussions__text">A running thread collecting fixes for the most common sync, Handoff, and iCloud issues across iPhone, Mac, and iPad.</p>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

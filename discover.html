@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Oasis Blog</title>
+
+    <!-- Google Fonts connection -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="images/favicon2.svg">
+
+    <script src="main.js"></script>
+</head>
+<body>
+
+<!-- ============================================= -->
+<!-- HEADER START                                   -->
+<!-- ============================================= -->
+<nav>
+    <div class="container nav__container">
+
+        <!-- 1. Logo -->
+        <a href="discover.html" class="nav__logo">
+            <img src="images/logo.svg" alt="OASIS Logo">
+        </a>
+
+        <!-- 2. Center menu (desktop) / sliding panel (mobile) -->
+        <ul class="nav__items">
+
+            <!-- close button, only visible inside mobile sliding menu -->
+            <li><button id="close__nav-btn">✕</button></li>
+
+            <li><a href="discover.html" class="active">Discover</a></li>
+            <li><a href="following.html">Following</a></li>
+            <li><a href="popular.html">Popular</a></li>
+            <li><a href="topics.html">Topics</a></li>
+        </ul>
+
+        <!-- 3. Right side: search, notifications, avatar, burger -->
+        <div class="nav__actions">
+
+            <div class="search-bar">
+                <img src="images/search.svg" alt="Search">
+                <input type="text" placeholder="Search stories..." aria-label="Search stories">
+            </div>
+
+            <button class="notification-btn" aria-label="Notifications">
+                <img src="images/bell.svg" alt="Notifications">
+            </button>
+
+            <a href="profile.html" class="avatar">EA</a>
+
+            <!-- burger button, only visible on mobile -->
+            <button id="open__nav-btn">☰</button>
+
+        </div>
+
+    </div>
+</nav>
+<!-- ============================================= -->
+<!-- HEADER END                                     -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- BOTTOM TAB BAR START (mobile only)             -->
+<!-- ============================================= -->
+<nav class="tab-bar">
+    <a href="discover.html" class="tab-bar__item active">
+        <img src="images/home.svg" alt="Home">
+    </a>
+    <a href="search.html" class="tab-bar__item">
+        <img src="images/search2.svg" alt="Search">
+    </a>
+    <a href="add-post.html" class="tab-bar__item">
+        <img src="images/plus.svg" alt="Add post">
+    </a>
+    <a href="signup.html" class="tab-bar__item">
+        <img src="images/Profile.svg" alt="Profile">
+    </a>
+</nav>
+<!-- ============================================= -->
+<!-- BOTTOM TAB BAR END                             -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- FEATURED POST SECTION START                    -->
+<!-- ============================================= -->
+<section class="featured-post-section">
+    <div class="container">
+        <div class="featured-post">
+
+            <!-- Left column: image, links to the full post -->
+            <a href="post.html" class="featured-post__link">
+                <img src="images/salad.svg" alt="Salad">
+            </a>
+
+            <!-- Right column: badge, title, text, author -->
+            <div class="featured-post__content">
+
+                <!-- category badge, links to the category archive -->
+                <a href="category-posts.html?cat=food" class="featured-post__badge">
+                    <span class="featured-post__title">Food</span>
+                </a>
+
+                <!-- title + text group -->
+                <div class="featured-post__info">
+
+                    <!-- title also links to the full post, same as the image -->
+                    <a href="post.html" class="featured-post__title-link">
+                        <h2>Contrary to popular belief, Lorem Ipsum is not simply random text</h2>
+                    </a>
+
+                    <p>There are many variations of passages of Lorem Ipsum available,
+                        but the majority have suffered alteration in some form, by injected
+                        humour, or randomised words which don't look even slightly believable.
+                        If you are going to use a passage of Lorem Ipsum, you need to be sure there
+                        isn't anything embarrassing hidden in the middle of text.</p>
+
+                </div>
+
+                <!-- author block, pinned to the bottom via CSS — links to the author's profile page -->
+                <a href="profile.html" class="featured-post__author">
+                    <img src="images/avatar.svg" alt="Ernest Achiever">
+                    <div class="featured-post__author__name">
+                        <p><b>Ernest Achiever</b></p>
+                        <time datetime="2020-01-01">January 1, 2020</time>
+                    </div>
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- ============================================= -->
+<!-- FEATURED POST SECTION END                      -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- LATEST POSTS SECTION START                     -->
+<!-- ============================================= -->
+
+<section class="latest-posts-section">
+
+    <div class="container">
+
+        <div class="section-header">
+            <h2>Explore the latest</h2>
+            <ul class="filters">
+                <li><button class="filter-btn active" data-filter="all">All</button></li>
+                <li><button class="filter-btn" data-filter="design">Design</button></li>
+                <li><button class="filter-btn" data-filter="technology">Technology</button></li>
+                <li><button class="filter-btn" data-filter="lifestyle">Lifestyle</button></li>
+            </ul>
+        </div>
+
+        <div class="posts-grid">
+
+            <!-- post-card__image is a div (not a link) so the save button
+                 doesn't get trapped inside an <a> and trigger navigation.
+                 Save button uses the "checkbox hack": a hidden checkbox
+                 stores the saved/not-saved state, styled via CSS only — no JS needed. -->
+            <article class="post-card">
+                <div class="post-card__image">
+                    <a href="post.html" class="post-card__image-link">
+                        <img src="images/vr.jpg" alt="The Future of Virtual Reality in Modern Education">
+                    </a>
+                    <span class="post-card__badge">Science &amp; Technology</span>
+
+                    <label class="post-card__save-btn" aria-label="Save post">
+                        <input type="checkbox" class="post-card__save-input">
+                        <svg class="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path class="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                    </label>
+                </div>
+                <a href="post.html" class="post-card__title-link">
+                    <h3 class="post-card__title">The Future of Virtual Reality in Modern Education</h3>
+                </a>
+                <div class="post-card__meta">
+                    <span class="post-card__author">Jane Doe</span>
+                    <span>·</span>
+                    <time datetime="2023-10-12">Oct 12, 2023</time>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-card__image">
+                    <a href="post.html" class="post-card__image-link">
+                        <img src="images/vr.jpg" alt="The Future of Virtual Reality in Modern Education">
+                    </a>
+                    <span class="post-card__badge">Science &amp; Technology</span>
+
+                    <label class="post-card__save-btn" aria-label="Save post">
+                        <input type="checkbox" class="post-card__save-input">
+                        <svg class="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path class="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                    </label>
+                </div>
+                <a href="post.html" class="post-card__title-link">
+                    <h3 class="post-card__title">The Future of Virtual Reality in Modern Education</h3>
+                </a>
+                <div class="post-card__meta">
+                    <span class="post-card__author">Jane Doe</span>
+                    <span>·</span>
+                    <time datetime="2023-10-12">Oct 12, 2023</time>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-card__image">
+                    <a href="post.html" class="post-card__image-link">
+                        <img src="images/vr.jpg" alt="The Future of Virtual Reality in Modern Education">
+                    </a>
+                    <span class="post-card__badge">Science &amp; Technology</span>
+
+                    <label class="post-card__save-btn" aria-label="Save post">
+                        <input type="checkbox" class="post-card__save-input">
+                        <svg class="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path class="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                    </label>
+                </div>
+                <a href="post.html" class="post-card__title-link">
+                    <h3 class="post-card__title">The Future of Virtual Reality in Modern Education</h3>
+                </a>
+                <div class="post-card__meta">
+                    <span class="post-card__author">Jane Doe</span>
+                    <span>·</span>
+                    <time datetime="2023-10-12">Oct 12, 2023</time>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-card__image">
+                    <a href="post.html" class="post-card__image-link">
+                        <img src="images/vr.jpg" alt="The Future of Virtual Reality in Modern Education">
+                    </a>
+                    <span class="post-card__badge">Science &amp; Technology</span>
+
+                    <label class="post-card__save-btn" aria-label="Save post">
+                        <input type="checkbox" class="post-card__save-input">
+                        <svg class="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path class="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                    </label>
+                </div>
+                <a href="post.html" class="post-card__title-link">
+                    <h3 class="post-card__title">The Future of Virtual Reality in Modern Education</h3>
+                </a>
+                <div class="post-card__meta">
+                    <span class="post-card__author">Jane Doe</span>
+                    <span>·</span>
+                    <time datetime="2023-10-12">Oct 12, 2023</time>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-card__image">
+                    <a href="post.html" class="post-card__image-link">
+                        <img src="images/vr.jpg" alt="The Future of Virtual Reality in Modern Education">
+                    </a>
+                    <span class="post-card__badge">Science &amp; Technology</span>
+
+                    <label class="post-card__save-btn" aria-label="Save post">
+                        <input type="checkbox" class="post-card__save-input">
+                        <svg class="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path class="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                    </label>
+                </div>
+                <a href="post.html" class="post-card__title-link">
+                    <h3 class="post-card__title">The Future of Virtual Reality in Modern Education</h3>
+                </a>
+                <div class="post-card__meta">
+                    <span class="post-card__author">Jane Doe</span>
+                    <span>·</span>
+                    <time datetime="2023-10-12">Oct 12, 2023</time>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-card__image">
+                    <a href="post.html" class="post-card__image-link">
+                        <img src="images/vr.jpg" alt="The Future of Virtual Reality in Modern Education">
+                    </a>
+                    <span class="post-card__badge">Science &amp; Technology</span>
+
+                    <label class="post-card__save-btn" aria-label="Save post">
+                        <input type="checkbox" class="post-card__save-input">
+                        <svg class="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path class="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                    </label>
+                </div>
+                <a href="post.html" class="post-card__title-link">
+                    <h3 class="post-card__title">The Future of Virtual Reality in Modern Education</h3>
+                </a>
+                <div class="post-card__meta">
+                    <span class="post-card__author">Jane Doe</span>
+                    <span>·</span>
+                    <time datetime="2023-10-12">Oct 12, 2023</time>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-card__image">
+                    <a href="post.html" class="post-card__image-link">
+                        <img src="images/vr.jpg" alt="The Future of Virtual Reality in Modern Education">
+                    </a>
+                    <span class="post-card__badge">Science &amp; Technology</span>
+
+                    <label class="post-card__save-btn" aria-label="Save post">
+                        <input type="checkbox" class="post-card__save-input">
+                        <svg class="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path class="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                    </label>
+                </div>
+                <a href="post.html" class="post-card__title-link">
+                    <h3 class="post-card__title">The Future of Virtual Reality in Modern Education</h3>
+                </a>
+                <div class="post-card__meta">
+                    <span class="post-card__author">Jane Doe</span>
+                    <span>·</span>
+                    <time datetime="2023-10-12">Oct 12, 2023</time>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-card__image">
+                    <a href="post.html" class="post-card__image-link">
+                        <img src="images/vr.jpg" alt="The Future of Virtual Reality in Modern Education">
+                    </a>
+                    <span class="post-card__badge">Science &amp; Technology</span>
+
+                    <label class="post-card__save-btn" aria-label="Save post">
+                        <input type="checkbox" class="post-card__save-input">
+                        <svg class="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path class="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                    </label>
+                </div>
+                <a href="post.html" class="post-card__title-link">
+                    <h3 class="post-card__title">The Future of Virtual Reality in Modern Education</h3>
+                </a>
+                <div class="post-card__meta">
+                    <span class="post-card__author">Jane Doe</span>
+                    <span>·</span>
+                    <time datetime="2023-10-12">Oct 12, 2023</time>
+                </div>
+            </article>
+
+        </div>
+
+        <button class="load-more-btn">Load More Stories</button>
+
+    </div>
+</section>
+
+<!-- ============================================= -->
+<!-- LATEST POSTS SECTION END                       -->
+<!-- ============================================= -->
+
+</body>
+</html>

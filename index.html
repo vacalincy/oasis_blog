@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Oasis — Read, share, and explore stories</title>
+
+    <!-- Preconnect & Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Styles & Favicon -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="images/favicon2.svg?v=2">
+</head>
+<body class="landing-page">
+
+<!-- ============================================= -->
+<!-- LANDING HEADER                                -->
+<!-- ============================================= -->
+<nav class="landing-nav">
+    <div class="container landing-nav__container">
+        <a href="index.html" class="landing-nav__logo">
+            <img src="images/logo.svg" alt="OASIS Logo">
+        </a>
+        <div class="landing-nav__actions">
+            <a href="#" class="landing-nav__login">Log in</a>
+            <a href="#" class="landing-nav__signup">Sign up</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ============================================= -->
+<!-- BOTTOM TAB BAR (Mobile)                       -->
+<!-- ============================================= -->
+<nav class="tab-bar">
+    <a href="index.html" class="tab-bar__item active"><img src="images/home.svg" alt="Home"></a>
+    <a href="search.html" class="tab-bar__item"><img src="images/search2.svg" alt="Search"></a>
+    <a href="add-post.html" class="tab-bar__item"><img src="images/plus.svg" alt="Add post"></a>
+    <a href="#" class="tab-bar__item landing-nav__signup"><img src="images/Profile.svg" alt="Profile"></a>
+</nav>
+
+<!-- ============================================= -->
+<!-- SCROLL UNIVERSE (GSAP Pinned Section)         -->
+<!-- ============================================= -->
+<div id="scroll-universe" class="scroll-universe">
+
+    <!-- Hero & Floating Cards -->
+    <div class="cards-intro">
+        <h1 class="cards-intro__title">A place to display your <br>masterpiece.</h1>
+
+        <div class="cards-intro__content">
+            <img src="images/landing_p1.jpg" alt="Artwork 1" class="cards-intro__card cards-intro__card--1">
+            <img src="images/landing_p2.jpg" alt="Artwork 2" class="cards-intro__card cards-intro__card--2">
+            <img src="images/landing_p3.jpg" alt="Artwork 3" class="cards-intro__card cards-intro__card--3">
+            <img src="images/landing_p4.jpg" alt="Artwork 4" class="cards-intro__card cards-intro__card--4">
+            <img src="images/landing_p5.jpg" alt="Artwork 5" class="cards-intro__card cards-intro__card--5">
+            <img src="images/landing_p6.jpg" alt="Artwork 6" class="cards-intro__card cards-intro__card--6">
+
+            <span class="cards-intro__bubble cards-intro__bubble--left">Awesome!</span>
+            <span class="cards-intro__bubble cards-intro__bubble--right">Nice!</span>
+            <span class="cards-intro__bubble cards-intro__bubble--cascade">@vacalincy</span>
+        </div>
+
+        <div class="cards-intro__footer">
+            <h2 class="cards-intro__subtitle">Writers share their insights, and readers discover stories about <br>design, code, and modern culture.</h2>
+            <div class="cards-intro__button-group">
+                <a href="#" class="cards-intro__btn cards-intro__btn--primary">Join for free</a>
+                <a href="discover.html" class="cards-intro__btn cards-intro__btn--secondary">Explore stories</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Editorial Cascade Block -->
+    <section class="cascade">
+        <div class="container cascade__container">
+            <div class="cascade__text">
+                <span class="cascade__badge">Curated Publication</span>
+                <h2 class="cascade__title">Read, share, <br>&amp; explore stories <br>in one place.</h2>
+                <p class="cascade__description">A dynamic ecosystem where designers, developers, and writers seamlessly merge. Oasis brings together creators and enthusiasts to share deep insights.</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- ============================================= -->
+<!-- SECTION 6: VISUAL SHOWCASE & TRUST            -->
+<!-- ============================================= -->
+<section class="showcase">
+    <div class="container">
+        <h2 class="showcase__big-title">A curated space to share <span>your</span> <br> creative vision.</h2>
+        <div class="showcase__media">
+            <img src="images/vr.jpg" alt="People exploring stories together" class="showcase__image">
+            <a href="post.html" class="showcase__preview-card">
+                <div class="showcase__preview-content">
+                    <span class="showcase__preview-badge">Design &amp; Interfaces</span>
+                    <h3 class="showcase__preview-title">Warm Palettes &amp; Natural Textures</h3>
+                    <p class="showcase__preview-excerpt">How to draw inspiration from extreme landscapes to build</p>
+                </div>
+                <span class="showcase__preview-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </a>
+        </div>
+        <div class="showcase__trust">
+            <h2 class="showcase__trust-title">Trusted by <span>The Best.</span></h2>
+            <p class="showcase__trust-description">Join thousands of curious minds who rely on OASIS for deep dives into design systems, technical photography, and culture.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================= -->
+<!-- SECTION 7: FINAL SIGNUP CTA                   -->
+<!-- ============================================= -->
+<section class="signup-cta">
+    <div class="signup-cta__container">
+        <div class="signup-cta__text">
+            <h2 class="signup-cta__title">Start your reading <br>journey today.</h2>
+            <p class="signup-cta__description">Become part of a quiet digital space designed for curious minds, creators, and deep readers.</p>
+        </div>
+        <div class="signup-cta__form">
+            <div class="signup-cta__form-header">
+                <img src="images/favicon-label.png" alt="OASIS" class="signup-cta__form-icon">
+                <p class="signup-cta__form-headline">Join Oasis for free to discover more ideas and stories.</p>
+            </div>
+            <form class="signup-cta__fields" action="#" method="post">
+                <div class="signup-cta__field">
+                    <label for="signup-email" class="sr-only">Email address</label>
+                    <input type="email" id="signup-email" name="email" placeholder="Email address" required>
+                </div>
+                <div class="signup-cta__field signup-cta__field--password">
+                    <label for="signup-password" class="sr-only">Password</label>
+                    <input type="password" id="signup-password" name="password" placeholder="Password" required>
+                </div>
+                <div class="signup-cta__field">
+                    <label for="signup-dob" class="sr-only">Date of birth</label>
+                    <input type="text" id="signup-dob" name="dob" placeholder="Date of birth (MM/DD/YYYY)" onfocus="(this.type='date')" onblur="(this.type='text')">
+                </div>
+                <button type="submit" class="signup-cta__submit-btn">Continue</button>
+                <div class="signup-cta__divider"><span>or</span></div>
+                <button type="button" class="signup-cta__google-btn">
+                    <img src="images/Google%20-%20Original.png" alt="Google Logo" class="signup-cta__google-icon">
+                    Continue with Google
+                </button>
+                <p class="signup-cta__login-link">Already have an account? <a href="#" class="landing-nav__login">Log in</a></p>
+                <p class="signup-cta__legal">By continuing, you agree to Oasis's <a href="terms.html">Terms of Service</a> and acknowledge you've read our <a href="privacy.html">Privacy Policy</a>.</p>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================= -->
+<!-- AUTH MODALS (LOGIN & SIGNUP)                  -->
+<!-- ============================================= -->
+
+<!-- 1. LOGIN MODAL (Wide layout with QR code) -->
+<div class="auth-modal" id="loginModal">
+    <div class="auth-modal__overlay" data-close="loginModal"></div>
+    <div class="auth-modal__container auth-modal__container--wide">
+        <button class="auth-modal__close" data-close="loginModal" aria-label="Close modal">✕</button>
+
+        <!-- Left Column: Login Form -->
+        <div class="auth-modal__left">
+            <img src="images/logo-icon.svg" alt="Oasis Logo" class="auth-modal__logo">
+            <h2 class="auth-modal__title">Welcome to OASIS</h2>
+            <p class="auth-modal__subtitle">Log in to discover more ideas just for you</p>
+
+            <form class="auth-modal__form" action="#" method="post">
+                <div class="auth-modal__field auth-modal__field--labeled">
+                    <label for="modal-login-email">Email</label>
+                    <input type="email" id="modal-login-email" name="email" placeholder="name@example.com" required>
+                </div>
+
+                <div class="auth-modal__field auth-modal__field--labeled">
+                    <label for="modal-login-password">Password</label>
+                    <div class="auth-modal__input-wrap">
+                        <input type="password" id="modal-login-password" name="password" placeholder="Enter your password" required>
+                        <button type="button" class="auth-modal__icon-btn" aria-label="Toggle password visibility">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <a href="#" class="auth-modal__forgot">forgotten password?</a>
+
+                <button type="submit" class="auth-modal__submit">Log In</button>
+
+                <div class="auth-modal__divider"><span>OR</span></div>
+
+                <button type="button" class="auth-modal__google">
+                    <img src="images/Google%20-%20Original.png" alt="Google icon" class="auth-modal__google-icon">
+                    Continue with Google
+                </button>
+            </form>
+
+            <p class="auth-modal__legal">
+                By continuing, you agree to the <a href="terms.html">Terms of Service</a><br> and <a href="privacy.html">Privacy Policy</a>.
+            </p>
+        </div>
+
+        <!-- Right Column: QR Code Scan -->
+        <div class="auth-modal__right">
+            <div class="auth-modal__qr-box">
+                <img src="images/qr-code.png" alt="Scan QR code to log in" class="auth-modal__qr-image">
+            </div>
+            <p class="auth-modal__qr-text">Or, log in instantly by scanning code<br>with your phone.</p>
+        </div>
+    </div>
+</div>
+
+<!-- 2. SIGN UP MODAL (Narrow layout, pill buttons) -->
+<div class="auth-modal" id="signupModal">
+    <div class="auth-modal__overlay" data-close="signupModal"></div>
+    <div class="auth-modal__container auth-modal__container--narrow">
+        <button class="auth-modal__close" data-close="signupModal" aria-label="Close modal">✕</button>
+
+        <!-- Full Width Column: Registration Form -->
+        <div class="auth-modal__left auth-modal__left--full">
+            <img src="images/logo-icon.svg" alt="Oasis Logo" class="auth-modal__logo">
+            <h2 class="auth-modal__title">Welcome to OASIS</h2>
+            <p class="auth-modal__subtitle">Sign up to discover more ideas<br>just for you.</p>
+
+            <form class="auth-modal__form" action="#" method="post">
+                <div class="auth-modal__field">
+                    <label for="modal-signup-email" class="sr-only">Email address</label>
+                    <input type="email" id="modal-signup-email" name="email" placeholder="Email address" required>
+                </div>
+
+                <div class="auth-modal__field">
+                    <label for="modal-signup-password" class="sr-only">Password</label>
+                    <div class="auth-modal__input-wrap">
+                        <input type="password" id="modal-signup-password" name="password" placeholder="Password" required>
+                        <button type="button" class="auth-modal__icon-btn" aria-label="Toggle password visibility">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="auth-modal__field">
+                    <label for="modal-signup-dob" class="sr-only">Date of birth</label>
+                    <div class="auth-modal__input-wrap">
+                        <input type="text" id="modal-signup-dob" name="dob" placeholder="Date of birth (MM/DD/YYYY)" onfocus="(this.type='date')" onblur="(this.type='text')" required>
+                        <button type="button" class="auth-modal__icon-btn" aria-label="Open calendar">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-modal__submit">Continue</button>
+
+                <div class="auth-modal__divider"><span>OR</span></div>
+
+                <button type="button" class="auth-modal__google">
+                    <img src="images/Google%20-%20Original.png" alt="Google icon" class="auth-modal__google-icon">
+                    Continue with Google
+                </button>
+            </form>
+
+            <p class="auth-modal__legal">
+                By continuing, you agree to the <a href="terms.html">Terms of Service</a><br> and <a href="privacy.html">Privacy Policy</a>.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================= -->
+<!-- SCRIPTS                                       -->
+<!-- ============================================= -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="landing-scroll.js"></script>
+</body>
+</html>

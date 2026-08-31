@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The Future of Virtual Reality in Modern Education — Oasis Blog</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="images/favicon2.svg">
+
+    <script src="main.js"></script>
+</head>
+<body>
+
+<!-- ============================================= -->
+<!-- HEADER START                                   -->
+<!-- ============================================= -->
+<nav>
+    <div class="container nav__container">
+
+        <a href="discover.html" class="nav__logo">
+            <img src="images/logo.svg" alt="OASIS Logo">
+        </a>
+
+        <ul class="nav__items">
+            <li><button id="close__nav-btn">✕</button></li>
+            <li><a href="discover.html">Discover</a></li>
+            <li><a href="following.html">Following</a></li>
+            <li><a href="popular.html">Popular</a></li>
+            <li><a href="topics.html">Topics</a></li>
+        </ul>
+
+        <div class="nav__actions">
+            <div class="search-bar">
+                <img src="images/search.svg" alt="Search">
+                <input type="text" placeholder="Search stories..." aria-label="Search stories">
+            </div>
+            <button class="notification-btn" aria-label="Notifications">
+                <img src="images/bell.svg" alt="Notifications">
+            </button>
+            <a href="profile.html" class="avatar">EA</a>
+            <button id="open__nav-btn">☰</button>
+        </div>
+
+    </div>
+</nav>
+<!-- ============================================= -->
+<!-- HEADER END                                     -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- BOTTOM TAB BAR START (mobile only)             -->
+<!-- ============================================= -->
+<nav class="tab-bar">
+    <a href="discover.html" class="tab-bar__item">
+        <img src="images/home.svg" alt="Home">
+    </a>
+    <a href="search.html" class="tab-bar__item">
+        <img src="images/search2.svg" alt="Search">
+    </a>
+    <a href="add-post.html" class="tab-bar__item">
+        <img src="images/plus.svg" alt="Add post">
+    </a>
+    <a href="profile.html" class="tab-bar__item">
+        <img src="images/Profile.svg" alt="Profile">
+    </a>
+</nav>
+<!-- ============================================= -->
+<!-- BOTTOM TAB BAR END                             -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- POST HEADER START                              -->
+<!-- (topic badge + title + author, centered)       -->
+<!-- ============================================= -->
+<section class="post-header">
+    <div class="container post-header__container">
+
+        <a href="category-posts.html?cat=technology" class="post-header__badge">
+            Technology
+        </a>
+
+        <h1 class="post-header__title">The Future of Virtual Reality in Modern Education</h1>
+
+        <a href="profile.html" class="post-header__author">
+            <img src="images/JaneDoe.jpg" alt="Jane Doe">
+            <div class="post-header__author-info">
+                <p><b>Jane Doe</b></p>
+                <time datetime="2023-10-12">Oct 12, 2023</time>
+            </div>
+        </a>
+
+    </div>
+</section>
+<!-- ============================================= -->
+<!-- POST HEADER END                                -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- POST IMAGE START                               -->
+<!-- (main image + optional caption)                -->
+<!-- ============================================= -->
+<section class="post-media">
+    <div class="container post-media__container">
+        <img src="images/villa.jpg" alt="Modern villa with pool" class="post-media__img">
+        <p class="post-media__caption">Interior design by Studio Nordo. Photography by Elena Rossini.</p>
+    </div>
+</section>
+<!-- ============================================= -->
+<!-- POST IMAGE END                                 -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- POST BODY START                                -->
+<!-- (user-formatted content: headings, quotes, p)  -->
+<!-- ============================================= -->
+<section class="post-body">
+    <div class="container post-body__container">
+
+        <h3>Material Honesty</h3>
+
+        <p>One of the core tenets of this design philosophy is material honesty. Wood should look and feel like wood; concrete should reveal its porous, imperfect nature. By rejecting veneers and artificial finishes, spaces achieve a grounded authenticity that resonates on a subconscious level.</p>
+
+        <blockquote>
+            "We shape our buildings; thereafter they shape us. But what if we shape them to be quiet?"
+        </blockquote>
+
+        <p>This approach requires immense restraint. It is much easier to add another layer of decoration than it is to refine a single junction until it is flawless. The elegance we perceive in minimalist spaces is often the result of rigorous, unseen labor.</p>
+
+    </div>
+</section>
+<!-- ============================================= -->
+<!-- POST BODY END                                  -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- POST ACTIONS START                             -->
+<!-- (like, comment, save, share)                   -->
+<!-- ============================================= -->
+<section class="post-actions">
+    <div class="container post-actions__container">
+
+        <div class="post-actions__group">
+
+            <!-- LIKE: checkbox hack — checked = red filled heart -->
+            <label class="post-actions__btn" aria-label="Like">
+                <input type="checkbox" class="post-actions__input post-actions__input--like">
+                <svg class="post-actions__icon" viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+                    <path class="post-actions__icon-path" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                </svg>
+                <span>1.2k</span>
+            </label>
+
+            <!-- COMMENTS: not toggleable, just opens comments — plain button -->
+            <button class="post-actions__btn" aria-label="Comments">
+                <svg class="post-actions__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                </svg>
+                <span>84</span>
+            </button>
+        </div>
+
+        <div class="post-actions__group">
+
+            <!-- SAVE: checkbox hack — checked = dark filled bookmark -->
+            <label class="post-actions__btn" aria-label="Save">
+                <input type="checkbox" class="post-actions__input post-actions__input--save">
+                <svg class="post-actions__icon" viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+                    <path class="post-actions__icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                </svg>
+            </label>
+
+            <!-- SHARE: not toggleable, opens a share sheet — plain button -->
+            <button class="post-actions__btn" aria-label="Share">
+                <svg class="post-actions__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="18" cy="5" r="3" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="6" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="18" cy="19" r="3" stroke="currentColor" stroke-width="2"/>
+                    <path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </button>
+        </div>
+
+    </div>
+</section>
+<!-- ============================================= -->
+<!-- POST ACTIONS END                               -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- COMMENTS SECTION START                         -->
+<!-- (new comment input + top 2 comments + modal)   -->
+<!-- ============================================= -->
+<section class="comments">
+    <div class="container comments__container">
+
+        <div class="comments__header">
+            <h2 class="comments__title">Responses (128)</h2>
+            <!-- opens the full comments modal below — logic added later with JS -->
+            <button class="comments__view-all" data-modal-target="comments-modal">View all</button>
+        </div>
+
+        <!-- --- new comment input --- -->
+        <form class="comment-form">
+            <a href="profile.html" class="avatar">EA</a>
+            <textarea class="comment-form__input" placeholder="What are your thoughts?"></textarea>
+            <button type="submit" class="comment-form__submit">Respond</button>
+        </form>
+
+        <!-- --- top 2 comments, sorted by most likes --- -->
+        <ul class="comment-list">
+
+            <li class="comment">
+                <img src="images/marcus.jpg" alt="Marcus Chen" class="comment__avatar">
+                <div class="comment__body">
+                    <p class="comment__author">Marcus Chen</p>
+                    <time class="comment__time" datetime="2023-10-12T10:00">2 hours ago</time>
+                    <p class="comment__text">The quote about material honesty really struck a chord. I've been trying to renovate my studio and the urge to just paint over raw concrete is strong, but there's something so beautiful about leaving it exposed.</p>
+                    <div class="comment__actions">
+                        <label class="comment__like">
+                            <input type="checkbox" class="comment__like-input">
+                            <svg class="comment__like-icon" viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                                <path class="comment__like-icon-path" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                            </svg>
+                            12
+                        </label>
+                        <button class="comment__reply">Reply</button>
+                    </div>
+                </div>
+            </li>
+
+            <li class="comment">
+                <img src="images/elena.jpg" alt="Elena Rodriguez" class="comment__avatar">
+
+                <div class="comment__content">
+                    <div class="comment__body">
+                        <p class="comment__author">Elena Rodriguez</p>
+                        <time class="comment__time" datetime="2023-10-12T05:00">5 hours ago</time>
+                        <p class="comment__text">Great read. Though I'd argue that true minimalism is a luxury of those who don't have to hoard items out of necessity. It's an aesthetic that requires a certain level of privilege to maintain perfectly.</p>
+                        <div class="comment__actions">
+                            <label class="comment__like">
+                                <input type="checkbox" class="comment__like-input">
+                                <svg class="comment__like-icon" viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                                    <path class="comment__like-icon-path" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                                </svg>
+                                12
+                            </label>
+                            <button class="comment__reply">Reply</button>
+                        </div>
+                    </div>
+
+                    <details class="reply-toggle">
+                        <summary class="comment__view-replies">
+                            <span class="comment__view-replies-line"></span>
+                            <span class="comment__view-replies-closed-text">View 2 replies</span>
+                            <span class="comment__view-replies-open-text">Hide replies</span>
+                        </summary>
+
+                        <ul class="reply-list">
+                            <li class="reply">
+                                <p class="reply__author">Marcus Chen</p>
+                                <time class="reply__time" datetime="2023-10-12T06:00">4 hours ago</time>
+                                <p class="reply__text">I see your point, but I'd say minimalism can also be a discipline anyone can practice, regardless of means — it's more about intention than privilege.</p>
+                            </li>
+                            <li class="reply">
+                                <p class="reply__author">Jane Doe</p>
+                                <time class="reply__time" datetime="2023-10-12T07:00">3 hours ago</time>
+                                <p class="reply__text">Fair point, Elena. Though I'd argue the "curated" version of minimalism sold online is what actually requires privilege — the underlying idea doesn't have to.</p>
+                            </li>
+                        </ul>
+                    </details>
+
+                </div>
+            </li>
+
+        </ul>
+
+    </div>
+</section>
+
+<!-- --- full comments modal, hidden until JS toggles it — built now, wired up later --- -->
+<div class="comments-modal" id="comments-modal">
+    <div class="comments-modal__content">
+        <div class="comments-modal__header">
+            <h2>All Responses (128)</h2>
+            <button class="comments-modal__close" aria-label="Close">✕</button>
+        </div>
+        <!-- full comment list will be repeated/loaded here -->
+    </div>
+</div>
+<!-- ============================================= -->
+<!-- COMMENTS SECTION END                           -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- READ NEXT START                                -->
+<!-- (3 related posts, reuses .post-card from home) -->
+<!-- ============================================= -->
+<section class="read-next">
+    <div class="container">
+
+        <h2 class="read-next__title">Read Next</h2>
+
+        <div class="read-next__grid">
+
+            <article class="post-card">
+                <div class="post-card__image">
+                    <a href="post.html" class="post-card__image-link">
+                        <img src="images/robot.jpg" alt="Humanoid robot">
+                    </a>
+                    <span class="post-card__badge">Robotics</span>
+                </div>
+                <a href="post.html" class="post-card__title-link">
+                    <h3 class="post-card__title">How AI is Shaping the Next Generation of Robotics</h3>
+                </a>
+                <div class="post-card__meta">
+                    <span class="post-card__author">John Smith</span>
+                    <span>·</span>
+                    <time datetime="2023-11-05">Nov 05, 2023</time>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-card__image">
+                    <a href="post.html" class="post-card__image-link">
+                        <img src="images/interior.jpg" alt="Minimalist living room">
+                    </a>
+                    <span class="post-card__badge">Architecture</span>
+                </div>
+                <a href="post.html" class="post-card__title-link">
+                    <h3 class="post-card__title">Minimalist Spaces That Inspire Creativity</h3>
+                </a>
+                <div class="post-card__meta">
+                    <span class="post-card__author">Sarah Brown</span>
+                    <span>·</span>
+                    <time datetime="2024-02-02">Feb 02, 2024</time>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-card__image">
+                    <a href="post.html" class="post-card__image-link">
+                        <img src="images/sunrise.jpg" alt="Person meditating at sunrise">
+                    </a>
+                    <span class="post-card__badge">Lifestyle</span>
+                </div>
+                <a href="post.html" class="post-card__title-link">
+                    <h3 class="post-card__title">Creating a Morning Routine for Maximum Productivity</h3>
+                </a>
+                <div class="post-card__meta">
+                    <span class="post-card__author">Chris Wilson</span>
+                    <span>·</span>
+                    <time datetime="2024-05-18">May 18, 2024</time>
+                </div>
+            </article>
+
+        </div>
+
+    </div>
+</section>
+<!-- ============================================= -->
+<!-- READ NEXT END                                  -->
+<!-- ============================================= -->
+
+</body>
+</html>

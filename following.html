@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Following — Oasis Blog</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="images/favicon2.svg">
+
+    <script src="following.js" defer></script>
+    <script src="main.js"></script>
+</head>
+<body class="following-page">
+
+<!-- ============================================= -->
+<!--                     HEADER START              -->
+<!-- ============================================= -->
+<nav>
+    <div class="container nav__container">
+
+        <a href="discover.html" class="nav__logo">
+            <img src="images/logo.svg" alt="OASIS Logo">
+        </a>
+
+        <ul class="nav__items">
+            <li><button id="close__nav-btn">✕</button></li>
+
+            <li><a href="discover.html">Discover</a></li>
+            <li><a href="following.html" class="active">Following</a></li>
+            <li><a href="popular.html">Popular</a></li>
+            <li><a href="topics.html">Topics</a></li>
+        </ul>
+
+        <div class="nav__actions">
+            <div class="search-bar">
+                <img src="images/search.svg" alt="Search">
+                <input type="text" placeholder="Search stories..." aria-label="Search stories">
+            </div>
+            <button class="notification-btn" aria-label="Notifications">
+                <img src="images/bell.svg" alt="Notifications">
+            </button>
+            <a href="profile.html" class="avatar">EA</a>
+
+            <!-- Добавлена кнопка открытия бургера -->
+            <button id="open__nav-btn">☰</button>
+        </div>
+
+    </div>
+</nav>
+<!-- ============================================= -->
+<!-- HEADER END                                     -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- BOTTOM TAB BAR START (mobile only, same as everywhere) -->
+<!-- ============================================= -->
+<nav class="tab-bar">
+    <a href="discover.html" class="tab-bar__item">
+        <img src="images/home.svg" alt="Home">
+    </a>
+    <a href="search.html" class="tab-bar__item">
+        <img src="images/search2.svg" alt="Search">
+    </a>
+    <a href="add-post.html" class="tab-bar__item">
+        <img src="images/plus.svg" alt="Add post">
+    </a>
+    <a href="signup.html" class="tab-bar__item">
+        <img src="images/Profile.svg" alt="Profile">
+    </a>
+</nav>
+<!-- ============================================= -->
+<!-- BOTTOM TAB BAR END                             -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- SLIDES CONTAINER START                         -->
+<!-- ============================================= -->
+<main class="following-feed">
+
+    <!-- Slide 1 -->
+    <article class="slide">
+        <div class="slide__bg">
+            <img src="images/modernbuildingfacade.jpg" alt="" class="slide__bg-blur" aria-hidden="true">
+            <img src="images/modernbuildingfacade.jpg" alt="Modern building facade" class="slide__bg-image">
+        </div>
+        <div class="slide__content">
+
+            <div class="slide__author">
+                <!-- avatar + name/role are clickable, links to the author's profile -->
+                <a href="profile.html" class="slide__author-badge">
+                    <span class="avatar">ER</span>
+                    <div class="slide__author-info">
+                        <p>Elena Rostova</p>
+                        <span>Architecture Critic</span>
+                    </div>
+                </a>
+                <span class="slide__new-badge">New</span>
+            </div>
+
+            <h2 class="slide__title">The Architecture of Silence: Designing for Empty Spaces</h2>
+            <p class="slide__excerpt">In a world of constant noise, the ultimate luxury is a space engineered for complete and utter stillness.</p>
+
+            <a href="post.html" class="slide__cta">Read Article</a>
+
+        </div>
+
+        <div class="slide__scroll-hint">
+            <span>Scroll to explore</span>
+            <div class="slide__scroll-track">
+                <div class="slide__scroll-highlight"></div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Slide 2 -->
+    <article class="slide">
+        <div class="slide__bg">
+            <img src="images/abstractcurvedlight.jpg" alt="" class="slide__bg-blur" aria-hidden="true">
+            <img src="images/abstractcurvedlight.jpg" alt="Abstract curved light" class="slide__bg-image">
+        </div>
+        <div class="slide__content">
+
+            <div class="slide__author">
+                <a href="profile.html" class="slide__author-badge">
+                    <span class="avatar">MC</span>
+                    <div class="slide__author-info">
+                        <p>Marcus Chen</p>
+                        <span>Design Theorist</span>
+                    </div>
+                </a>
+            </div>
+
+            <h2 class="slide__title">Curvature &amp; Light: The Evolution of Modernism</h2>
+            <p class="slide__excerpt">How parametric design is softening the rigid edges of the cities we inhabit.</p>
+
+            <a href="post.html" class="slide__cta">Read Article</a>
+
+        </div>
+
+        <div class="slide__scroll-hint">
+            <span>Scroll to explore</span>
+            <div class="slide__scroll-track">
+                <div class="slide__scroll-highlight"></div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Slide 3 -->
+    <article class="slide">
+        <div class="slide__bg">
+            <img src="images/landscape-photo.jpg" alt="" class="slide__bg-blur" aria-hidden="true">
+            <img src="images/landscape-photo.jpg" alt="Green rolling hills at sunset" class="slide__bg-image">
+        </div>
+        <div class="slide__content">
+
+            <div class="slide__author">
+                <a href="profile.html" class="slide__author-badge">
+                    <span class="avatar">SL</span>
+                    <div class="slide__author-info">
+                        <p>Sofia Lindqvist</p>
+                        <span>Landscape Photographer</span>
+                    </div>
+                </a>
+            </div>
+
+            <h2 class="slide__title">Chasing the Golden Hour: A Field Journal</h2>
+            <p class="slide__excerpt">Notes from six months spent photographing the same valley in every season and every light.</p>
+
+            <a href="post.html" class="slide__cta">Read Article</a>
+
+        </div>
+
+        <div class="slide__scroll-hint">
+            <span>Scroll to explore</span>
+            <div class="slide__scroll-track">
+                <div class="slide__scroll-highlight"></div>
+            </div>
+        </div>
+    </article>
+
+</main>
+<!-- ============================================= -->
+<!-- SLIDES CONTAINER END                           -->
+<!-- ============================================= -->
+
+</body>
+</html>

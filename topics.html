@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Topics — Oasis Blog</title>
+
+    <!-- Google Fonts connection -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="images/favicon2.svg">
+
+    <script src="main.js"></script>
+</head>
+<body>
+
+<!-- ============================================= -->
+<!-- HEADER START                                   -->
+<!-- ============================================= -->
+<nav>
+    <div class="container nav__container">
+
+        <a href="discover.html" class="nav__logo">
+            <img src="images/logo.svg" alt="OASIS Logo">
+        </a>
+
+        <ul class="nav__items">
+            <li><button id="close__nav-btn">✕</button></li>
+            <li><a href="discover.html">Discover</a></li>
+            <li><a href="following.html">Following</a></li>
+            <li><a href="popular.html">Popular</a></li>
+            <li><a href="topics.html" class="active">Topics</a></li>
+        </ul>
+
+        <div class="nav__actions">
+            <div class="search-bar">
+                <img src="images/search.svg" alt="Search">
+                <input type="text" placeholder="Search stories..." aria-label="Search stories">
+            </div>
+            <button class="notification-btn" aria-label="Notifications">
+                <img src="images/bell.svg" alt="Notifications">
+            </button>
+            <a href="profile.html" class="avatar">EA</a>
+            <button id="open__nav-btn">☰</button>
+        </div>
+
+    </div>
+</nav>
+<!-- ============================================= -->
+<!-- HEADER END                                     -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- BOTTOM TAB BAR START (mobile only)             -->
+<!-- ============================================= -->
+<nav class="tab-bar">
+    <a href="discover.html" class="tab-bar__item">
+        <img src="images/home.svg" alt="Home">
+    </a>
+    <a href="search.html" class="tab-bar__item">
+        <img src="images/search2.svg" alt="Search">
+    </a>
+    <a href="add-post.html" class="tab-bar__item">
+        <img src="images/plus.svg" alt="Add post">
+    </a>
+    <a href="profile.html" class="tab-bar__item">
+        <img src="images/Profile.svg" alt="Profile">
+    </a>
+</nav>
+<!-- ============================================= -->
+<!-- BOTTOM TAB BAR END                             -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- TOPIC HERO SECTION START                       -->
+<!-- ============================================= -->
+<section class="topic-hero" id="topic-hero">
+    <div class="topic-hero__stage">
+
+        <div class="topic-hero__cards" id="topic-hero-cards">
+
+            <div class="topic-card topic-card--pos-1">
+                <img src="images/topic-architecture.jpg" alt="Old building facade with a painted sign">
+                <div class="topic-card__caption">
+                    <time datetime="2025-01-08">Jan 8, 2025 · 6 min read</time>
+                    <p>Reading a City Through Its Old Signs</p>
+                    <span class="topic-card__author">Bastian Voss</span>
+                </div>
+            </div>
+
+            <div class="topic-card topic-card--pos-2">
+                <img src="images/topic-street.jpg" alt="Close-up of a hand holding a phone on the street">
+                <div class="topic-card__caption">
+                    <time datetime="2025-01-11">Jan 11, 2025 · 4 min read</time>
+                    <p>A Moment, Held in One Hand</p>
+                    <span class="topic-card__author">Jack Murphy</span>
+                </div>
+            </div>
+
+            <div class="topic-card topic-card--main">
+                <img src="images/topic-skyline.jpg" alt="Two skyscrapers in the morning fog">
+                <div class="topic-card__caption">
+                    <time datetime="2025-01-15">Jan 15, 2025 · 8 min read</time>
+                    <p>Skyline in the Morning Fog</p>
+                    <span class="topic-card__author">Nikita Pisarenko</span>
+                </div>
+            </div>
+
+            <div class="topic-card topic-card--pos-3">
+                <img src="images/topic-guitar.jpg" alt="A person walking down an empty city street">
+                <div class="topic-card__caption">
+                    <time datetime="2025-01-18">Jan 18, 2025 · 5 min read</time>
+                    <p>Footsteps on an Empty Street</p>
+                    <span class="topic-card__author">Hojol Rahman</span>
+                </div>
+            </div>
+
+            <div class="topic-card topic-card--pos-4">
+                <img src="images/topic-couple.jpg" alt="A couple embracing, portrait">
+                <div class="topic-card__caption">
+                    <time datetime="2025-01-21">Jan 21, 2025 · 3 min read</time>
+                    <p>Two People, One Frame</p>
+                    <span class="topic-card__author">Satu Amrita</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="topic-hero__text" id="topic-hero-text">
+            <a href="#categories" class="topic-hero__eyebrow">Explore by Topic</a>
+            <h1>Discover your next<br>favorite topic.</h1>
+        </div>
+
+    </div>
+</section>
+<!-- ============================================= -->
+<!-- TOPIC HERO SECTION END                         -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- CATEGORIES SECTION START                       -->
+<!-- ============================================= -->
+<section class="categories-section" id="categories">
+    <div class="container">
+
+        <h2 class="categories-section__title">Explore Categories</h2>
+
+        <div class="categories-grid">
+            <a href="category-posts.html?cat=code-development" class="category-card">
+                <span class="category-card__name">Code &amp; Development</span>
+                <span class="category-card__count">124</span>
+            </a>
+            <a href="category-posts.html?cat=travel-outdoors" class="category-card">
+                <span class="category-card__name">Travel &amp; Outdoors</span>
+                <span class="category-card__count">86</span>
+            </a>
+            <a href="category-posts.html?cat=photography-film" class="category-card">
+                <span class="category-card__name">Photography &amp; Film</span>
+                <span class="category-card__count">245</span>
+            </a>
+            <a href="category-posts.html?cat=design-interfaces" class="category-card">
+                <span class="category-card__name">Design &amp; Interfaces</span>
+                <span class="category-card__count">52</span>
+            </a>
+            <a href="category-posts.html?cat=science-technology" class="category-card">
+                <span class="category-card__name">Science &amp; Technology</span>
+                <span class="category-card__count">198</span>
+            </a>
+            <a href="category-posts.html?cat=music-culture" class="category-card">
+                <span class="category-card__name">Music &amp; Culture</span>
+                <span class="category-card__count">110</span>
+            </a>
+            <a href="category-posts.html?cat=food-culinary" class="category-card">
+                <span class="category-card__name">Food &amp; Culinary</span>
+                <span class="category-card__count">73</span>
+            </a>
+            <a href="category-posts.html?cat=automotive-mobility" class="category-card">
+                <span class="category-card__name">Automotive &amp; Mobility</span>
+                <span class="category-card__count">142</span>
+            </a>
+            <a href="category-posts.html?cat=education-lifestyle" class="category-card">
+                <span class="category-card__name">Education &amp; Lifestyle</span>
+                <span class="category-card__count">215</span>
+            </a>
+            <a href="category-posts.html?cat=literature-culture" class="category-card">
+                <span class="category-card__name">Literature &amp; Culture</span>
+                <span class="category-card__count">108</span>
+            </a>
+        </div>
+
+    </div>
+</section>
+<!-- ============================================= -->
+<!-- CATEGORIES SECTION END                         -->
+<!-- ============================================= -->
+
+
+<!-- ============================================= -->
+<!-- FEATURED ARTICLES SECTION START                -->
+<!-- ============================================= -->
+<section class="topic-featured-section">
+    <div class="container">
+
+        <div class="section-header">
+            <h2>Featured Articles</h2>
+            <a href="popular.html" class="view-all-link">View All →</a>
+        </div>
+
+        <div class="topic-featured-grid">
+
+            <article class="topic-featured-card">
+                <a href="post.html" class="topic-featured-card__image">
+                    <img src="images/swiss-typography.jpg" alt="Swiss typography grid layout">
+                </a>
+                <a href="post.html" class="topic-featured-card__title-link">
+                    <h3>The Principles of Swiss Typography</h3>
+                </a>
+                <div class="topic-featured-card__meta">
+                    <time datetime="2024-10-12">Oct 12, 2024</time>
+                    <span>·</span>
+                    <span>Julian Hayes</span>
+                </div>
+            </article>
+
+            <article class="topic-featured-card">
+                <a href="post.html" class="topic-featured-card__image">
+                    <img src="images/resilient-architecture.jpg" alt="Server architecture diagram">
+                </a>
+                <a href="post.html" class="topic-featured-card__title-link">
+                    <h3>Building Resilient Architectures</h3>
+                </a>
+                <div class="topic-featured-card__meta">
+                    <time datetime="2024-10-15">Oct 15, 2024</time>
+                    <span>·</span>
+                    <span>Marcus Vance</span>
+                </div>
+            </article>
+
+            <article class="topic-featured-card">
+                <a href="post.html" class="topic-featured-card__image">
+                    <img src="images/natural-light-photography.jpg" alt="Portrait photo using natural light">
+                </a>
+                <a href="post.html" class="topic-featured-card__title-link">
+                    <h3>Mastering Natural Light</h3>
+                </a>
+                <div class="topic-featured-card__meta">
+                    <time datetime="2024-10-18">Oct 18, 2024</time>
+                    <span>·</span>
+                    <span>Clara Hoffman</span>
+                </div>
+            </article>
+
+        </div>
+
+    </div>
+</section>
+<!-- ============================================= -->
+<!-- FEATURED ARTICLES SECTION END                  -->
+<!-- ============================================= -->
+
+<script src="parallax.js" defer></script>
+</body>
+</html>
