@@ -7531,6 +7531,10 @@ html, body.landing-page {
 /* ══════════════════════════════════════════════ */
 /* ██  AUTH MODALS (LOGIN & SIGNUP)             ██ */
 /* ══════════════════════════════════════════════ */
+/* The modal root must never carry opacity < 1: an ancestor with partial
+   opacity becomes a backdrop root, which blocks the right panel's
+   backdrop-filter until the fade ends (blur "pops in" late).
+   So the root only toggles visibility; children fade individually. */
 .auth-modal {
     position: fixed;
     inset: 0;
@@ -7538,16 +7542,31 @@ html, body.landing-page {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .auth-modal.is-active {
-    opacity: 1;
     visibility: visible;
     pointer-events: auto;
+}
+
+/* Fade only the parts without backdrop-filter */
+.auth-modal__left,
+.auth-modal__left--full,
+.auth-modal__close,
+.auth-modal__qr-box,
+.auth-modal__qr-text {
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth-modal.is-active .auth-modal__left,
+.auth-modal.is-active .auth-modal__left--full,
+.auth-modal.is-active .auth-modal__close,
+.auth-modal.is-active .auth-modal__qr-box,
+.auth-modal.is-active .auth-modal__qr-text {
+    opacity: 1;
 }
 
 /* Completely transparent overlay to catch clicks without altering the page background */
