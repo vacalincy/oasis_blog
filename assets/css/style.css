@@ -131,9 +131,10 @@ nav {
     transition: var(--transition);
 }
 
-.search-bar:focus-within {
+.search-bar:focus-within,
+.search-bar:hover {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 1.5px var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
 }
 
 .search-bar img {
@@ -1818,7 +1819,7 @@ body {
     left: 0;
     width: 100%;
     height: 450px;
-    background: url("images/Ellipse-gradient.png") center top / cover no-repeat;
+    background: url("../images/Ellipse-gradient.png") center top / cover no-repeat;
     z-index: -1; /* Опускает градиент под все элементы страницы */
     pointer-events: none;
 }
@@ -2916,9 +2917,10 @@ nav {
     transition: var(--transition);
 }
 
-.search-bar:focus-within {
+.search-bar:focus-within,
+.search-bar:hover {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 1.5px var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
 }
 
 .search-bar img {
@@ -5586,9 +5588,10 @@ nav {
     transition: var(--transition);
 }
 
-.search-bar:focus-within {
+.search-bar:focus-within,
+.search-bar:hover {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 1.5px var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
 }
 
 .search-bar img { width: 16px; height: 16px; opacity: 0.6; }
@@ -6564,7 +6567,7 @@ h2 {
     left: 0;
     width: 100%;
     height: 450px;
-    background: url("images/Ellipse-gradient.png") center top / cover no-repeat;
+    background: url("../images/Ellipse-gradient.png") center top / cover no-repeat;
     z-index: -1;
     pointer-events: none;
 }
@@ -7316,7 +7319,7 @@ html, body.landing-page {
 }
 
 .signup-cta {
-    background-image: url('images/gradient_background1.png');
+    background-image: url('../images/gradient_background1.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

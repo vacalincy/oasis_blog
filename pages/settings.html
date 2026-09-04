@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - OASIS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/settings.css">
+</head>
+<body>
+    
+<nav>
+    <div class="container nav__container">
+        <a href="discover.html" class="nav__logo">
+            <img src="../assets/images/logo.svg" alt="OASIS Logo">
+        </a>
+        <ul class="nav__items">
+            <li><button id="close__nav-btn">✕</button></li>
+            <li><a href="discover.html">Discover</a></li>
+            <li><a href="following.html">Following</a></li>
+            <li><a href="popular.html">Popular</a></li>
+            <li><a href="topics.html">Topics</a></li>
+        </ul>
+        <div class="nav__actions">
+            <div class="search-bar">
+                <img src="../assets/images/search.svg" alt="Search">
+                <input type="text" placeholder="Search stories..." aria-label="Search stories">
+            </div>
+            <button class="notification-btn" aria-label="Notifications">
+                <img src="../assets/images/bell.svg" alt="Notifications">
+            </button>
+            <a href="dashboard.html" class="avatar">EA</a>
+            <button id="open__nav-btn">☰</button>
+        </div>
+    </div>
+</nav>
+
+<nav class="tab-bar">
+    <a href="discover.html" class="tab-bar__item">
+        <img src="../assets/images/home.svg" alt="Home">
+    </a>
+    <a href="search.html" class="tab-bar__item">
+        <img src="../assets/images/search2.svg" alt="Search">
+    </a>
+    <a href="add-post.html" class="tab-bar__item">
+        <img src="../assets/images/plus.svg" alt="Add post">
+    </a>
+    <a href="dashboard.html" class="tab-bar__item active">
+        <img src="../assets/images/Profile.svg" alt="Profile">
+    </a>
+</nav>
+
+
+    <!-- Main Layout -->
+    <main class="settings-layout">
+
+        <!-- Left Sidebar -->
+        <aside class="settings-sidebar">
+            
+            <div class="settings-nav">
+
+                <a href="#" class="nav-item active" data-target="pane-account">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Account
+                </a>
+                <a href="#" class="nav-item" data-target="pane-security">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    Security
+                </a>
+                <a href="#" class="nav-item" data-target="pane-publishing">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2v11z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                    Publishing
+                </a>
+                <a href="#" class="nav-item" data-target="pane-notifications">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    Notifications
+                </a>
+            </div>
+</aside>
+
+        <!-- Right Content -->
+        <div class="settings-content">
+            
+            <!-- ACCOUNT PANE -->
+            <div id="pane-account" class="settings-pane">
+                <h1>Account settings</h1>
+                
+                <div class="settings-card">
+                    <h2>Personal details</h2>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Email Address</label>
+                            <input type="email" class="form-input" value="jane@example.com">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Phone Number</label>
+                            <input type="tel" class="form-input" placeholder="+1 (555) 000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Country / Region</label>
+                            <input type="text" class="form-input" placeholder="e.g. United States">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECURITY PANE -->
+            <div id="pane-security" class="settings-pane" style="display: none;">
+                <h1>Security settings</h1>
+
+                <!-- Card 1 -->
+                <div class="settings-card">
+                    <h2>Login details</h2>
+                    
+                    <div class="card-row">
+                        <div class="row-info">
+                            <h3>Current password</h3>
+                            <p class="dot-mask">•••••••••••••</p>
+                        </div>
+                        <button class="row-action">Change</button>
+                    </div>
+
+                    <div class="card-row no-border">
+                        <div class="row-info">
+                            <h3>Phone number</h3>
+                            <p>+1 (555) 000-0000</p>
+                        </div>
+                        <button class="row-action">Update</button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="settings-card">
+                    <h2>Security credentials</h2>
+
+                    <div class="device-row">
+                        <div class="device-icon">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><path d="M8 21h8m-4-4v4"></path></svg>
+                        </div>
+                        <div class="device-info">
+                            <div class="device-title">
+                                <h3>Mac OS Safari 15.1</h3>
+                                <span class="badge-current">CURRENT SESSION</span>
+                            </div>
+                            <p>New York, USA • Active now</p>
+                        </div>
+                        <button class="btn-more">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg>
+                        </button>
+                    </div>
+
+                    <div class="device-row no-border">
+                        <div class="device-icon">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><path d="M12 18h.01"></path></svg>
+                        </div>
+                        <div class="device-info">
+                            <div class="device-title">
+                                <h3>iPhone 13 Pro</h3>
+                            </div>
+                            <p>New York, USA • Last active 2 hours ago</p>
+                        </div>
+                        <button class="btn-more">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Danger Zone -->
+                <div class="settings-card" style="background-color: #FEF2F2; padding: 16px 24px;">
+                    <div class="card-row no-border">
+                        <div class="row-info">
+                            <h3 class="text-danger">Delete Account</h3>
+                            <p style="color: #991B1B;">Permanently remove your account and all data. This action cannot be undone.</p>
+                        </div>
+                        <button class="btn-danger">Delete Account</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PUBLISHING PANE -->
+            <div id="pane-publishing" class="settings-pane" style="display: none;">
+                <h1>Publishing settings</h1>
+                
+                <div class="settings-card">
+                    <h2>Publishing Metadata</h2>
+                    
+                    <div class="card-row no-border">
+                        <div class="row-info">
+                            <h3>Show EXIF Data</h3>
+                            <p>Display camera settings automatically on your posts</p>
+                            
+                            <div class="tag-row">
+                                <div class="pill-tag">Sony A6400</div>
+                                <div class="pill-tag">16mm</div>
+                                <div class="pill-tag">f/1.8</div>
+                                <div class="pill-tag">ISO 100</div>
+                            </div>
+                        </div>
+                        <div class="toggle-switch active"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NOTIFICATIONS PANE -->
+            <div id="pane-notifications" class="settings-pane" style="display: none;">
+                <h1>Notification settings</h1>
+                
+                <div class="settings-card">
+                    <h2>Email Preferences</h2>
+                    
+                    <div class="card-row">
+                        <div class="row-info">
+                            <h3>Security Alerts</h3>
+                            <p>Get notified about new logins and password changes</p>
+                        </div>
+                        <div class="toggle-switch active"></div>
+                    </div>
+                    
+                    <div class="card-row no-border">
+                        <div class="row-info">
+                            <h3>Product Updates</h3>
+                            <p>News about new features and improvements</p>
+                        </div>
+                        <div class="toggle-switch off"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="settings-actions">
+                <button class="btn-primary">Update Settings</button>
+                <button class="btn-ghost">Cancel</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Vanilla JS for Tab Switching and Toggles -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tab Switching Logic
+            const navItems = document.querySelectorAll('.nav-item');
+            const panes = document.querySelectorAll('.settings-pane');
+
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Remove active class from all tabs
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    item.classList.add('active');
+                    
+                    // Hide all panes
+                    panes.forEach(pane => pane.style.display = 'none');
+                    
+                    // Show target pane
+                    const targetId = item.getAttribute('data-target');
+                    const targetPane = document.getElementById(targetId);
+                    if (targetPane) {
+                        targetPane.style.display = 'block';
+                    }
+                });
+            });
+
+            
+            // Cancel button redirects to dashboard
+            const btnCancel = document.querySelector('.settings-actions .btn-ghost');
+            if (btnCancel) {
+                btnCancel.addEventListener('click', () => {
+                    window.location.href = 'dashboard.html';
+                });
+            }
+            // Toggle Switches Logic
+            const toggles = document.querySelectorAll('.toggle-switch');
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    toggle.classList.toggle('off');
+                });
+            });
+        });
+    </script>
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

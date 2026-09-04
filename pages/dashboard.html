@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OASIS - Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css?v=1788474530">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon2.svg?v=2">
+</head>
+<body class="dashboard-body">
+
+<nav>
+    <div class="container nav__container">
+        <a href="discover.html" class="nav__logo">
+            <img src="../assets/images/logo.svg" alt="OASIS Logo">
+        </a>
+        <ul class="nav__items">
+            <li><button id="close__nav-btn">✕</button></li>
+            <li><a href="discover.html">Discover</a></li>
+            <li><a href="following.html">Following</a></li>
+            <li><a href="popular.html">Popular</a></li>
+            <li><a href="topics.html">Topics</a></li>
+        </ul>
+        <div class="nav__actions">
+            <div class="search-bar">
+                <img src="../assets/images/search.svg" alt="Search">
+                <input type="text" placeholder="Search stories..." aria-label="Search stories">
+            </div>
+            <button class="notification-btn" aria-label="Notifications">
+                <img src="../assets/images/bell.svg" alt="Notifications">
+            </button>
+            <a href="dashboard.html" class="avatar">EA</a>
+            <button id="open__nav-btn">☰</button>
+        </div>
+    </div>
+</nav>
+
+<nav class="tab-bar">
+    <a href="discover.html" class="tab-bar__item">
+        <img src="../assets/images/home.svg" alt="Home">
+    </a>
+    <a href="search.html" class="tab-bar__item">
+        <img src="../assets/images/search2.svg" alt="Search">
+    </a>
+    <a href="add-post.html" class="tab-bar__item">
+        <img src="../assets/images/plus.svg" alt="Add post">
+    </a>
+    <a href="dashboard.html" class="tab-bar__item active">
+        <img src="../assets/images/Profile.svg" alt="Profile">
+    </a>
+</nav>
+<header class="dashboard-hero">
+    <input type="file" id="cover-photo-input" style="display: none;" accept="image/*">
+
+    
+
+    <div class="hero-content">
+        <h1 class="profile-name" id="profile-name-text">Alina Bezsonova</h1>
+        <input type="text" id="profile-name-input" aria-label="Profile Name" class="inline-edit-input" value="Alina Bezsonova" style="display: none;">
+
+        <div class="profile-stats">
+            <div class="stat-item">
+                <span class="stat-value">183</span>
+                <span class="stat-label">Posts</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">27K</span>
+                <span class="stat-label">Followers</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">134</span>
+                <span class="stat-label">Following</span>
+            </div>
+        </div>
+        <div class="bio-glass-card">
+            <p class="profile-bio" id="profile-bio-text">
+                Medientechnik designer and front-end developer focused on CSS Grid, modern UI, and cinematic photography.
+            </p>
+            <textarea id="profile-bio-input" aria-label="Profile Bio" class="inline-edit-input" style="display: none;">Medientechnik designer and front-end developer focused on CSS Grid, modern UI, and cinematic photography.</textarea>
+            <div id="bio-char-counter" style="display: none;">106/160</div>
+        </div>
+        <label for="cover-photo-input" id="change-photo-btn" class="btn-change-photo" style="display: none;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            Change photo
+        </label>
+    </div>
+    
+
+
+
+    <div class="hero-actions">
+        <button class="btn-glass" id="btn-edit-profile">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            Edit Profile
+        </button>
+        <button class="btn-glass" id="btn-settings">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            Settings
+        </button>
+        
+        <button class="btn-save-action" id="btn-save-profile" style="display: none;">Save</button>
+        <button class="btn-cancel-action" id="btn-cancel-profile" style="display: none;">Cancel</button>
+    </div>
+    <div class="hero-fade">
+        <div class="hero-fade-blur">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</header>
+
+<main class="dashboard-main">
+
+    <aside class="dashboard-sidebar">
+        <div class="stats-card">
+            <div class="stats-card-header">
+                <h3>Overview</h3>
+                <span class="text-muted">Last 30 days</span>
+            </div>
+            <div class="stats-card-row">
+                <span>Profile Views</span>
+                <strong>12.4k</strong>
+            </div>
+            <div class="stats-card-row">
+                <span>Article Reads</span>
+                <strong>48.2k</strong>
+            </div>
+            <div class="stats-card-row">
+                <span>New Followers</span>
+                <div class="stat-value-group">
+                    <span class="trend-positive">+12%</span>
+                    <strong>3,190</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-actions">
+            <button class="btn-primary">
+                    <span class="icon-circle">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+                    </span>
+                Write a Story
+            </button>
+            <button class="btn-outline-dark">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><path d="M16 6l-4-4-4 4"></path><path d="M12 2v13"></path></svg>
+                Share Profile
+            </button>
+            <button class="btn-outline-dark" id="btn-following">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                Following
+            </button>
+        </div>
+    </aside>
+
+    <section class="dashboard-content">
+        <header class="content-header">
+            <div class="header-titles">
+                <h2>Your Stories</h2>
+                <p>Curate, publish, and revisit your editorial work.</p>
+            </div>
+            <div class="content-tabs">
+                <div class="active-tab-indicator"></div>
+                <button class="tab-pill" data-target="published">Published</button>
+                <button class="tab-pill active" data-target="drafts">Drafts</button>
+                <button class="tab-pill" data-target="saved">Saved</button>
+            </div>
+        
+</header>
+
+        <div class="stories-container">
+            <div id="pane-published" class="tab-pane" style="display: none;">
+                <div class="empty-state">No stories here yet</div>
+            </div>
+            <div id="pane-drafts" class="tab-pane">
+                <div class="articles-grid">
+                    <article class="article-card">
+                        <div class="card-image" style="background-image: url('../assets/images/001.jpg');">
+                            <span class="category-tag">HTML & CSS Architecture</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">The Evolution of Swiss Typography in Digital Interfaces</h3>
+                            <time class="card-date">2 days ago</time>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="card-image" style="background-image: url('../assets/images/002.jpg');">
+                            <span class="category-tag">Minimalist UI</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Mastering CSS Grid: Building Complex Layouts with Ease</h3>
+                            <time class="card-date">5 days ago</time>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="card-image" style="background-image: url('../assets/images/003.jpg');">
+                            <span class="category-tag">Alpine Routes</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Capturing the Canary Islands: A Visual Journey</h3>
+                            <time class="card-date">1 week ago</time>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="card-image" style="background-image: url('../assets/images/004.jpg');">
+                            <span class="category-tag">Landscape & Nature</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">The Evolution of Swiss Typography in Digital Interfaces</h3>
+                            <time class="card-date">2 days ago</time>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="card-image" style="background-image: url('../assets/images/005.jpg');">
+                            <span class="category-tag">Tech Trends</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Mastering CSS Grid: Building Complex Layouts with Ease</h3>
+                            <time class="card-date">5 days ago</time>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="card-image" style="background-image: url('../assets/images/006.jpg');">
+                            <span class="category-tag">Artist Retrospectives</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Capturing the Canary Islands: A Visual Journey</h3>
+                            <time class="card-date">1 week ago</time>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="card-image" style="background-image: url('../assets/images/007.jpg');">
+                            <span class="category-tag">Quick Everyday Meals</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">The Evolution of Swiss Typography in Digital Interfaces</h3>
+                            <time class="card-date">2 days ago</time>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="card-image" style="background-image: url('../assets/images/008.jpg');">
+                            <span class="category-tag">Classic & Sports Cars</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Mastering CSS Grid: Building Complex Layouts with Ease</h3>
+                            <time class="card-date">5 days ago</time>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="card-image" style="background-image: url('../assets/images/009.jpg');">
+                            <span class="category-tag">Dystopian Fiction</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Capturing the Canary Islands: A Visual Journey</h3>
+                            <time class="card-date">1 week ago</time>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <div id="pane-saved" class="tab-pane" style="display: none;">
+                <div class="empty-state">Nothing saved yet</div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<div id="following-modal-overlay" class="modal-overlay hidden">
+    <div class="modal-content following-modal">
+        <div class="modal-header" style="gap: 16px;">
+            <div class="modal-search" style="flex-grow: 1; padding: 0;">
+                <input type="text" aria-label="Search people" placeholder="Search people...">
+            </div>
+            <button class="btn-close-modal" style="flex-shrink: 0;">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div class="modal-user-list">
+            <div class="user-list-item">
+                <img src="../assets/images/001.jpg" alt="Avatar" class="user-avatar">
+                <div class="user-info">
+                    <span class="user-name">Sarah</span>
+                    <span class="user-name">Jenkins</span>
+                </div>
+                <button class="btn-following-action">unfollow</button>
+            </div>
+            <div class="user-list-item">
+                <img src="../assets/images/002.jpg" alt="Avatar" class="user-avatar">
+                <div class="user-info">
+                    <span class="user-name">Marcus</span>
+                    <span class="user-name">Reed</span>
+                </div>
+                <button class="btn-following-action">unfollow</button>
+            </div>
+            <div class="user-list-item">
+                <img src="../assets/images/003.jpg" alt="Avatar" class="user-avatar">
+                <div class="user-info">
+                    <span class="user-name">Elena</span>
+                    <span class="user-name">Rostova</span>
+                </div>
+                <button class="btn-following-action">unfollow</button>
+            </div>
+            <div class="user-list-item">
+                <img src="../assets/images/004.jpg" alt="Avatar" class="user-avatar">
+                <div class="user-info">
+                    <span class="user-name">James</span>
+                    <span class="user-name">Cooper</span>
+                </div>
+                <button class="btn-following-action">unfollow</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Tab switching logic for main content
+        const tabs = document.querySelectorAll('.content-tabs .tab-pill');
+        const indicator = document.querySelector('.active-tab-indicator');
+
+        function updateIndicator(activeTab) {
+            if (!activeTab || !indicator) return;
+            indicator.style.width = activeTab.offsetWidth + 'px';
+            indicator.style.left = activeTab.offsetLeft + 'px';
+        }
+
+        const initialActive = document.querySelector('.content-tabs .tab-pill.active');
+        if (initialActive) {
+            setTimeout(() => updateIndicator(initialActive), 10);
+
+        // Follow / Unfollow logic
+        const followBtns = document.querySelectorAll('.btn-following-action');
+        followBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.classList.contains('unfollowed')) {
+                    btn.classList.remove('unfollowed');
+                    btn.innerText = 'unfollow';
+                } else {
+                    btn.classList.add('unfollowed');
+                    btn.innerText = 'follow';
+                }
+            });
+        });
+
+
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                tabs.forEach(t => t.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                updateIndicator(e.currentTarget);
+
+                const target = e.currentTarget.getAttribute('data-target');
+                if (target) {
+                    document.querySelectorAll('.dashboard-main .tab-pane').forEach(pane => {
+                        pane.style.display = 'none';
+                    });
+                    const targetPane = document.getElementById('pane-' + target);
+                    if (targetPane) {
+                        targetPane.style.display = 'block';
+                    }
+                }
+            });
+        });
+
+        // Following Modal Logic
+        const btnFollowing = document.getElementById('btn-following');
+        const followingOverlay = document.getElementById('following-modal-overlay');
+        const btnCloseFollowingModal = document.querySelector('.btn-close-modal');
+
+        if (btnFollowing && followingOverlay) {
+            btnFollowing.addEventListener('click', () => {
+                followingOverlay.classList.remove('hidden');
+            });
+
+            btnCloseFollowingModal.addEventListener('click', () => {
+                followingOverlay.classList.add('hidden');
+            });
+
+            followingOverlay.addEventListener('click', (e) => {
+                if (e.target === followingOverlay) {
+                    followingOverlay.classList.add('hidden');
+                }
+            });
+        }
+
+        // Inline Profile Editing Logic
+        const btnEditProfile = document.getElementById('btn-edit-profile');
+        const btnSettings = document.getElementById('btn-settings');
+        
+        const btnSaveProfile = document.getElementById('btn-save-profile');
+        const btnCancelProfile = document.getElementById('btn-cancel-profile');
+        const coverOverlay = document.getElementById('change-photo-btn');
+        const nameText = document.getElementById('profile-name-text');
+        const nameInput = document.getElementById('profile-name-input');
+        const bioText = document.getElementById('profile-bio-text');
+        const bioInput = document.getElementById('profile-bio-input');
+        const dashboardHero = document.querySelector('.dashboard-hero');
+
+        let originalName = '';
+        let originalBio = '';
+        let originalBg = '';
+
+        function toggleEditMode(isEditing) {
+            if (isEditing) {
+                originalName = nameText.innerText;
+                originalBio = bioText.innerText;
+                originalBg = dashboardHero.style.backgroundImage;
+
+                nameInput.value = originalName;
+                bioInput.value = originalBio;
+                const charCounter = document.getElementById('bio-char-counter');
+                if (charCounter) charCounter.innerText = `${originalBio.length}/160`;
+
+                btnEditProfile.style.display = 'none';
+                if(btnSettings) btnSettings.style.display = 'none';
+                
+                btnSaveProfile.style.display = 'inline-flex';
+                btnCancelProfile.style.display = 'inline-flex';
+
+                nameText.style.display = 'none';
+                nameInput.style.display = 'block';
+                bioText.style.display = 'none';
+                bioInput.style.display = 'block';
+                if (charCounter) charCounter.style.display = 'block';
+
+                coverOverlay.style.display = 'inline-flex';
+            } else {
+                btnEditProfile.style.display = 'inline-flex';
+                if(btnSettings) btnSettings.style.display = 'inline-flex';
+                
+                btnSaveProfile.style.display = 'none';
+                btnCancelProfile.style.display = 'none';
+
+                nameText.style.display = 'block';
+                nameInput.style.display = 'none';
+                bioText.style.display = 'block';
+                bioInput.style.display = 'none';
+                const charCounter = document.getElementById('bio-char-counter');
+                if (charCounter) charCounter.style.display = 'none';
+
+                coverOverlay.style.display = 'none';
+            }
+        }
+
+        if (btnEditProfile) {
+            btnEditProfile.addEventListener('click', () => toggleEditMode(true));
+            btnCancelProfile.addEventListener('click', () => {
+                dashboardHero.style.backgroundImage = originalBg;
+                toggleEditMode(false);
+            });
+            btnSaveProfile.addEventListener('click', () => {
+                nameText.innerText = nameInput.value;
+                bioText.innerText = bioInput.value;
+                toggleEditMode(false);
+            });
+        }
+
+        if (bioInput) {
+            bioInput.addEventListener('input', () => {
+                document.getElementById('bio-char-counter').innerText = `${bioInput.value.length}/160`;
+            });
+        }
+
+        
+        if (btnSettings) {
+            btnSettings.addEventListener('click', () => {
+                window.location.href = 'settings.html';
+            });
+        }
+
+        // Handle Cover Photo Upload Preview
+        const coverPhotoInput = document.getElementById('cover-photo-input');
+        if (coverPhotoInput && dashboardHero) {
+            coverPhotoInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const objectUrl = URL.createObjectURL(file);
+                    dashboardHero.style.backgroundImage = `url('${objectUrl}')`;
+                }
+            });
+        }
+
+        // Re-calculate on window resize
+        window.addEventListener('resize', () => {
+            const active = document.querySelector('.content-tabs .tab-pill.active');
+            if (active) updateIndicator(active);
+        });
+    });
+</script>
+
+</body>
+</html>

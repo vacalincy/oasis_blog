@@ -11,8 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 
     <!-- Styles & Favicon -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/svg+xml" href="images/favicon2.svg?v=2">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon2.svg?v=2">
 </head>
 <body class="landing-page">
 
@@ -22,7 +22,7 @@
 <nav class="landing-nav">
     <div class="container landing-nav__container">
         <a href="index.html" class="landing-nav__logo">
-            <img src="images/logo.svg" alt="OASIS Logo">
+            <img src="assets/images/logo.svg" alt="OASIS Logo">
         </a>
         <div class="landing-nav__actions">
             <a href="#" class="landing-nav__login">Log in</a>
@@ -35,10 +35,11 @@
 <!-- BOTTOM TAB BAR (Mobile)                       -->
 <!-- ============================================= -->
 <nav class="tab-bar">
-    <a href="index.html" class="tab-bar__item active"><img src="images/home.svg" alt="Home"></a>
-    <a href="search.html" class="tab-bar__item"><img src="images/search2.svg" alt="Search"></a>
-    <a href="add-post.html" class="tab-bar__item"><img src="images/plus.svg" alt="Add post"></a>
-    <a href="#" class="tab-bar__item landing-nav__signup"><img src="images/Profile.svg" alt="Profile"></a>
+    <a href="index.html" class="tab-bar__item active"><img src="assets/images/home.svg" alt="Home"></a>
+    <a href="pages/search.html" class="tab-bar__item"><img src="assets/images/search2.svg" alt="Search"></a>
+    <a href="pages/add-post.html" class="tab-bar__item"><img src="assets/images/plus.svg" alt="Add post"></a>
+    <a href="pages/dashboard.html" class="tab-bar__item">
+        <img src="assets/images/Profile.svg" alt="Profile"></a>
 </nav>
 
 <!-- ============================================= -->
@@ -51,12 +52,12 @@
         <h1 class="cards-intro__title">A place to display your <br>masterpiece.</h1>
 
         <div class="cards-intro__content">
-            <img src="images/landing_p1.jpg" alt="Artwork 1" class="cards-intro__card cards-intro__card--1">
-            <img src="images/landing_p2.jpg" alt="Artwork 2" class="cards-intro__card cards-intro__card--2">
-            <img src="images/landing_p3.jpg" alt="Artwork 3" class="cards-intro__card cards-intro__card--3">
-            <img src="images/landing_p4.jpg" alt="Artwork 4" class="cards-intro__card cards-intro__card--4">
-            <img src="images/landing_p5.jpg" alt="Artwork 5" class="cards-intro__card cards-intro__card--5">
-            <img src="images/landing_p6.jpg" alt="Artwork 6" class="cards-intro__card cards-intro__card--6">
+            <img src="assets/images/landing_p1.jpg" alt="Artwork 1" class="cards-intro__card cards-intro__card--1">
+            <img src="assets/images/landing_p2.jpg" alt="Artwork 2" class="cards-intro__card cards-intro__card--2">
+            <img src="assets/images/landing_p3.jpg" alt="Artwork 3" class="cards-intro__card cards-intro__card--3">
+            <img src="assets/images/landing_p4.jpg" alt="Artwork 4" class="cards-intro__card cards-intro__card--4">
+            <img src="assets/images/landing_p5.jpg" alt="Artwork 5" class="cards-intro__card cards-intro__card--5">
+            <img src="assets/images/landing_p6.jpg" alt="Artwork 6" class="cards-intro__card cards-intro__card--6">
 
             <span class="cards-intro__bubble cards-intro__bubble--left">Awesome!</span>
             <span class="cards-intro__bubble cards-intro__bubble--right">Nice!</span>
@@ -67,7 +68,7 @@
             <h2 class="cards-intro__subtitle">Writers share their insights, and readers discover stories about <br>design, code, and modern culture.</h2>
             <div class="cards-intro__button-group">
                 <a href="#" class="cards-intro__btn cards-intro__btn--primary">Join for free</a>
-                <a href="discover.html" class="cards-intro__btn cards-intro__btn--secondary">Explore stories</a>
+                <a href="pages/discover.html" class="cards-intro__btn cards-intro__btn--secondary">Explore stories</a>
             </div>
         </div>
     </div>
@@ -92,8 +93,8 @@
     <div class="container">
         <h2 class="showcase__big-title">A curated space to share <span>your</span> <br> creative vision.</h2>
         <div class="showcase__media">
-            <img src="images/vr.jpg" alt="People exploring stories together" class="showcase__image">
-            <a href="post.html" class="showcase__preview-card">
+            <img src="assets/images/vr.jpg" alt="People exploring stories together" class="showcase__image">
+            <a href="pages/post.html" class="showcase__preview-card">
                 <div class="showcase__preview-content">
                     <span class="showcase__preview-badge">Design &amp; Interfaces</span>
                     <h3 class="showcase__preview-title">Warm Palettes &amp; Natural Textures</h3>
@@ -124,7 +125,7 @@
         </div>
         <div class="signup-cta__form">
             <div class="signup-cta__form-header">
-                <img src="images/favicon-label.png" alt="OASIS" class="signup-cta__form-icon">
+                <img src="assets/images/favicon-label.png" alt="OASIS" class="signup-cta__form-icon">
                 <p class="signup-cta__form-headline">Join Oasis for free to discover more ideas and stories.</p>
             </div>
             <form class="signup-cta__fields" action="#" method="post">
@@ -143,7 +144,7 @@
                 <button type="submit" class="signup-cta__submit-btn">Continue</button>
                 <div class="signup-cta__divider"><span>or</span></div>
                 <button type="button" class="signup-cta__google-btn">
-                    <img src="images/Google%20-%20Original.png" alt="Google Logo" class="signup-cta__google-icon">
+                    <img src="assets/images/Google%20-%20Original.png" alt="Google Logo" class="signup-cta__google-icon">
                     Continue with Google
                 </button>
                 <p class="signup-cta__login-link">Already have an account? <a href="#" class="landing-nav__login">Log in</a></p>
@@ -165,7 +166,7 @@
 
         <!-- Left Column: Login Form -->
         <div class="auth-modal__left">
-            <img src="images/logo-icon.svg" alt="Oasis Logo" class="auth-modal__logo">
+            <img src="assets/images/favicon-label.png" alt="Oasis Logo" class="auth-modal__logo">
             <h2 class="auth-modal__title">Welcome to OASIS</h2>
             <p class="auth-modal__subtitle">Log in to discover more ideas just for you</p>
 
@@ -192,7 +193,7 @@
                 <div class="auth-modal__divider"><span>OR</span></div>
 
                 <button type="button" class="auth-modal__google">
-                    <img src="images/Google%20-%20Original.png" alt="Google icon" class="auth-modal__google-icon">
+                    <img src="assets/images/Google%20-%20Original.png" alt="Google icon" class="auth-modal__google-icon">
                     Continue with Google
                 </button>
             </form>
@@ -205,7 +206,7 @@
         <!-- Right Column: QR Code Scan -->
         <div class="auth-modal__right">
             <div class="auth-modal__qr-box">
-                <img src="images/qr-code.png" alt="Scan QR code to log in" class="auth-modal__qr-image">
+                <img src="assets/images/qr.png" alt="Scan QR code to log in" class="auth-modal__qr-image">
             </div>
             <p class="auth-modal__qr-text">Or, log in instantly by scanning code<br>with your phone.</p>
         </div>
@@ -220,7 +221,7 @@
 
         <!-- Full Width Column: Registration Form -->
         <div class="auth-modal__left auth-modal__left--full">
-            <img src="images/logo-icon.svg" alt="Oasis Logo" class="auth-modal__logo">
+            <img src="assets/images/favicon-label.png" alt="Oasis Logo" class="auth-modal__logo">
             <h2 class="auth-modal__title">Welcome to OASIS</h2>
             <p class="auth-modal__subtitle">Sign up to discover more ideas<br>just for you.</p>
 
@@ -255,7 +256,7 @@
                 <div class="auth-modal__divider"><span>OR</span></div>
 
                 <button type="button" class="auth-modal__google">
-                    <img src="images/Google%20-%20Original.png" alt="Google icon" class="auth-modal__google-icon">
+                    <img src="assets/images/Google%20-%20Original.png" alt="Google icon" class="auth-modal__google-icon">
                     Continue with Google
                 </button>
             </form>
@@ -272,6 +273,6 @@
 <!-- ============================================= -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="landing-scroll.js"></script>
+<script src="assets/js/landing-scroll.js"></script>
 </body>
 </html>
