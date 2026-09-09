@@ -273,16 +273,12 @@ nav {
 .tab-bar__item img {
     width: 22px;
     height: 22px;
+    object-fit: contain;
 }
 
-.tab-bar__item.active {
-    background: var(--color-primary);
-    border-radius: 50%;
-}
+.tab-bar__item.active { background: transparent; border-radius: 50%; }
 
-.tab-bar__item.active img {
-    filter: brightness(0) invert(1);
-}
+
 
 @media (max-width: 768px) {
     .tab-bar {
@@ -3059,16 +3055,12 @@ nav {
 .tab-bar__item img {
     width: 22px;
     height: 22px;
+    object-fit: contain;
 }
 
-.tab-bar__item.active {
-    background: var(--color-primary);
-    border-radius: 50%;
-}
+.tab-bar__item.active { background: transparent; border-radius: 50%; }
 
-.tab-bar__item.active img {
-    filter: brightness(0) invert(1);
-}
+
 
 @media (max-width: 768px) {
     .tab-bar {
@@ -5698,9 +5690,13 @@ nav {
     text-decoration: none;
 }
 
-.tab-bar__item img { width: 22px; height: 22px; }
-.tab-bar__item.active { background: var(--color-primary); border-radius: 50%; }
-.tab-bar__item.active img { filter: brightness(0) invert(1); }
+.tab-bar__item img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+.tab-bar__item.active { background: transparent; border-radius: 50%; }
+
 
 @media (max-width: 768px) {
     .tab-bar { display: flex; }
@@ -7902,3 +7898,240 @@ html, body.landing-page {
 
 
 
+
+
+
+
+
+.tab-bar__item {
+    position: relative;
+    z-index: 1;
+}
+
+
+
+
+
+/* Tooltips */
+[interestfor] {
+  interest-delay: 0.3s;
+}
+
+.action-bar:has(:interest-source) [interestfor] {
+  interest-delay: 0.1s;
+}
+
+[popover] {
+  position: fixed;
+  position-area: top;
+  position-try-fallbacks: flip-block;
+  margin: 0;
+  border: none;
+  background: #fcfcfc;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.8rem;
+  font-size: 90%;
+  letter-spacing: 0.3px;
+  border: 1px solid lightgray;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  --transform-val: -5px;
+  opacity: 0;
+  transform: translateY(0);
+  transition: 
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    display 0.2s ease allow-discrete,
+    overlay 0.2s ease allow-discrete;
+}
+
+[popover]:popover-open {
+  opacity: 1;
+  transform: translateY(var(--transform-val));
+  
+  @starting-style {
+    opacity: 0;
+    transform: translateY(0);
+  }
+}
+
+
+
+
+
+
+/* The Anchored Pointer */
+.anchored-pointer {
+  position: absolute;
+  position-anchor: --selected;
+  top: anchor(top);
+  left: anchor(left);
+  width: 3rem;
+  height: 5rem;
+  margin-top: calc(anchor-size(height) * -0.5);
+  margin-left: calc(anchor-size(width) * -0.15); /* Center horizontally relative to 44px icon */
+  display: block;
+  background: none;
+  border: 1px solid white;
+  border-radius: 2rem;
+  transition: all 1s var(--spring-easing);
+  filter: drop-shadow(0 3px 6px gray);
+  pointer-events: none;
+  overflow: hidden;
+  backdrop-filter: blur(4px) url(#glass-filter);
+}
+
+.anchored-pointer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(1rem 3rem ellipse at 50% 85% in oklch, rgba(255,255,255,0) 10%, rgba(255,255,255,0.4) 150%), radial-gradient(2rem 3.5rem ellipse at 45% 35% in oklch, rgba(0,0,0,0) 80%, rgba(128,128,128,0.3) 150%);
+}
+
+/* Tooltips */
+[interestfor] {
+  interest-delay: 0.3s;
+}
+
+.action-bar:has(:interest-source) [interestfor] {
+  interest-delay: 0.1s;
+}
+
+[popover] {
+  position: fixed;
+  position-area: top;
+  position-try-fallbacks: flip-block;
+  margin: 0;
+  border: none;
+  background: #fcfcfc;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.8rem;
+  font-size: 90%;
+  letter-spacing: 0.3px;
+  border: 1px solid lightgray;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  --transform-val: -5px;
+  opacity: 0;
+  transform: translateY(0);
+  transition: 
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    display 0.2s ease allow-discrete,
+    overlay 0.2s ease allow-discrete;
+}
+
+[popover]:popover-open {
+  opacity: 1;
+  transform: translateY(var(--transform-val));
+  
+  @starting-style {
+    opacity: 0;
+    transform: translateY(0);
+  }
+}
+
+
+
+
+.tab-bar__item {
+    position: relative;
+    z-index: 1;
+}
+
+.tab-bar__item.active {
+    background: transparent;
+    border-radius: 50%;
+}
+
+.tab-bar__item img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    transition: filter 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.tab-bar__item.active img {
+    filter: brightness(0) invert(1);
+}
+
+
+
+
+/* ---------------------------------------------
+   SLIDING CIRCLE TAB BAR (FLEXBOX)
+   --------------------------------------------- */
+.tab-bar-wrapper {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340px;
+  height: 72px;
+  z-index: 100;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.12));
+  display: none;
+}
+
+.tab-bar-base, .tab-bar-highlight {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 36px; /* Perfect pill shape */
+}
+
+.tab-bar-base {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.tab-bar-highlight {
+  background: var(--color-primary);
+  pointer-events: none;
+  /* 28px radius creates a nice 56px circle around the 24px icon */
+  clip-path: circle(28px at 12.5% 50%);
+  transition: clip-path 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.tab-bar-highlight.active-0 { clip-path: circle(28px at 12.5% 50%); }
+.tab-bar-highlight.active-1 { clip-path: circle(28px at 37.5% 50%); }
+.tab-bar-highlight.active-2 { clip-path: circle(28px at 62.5% 50%); }
+.tab-bar-highlight.active-3 { clip-path: circle(28px at 87.5% 50%); }
+
+.nav-item {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.tab-bar-base .nav-item:hover {
+  transform: scale(1.1);
+}
+
+.nav-item img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.tab-bar-highlight .nav-item img {
+  filter: brightness(0) invert(1);
+}
+
+
+@media (max-width: 768px) {
+  .tab-bar-wrapper {
+    display: block;
+  }
+}

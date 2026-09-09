@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post - OASIS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon2.svg?v=2">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/add-post.css">
+</head>
+<body class="editor-page">
+    
+<nav>
+    <div class="container nav__container">
+        <a href="discover.html" class="nav__logo">
+            <img src="../assets/images/logo.svg" alt="OASIS Logo">
+        </a>
+        <ul class="nav__items">
+            <li><button id="close__nav-btn">✕</button></li>
+            <li><a href="discover.html">Discover</a></li>
+            <li><a href="following.html">Following</a></li>
+            <li><a href="popular.html">Popular</a></li>
+            <li><a href="topics.html">Topics</a></li>
+        </ul>
+        <div class="nav__actions">
+            <form action="search.html" method="GET" class="search-bar">
+                <img src="../assets/images/search.svg" alt="Search">
+                <input type="text" placeholder="Search stories..." aria-label="Search stories">
+            </form>
+            <a href="notifications.html" class="notification-btn" aria-label="Notifications">
+                <img src="../assets/images/bell.svg" alt="Notifications">
+            </a>
+            <a href="dashboard.html" class="avatar">EA</a>
+            <button id="open__nav-btn">☰</button>
+        </div>
+    </div>
+</nav>
+
+
+    <!-- Editor Main Container -->
+    <main class="editor-main" id="editor-container">
+        
+        <!-- Story Title -->
+        <input type="text" class="borderless-input editor-title" placeholder="Story Title" value="The Art of Minimalist Web Design">
+
+        <!-- Upload Zone -->
+        <div class="editor-upload-zone has-image" id="upload-zone" style="background-image: url('https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=1000&auto=format&fit=crop'); background-size: cover; background-position: center;">
+            <input type="file" id="cover-upload" hidden accept="image/*">
+            <div class="upload-icon-circle">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+            </div>
+            <p>Drag and drop your high-res image here or click to browse</p>
+        </div>
+
+        <!-- Subtitle -->
+        <input type="text" class="borderless-input editor-subtitle" placeholder="Subtitle.." value="How stripping away the excess can create more powerful user experiences.">
+
+        <!-- Category Tags -->
+        <!-- Categories -->
+        <div class="category-wrapper" style="margin-top: 32px;">
+            <div class="editor-tags-scrollable" id="main-categories-row"></div>
+            <div class="editor-tags-scrollable" id="sub-categories-row" style="margin-top: 16px; "></div>
+        </div>
+
+        <!-- Formatting Toolbar -->
+        <!-- Formatting Toolbar -->
+        <div class="editor-toolbar" id="format-toolbar">
+            <button class="toolbar-btn font-serif" id="btn-bold" style="font-weight: bold;">B</button>
+            <button class="toolbar-btn font-serif" id="btn-italic" style="font-style: italic;">I</button>
+            <button class="toolbar-btn" id="btn-link">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+            </button>
+            <button class="toolbar-btn" id="btn-h2" style="font-weight: bold; font-size: 0.9rem;">H2</button>
+            <button class="toolbar-btn font-serif" id="btn-quote" style="font-weight: bold; font-size: 1.2rem;">"</button>
+        </div>
+
+        <!-- Body Content -->
+        <div contenteditable="true" class="borderless-input editor-body" id="editor-body" data-placeholder="Tell the story behind this shot...">Minimalism isn't just about using less ink or fewer pixels—it's about clarity of intent. When you remove the noise, the user's focus is guided exactly where it needs to be. 
+
+In this article, we explore the foundational principles of minimalist web architecture...</div>
+
+        <!-- Action Footer -->
+        <div class="editor-footer">
+            <a href="dashboard.html" class="btn-cancel">Discard Changes</a>
+            <div class="tooltip-wrapper show-tooltip" id="footer-tooltip-wrapper" data-tooltip="Please select a category and subcategory first">
+                <button class="btn-danger-rounded" id="btn-delete">Delete Post</button>
+                <button class="btn-primary-rounded" id="btn-publish" disabled>Save Changes</button>
+            </div>
+        </div>
+        
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+
+            
+            // Rich Text Formatting
+            const btnBold = document.getElementById('btn-bold');
+            const btnItalic = document.getElementById('btn-italic');
+            const btnLink = document.getElementById('btn-link');
+            const btnH2 = document.getElementById('btn-h2');
+            const btnQuote = document.getElementById('btn-quote');
+            const editorBody = document.getElementById('editor-body');
+
+            function execCmd(command, value = null) {
+                document.execCommand(command, false, value);
+                editorBody.focus();
+                updateToolbar();
+            }
+
+            if (editorBody) {
+                if (btnBold) btnBold.addEventListener('click', () => execCmd('bold'));
+                if (btnItalic) btnItalic.addEventListener('click', () => execCmd('italic'));
+                if (btnLink) btnLink.addEventListener('click', () => {
+                    const url = prompt('Enter link URL:');
+                    if (url) execCmd('createLink', url);
+                });
+                if (btnH2) btnH2.addEventListener('click', () => {
+                    const isH2 = document.queryCommandValue('formatBlock') === 'h2';
+                    execCmd('formatBlock', isH2 ? 'div' : 'H2');
+                });
+                if (btnQuote) btnQuote.addEventListener('click', () => {
+                    const isQuote = document.queryCommandValue('formatBlock') === 'blockquote';
+                    execCmd('formatBlock', isQuote ? 'div' : 'BLOCKQUOTE');
+                });
+
+                // Selection Listener
+                function updateToolbar() {
+                    if (document.queryCommandState('bold')) btnBold.classList.add('active'); else btnBold.classList.remove('active');
+                    if (document.queryCommandState('italic')) btnItalic.classList.add('active'); else btnItalic.classList.remove('active');
+                    
+                    const formatBlock = document.queryCommandValue('formatBlock');
+                    if (formatBlock === 'h2') btnH2.classList.add('active'); else btnH2.classList.remove('active');
+                    if (formatBlock === 'blockquote') btnQuote.classList.add('active'); else btnQuote.classList.remove('active');
+                }
+
+                editorBody.addEventListener('keyup', updateToolbar);
+                editorBody.addEventListener('mouseup', updateToolbar);
+                editorBody.addEventListener('click', updateToolbar);
+                editorBody.addEventListener('input', updateToolbar);
+            }
+
+            // Complete Taxonomy
+            const categoryData = {
+              "Code & Development": ["HTML & CSS Architecture", "Grid & Flexbox Layouts", "Web Animations", "Responsive Components", "Other"],
+              "Travel & Outdoors": ["Mountain Hiking", "Alpine Routes", "Gear & Preparation", "Travel Logistics", "Other"],
+              "Photography & Film": ["Camera Settings", "Landscape & Nature", "Video & Slow-Motion", "Post-Production", "Other"],
+              "Design & Interfaces": ["Figma Mastery", "Minimalist UI", "Typography", "UX Case Studies", "Other"],
+              "Science & Technology": ["Ecosystems & Devices", "Audio & Streaming Systems", "Software & Tools", "Tech Trends", "Other"],
+              "Music & Culture": ["Progressive & Classic Rock", "Alternative & Synthpop", "Artist Retrospectives", "Music Theory & Meaning", "Other"],
+              "Food & Culinary": ["Healthy Grains", "Cheese & Veggie Bowls", "Quick Everyday Meals", "Culinary Chemistry", "Other"],
+              "Automotive & Mobility": ["Classic & Sports Cars", "Ownership & Insurance", "Driving Culture", "Road Trips", "Other"],
+              "Education & Lifestyle": ["Student Life", "Financial Logistics", "Productivity", "Career & Freelance", "Other"],
+              "Literature & Culture": ["Dystopian Fiction", "Literary Influences", "Modern Prose", "Art & Society", "Other"],
+              "Other": ["Other"]
+            };
+
+            const mainRow = document.getElementById('main-categories-row');
+            const subRow = document.getElementById('sub-categories-row');
+
+            const btnDraft = document.getElementById('btn-draft');
+            const btnPublish = document.getElementById('btn-publish');
+
+            function checkValidation() {
+                const title = document.querySelector('.editor-title').value.trim();
+                const hasImage = document.getElementById('upload-zone').classList.contains('has-image');
+                const subtitle = document.querySelector('.editor-subtitle').value.trim();
+                const mainActive = document.querySelector('.main-tag.active');
+                const subRow = document.getElementById('sub-categories-row');
+                const subActive = subRow ? subRow.querySelector('.tag.active') : null;
+                const bodyContent = document.getElementById('editor-body').innerText.trim();
+                const wrapper = document.getElementById('footer-tooltip-wrapper');
+                
+                let missingFields = [];
+                if (!title) missingFields.push('title');
+                if (!hasImage) missingFields.push('picture');
+                if (!subtitle) missingFields.push('subtitle');
+                if (!mainActive || !subActive) missingFields.push('category');
+                if (!bodyContent) missingFields.push('main text');
+
+                if (missingFields.length === 0) {
+                    if (btnDraft) btnDraft.disabled = false;
+                    if (btnPublish) btnPublish.disabled = false;
+                    if (wrapper) wrapper.classList.remove('show-tooltip');
+                } else {
+                    if (btnDraft) btnDraft.disabled = true;
+                    if (btnPublish) btnPublish.disabled = true;
+                    if (wrapper) wrapper.classList.add('show-tooltip');
+                    
+                    let msg = "";
+                    if (missingFields.length > 1) {
+                        msg = "Please fill out all required fields to continue.";
+                    } else {
+                        msg = "Please add a " + missingFields[0] + " to continue.";
+                    }
+                    wrapper.setAttribute('data-tooltip', msg);
+                }
+            }
+            
+            // Add event listeners to input fields to trigger validation
+            document.querySelector('.editor-title').addEventListener('input', checkValidation);
+            document.querySelector('.editor-subtitle').addEventListener('input', checkValidation);
+            document.getElementById('editor-body').addEventListener('input', checkValidation);
+            checkValidation(); // Initial check
+            function renderSubCategories(mainCat) {
+                if (!subRow) return;
+                
+                // Fade out transition
+                subRow.style.opacity = '0';
+                
+                setTimeout(() => {
+                    subRow.innerHTML = ''; // Clear row 2
+                    checkValidation();
+                    const subs = categoryData[mainCat] || [];
+                    subs.forEach(sub => {
+                        const btn = document.createElement('button');
+                        btn.className = 'tag';
+                        btn.innerText = sub;
+                        btn.addEventListener('click', () => {
+                            btn.classList.toggle('active'); checkValidation();
+                        });
+                        subRow.appendChild(btn);
+                    });
+                    
+                    // Fade in transition
+                    subRow.style.opacity = '1';
+                }, 150);
+            }
+
+            if (mainRow && subRow) {
+                Object.keys(categoryData).forEach((mainCat, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'tag main-tag';
+                    btn.innerText = mainCat;
+                    
+                    
+
+                    btn.addEventListener('click', () => {
+                        // Deselect other main categories
+                        document.querySelectorAll('.main-tag').forEach(t => t.classList.remove('active'));
+                        btn.classList.add('active');
+                        renderSubCategories(mainCat); checkValidation();
+                    });
+                    
+                    mainRow.appendChild(btn);
+                });
+            }
+
+            // Upload File Handling & Drag/Drop
+            const uploadZone = document.getElementById('upload-zone');
+            const fileInput = document.getElementById('cover-upload');
+            
+            function handleFile(file) {
+                if (file && file.type.startsWith('image/')) {
+                    const url = URL.createObjectURL(file);
+                    uploadZone.style.backgroundImage = `url('${url}')`;
+                    uploadZone.style.backgroundSize = 'cover';
+                    uploadZone.style.backgroundPosition = 'center';
+                    uploadZone.classList.add('has-image');
+                    checkValidation(); // Trigger validation on image upload
+                }
+            }
+
+            if(uploadZone && fileInput) {
+                // Click to browse
+                uploadZone.addEventListener('click', (e) => {
+                    if (e.target !== fileInput) {
+                        fileInput.click();
+                    }
+                });
+
+                // Input change (file selected)
+                fileInput.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        handleFile(e.target.files[0]);
+                    }
+                });
+
+                // Drag over
+                uploadZone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    uploadZone.classList.add('drag-active');
+                });
+
+                // Drag leave
+                uploadZone.addEventListener('dragleave', (e) => {
+                    e.preventDefault();
+                    uploadZone.classList.remove('drag-active');
+                });
+
+                // Drop
+                uploadZone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    uploadZone.classList.remove('drag-active');
+                    if (e.dataTransfer.files.length > 0) {
+                        fileInput.files = e.dataTransfer.files;
+                        handleFile(e.dataTransfer.files[0]);
+                    }
+                });
+            }
+        });
+    
+            // --- EDIT MODE PRE-FILL SIMULATION ---
+            setTimeout(() => {
+                const targetMain = Array.from(document.querySelectorAll('.main-tag')).find(btn => btn.innerText === 'Design & Interfaces');
+                if (targetMain) {
+                    targetMain.click(); // Select main category
+                    setTimeout(() => {
+                        const targetSub = Array.from(document.querySelectorAll('#sub-categories-row .tag')).find(btn => btn.innerText === 'Minimalist UI');
+                        if (targetSub) {
+                            targetSub.click(); // Select sub category
+                            checkValidation(); // Ensure buttons unlock
+                        }
+                    }, 200);
+                }
+            }, 300);
+
+        </script>
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

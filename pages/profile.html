@@ -35,13 +35,13 @@
     </ul>
 
     <div class="nav__actions">
-      <div class="search-bar">
+      <form action="search.html" method="GET" class="search-bar">
         <img src="../assets/images/search.svg" alt="Search">
         <input type="text" placeholder="Search stories..." aria-label="Search stories">
-      </div>
-      <button class="notification-btn" aria-label="Notifications">
+            </form>
+      <a href="notifications.html" class="notification-btn" aria-label="Notifications">
         <img src="../assets/images/bell.svg" alt="Notifications">
-      </button>
+      </a>
       <a href="dashboard.html" class="avatar">EA</a>
       <button id="open__nav-btn">☰</button>
     </div>
@@ -56,20 +56,30 @@
 <!-- ============================================= -->
 <!-- BOTTOM TAB BAR START (mobile only)             -->
 <!-- ============================================= -->
-<nav class="tab-bar">
-  <a href="discover.html" class="tab-bar__item">
-    <img src="../assets/images/home.svg" alt="Home">
-  </a>
-  <a href="search.html" class="tab-bar__item">
-    <img src="../assets/images/search2.svg" alt="Search">
-  </a>
-  <a href="add-post.html" class="tab-bar__item">
-    <img src="../assets/images/plus.svg" alt="Add post">
-  </a>
-  <a href="dashboard.html" class="tab-bar__item">
-        <img src="../assets/images/Profile.svg" alt="Profile">
-  </a>
-</nav>
+<!-- BOTTOM TAB BAR START -->
+<div class="tab-bar-wrapper">
+  <div class="tab-bar-base">
+    <a href="discover.html" class="nav-item ">
+       <img src="../assets/images/tabbar_home.png" alt="Home">
+    </a>
+    <a href="search.html" class="nav-item ">
+       <img src="../assets/images/tabbar_search.png" alt="Search">
+    </a>
+    <a href="add-post.html" class="nav-item ">
+       <img src="../assets/images/tabbar_add.png" alt="Add post">
+    </a>
+    <a href="profile.html" class="nav-item active">
+       <img src="../assets/images/tabbar_profile.png" alt="Profile">
+    </a>
+  </div>
+  <div class="tab-bar-highlight">
+    <div class="nav-item"><img src="../assets/images/tabbar_home.png" alt="Home"></div>
+    <div class="nav-item"><img src="../assets/images/tabbar_search.png" alt="Search"></div>
+    <div class="nav-item"><img src="../assets/images/tabbar_add.png" alt="Add post"></div>
+    <div class="nav-item"><img src="../assets/images/tabbar_profile.png" alt="Profile"></div>
+  </div>
+</div>
+<!-- BOTTOM TAB BAR END -->
 <!-- ============================================= -->
 <!-- BOTTOM TAB BAR END                             -->
 <!-- ============================================= -->

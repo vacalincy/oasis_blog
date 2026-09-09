@@ -28,33 +28,43 @@
             <li><a href="topics.html">Topics</a></li>
         </ul>
         <div class="nav__actions">
-            <div class="search-bar">
+            <form action="search.html" method="GET" class="search-bar">
                 <img src="../assets/images/search.svg" alt="Search">
                 <input type="text" placeholder="Search stories..." aria-label="Search stories">
-            </div>
-            <button class="notification-btn" aria-label="Notifications">
+            </form>
+            <a href="notifications.html" class="notification-btn" aria-label="Notifications">
                 <img src="../assets/images/bell.svg" alt="Notifications">
-            </button>
+            </a>
             <a href="dashboard.html" class="avatar">EA</a>
             <button id="open__nav-btn">☰</button>
         </div>
     </div>
 </nav>
 
-<nav class="tab-bar">
-    <a href="discover.html" class="tab-bar__item">
-        <img src="../assets/images/home.svg" alt="Home">
+<!-- BOTTOM TAB BAR START -->
+<div class="tab-bar-wrapper">
+  <div class="tab-bar-base">
+    <a href="discover.html" class="nav-item ">
+       <img src="../assets/images/tabbar_home.png" alt="Home">
     </a>
-    <a href="search.html" class="tab-bar__item">
-        <img src="../assets/images/search2.svg" alt="Search">
+    <a href="search.html" class="nav-item ">
+       <img src="../assets/images/tabbar_search.png" alt="Search">
     </a>
-    <a href="add-post.html" class="tab-bar__item">
-        <img src="../assets/images/plus.svg" alt="Add post">
+    <a href="add-post.html" class="nav-item ">
+       <img src="../assets/images/tabbar_add.png" alt="Add post">
     </a>
-    <a href="dashboard.html" class="tab-bar__item active">
-        <img src="../assets/images/Profile.svg" alt="Profile">
+    <a href="profile.html" class="nav-item active">
+       <img src="../assets/images/tabbar_profile.png" alt="Profile">
     </a>
-</nav>
+  </div>
+  <div class="tab-bar-highlight">
+    <div class="nav-item"><img src="../assets/images/tabbar_home.png" alt="Home"></div>
+    <div class="nav-item"><img src="../assets/images/tabbar_search.png" alt="Search"></div>
+    <div class="nav-item"><img src="../assets/images/tabbar_add.png" alt="Add post"></div>
+    <div class="nav-item"><img src="../assets/images/tabbar_profile.png" alt="Profile"></div>
+  </div>
+</div>
+<!-- BOTTOM TAB BAR END -->
 <header class="dashboard-hero">
     <input type="file" id="cover-photo-input" style="display: none;" accept="image/*">
 
@@ -144,7 +154,7 @@
         </div>
 
         <div class="sidebar-actions">
-            <button class="btn-primary">
+            <button class="btn-primary" onclick="window.location.href='add-post.html'">
                     <span class="icon-circle">
                         <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
                     </span>
@@ -182,7 +192,7 @@
             </div>
             <div id="pane-drafts" class="tab-pane">
                 <div class="articles-grid">
-                    <article class="article-card">
+                    <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
                         <div class="card-image" style="background-image: url('../assets/images/001.jpg');">
                             <span class="category-tag">HTML & CSS Architecture</span>
                         </div>
@@ -192,7 +202,7 @@
                         </div>
                     </article>
 
-                    <article class="article-card">
+                    <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
                         <div class="card-image" style="background-image: url('../assets/images/002.jpg');">
                             <span class="category-tag">Minimalist UI</span>
                         </div>
@@ -202,7 +212,7 @@
                         </div>
                     </article>
 
-                    <article class="article-card">
+                    <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
                         <div class="card-image" style="background-image: url('../assets/images/003.jpg');">
                             <span class="category-tag">Alpine Routes</span>
                         </div>
@@ -212,7 +222,7 @@
                         </div>
                     </article>
 
-                    <article class="article-card">
+                    <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
                         <div class="card-image" style="background-image: url('../assets/images/004.jpg');">
                             <span class="category-tag">Landscape & Nature</span>
                         </div>
@@ -222,7 +232,7 @@
                         </div>
                     </article>
 
-                    <article class="article-card">
+                    <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
                         <div class="card-image" style="background-image: url('../assets/images/005.jpg');">
                             <span class="category-tag">Tech Trends</span>
                         </div>
@@ -232,7 +242,7 @@
                         </div>
                     </article>
 
-                    <article class="article-card">
+                    <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
                         <div class="card-image" style="background-image: url('../assets/images/006.jpg');">
                             <span class="category-tag">Artist Retrospectives</span>
                         </div>
@@ -242,7 +252,7 @@
                         </div>
                     </article>
 
-                    <article class="article-card">
+                    <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
                         <div class="card-image" style="background-image: url('../assets/images/007.jpg');">
                             <span class="category-tag">Quick Everyday Meals</span>
                         </div>
@@ -252,7 +262,7 @@
                         </div>
                     </article>
 
-                    <article class="article-card">
+                    <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
                         <div class="card-image" style="background-image: url('../assets/images/008.jpg');">
                             <span class="category-tag">Classic & Sports Cars</span>
                         </div>
@@ -262,7 +272,7 @@
                         </div>
                     </article>
 
-                    <article class="article-card">
+                    <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
                         <div class="card-image" style="background-image: url('../assets/images/009.jpg');">
                             <span class="category-tag">Dystopian Fiction</span>
                         </div>
