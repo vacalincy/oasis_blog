@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>503 Error - OASIS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon2.svg?v=2">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/404.css">
+</head>
+<body class="error-page">
+    <main class="main-container">
+        <div class="icon-grid" id="icon-grid"></div>
+        <p class="error-msg">OASIS is currently undergoing scheduled maintenance to improve your experience. We'll be back shortly.</p>
+        <div class="error-actions" style="display:flex; gap:16px; margin-top:24px; opacity:0; animation: fadeUpText 0.8s ease-out 1.7s both;">
+            
+        </div>
+    </main>
+
+    <!-- CHAOTIC IMAGE FOOTER -->
+    <footer class="chaotic-footer-image">
+        <img src="../assets/images/pictures_chaotic.png" alt="Scattered photos background">
+    </footer>
+    
+    <script>
+        const images = [
+            '../assets/images/q1.jpg', '../assets/images/q2.jpg', '../assets/images/q3.jpg', '../assets/images/q4.jpg', '../assets/images/q5.jpg', '../assets/images/q6.jpg', '../assets/images/q7.jpg', '../assets/images/q8.jpg', '../assets/images/q9.jpg', '../assets/images/q10.jpg', '../assets/images/q11.jpg', '../assets/images/q12.jpg', '../assets/images/q13.jpg', '../assets/images/q14.jpg', '../assets/images/q15.jpg', '../assets/images/q16.jpg', '../assets/images/q17.jpg', '../assets/images/q18.jpg', '../assets/images/q19.jpg', '../assets/images/q20.jpg', '../assets/images/q21.jpg', '../assets/images/q22.jpg', '../assets/images/q23.jpg', '../assets/images/q24.jpg', '../assets/images/q25.jpg', '../assets/images/q26.jpg', '../assets/images/q27.jpg', '../assets/images/q28.jpg', '../assets/images/q30.jpg', '../assets/images/q31.jpg', '../assets/images/q32.jpg', '../assets/images/q33.jpg', '../assets/images/q34.jpg', '../assets/images/q35.jpg', '../assets/images/q36.jpg'
+        ];
+        let imgIndex = 0;
+        function getNextImage() {
+            const img = images[imgIndex];
+            imgIndex = (imgIndex + 1) % images.length;
+            return img;
+        }
+        const grid14x7 = [
+            [1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0],
+            [1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1],
+            [1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1],
+            [0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1],
+            [0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1],
+            [1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0],
+        ];
+        const wrapper = document.getElementById('icon-grid');
+        let delayCounter = 0;
+        grid14x7.forEach((row) => {
+            row.forEach(cell => {
+                const el = document.createElement('div');
+                if (cell === 1) {
+                    el.className = 'icon-cell';
+                    el.style.backgroundImage = `url('${getNextImage()}')`;
+                    el.style.animationDelay = `${delayCounter * 0.05}s`;
+                    delayCounter++;
+                } else {
+                    el.className = 'empty-cell';
+                }
+                wrapper.appendChild(el);
+            });
+        });
+    </script>
+</body>
+</html>

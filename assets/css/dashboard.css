@@ -453,10 +453,10 @@
     width: 14px;
     height: 14px;
     background-color: var(--color-text-secondary);
-    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>');
+    -webkit-mask-image: url('../images/clock.png');
     -webkit-mask-size: contain;
     -webkit-mask-repeat: no-repeat;
-    mask-image: url('data:image/svg+xml;utf8,<svg fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>');
+    mask-image: url('../images/clock.png');
     mask-size: contain;
     mask-repeat: no-repeat;
 }

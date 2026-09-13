@@ -142,7 +142,7 @@
                     Continue with Google
                 </button>
                 <p class="signup-cta__login-link">Already have an account? <a href="#" class="landing-nav__login">Log in</a></p>
-                <p class="signup-cta__legal">By continuing, you agree to Oasis's <a href="#">Terms of Service</a> and acknowledge you've read our <a href="#">Privacy Policy</a>.</p>
+                <p class="signup-cta__legal">By continuing, you agree to Oasis's <a href="pages/terms.html">Terms of Service</a> and acknowledge you've read our <a href="pages/privacy.html">Privacy Policy</a>.</p>
             </form>
         </div>
     </div>
@@ -180,7 +180,7 @@
                     </div>
                 </div>
 
-                <a href="#" class="auth-modal__forgot">forgotten password?</a>
+                <a href="pages/forgot-password.html" class="auth-modal__forgot">forgotten password?</a>
 
                 <button type="submit" class="auth-modal__submit">Log In</button>
 
@@ -193,7 +193,7 @@
             </form>
 
             <p class="auth-modal__legal">
-                By continuing, you agree to the <a href="#">Terms of Service</a><br> and <a href="#">Privacy Policy</a>.
+                By continuing, you agree to the <a href="pages/terms.html">Terms of Service</a><br> and <a href="pages/privacy.html">Privacy Policy</a>.
             </p>
         </div>
 
@@ -240,7 +240,7 @@
                     <div class="auth-modal__input-wrap">
                         <input type="text" id="modal-signup-dob" name="dob" placeholder="Date of birth (MM/DD/YYYY)" onfocus="(this.type='date')" onblur="(this.type='text')" required>
                         <button type="button" class="auth-modal__icon-btn" aria-label="Open calendar">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            <div class="dynamic-icon" style="-webkit-mask-image: url('assets/images/dateofbirth.svg'); width: 20px; height: 20px;"></div>
                         </button>
                     </div>
                 </div>
@@ -256,7 +256,7 @@
             </form>
 
             <p class="auth-modal__legal">
-                By continuing, you agree to the <a href="#">Terms of Service</a><br> and <a href="#">Privacy Policy</a>.
+                By continuing, you agree to the <a href="pages/terms.html">Terms of Service</a><br> and <a href="pages/privacy.html">Privacy Policy</a>.
             </p>
         </div>
     </div>
@@ -265,6 +265,7 @@
 <!-- ============================================= -->
 <!-- SCRIPTS                                       -->
 <!-- ============================================= -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="assets/js/landing-scroll.js"></script>

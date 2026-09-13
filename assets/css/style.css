@@ -8135,3 +8135,108 @@ html, body.landing-page {
     display: block;
   }
 }
+
+/* Dynamic Icon Masking to inherit text color */
+.dynamic-icon {
+    display: inline-block;
+    background-color: currentColor;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+/* ==========================================================================
+   SITE FOOTER
+   ========================================================================== */
+.site-footer {
+    background-color: var(--color-surface);
+    padding: 60px 5%;
+    margin-top: 60px;
+    border-top: 1px solid var(--color-border);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-column h4 {
+    color: var(--color-text-main);
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 12px;
+}
+
+.footer-column ul li a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.footer-column ul li a:hover {
+    color: var(--color-primary);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 40px;
+    margin-top: 40px;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   RESTORED TAB BAR WRAPPER FIXES
+   ========================================================================== */
+@media (min-width: 769px) {
+    .tab-bar-wrapper, .tab-bar {
+        display: none !important;
+    }
+}
+
+.tab-bar-wrapper .nav-item, .tab-bar .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: auto;
+    border-radius: 0;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.tab-bar-wrapper .nav-item img, .tab-bar .nav-item img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    opacity: 0.7;
+}
+
+.tab-bar-wrapper .nav-item.active img, .tab-bar .nav-item.active img {
+    opacity: 1;
+}
+
+.tab-bar-wrapper .nav-item.active, .tab-bar .nav-item.active {
+    color: var(--color-primary);
+    font-weight: 600;
+}

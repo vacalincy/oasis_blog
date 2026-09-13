@@ -32,7 +32,7 @@
                 <input type="text" placeholder="Search stories..." aria-label="Search stories">
             </form>
             <a href="notifications.html" class="notification-btn" aria-label="Notifications">
-                <img src="../assets/images/bell.svg" alt="Notifications">
+                <img src="../assets/images/notification_icon.svg" alt="Notifications">
             </a>
             <a href="dashboard.html" class="avatar">EA</a>
             <button id="open__nav-btn">☰</button>
@@ -52,19 +52,16 @@
             <div class="settings-nav">
 
                 <a href="#" class="nav-item active" data-target="pane-account">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <div class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/tabbar_profile.png'); width: 20px; height: 20px;"></div>
                     Account
                 </a>
                 <a href="#" class="nav-item" data-target="pane-security">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    <div class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/shield-check.svg'); width: 20px; height: 20px;"></div>
                     Security
                 </a>
-                <a href="#" class="nav-item" data-target="pane-publishing">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2v11z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                    Publishing
-                </a>
+                
                 <a href="#" class="nav-item" data-target="pane-notifications">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    <div class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/notification_icon.svg'); width: 20px; height: 20px;"></div>
                     Notifications
                 </a>
             </div>
@@ -132,7 +129,7 @@
 
                     <div class="device-row">
                         <div class="device-icon">
-                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><path d="M8 21h8m-4-4v4"></path></svg>
+                            <div class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/laptop-02.svg'); width: 24px; height: 24px;"></div>
                         </div>
                         <div class="device-info">
                             <div class="device-title">
@@ -141,14 +138,11 @@
                             </div>
                             <p>New York, USA • Active now</p>
                         </div>
-                        <button class="btn-more">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg>
-                        </button>
                     </div>
 
                     <div class="device-row no-border">
                         <div class="device-icon">
-                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><path d="M12 18h.01"></path></svg>
+                            <div class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/phone.svg'); width: 24px; height: 24px;"></div>
                         </div>
                         <div class="device-info">
                             <div class="device-title">
@@ -156,9 +150,7 @@
                             </div>
                             <p>New York, USA • Last active 2 hours ago</p>
                         </div>
-                        <button class="btn-more">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg>
-                        </button>
+                        <button class="row-action">Log out</button>
                     </div>
                 </div>
                 
