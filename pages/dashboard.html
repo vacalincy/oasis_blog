@@ -26,6 +26,7 @@
             <li><a href="following.html">Following</a></li>
             <li><a href="popular.html">Popular</a></li>
             <li><a href="topics.html">Topics</a></li>
+            <li><a href="about.html">About</a></li>
         </ul>
         <div class="nav__actions">
             <form action="search.html" method="GET" class="search-bar">
@@ -288,7 +289,37 @@
                 </div>
             </div>
             <div id="pane-saved" class="tab-pane" style="display: none;">
-                <div class="empty-state">Nothing saved yet</div>
+                <div class="articles-grid">
+                    <article class="article-card" onclick="window.location.href='post.html'" style="cursor: pointer;">
+                        <div class="card-image" style="background-image: url('../assets/images/mainfeed2.jpg');">
+                            <span class="category-tag">Action & Extreme</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Conquering the Alpine Giants: A Solo Ascent</h3>
+                            <time class="card-date">David Chen &middot; Saved 2 days ago</time>
+                        </div>
+                    </article>
+
+                    <article class="article-card" onclick="window.location.href='post.html'" style="cursor: pointer;">
+                        <div class="card-image" style="background-image: url('../assets/images/mainfeed3.jpg');">
+                            <span class="category-tag">Design & Interfaces</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Brutalist Typography: Breaking the Grid in Print</h3>
+                            <time class="card-date">Sarah Jenkins &middot; Saved 1 week ago</time>
+                        </div>
+                    </article>
+
+                    <article class="article-card" onclick="window.location.href='post.html'" style="cursor: pointer;">
+                        <div class="card-image" style="background-image: url('../assets/images/about_4.jpg');">
+                            <span class="category-tag">Music & Culture</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">The Resurrection of Analog Synths in Modern Pop</h3>
+                            <time class="card-date">Marcus Frost &middot; Saved 2 weeks ago</time>
+                        </div>
+                    </article>
+                </div>
             </div>
         </div>
     </section>

@@ -1,0 +1,1245 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>About OASIS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/about.css">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon2.svg">
+
+    <script src="../assets/js/main.js"></script>
+</head>
+<body>
+
+<nav>
+    <div class="container nav__container">
+        <a href="discover.html" class="nav__logo">
+            <img src="../assets/images/logo.svg" alt="OASIS Logo">
+        </a>
+        <ul class="nav__items">
+            <li><button id="close__nav-btn">✕</button></li>
+            <li><a href="discover.html">Discover</a></li>
+            <li><a href="following.html">Following</a></li>
+            <li><a href="popular.html">Popular</a></li>
+            <li><a href="topics.html">Topics</a></li>
+            <li><a href="about.html" class="active">About</a></li>
+        </ul>
+        <div class="nav__actions">
+            
+            <form action="search.html" method="GET" class="search-bar">
+                <img src="../assets/images/search.svg" alt="Search">
+                <input type="text" placeholder="Search stories..." aria-label="Search stories">
+            </form>
+            <a href="notifications.html" class="notification-btn" aria-label="Notifications">
+                <img src="../assets/images/notification_icon.svg" alt="Notifications">
+            </a>
+            <a href="dashboard.html" class="avatar">EA</a>
+            <button id="open__nav-btn">☰</button>
+        </div>
+    </div>
+</nav>
+
+<section class="about-hero">
+    <div class="about-hero__text">
+        <h1 class="about-hero__title">Curated Stories.<br>Meaningful Whitespace.</h1>
+        <p class="about-hero__subtitle">OASIS is a digital sanctuary for high-end photography, editorial reads, and minimalist design.</p>
+    </div>
+
+    <div class="about-hero__carousel-wrapper">
+        <div class="about-hero__carousel">
+            <!-- Card 1 (Far Left) -->
+            <div class="about-card about-card--1">
+                <img src="../assets/images/about_3.jpg" alt="Dunes">
+            </div>
+            <!-- Card 2 (Mid Left) -->
+            <div class="about-card about-card--2">
+                <img src="../assets/images/about_2.jpg" alt="Photography">
+            </div>
+            <!-- Card 3 (Center) -->
+            <div class="about-card about-card--3">
+                <img src="../assets/images/about_1.jpg" alt="Villa Architecture">
+            </div>
+            <!-- Card 4 (Mid Right) -->
+            <div class="about-card about-card--4">
+                <img src="../assets/images/about_4.jpg" alt="Music Concert">
+            </div>
+            <!-- Card 5 (Far Right) -->
+            <div class="about-card about-card--5">
+                <img src="../assets/images/about_5.jpg" alt="Editorial">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+<!-- ============================================= -->
+<!-- MANIFESTO & NUMBERS SECTION                   -->
+<!-- ============================================= -->
+<section class="about-manifesto-section">
+    <div class="container">
+        
+        <div class="manifesto-grid">
+            <div class="manifesto-label">THE MANIFESTO</div>
+            <div class="manifesto-text">
+                The modern web is suffocating. Feeds are polluted by algorithmic noise and endless distraction. OASIS is the antidote. We stripped away the chaos to build a digital sanctuary where content actually breathes.
+            </div>
+        </div>
+
+        <div class="numbers-grid">
+            <div class="number-item">
+                <div class="number-value">0%</div>
+                <div class="number-label">Algorithmic Clutter</div>
+            </div>
+            <div class="number-item">
+                <div class="number-value">100%</div>
+                <div class="number-label">Human-Curated Editorials</div>
+            </div>
+            <div class="number-item">
+                <div class="number-value">1:1.618</div>
+                <div class="number-label">Typographic Precision</div>
+            </div>
+            <div class="number-item">
+                <div class="number-value">∞</div>
+                <div class="number-label">Unapologetic Whitespace</div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ============================================= -->
+<!-- HOW IT WORKS SECTION                           -->
+<!-- ============================================= -->
+<section class="how-it-works-section">
+    <div class="container">
+        <h2 class="section-title" style="font-family: 'Sora', sans-serif; font-size: 1.5rem; margin-bottom: 4rem; color: var(--color-primary-dark); text-transform: uppercase;">HOW IT WORKS</h2>
+        
+        <div class="hiw-grid">
+            <!-- Left: Mockup Image -->
+            <div class="hiw-image-container">
+                <img id="hiw-image" src="../assets/images/site_screen_discover.png" alt="Platform Interface Mockup">
+            </div>
+            
+            <!-- Right: Timeline -->
+            <div class="hiw-timeline-container">
+                
+                
+                
+                <div class="timeline-steps">
+                    <!-- Step 1 -->
+                    <div class="timeline-step active" data-img="../assets/images/site_screen_discover.png" data-index="0">
+                        <div class="step-dot"></div>
+                        <div class="step-content">
+                            <h3>Discover</h3>
+                            <div class="step-desc-wrapper">
+                                <p>Explore human-curated galleries. No algorithms, no noise—just pure, high-end photography and editorial design.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="timeline-step" data-img="../assets/images/site_screen_post.png" data-index="1">
+                        <div class="step-dot"></div>
+                        <div class="step-content">
+                            <h3>Immerse / Read</h3>
+                            <div class="step-desc-wrapper">
+                                <p>Experience content as it was meant to be seen. Uninterrupted reading, cinematic layouts, and meaningful whitespace.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="timeline-step" data-img="../assets/images/site_screen_saves.png" data-index="2">
+                        <div class="step-dot"></div>
+                        <div class="step-content">
+                            <h3>Curate</h3>
+                            <div class="step-desc-wrapper">
+                                <p>Build your personal sanctuary. Save photography and articles to your private collections with zero public metrics or pressure.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="timeline-step" data-img="../assets/images/site_screen_create.png" data-index="3">
+                        <div class="step-dot"></div>
+                        <div class="step-content">
+                            <h3>Identity / Create</h3>
+                            <div class="step-desc-wrapper">
+                                <p>Shape your digital identity. A premium creator dashboard designed to put your aesthetic front and center.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- ============================================= -->
+<!-- ORBITAL CTA SECTION                           -->
+<!-- ============================================= -->
+<section class="orbital-cta-section">
+
+    <!-- RING-1 -->
+    <div class="orbit-container orbit-ring-1">
+
+        <div class="orbit-wrapper orbit-ring-1-wrapper" style="top: 12.71vw; left: -12.74vw;">
+            <div class="card-visual" style="width: 55px; height: 74px; animation-duration: 90s; animation-delay: -56.27s;">
+                <img src="../assets/images/topic-couple.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-1-wrapper" style="top: 2.79vw; left: -17.78vw;">
+            <div class="card-visual" style="width: 55px; height: 74px; animation-duration: 90s; animation-delay: -65.27s;">
+                <img src="../assets/images/field-tree.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-1-wrapper" style="top: -8.19vw; left: -16.03vw;">
+            <div class="card-visual" style="width: 55px; height: 74px; animation-duration: 90s; animation-delay: -74.27s;">
+                <img src="../assets/images/villa.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-1-wrapper" style="top: -16.05vw; left: -8.15vw;">
+            <div class="card-visual" style="width: 55px; height: 74px; animation-duration: 90s; animation-delay: -83.27s;">
+                <img src="../assets/images/interior.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-1-wrapper" style="top: -17.77vw; left: 2.84vw;">
+            <div class="card-visual" style="width: 55px; height: 74px; animation-duration: 90s; animation-delay: -92.27s;">
+                <img src="../assets/images/city-1.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-1-wrapper" style="top: -12.71vw; left: 12.74vw;">
+            <div class="card-visual" style="width: 55px; height: 74px; animation-duration: 90s; animation-delay: -101.27s;">
+                <img src="../assets/images/beach-1.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-1-wrapper" style="top: -2.79vw; left: 17.78vw;">
+            <div class="card-visual" style="width: 55px; height: 74px; animation-duration: 90s; animation-delay: -110.27s;">
+                <img src="../assets/images/natural-light-photography.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-1-wrapper" style="top: 8.19vw; left: 16.03vw;">
+            <div class="card-visual" style="width: 55px; height: 74px; animation-duration: 90s; animation-delay: -119.27s;">
+                <img src="../assets/images/vr.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-1-wrapper" style="top: 16.05vw; left: 8.15vw;">
+            <div class="card-visual" style="width: 55px; height: 74px; animation-duration: 90s; animation-delay: -128.27s;">
+                <img src="../assets/images/sunrise.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-1-wrapper" style="top: 17.77vw; left: -2.84vw;">
+            <div class="card-visual" style="width: 55px; height: 74px; animation-duration: 90s; animation-delay: -137.27s;">
+                <img src="../assets/images/landscape-photo.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+    </div>
+
+    <!-- RING-2 -->
+    <div class="orbit-container orbit-ring-2">
+
+        <div class="orbit-wrapper orbit-ring-2-wrapper" style="top: -12.10vw; left: -23.01vw;">
+            <div class="card-visual" style="width: 65px; height: 87px; animation-duration: 115s; animation-delay: -95.11s;">
+                <img src="../assets/images/dunes.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-2-wrapper" style="top: -20.88vw; left: -15.49vw;">
+            <div class="card-visual" style="width: 65px; height: 87px; animation-duration: 115s; animation-delay: -103.32s;">
+                <img src="../assets/images/sony.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-2-wrapper" style="top: -25.54vw; left: -4.89vw;">
+            <div class="card-visual" style="width: 65px; height: 87px; animation-duration: 115s; animation-delay: -111.54s;">
+                <img src="../assets/images/topic-skyline.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-2-wrapper" style="top: -25.13vw; left: 6.67vw;">
+            <div class="card-visual" style="width: 65px; height: 87px; animation-duration: 115s; animation-delay: -119.75s;">
+                <img src="../assets/images/beach-3.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-2-wrapper" style="top: -19.75vw; left: 16.92vw;">
+            <div class="card-visual" style="width: 65px; height: 87px; animation-duration: 115s; animation-delay: -127.96s;">
+                <img src="../assets/images/pictures_chaotic.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-2-wrapper" style="top: -10.45vw; left: 23.81vw;">
+            <div class="card-visual" style="width: 65px; height: 87px; animation-duration: 115s; animation-delay: -136.18s;">
+                <img src="../assets/images/city-2.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-2-wrapper" style="top: 0.91vw; left: 25.98vw;">
+            <div class="card-visual" style="width: 65px; height: 87px; animation-duration: 115s; animation-delay: -144.39s;">
+                <img src="../assets/images/concert_box.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-2-wrapper" style="top: 12.10vw; left: 23.01vw;">
+            <div class="card-visual" style="width: 65px; height: 87px; animation-duration: 115s; animation-delay: -152.61s;">
+                <img src="../assets/images/beach-2.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-2-wrapper" style="top: 20.88vw; left: 15.49vw;">
+            <div class="card-visual" style="width: 65px; height: 87px; animation-duration: 115s; animation-delay: -160.82s;">
+                <img src="../assets/images/swiss-typography.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-2-wrapper" style="top: 25.54vw; left: 4.89vw;">
+            <div class="card-visual" style="width: 65px; height: 87px; animation-duration: 115s; animation-delay: -169.04s;">
+                <img src="../assets/images/wedding-1.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-2-wrapper" style="top: 25.13vw; left: -6.67vw;">
+            <div class="card-visual" style="width: 65px; height: 87px; animation-duration: 115s; animation-delay: -177.25s;">
+                <img src="../assets/images/003.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-2-wrapper" style="top: 19.75vw; left: -16.92vw;">
+            <div class="card-visual" style="width: 65px; height: 87px; animation-duration: 115s; animation-delay: -185.46s;">
+                <img src="../assets/images/topic-street.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-2-wrapper" style="top: 10.45vw; left: -23.81vw;">
+            <div class="card-visual" style="width: 65px; height: 87px; animation-duration: 115s; animation-delay: -193.68s;">
+                <img src="../assets/images/select_box.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-2-wrapper" style="top: -0.91vw; left: -25.98vw;">
+            <div class="card-visual" style="width: 65px; height: 87px; animation-duration: 115s; animation-delay: -201.89s;">
+                <img src="../assets/images/robot.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+    </div>
+
+    <!-- RING-3 -->
+    <div class="orbit-container orbit-ring-3">
+
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: -6.94vw; left: 34.30vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -31.64s;">
+                <img src="../assets/images/lake-mountains.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: 4.00vw; left: 34.77vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -38.89s;">
+                <img src="../assets/images/resilient-architecture.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: 14.55vw; left: 31.83vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -46.14s;">
+                <img src="../assets/images/modernbuildingfacade.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: 23.67vw; left: 25.78vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -53.39s;">
+                <img src="../assets/images/001.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: 30.48vw; left: 17.20vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -60.64s;">
+                <img src="../assets/images/004.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: 34.30vw; left: 6.94vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -67.89s;">
+                <img src="../assets/images/wedding-2.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: 34.77vw; left: -4.00vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -75.14s;">
+                <img src="../assets/images/wedding-3.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: 31.83vw; left: -14.55vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -82.39s;">
+                <img src="../assets/images/topic-architecture.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: 25.78vw; left: -23.67vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -89.64s;">
+                <img src="../assets/images/002.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: 17.20vw; left: -30.48vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -96.89s;">
+                <img src="../assets/images/city-3.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: 6.94vw; left: -34.30vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -104.14s;">
+                <img src="../assets/images/topic-guitar.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: -4.00vw; left: -34.77vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -111.39s;">
+                <img src="../assets/images/topic-couple.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: -14.55vw; left: -31.83vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -118.64s;">
+                <img src="../assets/images/field-tree.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: -23.67vw; left: -25.78vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -125.89s;">
+                <img src="../assets/images/villa.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: -30.48vw; left: -17.20vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -133.14s;">
+                <img src="../assets/images/interior.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: -34.30vw; left: -6.94vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -140.39s;">
+                <img src="../assets/images/city-1.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: -34.77vw; left: 4.00vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -147.64s;">
+                <img src="../assets/images/beach-1.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: -31.83vw; left: 14.55vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -154.89s;">
+                <img src="../assets/images/natural-light-photography.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: -25.78vw; left: 23.67vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -162.14s;">
+                <img src="../assets/images/vr.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-3-wrapper" style="top: -17.20vw; left: 30.48vw;">
+            <div class="card-visual" style="width: 78px; height: 105px; animation-duration: 145s; animation-delay: -169.39s;">
+                <img src="../assets/images/sunrise.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+    </div>
+
+    <!-- RING-4 -->
+    <div class="orbit-container orbit-ring-4">
+
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: -37.92vw; left: 24.23vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -16.29s;">
+                <img src="../assets/images/landscape-photo.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: -31.02vw; left: 32.60vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -23.21s;">
+                <img src="../assets/images/dunes.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: -22.32vw; left: 39.08vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -30.13s;">
+                <img src="../assets/images/sony.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: -12.32vw; left: 43.28vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -37.06s;">
+                <img src="../assets/images/topic-skyline.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: -1.60vw; left: 44.97vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -43.98s;">
+                <img src="../assets/images/beach-3.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: 9.21vw; left: 44.05vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -50.90s;">
+                <img src="../assets/images/pictures_chaotic.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: 19.48vw; left: 40.56vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -57.83s;">
+                <img src="../assets/images/city-2.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: 28.62vw; left: 34.72vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -64.75s;">
+                <img src="../assets/images/concert_box.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: 36.10vw; left: 26.86vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -71.67s;">
+                <img src="../assets/images/beach-2.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: 41.48vw; left: 17.44vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -78.60s;">
+                <img src="../assets/images/swiss-typography.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: 44.45vw; left: 7.01vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -85.52s;">
+                <img src="../assets/images/wedding-1.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: 44.84vw; left: -3.83vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -92.44s;">
+                <img src="../assets/images/003.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: 42.62vw; left: -14.45vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -99.36s;">
+                <img src="../assets/images/topic-street.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: 37.92vw; left: -24.23vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -106.29s;">
+                <img src="../assets/images/select_box.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: 31.02vw; left: -32.60vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -113.21s;">
+                <img src="../assets/images/robot.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: 22.32vw; left: -39.08vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -120.13s;">
+                <img src="../assets/images/lake-mountains.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: 12.32vw; left: -43.28vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -127.06s;">
+                <img src="../assets/images/resilient-architecture.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: 1.60vw; left: -44.97vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -133.98s;">
+                <img src="../assets/images/modernbuildingfacade.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: -9.21vw; left: -44.05vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -140.90s;">
+                <img src="../assets/images/001.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: -19.48vw; left: -40.56vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -147.83s;">
+                <img src="../assets/images/004.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: -28.62vw; left: -34.72vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -154.75s;">
+                <img src="../assets/images/wedding-2.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: -36.10vw; left: -26.86vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -161.67s;">
+                <img src="../assets/images/wedding-3.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: -41.48vw; left: -17.44vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -168.60s;">
+                <img src="../assets/images/topic-architecture.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: -44.45vw; left: -7.01vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -175.52s;">
+                <img src="../assets/images/002.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: -44.84vw; left: 3.83vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -182.44s;">
+                <img src="../assets/images/city-3.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-4-wrapper" style="top: -42.62vw; left: 14.45vw;">
+            <div class="card-visual" style="width: 92px; height: 124px; animation-duration: 180s; animation-delay: -189.36s;">
+                <img src="../assets/images/topic-guitar.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+    </div>
+
+    <!-- RING-5 -->
+    <div class="orbit-container orbit-ring-5">
+
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 46.38vw; left: -31.39vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -130.83s;">
+                <img src="../assets/images/topic-couple.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 39.36vw; left: -39.83vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -137.71s;">
+                <img src="../assets/images/field-tree.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 30.84vw; left: -46.74vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -144.58s;">
+                <img src="../assets/images/villa.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 21.12vw; left: -51.86vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -151.46s;">
+                <img src="../assets/images/interior.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 10.60vw; left: -54.99vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -158.33s;">
+                <img src="../assets/images/city-1.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -0.33vw; left: -56.00vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -165.21s;">
+                <img src="../assets/images/beach-1.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -11.25vw; left: -54.86vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -172.08s;">
+                <img src="../assets/images/natural-light-photography.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -21.74vw; left: -51.61vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -178.96s;">
+                <img src="../assets/images/vr.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -31.39vw; left: -46.38vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -185.83s;">
+                <img src="../assets/images/sunrise.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -39.83vw; left: -39.36vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -192.71s;">
+                <img src="../assets/images/landscape-photo.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -46.74vw; left: -30.84vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -199.58s;">
+                <img src="../assets/images/dunes.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -51.86vw; left: -21.12vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -206.46s;">
+                <img src="../assets/images/sony.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -54.99vw; left: -10.60vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -213.33s;">
+                <img src="../assets/images/topic-skyline.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -56.00vw; left: 0.33vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -220.21s;">
+                <img src="../assets/images/beach-3.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -54.86vw; left: 11.25vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -227.08s;">
+                <img src="../assets/images/pictures_chaotic.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -51.61vw; left: 21.74vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -233.96s;">
+                <img src="../assets/images/city-2.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -46.38vw; left: 31.39vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -240.83s;">
+                <img src="../assets/images/concert_box.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -39.36vw; left: 39.83vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -247.71s;">
+                <img src="../assets/images/beach-2.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -30.84vw; left: 46.74vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -254.58s;">
+                <img src="../assets/images/swiss-typography.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -21.12vw; left: 51.86vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -261.46s;">
+                <img src="../assets/images/wedding-1.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: -10.60vw; left: 54.99vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -268.33s;">
+                <img src="../assets/images/003.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 0.33vw; left: 56.00vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -275.21s;">
+                <img src="../assets/images/topic-street.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 11.25vw; left: 54.86vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -282.08s;">
+                <img src="../assets/images/select_box.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 21.74vw; left: 51.61vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -288.96s;">
+                <img src="../assets/images/robot.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 31.39vw; left: 46.38vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -295.83s;">
+                <img src="../assets/images/lake-mountains.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 39.83vw; left: 39.36vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -302.71s;">
+                <img src="../assets/images/resilient-architecture.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 46.74vw; left: 30.84vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -309.58s;">
+                <img src="../assets/images/modernbuildingfacade.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 51.86vw; left: 21.12vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -316.46s;">
+                <img src="../assets/images/001.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 54.99vw; left: 10.60vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -323.33s;">
+                <img src="../assets/images/004.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 56.00vw; left: -0.33vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -330.21s;">
+                <img src="../assets/images/wedding-2.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 54.86vw; left: -11.25vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -337.08s;">
+                <img src="../assets/images/wedding-3.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-5-wrapper" style="top: 51.61vw; left: -21.74vw;">
+            <div class="card-visual" style="width: 110px; height: 148px; animation-duration: 220s; animation-delay: -343.96s;">
+                <img src="../assets/images/topic-architecture.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+    </div>
+
+    <!-- RING-6 -->
+    <div class="orbit-container orbit-ring-6">
+
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 52.49vw; left: 43.23vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -103.44s;">
+                <img src="../assets/images/002.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 58.60vw; left: 34.49vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -110.07s;">
+                <img src="../assets/images/city-3.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 63.28vw; left: 24.90vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -116.69s;">
+                <img src="../assets/images/topic-guitar.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 66.39vw; left: 14.69vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -123.32s;">
+                <img src="../assets/images/topic-couple.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 67.87vw; left: 4.12vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -129.94s;">
+                <img src="../assets/images/field-tree.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 67.68vw; left: -6.55vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -136.57s;">
+                <img src="../assets/images/villa.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 65.83vw; left: -17.05vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -143.19s;">
+                <img src="../assets/images/interior.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 62.35vw; left: -27.14vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -149.82s;">
+                <img src="../assets/images/city-1.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 57.34vw; left: -36.56vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -156.44s;">
+                <img src="../assets/images/beach-1.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 50.91vw; left: -45.08vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -163.07s;">
+                <img src="../assets/images/natural-light-photography.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 43.23vw; left: -52.49vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -169.69s;">
+                <img src="../assets/images/vr.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 34.49vw; left: -58.60vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -176.32s;">
+                <img src="../assets/images/sunrise.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 24.90vw; left: -63.28vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -182.94s;">
+                <img src="../assets/images/landscape-photo.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 14.69vw; left: -66.39vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -189.57s;">
+                <img src="../assets/images/dunes.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 4.12vw; left: -67.87vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -196.19s;">
+                <img src="../assets/images/sony.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -6.55vw; left: -67.68vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -202.82s;">
+                <img src="../assets/images/topic-skyline.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -17.05vw; left: -65.83vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -209.44s;">
+                <img src="../assets/images/beach-3.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -27.14vw; left: -62.35vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -216.07s;">
+                <img src="../assets/images/pictures_chaotic.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -36.56vw; left: -57.34vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -222.69s;">
+                <img src="../assets/images/city-2.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -45.08vw; left: -50.91vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -229.32s;">
+                <img src="../assets/images/concert_box.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -52.49vw; left: -43.23vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -235.94s;">
+                <img src="../assets/images/beach-2.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -58.60vw; left: -34.49vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -242.57s;">
+                <img src="../assets/images/swiss-typography.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -63.28vw; left: -24.90vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -249.19s;">
+                <img src="../assets/images/wedding-1.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -66.39vw; left: -14.69vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -255.82s;">
+                <img src="../assets/images/003.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -67.87vw; left: -4.12vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -262.44s;">
+                <img src="../assets/images/topic-street.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -67.68vw; left: 6.55vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -269.07s;">
+                <img src="../assets/images/select_box.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -65.83vw; left: 17.05vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -275.69s;">
+                <img src="../assets/images/robot.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -62.35vw; left: 27.14vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -282.32s;">
+                <img src="../assets/images/lake-mountains.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -57.34vw; left: 36.56vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -288.94s;">
+                <img src="../assets/images/resilient-architecture.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -50.91vw; left: 45.08vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -295.57s;">
+                <img src="../assets/images/modernbuildingfacade.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -43.23vw; left: 52.49vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -302.19s;">
+                <img src="../assets/images/001.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -34.49vw; left: 58.60vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -308.82s;">
+                <img src="../assets/images/004.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -24.90vw; left: 63.28vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -315.44s;">
+                <img src="../assets/images/wedding-2.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -14.69vw; left: 66.39vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -322.07s;">
+                <img src="../assets/images/wedding-3.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: -4.12vw; left: 67.87vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -328.69s;">
+                <img src="../assets/images/topic-architecture.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 6.55vw; left: 67.68vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -335.32s;">
+                <img src="../assets/images/002.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 17.05vw; left: 65.83vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -341.94s;">
+                <img src="../assets/images/city-3.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 27.14vw; left: 62.35vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -348.57s;">
+                <img src="../assets/images/topic-guitar.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 36.56vw; left: 57.34vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -355.19s;">
+                <img src="../assets/images/topic-couple.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-6-wrapper" style="top: 45.08vw; left: 50.91vw;">
+            <div class="card-visual" style="width: 130px; height: 175px; animation-duration: 265s; animation-delay: -361.82s;">
+                <img src="../assets/images/field-tree.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+    </div>
+
+    <!-- RING-7 -->
+    <div class="orbit-container orbit-ring-7">
+
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -2.41vw; left: 81.96vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -77.27s;">
+                <img src="../assets/images/villa.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 8.31vw; left: 81.58vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -83.84s;">
+                <img src="../assets/images/interior.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 18.88vw; left: 79.80vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -90.40s;">
+                <img src="../assets/images/city-1.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 29.14vw; left: 76.65vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -96.96s;">
+                <img src="../assets/images/beach-1.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 38.89vw; left: 72.19vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -103.52s;">
+                <img src="../assets/images/natural-light-photography.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 47.98vw; left: 66.50vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -110.09s;">
+                <img src="../assets/images/vr.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 56.25vw; left: 59.66vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -116.65s;">
+                <img src="../assets/images/sunrise.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 63.56vw; left: 51.81vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -123.21s;">
+                <img src="../assets/images/landscape-photo.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 69.78vw; left: 43.07vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -129.77s;">
+                <img src="../assets/images/dunes.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 74.80vw; left: 33.60vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -136.34s;">
+                <img src="../assets/images/sony.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 78.55vw; left: 23.54vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -142.90s;">
+                <img src="../assets/images/topic-skyline.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 80.95vw; left: 13.09vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -149.46s;">
+                <img src="../assets/images/beach-3.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 81.96vw; left: 2.41vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -156.02s;">
+                <img src="../assets/images/pictures_chaotic.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 81.58vw; left: -8.31vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -162.59s;">
+                <img src="../assets/images/city-2.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 79.80vw; left: -18.88vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -169.15s;">
+                <img src="../assets/images/concert_box.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 76.65vw; left: -29.14vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -175.71s;">
+                <img src="../assets/images/beach-2.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 72.19vw; left: -38.89vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -182.27s;">
+                <img src="../assets/images/swiss-typography.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 66.50vw; left: -47.98vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -188.84s;">
+                <img src="../assets/images/wedding-1.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 59.66vw; left: -56.25vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -195.40s;">
+                <img src="../assets/images/003.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 51.81vw; left: -63.56vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -201.96s;">
+                <img src="../assets/images/topic-street.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 43.07vw; left: -69.78vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -208.52s;">
+                <img src="../assets/images/select_box.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 33.60vw; left: -74.80vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -215.09s;">
+                <img src="../assets/images/robot.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 23.54vw; left: -78.55vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -221.65s;">
+                <img src="../assets/images/lake-mountains.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 13.09vw; left: -80.95vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -228.21s;">
+                <img src="../assets/images/resilient-architecture.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: 2.41vw; left: -81.96vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -234.77s;">
+                <img src="../assets/images/modernbuildingfacade.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -8.31vw; left: -81.58vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -241.34s;">
+                <img src="../assets/images/001.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -18.88vw; left: -79.80vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -247.90s;">
+                <img src="../assets/images/004.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -29.14vw; left: -76.65vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -254.46s;">
+                <img src="../assets/images/wedding-2.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -38.89vw; left: -72.19vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -261.02s;">
+                <img src="../assets/images/wedding-3.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -47.98vw; left: -66.50vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -267.59s;">
+                <img src="../assets/images/topic-architecture.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -56.25vw; left: -59.66vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -274.15s;">
+                <img src="../assets/images/002.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -63.56vw; left: -51.81vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -280.71s;">
+                <img src="../assets/images/city-3.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -69.78vw; left: -43.07vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -287.27s;">
+                <img src="../assets/images/topic-guitar.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -74.80vw; left: -33.60vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -293.84s;">
+                <img src="../assets/images/topic-couple.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -78.55vw; left: -23.54vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -300.40s;">
+                <img src="../assets/images/field-tree.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -80.95vw; left: -13.09vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -306.96s;">
+                <img src="../assets/images/villa.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -81.96vw; left: -2.41vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -313.52s;">
+                <img src="../assets/images/interior.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -81.58vw; left: 8.31vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -320.09s;">
+                <img src="../assets/images/city-1.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -79.80vw; left: 18.88vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -326.65s;">
+                <img src="../assets/images/beach-1.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -76.65vw; left: 29.14vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -333.21s;">
+                <img src="../assets/images/natural-light-photography.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -72.19vw; left: 38.89vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -339.77s;">
+                <img src="../assets/images/vr.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -66.50vw; left: 47.98vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -346.34s;">
+                <img src="../assets/images/sunrise.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -59.66vw; left: 56.25vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -352.90s;">
+                <img src="../assets/images/landscape-photo.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -51.81vw; left: 63.56vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -359.46s;">
+                <img src="../assets/images/dunes.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -43.07vw; left: 69.78vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -366.02s;">
+                <img src="../assets/images/sony.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -33.60vw; left: 74.80vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -372.59s;">
+                <img src="../assets/images/topic-skyline.jpg" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -23.54vw; left: 78.55vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -379.15s;">
+                <img src="../assets/images/beach-3.png" alt="" loading="lazy">
+            </div>
+        </div>
+        <div class="orbit-wrapper orbit-ring-7-wrapper" style="top: -13.09vw; left: 80.95vw;">
+            <div class="card-visual" style="width: 155px; height: 209px; animation-duration: 315s; animation-delay: -385.71s;">
+                <img src="../assets/images/pictures_chaotic.png" alt="" loading="lazy">
+            </div>
+        </div>
+    </div>
+    <div class="cta-foreground">
+        <h3 class="cta-subtitle">Dream with us.</h3>
+        <a href="signup.html" class="cta-button">Sign up for Cosmos</a>
+        <button class="cta-secondary-button">Download the app</button>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const steps = document.querySelectorAll('.timeline-step');
+        const img = document.getElementById('hiw-image');
+        let currentIndex = 0;
+        let timer;
+        
+        function updateTimeline(index) {
+            // Remove classes and force reflow to perfectly restart CSS animations
+            steps.forEach(step => step.classList.remove('active', 'done'));
+            void img.offsetWidth; // trigger reflow
+            
+            steps.forEach((step, i) => {
+                if (i < index) {
+                    step.classList.add('done');
+                } else if (i === index) {
+                    step.classList.add('active');
+                }
+            });
+            
+            const activeStep = steps[index];
+            
+            // Crossfade image
+            img.style.opacity = 0;
+            setTimeout(() => {
+                img.src = activeStep.dataset.img;
+                img.style.opacity = 1;
+            }, 300);
+        }
+        
+        function nextStep() {
+            currentIndex = (currentIndex + 1) % steps.length;
+            updateTimeline(currentIndex);
+        }
+        
+        function startTimer() {
+            clearInterval(timer);
+            timer = setInterval(nextStep, 6000);
+        }
+        
+        steps.forEach((step, index) => {
+            step.addEventListener('click', () => {
+                currentIndex = index;
+                updateTimeline(currentIndex);
+                startTimer();
+            });
+        });
+        
+        setTimeout(() => {
+            updateTimeline(0);
+            startTimer();
+        }, 100);
+    });
+</script>
+
+</body>
+</html>

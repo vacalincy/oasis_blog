@@ -2790,10 +2790,10 @@ body {
 
     /* Brand accent (blue color for buttons, tags, and active states) */
     --color-primary: #2563eb;
-    --color-primary-dark: #122248;
+    --color-primary-dark: #19326F;
 
     /* Typography (text) */
-    --color-text-main: #122248;
+    --color-text-main: #19326F;
     --color-text-secondary: #64748b;
 
     /* Secondary elements, borders, and backgrounds (search, filters) */
@@ -4608,9 +4608,9 @@ h2 {
     margin: 0 !important;
     box-sizing: border-box;
 
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 70%, rgba(255, 255, 255, 1) 100%) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.7) 60%, rgba(255, 255, 255, 1) 100%) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
 
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
     border-radius: 1.25rem;
@@ -5493,8 +5493,8 @@ h2 {
     --color-bg: #ffffff;
     --color-surface: #f1f5f9;
     --color-primary: #2563eb;
-    --color-primary-dark: #122248;
-    --color-text-main: #122248;
+    --color-primary-dark: #19326F;
+    --color-text-main: #19326F;
     --color-text-secondary: #64748b;
     --color-gray-light: #f3f4f6;
     --color-border: #e5e7eb;
@@ -8239,4 +8239,49 @@ html, body.landing-page {
 .tab-bar-wrapper .nav-item.active, .tab-bar .nav-item.active {
     color: var(--color-primary);
     font-weight: 600;
+}
+
+/* --- FEATURED POST ENTRY ANIMATION --- */
+.featured-post__link {
+    opacity: 0;
+    animation: hero-fade-in 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+
+
+/* --- SCROLL REVEAL INITIAL STATES --- */
+.section-header h2,
+.category-title,
+.category-description,
+.filters,
+.post-card,
+.load-more-btn,
+.post-body h3,
+.post-body p,
+.post-body blockquote,
+.post-body img,
+.pick-card,
+.classics__title,
+.classics__image,
+.classics__content,
+.discussions__title,
+.discussions__item {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* --- SINGLE POST INITIAL STATES --- */
+.post-header__title,
+.post-header__badge,
+.post-header__author,
+.post-media__img,
+.post-media__caption {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* --- POPULAR PAGE INITIAL STATES --- */
+.popular-hero__title {
+    opacity: 0;
+    transform: translateY(20px);
 }
