@@ -86,46 +86,12 @@
 
 
 <!-- ============================================= -->
-<!-- MANIFESTO & NUMBERS SECTION                   -->
-<!-- ============================================= -->
-<section class="about-manifesto-section">
-    <div class="container">
-        
-        <div class="manifesto-grid">
-            <div class="manifesto-label">THE MANIFESTO</div>
-            <div class="manifesto-text">
-                The modern web is suffocating. Feeds are polluted by algorithmic noise and endless distraction. OASIS is the antidote. We stripped away the chaos to build a digital sanctuary where content actually breathes.
-            </div>
-        </div>
-
-        <div class="numbers-grid">
-            <div class="number-item">
-                <div class="number-value">0%</div>
-                <div class="number-label">Algorithmic Clutter</div>
-            </div>
-            <div class="number-item">
-                <div class="number-value">100%</div>
-                <div class="number-label">Human-Curated Editorials</div>
-            </div>
-            <div class="number-item">
-                <div class="number-value">1:1.618</div>
-                <div class="number-label">Typographic Precision</div>
-            </div>
-            <div class="number-item">
-                <div class="number-value">∞</div>
-                <div class="number-label">Unapologetic Whitespace</div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
 <!-- ============================================= -->
 <!-- HOW IT WORKS SECTION                           -->
 <!-- ============================================= -->
 <section class="how-it-works-section">
     <div class="container">
-        <h2 class="section-title" style="font-family: 'Sora', sans-serif; font-size: 1.5rem; margin-bottom: 4rem; color: var(--color-primary-dark); text-transform: uppercase;">HOW IT WORKS</h2>
+        <h2 class="section-title" style="font-family: 'Sora', sans-serif; font-size: 2.2rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 3rem; color: #19326F; text-transform: uppercase;">HOW IT WORKS</h2>
         
         <div class="hiw-grid">
             <!-- Left: Mockup Image -->
@@ -185,6 +151,40 @@
                 </div>
             </div>
         </div>
+    </div>
+</section>
+
+<!-- MANIFESTO & NUMBERS SECTION                   -->
+<!-- ============================================= -->
+<section class="about-manifesto-section">
+    <div class="container">
+        
+        <div class="manifesto-grid">
+            <div class="manifesto-label">THE MANIFESTO</div>
+            <div class="manifesto-text">
+                The modern web is suffocating. Feeds are polluted by algorithmic noise and endless distraction. OASIS is the antidote. We stripped away the chaos to build a digital sanctuary where content actually breathes.
+            </div>
+        </div>
+
+        <div class="numbers-grid">
+            <div class="number-item">
+                <div class="number-value">0%</div>
+                <div class="number-label">Algorithmic Clutter</div>
+            </div>
+            <div class="number-item">
+                <div class="number-value">100%</div>
+                <div class="number-label">Human-Curated Editorials</div>
+            </div>
+            <div class="number-item">
+                <div class="number-value">1:1.618</div>
+                <div class="number-label">Typographic Precision</div>
+            </div>
+            <div class="number-item">
+                <div class="number-value">∞</div>
+                <div class="number-label">Unapologetic Whitespace</div>
+            </div>
+        </div>
+
     </div>
 </section>
 
@@ -1255,9 +1255,9 @@
         </div>
     </div>
     <div class="cta-foreground">
-        <h3 class="cta-subtitle">Dream with us.</h3>
-        <a href="signup.html" class="cta-button">Sign up for Cosmos</a>
-        <button class="cta-secondary-button">Download the app</button>
+        <h3 class="cta-subtitle">Curate your world.</h3>
+        <a href="signup.html" class="cta-button">Join OASIS</a>
+        <button class="cta-secondary-button">Discover</button>
     </div>
 </section>
 
@@ -1288,7 +1288,7 @@
             setTimeout(() => {
                 img.src = activeStep.dataset.img;
                 img.style.opacity = 1;
-            }, 300);
+            }, 400);
         }
         
         function nextStep() {
@@ -1298,7 +1298,7 @@
         
         function startTimer() {
             clearInterval(timer);
-            timer = setInterval(nextStep, 6000);
+            timer = setInterval(nextStep, 4000);
         }
         
         steps.forEach((step, index) => {
