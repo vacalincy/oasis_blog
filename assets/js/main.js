@@ -189,6 +189,88 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    
+    // --- MANIFESTO STAGGERED TEXT ANIMATION ---
+    const manifestoTexts = document.querySelectorAll('.manifesto-text');
+    const manifestoLabels = document.querySelectorAll('.manifesto-label');
+    
+    // Animate labels normally as blocks
+    const manifestoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '0';
+                entry.target.style.transform = 'translateY(20px)';
+                entry.target.style.animation = 'hero-fade-in 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards';
+                entry.target.style.animationDelay = '0s';
+                manifestoObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+    
+    manifestoLabels.forEach(label => manifestoObserver.observe(label));
+    
+    // Animate text word by word
+    const textObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const rawHTML = el.innerHTML;
+                
+                // Only split if not already split
+                if (!el.hasAttribute('data-animated')) {
+                    el.setAttribute('data-animated', 'true');
+                    
+                    const cleanText = el.textContent;
+                    el.innerHTML = '';
+                    el.style.opacity = '1'; // container is fully opaque, spans are hidden
+                    
+                    cleanText.trim().split(/\s+/).forEach((word, wordIdx) => {
+                        if (!word) return;
+                        const span = document.createElement('span');
+                        span.innerHTML = word + '&nbsp;';
+                        span.style.display = 'inline-block';
+                        span.style.opacity = '0';
+                        span.style.transform = 'translateY(30px)';
+                        span.style.animation = 'hero-fade-in 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards';
+                        // Stagger very fast for body text
+                        const delay = 0.2 + (wordIdx * 0.025);
+                        span.style.animationDelay = `${delay}s`;
+                        el.appendChild(span);
+                    });
+                }
+                
+                textObserver.unobserve(el);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    manifestoTexts.forEach(text => textObserver.observe(text));
+    
+
+    
+    // --- MANIFESTO NUMBERS CASCADE ---
+    const numberItems = document.querySelectorAll('.number-item');
+    const numberObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.animation = 'hero-fade-in 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards';
+                
+                // Get index relative to siblings for left-to-right stagger
+                const childIdx = Array.from(el.parentNode.children).indexOf(el);
+                
+                // Base delay of 0.8s (waits for text to almost finish) + 0.15s per item
+                el.style.animationDelay = `${0.8 + (childIdx * 0.15)}s`;
+                
+                numberObserver.unobserve(el);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    numberItems.forEach(item => numberObserver.observe(item));
+
     // --- GRID SCROLL REVEAL CASCADE ---
     const gridElements = document.querySelectorAll('.section-header h2, .category-title, .category-description, .filters, .post-card, .load-more-btn, .post-body h3, .post-body p, .post-body blockquote, .post-body img, .pick-card, .classics__title, .classics__image, .classics__content, .discussions__title, .discussions__item');
     if (gridElements.length > 0) {
