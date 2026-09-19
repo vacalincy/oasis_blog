@@ -758,21 +758,21 @@ nav {
    HEART & BOOKMARK FILL ANIMATIONS (Phase 4 Add-on)
    ========================================================================== */
 .post-actions__input--like:checked + .post-actions__icon {
-    -webkit-mask-image: url('../images/heart-filled.svg') !important;
-    mask-image: url('../images/heart-filled.svg') !important;
+    -webkit-mask-image: url('../images/icons/heart-filled.svg') !important;
+    mask-image: url('../images/icons/heart-filled.svg') !important;
     background-color: #EF4444 !important; /* Red */
 }
 
 .post-actions__input--save:checked + .post-actions__icon {
-    -webkit-mask-image: url('../images/bookmark-filled.svg') !important;
-    mask-image: url('../images/bookmark-filled.svg') !important;
+    -webkit-mask-image: url('../images/icons/bookmark-filled.svg') !important;
+    mask-image: url('../images/icons/bookmark-filled.svg') !important;
     background-color: var(--color-primary-dark) !important; /* Dark Blue */
 }
 
 /* Also apply to comment likes if they use a similar structure */
 .comment__like-input:checked + .comment__like-icon {
-    -webkit-mask-image: url('../images/heart-filled.svg') !important;
-    mask-image: url('../images/heart-filled.svg') !important;
+    -webkit-mask-image: url('../images/icons/heart-filled.svg') !important;
+    mask-image: url('../images/icons/heart-filled.svg') !important;
     background-color: #EF4444 !important; /* Red */
 }
 

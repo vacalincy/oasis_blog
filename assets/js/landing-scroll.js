@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
             opacity: 0, scale: 0, visibility: "hidden"
         });
 
-        // Поднимаем текст выше на мобильных, чтобы освободить место для карточек внизу
+        // Shift text higher on mobile to make room for cards below
         gsap.set(".cascade", {
             position: "absolute",
             top: isMobile ? "5%" : "20%",
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         heroTl.fromTo(".hero-word", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out", stagger: 0.25 }, 0);
         heroTl.to(".cards-intro__card", { y: 0, opacity: 1, duration: 1.5, ease: "power3.out", stagger: 0 }, 0);
 
-        // Идеальная центровка веера
+        // Perfect center alignment for the fan out effect
         const finalPositions = isDesktop ? [
             { left: "0px",   top: "10px",  rotation: -16 },
             { left: "140px", top: "8px",   rotation: -10 },
@@ -179,19 +179,19 @@ document.addEventListener("DOMContentLoaded", () => {
             scrollTl.to(".cards-intro__bubble--left, .cards-intro__bubble--right", { scale: 0, opacity: 0, duration: 0.5 }, 0);
         }
 
-        // Промежуточная анимация при скролле: карточки собираются в центре
+        // Intermediate scroll animation: cards gather in the center
         scrollTl.to(".cards-intro__card", {
             left: isMobile ? "calc(50% - 50px)" : "550px",
             top: isMobile ? "80px" : "140px",
             rotation: 0,
-            scale: isMobile ? 0.85 : 0.95, // Немного уменьшили масштаб
+            scale: isMobile ? 0.85 : 0.95, // Slightly reduced scale
             boxShadow: "0 0px 0px rgba(15, 23, 42, 0)",
             duration: 1.5,
             stagger: 0.05,
             ease: "power2.inOut"
         }, 0);
 
-        // ФИНАЛЬНЫЕ КООРДИНАТЫ (Компактный каскад)
+        // FINAL COORDINATES (Compact cascade)
         const cascadePositions = isDesktop ? [
             { left: "420px", top: "80px" },
             { left: "510px", top: "110px" },
@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
             { left: "780px", top: "200px" },
             { left: "870px", top: "230px" }
         ] : [
-            // Теперь карточки собраны намного плотнее и выше, чтобы не пересекать showcase
+            // Cards are clustered tighter and higher to avoid overlapping the showcase section
             { left: "calc(50% - 100px)", top: "160px" },
             { left: "calc(50% - 75px)",  top: "175px" },
             { left: "calc(50% - 50px)",  top: "190px" },
@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
             left: (i) => cascadePositions[i] ? cascadePositions[i].left : (isMobile ? "calc(50% - 50px)" : "870px"),
             top: (i) => cascadePositions[i] ? cascadePositions[i].top : (isMobile ? "235px" : "230px"),
             rotation: 0,
-            scale: isMobile ? 0.85 : 1.1, // Оставляем их компактными
+            scale: isMobile ? 0.85 : 1.1, // Keep them compact
             boxShadow: "0 16px 32px rgba(15, 23, 42, 0.15)",
             duration: 1.5,
             ease: "power2.out",

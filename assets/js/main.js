@@ -1,6 +1,6 @@
 /* ==========================================================================
    MAIN JAVASCRIPT FILE (main.js)
-   Главный скрипт сайта Oasis Blog: отвечает за меню, анимации и интерактив.
+   Main Oasis Blog script: handles navigation, animations, and global interactivity.
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         lines.forEach((line, lineIndex) => {
             const cleanText = line.replace(/(<([^>]+)>)/gi, ""); // strip any other tags just in case
-            cleanText.trim().split(/\s+/).forEach((word, wordIdx) => {
+            cleanText.trim().split(/\s+/).forEach(word => {
                 if (!word) return;
                 const span = document.createElement('span');
                 
@@ -214,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const el = entry.target;
-                const rawHTML = el.innerHTML;
                 
                 // Only split if not already split
                 if (!el.hasAttribute('data-animated')) {
@@ -224,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     el.innerHTML = '';
                     el.style.opacity = '1'; // container is fully opaque, spans are hidden
                     
-                    cleanText.trim().split(/\s+/).forEach((word, wordIdx) => {
+                    cleanText.trim().split(/\s+/).forEach(word => {
                         if (!word) return;
                         const span = document.createElement('span');
                         span.innerHTML = word + '&nbsp;';

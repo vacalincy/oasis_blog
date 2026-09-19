@@ -11,14 +11,14 @@
 
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/dashboard.css?v=1788474530">
-    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon2.svg?v=2">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/brand/favicon2.svg?v=2">
 </head>
 <body class="dashboard-body">
 
 <nav>
     <div class="container nav__container">
         <a href="discover.html" class="nav__logo">
-            <img src="../assets/images/logo.svg" alt="OASIS Logo">
+            <img src="../assets/images/brand/logo.svg" alt="OASIS Logo">
         </a>
         <ul class="nav__items">
             <li><button id="close__nav-btn">✕</button></li>
@@ -30,11 +30,11 @@
         </ul>
         <div class="nav__actions">
             <form action="search.html" method="GET" class="search-bar">
-                <img loading="lazy" src="../assets/images/search.svg" alt="Search">
+                <img loading="lazy" src="../assets/images/icons/search.svg" alt="Search">
                 <input type="text" placeholder="Search stories..." aria-label="Search stories">
             </form>
             <a href="notifications.html" class="notification-btn" aria-label="Notifications">
-                <img loading="lazy" src="../assets/images/notification_icon.svg" alt="Notifications">
+                <img loading="lazy" src="../assets/images/icons/notification_icon.svg" alt="Notifications">
             </a>
             <a href="dashboard.html" class="avatar">EA</a>
             <button id="open__nav-btn">☰</button>
@@ -46,23 +46,23 @@
 <div class="tab-bar-wrapper">
   <div class="tab-bar-base">
     <a href="discover.html" class="nav-item ">
-       <img src="../assets/images/tabbar_home.png" alt="Home">
+       <img src="../assets/images/icons/tabbar_home.png" alt="Home">
     </a>
     <a href="search.html" class="nav-item ">
-       <img src="../assets/images/tabbar_search.png" alt="Search">
+       <img src="../assets/images/icons/tabbar_search.png" alt="Search">
     </a>
     <a href="add-post.html" class="nav-item ">
-       <img src="../assets/images/tabbar_add.png" alt="Add post">
+       <img src="../assets/images/icons/tabbar_add.png" alt="Add post">
     </a>
     <a href="dashboard.html" class="nav-item active">
-       <img src="../assets/images/tabbar_profile.png" alt="Profile">
+       <img src="../assets/images/icons/tabbar_profile.png" alt="Profile">
     </a>
   </div>
   <div class="tab-bar-highlight">
-    <div class="nav-item"><img src="../assets/images/tabbar_home.png" alt="Home"></div>
-    <div class="nav-item"><img src="../assets/images/tabbar_search.png" alt="Search"></div>
-    <div class="nav-item"><img src="../assets/images/tabbar_add.png" alt="Add post"></div>
-    <div class="nav-item"><img src="../assets/images/tabbar_profile.png" alt="Profile"></div>
+    <div class="nav-item"><img src="../assets/images/icons/tabbar_home.png" alt="Home"></div>
+    <div class="nav-item"><img src="../assets/images/icons/tabbar_search.png" alt="Search"></div>
+    <div class="nav-item"><img src="../assets/images/icons/tabbar_add.png" alt="Add post"></div>
+    <div class="nav-item"><img src="../assets/images/icons/tabbar_profile.png" alt="Profile"></div>
   </div>
 </div>
 <!-- BOTTOM TAB BAR END -->
@@ -107,15 +107,15 @@
 
     <div class="hero-actions">
         <button class="btn-glass" id="btn-edit-profile">
-            <img loading="lazy" src="../assets/images/editprofile_icon.svg" style="width: 16px; height: 16px;" alt="">
+            <img loading="lazy" src="../assets/images/icons/editprofile_icon.svg" style="width: 16px; height: 16px;" alt="">
             Edit Profile
         </button>
         <button class="btn-glass" id="btn-settings">
-            <img loading="lazy" src="../assets/images/gear_icon.svg" style="width: 16px; height: 16px;" alt="">
+            <img loading="lazy" src="../assets/images/icons/gear_icon.svg" style="width: 16px; height: 16px;" alt="">
             Settings
         </button>
         <button class="btn-glass" id="btn-support" onclick="window.location.href='support.html'">
-            <img loading="lazy" src="../assets/images/support_icon.png" style="width: 16px; height: 16px;" alt="">
+            <img loading="lazy" src="../assets/images/icons/support_icon.png" style="width: 16px; height: 16px;" alt="">
             Support
         </button>
         
@@ -133,6 +133,9 @@
     </div>
 </header>
 
+<!-- ============================================= -->
+<!-- DASHBOARD MAIN CONTENT                         -->
+<!-- ============================================= -->
 <main class="dashboard-main">
 
     <aside class="dashboard-sidebar">
@@ -161,16 +164,16 @@
         <div class="sidebar-actions">
             <button class="btn-primary" onclick="window.location.href='add-post.html'">
                     <span class="icon-circle">
-                        <span class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/plus.svg'); width: 20px; height: 20px;"></span>
+                        <span class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/icons/plus.svg'); width: 20px; height: 20px;"></span>
                     </span>
                 Write a Story
             </button>
             <button class="btn-outline-dark" id="btn-share-profile">
-                <span class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/share.svg'); width: 20px; height: 20px;"></span>
+                <span class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/icons/share.svg'); width: 20px; height: 20px;"></span>
                 Share Profile
             </button>
             <button class="btn-outline-dark" id="btn-following">
-                <span class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/user_following.png'); width: 18px; height: 18px;"></span>
+                <span class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/avatars/user_following.png'); width: 18px; height: 18px;"></span>
                 Following
             </button>
         </div>
@@ -194,7 +197,7 @@
         <div class="stories-container">
             <div id="pane-published" class="tab-pane" style="display: none;">
                 <div class="empty-state">
-                    <img src="../assets/images/plus.svg" alt="Empty" style="width: 48px; height: 48px; opacity: 0.3; margin-bottom: 16px;">
+                    <img src="../assets/images/icons/plus.svg" alt="Empty" style="width: 48px; height: 48px; opacity: 0.3; margin-bottom: 16px;">
                     <p style="margin: 0 0 16px 0;">No stories here yet</p>
                     <button class="btn-primary" style="height: 44px; font-size: 0.9rem; border-radius: 100px;" onclick="window.location.href='add-post.html'">Write a Story</button>
                 </div>
@@ -202,7 +205,7 @@
             <div id="pane-drafts" class="tab-pane">
                 <div class="articles-grid">
                     <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
-                        <div class="card-image" style="background-image: url('../assets/images/001.jpg');">
+                        <div class="card-image" style="background-image: url('../assets/images/content/001.jpg');">
                             <span class="category-tag">HTML & CSS Architecture</span>
                         </div>
                         <div class="card-body">
@@ -212,7 +215,7 @@
                     </article>
 
                     <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
-                        <div class="card-image" style="background-image: url('../assets/images/002.jpg');">
+                        <div class="card-image" style="background-image: url('../assets/images/content/002.jpg');">
                             <span class="category-tag">Minimalist UI</span>
                         </div>
                         <div class="card-body">
@@ -222,7 +225,7 @@
                     </article>
 
                     <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
-                        <div class="card-image" style="background-image: url('../assets/images/003.jpg');">
+                        <div class="card-image" style="background-image: url('../assets/images/content/003.jpg');">
                             <span class="category-tag">Alpine Routes</span>
                         </div>
                         <div class="card-body">
@@ -232,7 +235,7 @@
                     </article>
 
                     <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
-                        <div class="card-image" style="background-image: url('../assets/images/004.jpg');">
+                        <div class="card-image" style="background-image: url('../assets/images/content/004.jpg');">
                             <span class="category-tag">Landscape & Nature</span>
                         </div>
                         <div class="card-body">
@@ -242,7 +245,7 @@
                     </article>
 
                     <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
-                        <div class="card-image" style="background-image: url('../assets/images/005.jpg');">
+                        <div class="card-image" style="background-image: url('../assets/images/content/005.jpg');">
                             <span class="category-tag">Tech Trends</span>
                         </div>
                         <div class="card-body">
@@ -252,7 +255,7 @@
                     </article>
 
                     <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
-                        <div class="card-image" style="background-image: url('../assets/images/006.jpg');">
+                        <div class="card-image" style="background-image: url('../assets/images/content/006.jpg');">
                             <span class="category-tag">Artist Retrospectives</span>
                         </div>
                         <div class="card-body">
@@ -262,7 +265,7 @@
                     </article>
 
                     <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
-                        <div class="card-image" style="background-image: url('../assets/images/007.jpg');">
+                        <div class="card-image" style="background-image: url('../assets/images/content/007.jpg');">
                             <span class="category-tag">Quick Everyday Meals</span>
                         </div>
                         <div class="card-body">
@@ -272,7 +275,7 @@
                     </article>
 
                     <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
-                        <div class="card-image" style="background-image: url('../assets/images/008.jpg');">
+                        <div class="card-image" style="background-image: url('../assets/images/content/008.jpg');">
                             <span class="category-tag">Classic & Sports Cars</span>
                         </div>
                         <div class="card-body">
@@ -282,7 +285,7 @@
                     </article>
 
                     <article class="article-card" onclick="window.location.href='edit-post.html'" style="cursor: pointer;">
-                        <div class="card-image" style="background-image: url('../assets/images/009.jpg');">
+                        <div class="card-image" style="background-image: url('../assets/images/content/009.jpg');">
                             <span class="category-tag">Dystopian Fiction</span>
                         </div>
                         <div class="card-body">
@@ -295,7 +298,7 @@
             <div id="pane-saved" class="tab-pane" style="display: none;">
                 <div class="articles-grid">
                     <article class="article-card" onclick="window.location.href='post.html'" style="cursor: pointer;">
-                        <div class="card-image" style="background-image: url('../assets/images/mainfeed2.jpg');">
+                        <div class="card-image" style="background-image: url('../assets/images/content/mainfeed2.jpg');">
                             <span class="category-tag">Action & Extreme</span>
                         </div>
                         <div class="card-body">
@@ -305,7 +308,7 @@
                     </article>
 
                     <article class="article-card" onclick="window.location.href='post.html'" style="cursor: pointer;">
-                        <div class="card-image" style="background-image: url('../assets/images/mainfeed3.jpg');">
+                        <div class="card-image" style="background-image: url('../assets/images/content/mainfeed3.jpg');">
                             <span class="category-tag">Design & Interfaces</span>
                         </div>
                         <div class="card-body">
@@ -315,7 +318,7 @@
                     </article>
 
                     <article class="article-card" onclick="window.location.href='post.html'" style="cursor: pointer;">
-                        <div class="card-image" style="background-image: url('../assets/images/about_4.jpg');">
+                        <div class="card-image" style="background-image: url('../assets/images/content/about_4.jpg');">
                             <span class="category-tag">Music & Culture</span>
                         </div>
                         <div class="card-body">
@@ -342,7 +345,7 @@
         </div>
         <div class="modal-user-list">
             <div class="user-list-item">
-                <img loading="lazy" src="../assets/images/001.jpg" alt="Avatar" class="user-avatar">
+                <img loading="lazy" src="../assets/images/content/001.jpg" alt="Avatar" class="user-avatar">
                 <div class="user-info">
                     <span class="user-name">Sarah</span>
                     <span class="user-name">Jenkins</span>
@@ -350,7 +353,7 @@
                 <button class="btn-following-action">unfollow</button>
             </div>
             <div class="user-list-item">
-                <img loading="lazy" src="../assets/images/002.jpg" alt="Avatar" class="user-avatar">
+                <img loading="lazy" src="../assets/images/content/002.jpg" alt="Avatar" class="user-avatar">
                 <div class="user-info">
                     <span class="user-name">Marcus</span>
                     <span class="user-name">Reed</span>
@@ -358,7 +361,7 @@
                 <button class="btn-following-action">unfollow</button>
             </div>
             <div class="user-list-item">
-                <img loading="lazy" src="../assets/images/003.jpg" alt="Avatar" class="user-avatar">
+                <img loading="lazy" src="../assets/images/content/003.jpg" alt="Avatar" class="user-avatar">
                 <div class="user-info">
                     <span class="user-name">Elena</span>
                     <span class="user-name">Rostova</span>
@@ -366,7 +369,7 @@
                 <button class="btn-following-action">unfollow</button>
             </div>
             <div class="user-list-item">
-                <img loading="lazy" src="../assets/images/004.jpg" alt="Avatar" class="user-avatar">
+                <img loading="lazy" src="../assets/images/content/004.jpg" alt="Avatar" class="user-avatar">
                 <div class="user-info">
                     <span class="user-name">James</span>
                     <span class="user-name">Cooper</span>
@@ -617,7 +620,7 @@
 <div class="share-modal-overlay" id="shareProfileModal">
     <div class="share-modal">
         <div class="share-modal__top-icon">
-            <img loading="lazy" src="../assets/images/link.png" alt="Link Icon" style="width: 32px; height: 32px; object-fit: contain;">
+            <img loading="lazy" src="../assets/images/icons/link.png" alt="Link Icon" style="width: 32px; height: 32px; object-fit: contain;">
         </div>
         
         <button class="share-modal__close" id="closeShareModal">
@@ -635,7 +638,7 @@
             <div class="share-modal__link-box">
                 <input type="text" value="https://oasis.design/ea" readonly id="shareLinkInput">
                 <button class="share-modal__copy-btn" id="copyShareLink" aria-label="Copy link">
-                    <img loading="lazy" src="../assets/images/copy.png" alt="Copy" style="width: 20px; height: 20px; object-fit: contain;">
+                    <img loading="lazy" src="../assets/images/icons/copy.png" alt="Copy" style="width: 20px; height: 20px; object-fit: contain;">
                 </button>
             </div>
         </div>
@@ -645,31 +648,31 @@
             <div class="share-modal__socials">
                 <a href="#" class="social-btn facebook" aria-label="Facebook">
                     <div class="social-icon">
-                        <img loading="lazy" src="../assets/images/Facebook - Original.png" alt="Facebook" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img loading="lazy" src="../assets/images/brand/Facebook - Original.png" alt="Facebook" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <span>Facebook</span>
                 </a>
                 <a href="#" class="social-btn instagram" aria-label="Instagram">
                     <div class="social-icon">
-                        <img loading="lazy" src="../assets/images/instagram.png" alt="Instagram" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img loading="lazy" src="../assets/images/brand/instagram.png" alt="Instagram" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <span>Instagram</span>
                 </a>
                 <a href="#" class="social-btn whatsapp" aria-label="WhatsApp">
                     <div class="social-icon">
-                        <img loading="lazy" src="../assets/images/whatsapp.png" alt="WhatsApp" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img loading="lazy" src="../assets/images/brand/whatsapp.png" alt="WhatsApp" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <span>WhatsApp</span>
                 </a>
                 <a href="#" class="social-btn telegram" aria-label="Telegram">
                     <div class="social-icon">
-                        <img loading="lazy" src="../assets/images/Telegram - Original.png" alt="Telegram" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img loading="lazy" src="../assets/images/brand/Telegram - Original.png" alt="Telegram" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <span>Telegram</span>
                 </a>
                 <a href="#" class="social-btn linkedin" aria-label="LinkedIn">
                     <div class="social-icon">
-                        <img loading="lazy" src="../assets/images/LinkedIn - Original.png" alt="LinkedIn" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img loading="lazy" src="../assets/images/brand/LinkedIn - Original.png" alt="LinkedIn" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <span>Linkedin</span>
                 </a>
