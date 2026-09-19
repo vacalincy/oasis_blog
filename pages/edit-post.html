@@ -46,7 +46,7 @@
     <main class="editor-main" id="editor-container">
         
         <!-- Story Title -->
-        <input type="text" class="borderless-input editor-title" placeholder="Story Title" value="The Art of Minimalist Web Design">
+        <input type="text" class="borderless-input editor-title" aria-label="Story Title" placeholder="Story Title" value="The Art of Minimalist Web Design">
 
         <!-- Upload Zone -->
         <div class="editor-upload-zone has-image" id="upload-zone" style="background-image: url('https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=1000&auto=format&fit=crop'); background-size: cover; background-position: center;">
@@ -58,7 +58,7 @@
         </div>
 
         <!-- Subtitle -->
-        <input type="text" class="borderless-input editor-subtitle" placeholder="Subtitle.." value="How stripping away the excess can create more powerful user experiences.">
+        <input type="text" class="borderless-input editor-subtitle" aria-label="Subtitle" placeholder="Subtitle.." value="How stripping away the excess can create more powerful user experiences.">
 
         <!-- Category Tags -->
         <!-- Categories -->
@@ -73,7 +73,7 @@
             <button class="toolbar-btn font-serif" id="btn-bold" style="font-weight: bold;">B</button>
             <button class="toolbar-btn font-serif" id="btn-italic" style="font-style: italic;">I</button>
             <button class="toolbar-btn" id="btn-link">
-                <div class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/upload-03.svg'); width: 18px; height: 18px;"></div>
+                <span class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/upload-03.svg'); width: 18px; height: 18px;"></span>
             </button>
             <button class="toolbar-btn" id="btn-h2" style="font-weight: bold; font-size: 0.9rem;">H2</button>
             <button class="toolbar-btn font-serif" id="btn-quote" style="font-weight: bold; font-size: 1.2rem;">"</button>
@@ -194,7 +194,7 @@ In this article, we explore the foundational principles of minimalist web archit
                     if (btnPublish) btnPublish.disabled = true;
                     if (wrapper) wrapper.classList.add('show-tooltip');
                     
-                    let msg = "";
+                    let msg;
                     if (missingFields.length > 1) {
                         msg = "Please fill out all required fields to continue.";
                     } else {
@@ -222,7 +222,7 @@ In this article, we explore the foundational principles of minimalist web archit
                     subs.forEach(sub => {
                         const btn = document.createElement('button');
                         btn.className = 'tag';
-                        btn.innerText = sub;
+                        btn.innerText = String(sub);
                         btn.addEventListener('click', () => {
                             btn.classList.toggle('active'); checkValidation();
                         });
@@ -235,7 +235,7 @@ In this article, we explore the foundational principles of minimalist web archit
             }
 
             if (mainRow && subRow) {
-                Object.keys(categoryData).forEach((mainCat, index) => {
+                Object.keys(categoryData).forEach((mainCat) => {
                     const btn = document.createElement('button');
                     btn.className = 'tag main-tag';
                     btn.innerText = mainCat;
@@ -305,8 +305,6 @@ In this article, we explore the foundational principles of minimalist web archit
                     }
                 });
             }
-        });
-    
             // --- EDIT MODE PRE-FILL SIMULATION ---
             setTimeout(() => {
                 const targetMain = Array.from(document.querySelectorAll('.main-tag')).find(btn => btn.innerText === 'Design & Interfaces');
@@ -321,8 +319,8 @@ In this article, we explore the foundational principles of minimalist web archit
                     }, 200);
                 }
             }, 300);
-
-        </script>
+        });
+    </script>
     <script src="../assets/js/main.js"></script>
 </body>
 </html>

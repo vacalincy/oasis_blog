@@ -45,7 +45,7 @@
         </div>
 
         <div class="contact-form-wrapper">
-            <form id="contact-form" onsubmit="handleContactSubmit(event)">
+            <form id="contact-form">
                 <div class="form-group">
                     <label for="name">Full Name</label>
                     <input type="text" id="name" class="form-control" placeholder="Jane Doe" required>
@@ -83,24 +83,34 @@
                 </div>
                 <h2>Message Sent!</h2>
                 <p>Thanks for reaching out. A member of the OASIS team will get back to you shortly.</p>
-                <button class="btn-submit" style="margin-top: 2rem; background: #f3f4f6; color: #374151;" onclick="resetForm()">Send another message</button>
+                <button class="btn-submit" style="margin-top: 2rem; background: #f3f4f6; color: #374151;" id="btn-reset">Send another message</button>
             </div>
         </div>
     </main>
 
     <script>
-        function handleContactSubmit(e) {
-            e.preventDefault();
-            // Hide form, show success
-            document.getElementById('contact-form').style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('contact-form');
+            const resetBtn = document.getElementById('btn-reset');
+            const successMessage = document.getElementById('success-message');
 
-        function resetForm() {
-            document.getElementById('contact-form').reset();
-            document.getElementById('contact-form').style.display = 'block';
-            document.getElementById('success-message').style.display = 'none';
-        }
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    // Hide form, show success
+                    form.style.display = 'none';
+                    successMessage.style.display = 'block';
+                });
+            }
+
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    form.reset();
+                    form.style.display = 'block';
+                    successMessage.style.display = 'none';
+                });
+            }
+        });
     </script>
 </body>
 </html>

@@ -18,7 +18,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: var(--font-body);
+    font-family: var(--font-body), sans-serif;
 }
 
 body {
@@ -91,7 +91,7 @@ body {
     font-size: 2.25rem;
     font-weight: 800;
     margin-bottom: 40px;
-    letter-spacing: -0.5px;
+    letter-spacing: normal;
     color: var(--color-text-main);
 }
 
@@ -161,7 +161,7 @@ body {
     border: 1px solid var(--color-border);
     border-radius: 8px; /* Added radius */
     color: var(--color-text-main);
-    font-family: var(--font-body, inherit); /* Ensure font */
+    font-family: var(--font-body), sans-serif; /* Ensure font */
     font-weight: 600;
     font-size: 0.9rem;
     padding: 8px 16px; /* ADDED PADDING */
@@ -232,7 +232,7 @@ body {
     font-weight: 800;
     padding: 4px 10px;
     border-radius: var(--btn-border-radius); /* Pill */
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     text-transform: uppercase;
 }
 
@@ -482,7 +482,7 @@ body {
 
 /* Apply global heading font */
 h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
+    font-family: var(--font-heading), sans-serif;
     color: var(--color-text-main);
 }
 

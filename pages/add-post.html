@@ -46,7 +46,7 @@
     <main class="editor-main" id="editor-container">
         
         <!-- Story Title -->
-        <input type="text" class="borderless-input editor-title" placeholder="Story Title">
+        <input type="text" class="borderless-input editor-title" placeholder="Story Title" aria-label="Story Title">
 
         <!-- Upload Zone -->
         <div class="editor-upload-zone" id="upload-zone">
@@ -58,7 +58,7 @@
         </div>
 
         <!-- Subtitle -->
-        <input type="text" class="borderless-input editor-subtitle" placeholder="Subtitle..">
+        <input type="text" class="borderless-input editor-subtitle" placeholder="Subtitle.." aria-label="Subtitle">
 
         <!-- Category Tags -->
         <!-- Categories -->
@@ -73,7 +73,7 @@
             <button class="toolbar-btn font-serif" id="btn-bold" style="font-weight: bold;">B</button>
             <button class="toolbar-btn font-serif" id="btn-italic" style="font-style: italic;">I</button>
             <button class="toolbar-btn" id="btn-link">
-                <div class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/upload-03.svg'); width: 18px; height: 18px;"></div>
+                <span class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/upload-03.svg'); width: 18px; height: 18px;"></span>
             </button>
             <button class="toolbar-btn" id="btn-h2" style="font-weight: bold; font-size: 0.9rem;">H2</button>
             <button class="toolbar-btn font-serif" id="btn-quote" style="font-weight: bold; font-size: 1.2rem;">"</button>
@@ -192,7 +192,7 @@
                     if (btnPublish) btnPublish.disabled = true;
                     if (wrapper) wrapper.classList.add('show-tooltip');
                     
-                    let msg = "";
+                    let msg;
                     if (missingFields.length > 1) {
                         msg = "Please fill out all required fields to continue.";
                     } else {
@@ -220,7 +220,7 @@
                     subs.forEach(sub => {
                         const btn = document.createElement('button');
                         btn.className = 'tag';
-                        btn.innerText = sub;
+                        btn.innerText = String(sub);
                         btn.addEventListener('click', () => {
                             btn.classList.toggle('active'); checkValidation();
                         });
@@ -233,7 +233,7 @@
             }
 
             if (mainRow && subRow) {
-                Object.keys(categoryData).forEach((mainCat, index) => {
+                Object.keys(categoryData).forEach((mainCat) => {
                     const btn = document.createElement('button');
                     btn.className = 'tag main-tag';
                     btn.innerText = mainCat;

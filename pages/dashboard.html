@@ -161,16 +161,16 @@
         <div class="sidebar-actions">
             <button class="btn-primary" onclick="window.location.href='add-post.html'">
                     <span class="icon-circle">
-                        <div class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/plus.svg'); width: 20px; height: 20px;"></div>
+                        <span class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/plus.svg'); width: 20px; height: 20px;"></span>
                     </span>
                 Write a Story
             </button>
             <button class="btn-outline-dark" id="btn-share-profile">
-                <div class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/share.svg'); width: 20px; height: 20px;"></div>
+                <span class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/share.svg'); width: 20px; height: 20px;"></span>
                 Share Profile
             </button>
             <button class="btn-outline-dark" id="btn-following">
-                <div class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/user_following.png'); width: 18px; height: 18px;"></div>
+                <span class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/user_following.png'); width: 18px; height: 18px;"></span>
                 Following
             </button>
         </div>
@@ -631,7 +631,7 @@
         <p class="share-modal__subtitle">Curating is more effective when<br>you connect with friends!</p>
         
         <div class="share-modal__section">
-            <label>Share your link</label>
+            <label for="shareLinkInput">Share your link</label>
             <div class="share-modal__link-box">
                 <input type="text" value="https://oasis.design/ea" readonly id="shareLinkInput">
                 <button class="share-modal__copy-btn" id="copyShareLink" aria-label="Copy link">

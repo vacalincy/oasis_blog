@@ -10,7 +10,7 @@ body.editor-page {
     background-color: #ffffff;
     color: #19326F;
     /* The prompt specified Inter. Assuming 'Inter', sans-serif is Inter. */
-    font-family: 'Inter', sans-serif, 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -94,7 +94,6 @@ body.editor-page {
 }
 
 .upload-icon-circle {
-    color: var(--color-text-secondary);
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -103,7 +102,7 @@ body.editor-page {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #64748b;
+    color: var(--color-text-secondary);
     margin-bottom: 16px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     transition: all 0.3s ease;
@@ -191,7 +190,6 @@ body.editor-page {
 }
 
 .toolbar-btn {
-    color: #64748b;
     width: 36px;
     height: 36px;
     border-radius: 50%;

@@ -12,6 +12,8 @@
 
     <!-- Styles & Favicon -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/auth-modal.css">
+    <link rel="stylesheet" href="assets/css/landing.css">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon2.svg?v=2">
 </head>
 <body class="landing-page">
@@ -240,7 +242,7 @@
                     <div class="auth-modal__input-wrap">
                         <input type="text" id="modal-signup-dob" name="dob" placeholder="Date of birth (MM/DD/YYYY)" onfocus="(this.type='date')" onblur="(this.type='text')" required>
                         <button type="button" class="auth-modal__icon-btn" aria-label="Open calendar">
-                            <div class="dynamic-icon" style="-webkit-mask-image: url('assets/images/dateofbirth.svg'); width: 20px; height: 20px;"></div>
+                            <span class="dynamic-icon" style="-webkit-mask-image: url('assets/images/dateofbirth.svg'); width: 20px; height: 20px;"></span>
                         </button>
                     </div>
                 </div>
@@ -266,7 +268,9 @@
 <!-- SCRIPTS                                       -->
 <!-- ============================================= -->
 
+<!--suppress HtmlUnknownTarget, JSUnresolvedLibraryURL -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<!--suppress HtmlUnknownTarget, JSUnresolvedLibraryURL -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="assets/js/landing-scroll.js"></script>
 </body>

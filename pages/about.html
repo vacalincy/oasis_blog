@@ -1277,7 +1277,7 @@
         </div>
     <div class="cta-foreground">
         <h3 class="cta-subtitle">Curate your world.</h3>
-        <a href="signup.html" class="cta-button">Join OASIS</a>
+        <a href="../index.html" class="cta-button">Join OASIS</a>
         <a href="discover.html" class="cta-secondary-button" style="text-decoration: none; display: inline-flex; justify-content: center; align-items: center;">Discover</a>
     </div>
 </section>
@@ -1307,10 +1307,10 @@
             const activeStep = steps[index];
             
             // Crossfade image
-            img.style.opacity = 0;
+            img.style.opacity = '0';
             setTimeout(() => {
                 img.src = activeStep.dataset.img;
-                img.style.opacity = 1;
+                img.style.opacity = '1';
             }, 400);
         }
         

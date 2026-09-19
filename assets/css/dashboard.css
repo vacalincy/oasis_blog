@@ -496,194 +496,6 @@
     }
 }
 
-@media (max-width: 768px) {
-
-    /* Fix horizontal overflow and scale down buttons */
-    body {
-        overflow-x: hidden;
-    }
-    
-    .stats-card-row span {
-        font-size: 0.85rem !important;
-    }
-    .stats-card-row strong {
-        font-size: 1.1rem !important;
-    }
-    .stats-card-header h3 {
-        font-size: 1.1rem !important;
-    }
-    
-    .dashboard-main {
-        grid-template-columns: 1fr !important;
-        padding: 0 16px !important;
-        margin-top: 24px !important;
-        gap: 24px !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-        overflow-x: hidden;
-    }
-    
-    .dashboard-sidebar {
-        width: 100% !important;
-        box-sizing: border-box !important;
-        gap: 20px !important;
-    }
-    
-    .stats-card {
-        width: 100% !important;
-        box-sizing: border-box !important;
-        padding: 20px !important;
-    }
-    
-    .sidebar-actions {
-        width: 100% !important;
-        box-sizing: border-box !important;
-    }
-    
-    .sidebar-actions button {
-        width: 100% !important;
-        height: 52px !important; /* Slightly smaller height */
-        padding: 0 16px !important;
-        gap: 12px !important;
-        font-size: 0.95rem !important;
-        box-sizing: border-box !important;
-    }
-
-    .stories-container {
-        width: 100% !important;
-        box-sizing: border-box !important;
-        padding: 20px !important;
-    }
-
-
-    
-    /* Break filters to a new line */
-    .content-header {
-        flex-direction: column !important;
-        align-items: center !important;
-        text-align: center !important;
-        gap: 16px !important;
-    }
-    
-    /* Make the tabs take full width to look nice if needed */
-    .content-tabs {
-        width: 100% !important;
-        display: flex !important;
-    }
-
-    /* Reduce cards to 2 per row so they both fit */
-    .articles-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px !important;
-    }
-    
-    /* Adjust card contents for smaller size */
-    .article-card .card-image {
-        aspect-ratio: 16/9 !important;
-    }
-    
-    .article-card .card-body {
-        padding: 8px !important;
-    }
-    
-    .article-card .category-tag {
-        font-size: 0.6rem !important;
-        padding: 2px 6px !important;
-        top: 6px !important;
-        left: 6px !important;
-    }
-    
-    .article-card .card-title {
-        font-size: 0.85rem !important;
-        line-height: 1.3 !important;
-        margin-bottom: 4px !important;
-    }
-    
-    .article-card .card-date {
-        font-size: 0.7rem !important;
-    }
-    
-    /* Adjust container height slightly if needed */
-    .stories-container {
-        height: auto !important; /* Let it grow or fix it */
-        min-height: 416px !important;
-    }
-
-    /* Hero layout fix */
-    .dashboard-hero {
-        flex-direction: column;
-        justify-content: center;
-        padding-top: 120px;
-        min-height: auto;
-        padding-bottom: 24px;
-    }
-    
-    .hero-content {
-        padding-top: 0 !important;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .profile-name {
-        font-size: 2rem !important;
-        line-height: 1.2;
-        margin-bottom: 16px;
-    }
-    
-    .profile-stats {
-        display: flex !important;
-        gap: 16px !important;
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 100%;
-    }
-    
-    .bio-glass-card {
-        width: 95% !important;
-        padding: 24px !important;
-    }
-    
-    .hero-actions {
-        position: static !important;
-        flex-direction: row !important;
-        justify-content: center !important;
-        flex-wrap: wrap;
-        width: 100%;
-        gap: 12px !important;
-        margin-top: 24px !important;
-        margin-bottom: 0 !important;
-    }
-    
-    .btn-glass {
-        padding: 10px 16px !important;
-        font-size: 0.9rem !important;
-    }
-    
-    .dashboard-main {
-        grid-template-columns: 1fr !important;
-        padding: 0 16px !important;
-        margin-top: 24px !important;
-        gap: 32px !important;
-    }
-
-    .hero-content {
-        padding-top: 80px;
-    }
-    .profile-name {
-        font-size: 2.25rem;
-    }
-    .stat-value {
-        font-size: 1.75rem;
-    }
-    .dashboard-nav {
-        padding: 16px 24px;
-    }
-    .dashboard-main {
-        padding: 0 24px;
-    }
-}
 
 /* Progressive Blur Transition */
 .hero-fade {
@@ -990,7 +802,7 @@
 .btn-save-action {
     background: #2563eb;
     color: #ffffff;
-    border: 1.5px solid #ffffff;
+    border: 2px solid #ffffff;
     box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
 }
 .btn-save-action:hover {
@@ -999,7 +811,7 @@
 .btn-cancel-action {
     background: rgba(255, 255, 255, 0.2);
     color: #ffffff;
-    border: 1.5px solid #ffffff;
+    border: 2px solid #ffffff;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
@@ -1628,30 +1440,6 @@
         
         -ms-overflow-style: none;
         scrollbar-width: none;
-    }
-    .articles-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px !important;
-    }
-    .article-card .card-image {
-        aspect-ratio: 16/9 !important;
-    }
-    .article-card .card-body {
-        padding: 8px !important;
-    }
-    .article-card .category-tag {
-        font-size: 0.6rem !important;
-        padding: 2px 6px !important;
-        top: 6px !important;
-        left: 6px !important;
-    }
-    .article-card .card-title {
-        font-size: 0.85rem !important;
-        line-height: 1.3 !important;
-        margin-bottom: 4px !important;
-    }
-    .article-card .card-date {
-        font-size: 0.7rem !important;
     }
     .stories-container {
         height: auto !important;

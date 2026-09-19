@@ -19,6 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/post.css">
     <link rel="icon" type="image/svg+xml" href="../assets/images/favicon2.svg">
 
 <script src="../assets/js/main.js"></script>
@@ -174,13 +175,13 @@
             <!-- LIKE: checkbox hack — checked = red filled heart -->
             <label class="post-actions__btn" aria-label="Like">
                 <input type="checkbox" class="post-actions__input post-actions__input--like">
-                <div class="post-actions__icon dynamic-icon" style="-webkit-mask-image: url('../assets/images/heart.svg'); width: 20px; height: 20px;"></div>
+                <span class="post-actions__icon dynamic-icon" style="-webkit-mask-image: url('../assets/images/heart.svg'); width: 20px; height: 20px;"></span>
                 <span>1.2k</span>
             </label>
 
             <!-- COMMENTS: not toggleable, just opens comments — plain button -->
             <button class="post-actions__btn" aria-label="Comments">
-                <div class="post-actions__icon dynamic-icon" style="-webkit-mask-image: url('../assets/images/comment.svg'); width: 20px; height: 20px;"></div>
+                <span class="post-actions__icon dynamic-icon" style="-webkit-mask-image: url('../assets/images/comment.svg'); width: 20px; height: 20px;"></span>
                 <span>84</span>
             </button>
         </div>
@@ -190,12 +191,12 @@
             <!-- SAVE: checkbox hack — checked = dark filled bookmark -->
             <label class="post-actions__btn" aria-label="Save">
                 <input type="checkbox" class="post-actions__input post-actions__input--save">
-                <div class="post-actions__icon dynamic-icon" style="-webkit-mask-image: url('../assets/images/bookmark.svg'); width: 20px; height: 20px;"></div>
+                <span class="post-actions__icon dynamic-icon" style="-webkit-mask-image: url('../assets/images/bookmark.svg'); width: 20px; height: 20px;"></span>
             </label>
 
             <!-- SHARE: not toggleable, opens a share sheet — plain button -->
             <button class="post-actions__btn" aria-label="Share">
-                <div class="post-actions__icon dynamic-icon" style="-webkit-mask-image: url('../assets/images/share.svg'); width: 20px; height: 20px;"></div>
+                <span class="post-actions__icon dynamic-icon" style="-webkit-mask-image: url('../assets/images/share.svg'); width: 20px; height: 20px;"></span>
             </button>
         </div>
 
@@ -222,7 +223,7 @@
         <!-- --- new comment input --- -->
         <form class="comment-form">
             <a href="dashboard.html" class="avatar">EA</a>
-            <textarea class="comment-form__input" placeholder="What are your thoughts?"></textarea>
+            <textarea class="comment-form__input" placeholder="What are your thoughts?" aria-label="Comment text"></textarea>
             <button type="submit" class="comment-form__submit">Respond</button>
         </form>
 
@@ -238,7 +239,7 @@
                     <div class="comment__actions">
                         <label class="comment__like">
                             <input type="checkbox" class="comment__like-input">
-                            <div class="comment__like-icon dynamic-icon" style="-webkit-mask-image: url('../assets/images/heart.svg'); width: 16px; height: 16px;"></div>
+                            <span class="comment__like-icon dynamic-icon" style="-webkit-mask-image: url('../assets/images/heart.svg'); width: 16px; height: 16px;"></span>
                             12
                         </label>
                         <button class="comment__reply">Reply</button>
@@ -257,7 +258,7 @@
                         <div class="comment__actions">
                             <label class="comment__like">
                                 <input type="checkbox" class="comment__like-input">
-                                <div class="comment__like-icon dynamic-icon" style="-webkit-mask-image: url('../assets/images/heart.svg'); width: 16px; height: 16px;"></div>
+                                <span class="comment__like-icon dynamic-icon" style="-webkit-mask-image: url('../assets/images/heart.svg'); width: 16px; height: 16px;"></span>
                                 12
                             </label>
                             <button class="comment__reply">Reply</button>

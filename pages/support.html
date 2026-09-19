@@ -27,7 +27,7 @@
         <h1>Help Center</h1>
         <div class="support-search">
             <div class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/search.svg'); width: 20px; height: 20px;"></div>
-            <input type="text" placeholder="Search for articles, guides, or FAQs...">
+            <input type="text" placeholder="Search for articles, guides, or FAQs..." aria-label="Search help center">
         </div>
     </header>
 
@@ -91,7 +91,7 @@
     <script>
         // Simple accordion logic for FAQs
         document.querySelectorAll('.faq-question').forEach(item => {
-            item.addEventListener('click', event => {
+            item.addEventListener('click', () => {
                 const parent = item.parentElement;
                 
                 // Optional: Close other open items
