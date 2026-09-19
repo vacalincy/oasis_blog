@@ -8068,7 +8068,7 @@ html, body.landing-page {
   bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 340px;
+  width: calc(100% - 32px); max-width: 340px;
   height: 72px;
   z-index: 100;
   filter: drop-shadow(0 8px 24px rgba(0,0,0,0.12));
@@ -8126,7 +8126,8 @@ html, body.landing-page {
 }
 
 .tab-bar-highlight .nav-item img {
-  filter: brightness(0) invert(1);
+  filter: brightness(0) invert(1) !important;
+  opacity: 1 !important;
 }
 
 
@@ -8284,4 +8285,26 @@ html, body.landing-page {
 .popular-hero__title {
     opacity: 0;
     transform: translateY(20px);
+}
+
+
+/* Mobile adjustments for Global Site Footer */
+@media screen and (max-width: 768px) {
+    .site-footer .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem 1rem;
+    }
+    
+    .site-footer .footer-column:nth-child(1) {
+        order: 1;
+    }
+    
+    .site-footer .footer-column:nth-child(3) {
+        order: 2;
+    }
+    
+    .site-footer .footer-column:nth-child(2) {
+        order: 3;
+        grid-column: 1 / -1; /* spans full width underneath */
+    }
 }

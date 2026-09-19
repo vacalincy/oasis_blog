@@ -54,7 +54,7 @@
     <a href="add-post.html" class="nav-item ">
        <img src="../assets/images/tabbar_add.png" alt="Add post">
     </a>
-    <a href="profile.html" class="nav-item active">
+    <a href="dashboard.html" class="nav-item active">
        <img src="../assets/images/tabbar_profile.png" alt="Profile">
     </a>
   </div>
@@ -165,7 +165,7 @@
                     </span>
                 Write a Story
             </button>
-            <button class="btn-outline-dark">
+            <button class="btn-outline-dark" id="btn-share-profile">
                 <div class="dynamic-icon" style="-webkit-mask-image: url('../assets/images/share.svg'); width: 20px; height: 20px;"></div>
                 Share Profile
             </button>
@@ -381,6 +381,46 @@
         const tabs = document.querySelectorAll('.content-tabs .tab-pill');
         const indicator = document.querySelector('.active-tab-indicator');
 
+        
+        // Share Profile Modal Logic
+        const btnShareProfile = document.getElementById('btn-share-profile');
+        const shareProfileModal = document.getElementById('shareProfileModal');
+        const closeShareModal = document.getElementById('closeShareModal');
+        const copyShareLink = document.getElementById('copyShareLink');
+        const shareLinkInput = document.getElementById('shareLinkInput');
+
+        if (btnShareProfile && shareProfileModal && closeShareModal) {
+            btnShareProfile.addEventListener('click', () => {
+                shareProfileModal.classList.add('active');
+            });
+
+            closeShareModal.addEventListener('click', () => {
+                shareProfileModal.classList.remove('active');
+            });
+
+            // Close on overlay click
+            shareProfileModal.addEventListener('click', (e) => {
+                if (e.target === shareProfileModal) {
+                    shareProfileModal.classList.remove('active');
+                }
+            });
+            
+            // Copy link functionality
+            if (copyShareLink && shareLinkInput) {
+                copyShareLink.addEventListener('click', () => {
+                    shareLinkInput.select();
+                    shareLinkInput.setSelectionRange(0, 99999); /* For mobile devices */
+                    navigator.clipboard.writeText(shareLinkInput.value).then(() => {
+                        const originalHTML = copyShareLink.innerHTML;
+                        copyShareLink.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                        setTimeout(() => {
+                            copyShareLink.innerHTML = originalHTML;
+                        }, 2000);
+                    });
+                });
+            }
+        }
+
         function updateIndicator(activeTab) {
             if (!activeTab || !indicator) return;
             indicator.style.width = activeTab.offsetWidth + 'px';
@@ -493,6 +533,8 @@
             } else {
                 btnEditProfile.style.display = 'inline-flex';
                 if(btnSettings) btnSettings.style.display = 'inline-flex';
+                const btnSupport = document.getElementById('btn-support');
+                if (btnSupport) btnSupport.style.display = 'inline-flex';
                 
                 btnSaveProfile.style.display = 'none';
                 btnCancelProfile.style.display = 'none';
@@ -553,5 +595,71 @@
         });
     });
 </script>
+
+<!-- Share Modal Overlay -->
+<div class="share-modal-overlay" id="shareProfileModal">
+    <div class="share-modal">
+        <div class="share-modal__top-icon">
+            <img src="../assets/images/link.png" alt="Link Icon" style="width: 32px; height: 32px; object-fit: contain;">
+        </div>
+        
+        <button class="share-modal__close" id="closeShareModal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        
+        <h3 class="share-modal__title">Share with Friends</h3>
+        <p class="share-modal__subtitle">Curating is more effective when<br>you connect with friends!</p>
+        
+        <div class="share-modal__section">
+            <label>Share your link</label>
+            <div class="share-modal__link-box">
+                <input type="text" value="https://oasis.design/ea" readonly id="shareLinkInput">
+                <button class="share-modal__copy-btn" id="copyShareLink" aria-label="Copy link">
+                    <img src="../assets/images/copy.png" alt="Copy" style="width: 20px; height: 20px; object-fit: contain;">
+                </button>
+            </div>
+        </div>
+        
+        <div class="share-modal__section">
+            <label>Share to</label>
+            <div class="share-modal__socials">
+                <a href="#" class="social-btn facebook" aria-label="Facebook">
+                    <div class="social-icon">
+                        <img src="../assets/images/Facebook - Original.png" alt="Facebook" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <span>Facebook</span>
+                </a>
+                <a href="#" class="social-btn instagram" aria-label="Instagram">
+                    <div class="social-icon">
+                        <img src="../assets/images/instagram.png" alt="Instagram" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <span>Instagram</span>
+                </a>
+                <a href="#" class="social-btn whatsapp" aria-label="WhatsApp">
+                    <div class="social-icon">
+                        <img src="../assets/images/whatsapp.png" alt="WhatsApp" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <span>WhatsApp</span>
+                </a>
+                <a href="#" class="social-btn telegram" aria-label="Telegram">
+                    <div class="social-icon">
+                        <img src="../assets/images/Telegram - Original.png" alt="Telegram" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <span>Telegram</span>
+                </a>
+                <a href="#" class="social-btn linkedin" aria-label="LinkedIn">
+                    <div class="social-icon">
+                        <img src="../assets/images/LinkedIn - Original.png" alt="LinkedIn" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <span>Linkedin</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
