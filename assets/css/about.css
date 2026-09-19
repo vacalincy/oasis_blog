@@ -1,0 +1,876 @@
+/* ==========================================================================
+   ABOUT OASIS PAGE
+   ========================================================================== */
+
+.about-hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background: var(--color-bg);
+    overflow: hidden;
+    padding-top: calc(5rem + 2vh);
+    justify-content: flex-start; /* clear navbar */
+}
+
+/* --- TEXT SECTION --- */
+.about-hero__text {
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+.about-hero__title {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 4.5rem);
+    white-space: nowrap;
+     /* Force strict 2 lines */
+    line-height: 1.05;
+    color: var(--color-primary-dark);
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    letter-spacing: -0.03em;
+}
+
+/* Initially hide title for JS stagger */
+.about-hero__title {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.about-hero__subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: hero-fade-in 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 1.0s; /* Waits for title */
+}
+
+
+/* --- CAROUSEL SECTION --- */
+.about-hero__carousel-wrapper {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    flex: 1;
+    width: 100vw;
+    max-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Mask the edges for horizontal fade */
+    mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+    padding-bottom: 0;
+    margin-bottom: -5vh; /* Force bleed off bottom edge */
+    z-index: 5;
+    pointer-events: none; /* Just for aesthetic */
+}
+
+.about-hero__carousel {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0; /* managed by negative margin on cards */
+}
+
+.about-card {
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.2);
+    margin: 0 -2vw;
+    position: relative; /* Overlap adjacent cards */
+    opacity: 0;
+    background: var(--color-surface);
+    }
+
+.about-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Specific Card Layouts & Animations */
+@keyframes center-out-scale {
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(calc(var(--base-y, 0px) + 40px));
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(var(--base-y, 0));
+    }
+}
+
+.about-card--1 {
+    width: 18vw;
+    height: 60%;
+    z-index: 1;
+    --base-y: 0px;
+    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: 0.8s; /* Outermost animates last */
+}
+
+.about-card--2 {
+    width: 22vw;
+    height: 80%;
+    z-index: 2;
+    --base-y: 0px;
+    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: 0.65s; /* Adjacent animates second */
+}
+
+.about-card--3 {
+    width: 28vw;
+    height: 100%;
+    z-index: 3;
+    --base-y: 0px;
+    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: 0.5s; /* Center animates first */
+        box-shadow: 0 24px 48px rgba(0,0,0,0.12); /* Soft premium shadow */
+}
+
+.about-card--4 {
+    width: 22vw;
+    height: 80%;
+    z-index: 2;
+    --base-y: 0px;
+    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: 0.65s;
+}
+
+.about-card--5 {
+    width: 18vw;
+    height: 60%;
+    z-index: 1;
+    --base-y: 0px;
+    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: 0.8s;
+}
+
+/* Responsive */
+@media screen and (max-width: 1024px) {
+    .about-card { margin: 0 -2rem; }
+     /* Show only 3 on tablets */
+}
+
+@media screen and (max-width: 768px) {
+    .cta-button { padding: 20px 48px; font-size: 2rem; }
+    .orbital-cta-section {
+    background-color: #FFFCF8;
+     height: 50vh; min-height: 500px; margin: 60px 0; }
+}
+
+
+/* ==========================================================================
+   SECTION 2: MANIFESTO & NUMBERS
+   ========================================================================== */
+.about-manifesto-section {
+    padding: 120px 1.5rem;
+    background: #FFFFFF;
+}
+
+.manifesto-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 4rem;
+    margin-bottom: 80px;
+}
+
+.manifesto-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary, #9ca3af);
+    font-weight: 600;
+}
+
+.manifesto-text {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.4;
+    color: var(--color-primary-dark, #0d0d0d);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+.numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 60px;
+}
+
+.number-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.number-value {
+    font-family: 'Sora', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--color-primary-dark, #0d0d0d);
+    letter-spacing: -0.03em;
+}
+
+.number-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: var(--color-text-secondary, #4b5563);
+    line-height: 1.5;
+}
+
+@media screen and (max-width: 768px) {
+    .manifesto-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+}
+
+/* ==========================================================================
+   SECTION 3: HOW IT WORKS
+   ========================================================================== */
+.how-it-works-section {
+    padding: 120px 1.5rem;
+    background: transparent;
+}
+
+.hiw-grid {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr;
+    gap: 4rem;
+    align-items: start;
+}
+
+.hiw-image-container {
+    position: sticky;
+    top: 120px;
+    
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.hiw-image-container img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: left top;
+    display: block;
+    transition: opacity 0.4s ease-in-out;
+    border-radius: 12px;
+}
+
+.hiw-timeline-container {
+    padding: 4rem 0;
+}
+
+
+    .numbers-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+    .number-value {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+    .number-label {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+    }
+
+    .timeline-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+}
+
+/* The vertical track line */
+.timeline-steps::before {
+    content: '';
+    position: absolute;
+    top:  10px;
+    bottom: 5px;
+    left: 4px;
+    width: 2px;
+    background: #e5e7eb;
+    z-index: 1;
+}
+
+/* The closing dot at the bottom of the timeline */
+.timeline-steps::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 50%;
+    z-index:  3;
+}
+
+
+.timeline-step {
+    position: relative;
+    padding-left: 3rem;
+    padding-bottom: 3rem;
+    cursor: pointer;
+}
+
+.timeline-step:last-child {
+    padding-bottom: 0;
+}
+
+/* The dot on the timeline */
+.step-dot {
+    position: absolute;
+    top: 6px;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 50%;
+    z-index:  3;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.timeline-step.active .step-dot {
+    background: #2563eb;
+    transform: scale(1.4);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.step-content h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #64748b; /* Inactive color */
+    margin: 0 0 0.5rem 0;
+    transition: color 0.3s ease;
+}
+
+.timeline-step.active .step-content h3 {
+    color: #2563eb;
+}
+
+.step-desc-wrapper {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+    opacity: 0;
+}
+
+.timeline-step.active .step-desc-wrapper {
+    height: auto;
+    opacity: 1;
+}
+
+.step-desc-wrapper p {
+    margin: 0;
+    padding-top: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #64748b;
+}
+
+@media screen and (max-width: 1024px) {
+    .hiw-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    .hiw-image-container {
+    position: sticky;
+    top: 120px;
+    
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+    .hiw-timeline-container {
+        padding: 0;
+    }
+}
+
+
+/* ==========================================================================
+   SECTION 4: COSMOS ORBITAL GALLERY
+   ========================================================================== */
+.orbital-cta-section {
+    background-color: #FFFCF8;
+    
+    height: 55vh;
+    min-height: 540px;
+    margin:  120px 0 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.orbit-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+.orbit-wrapper {
+    position: absolute;
+    width: 0; 
+    height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes anti-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
+
+/* FIXED TILT: Left leans Left (-), Right leans Right (+) */
+@keyframes tilt-sway {
+    0%   { transform: rotate(0deg); animation-timing-function: ease-in-out; }
+    25%  { transform: rotate(35deg); animation-timing-function: ease-in-out; }
+    50%  { transform: rotate(0deg); animation-timing-function: ease-in-out; }
+    75%  { transform: rotate(-35deg); animation-timing-function: ease-in-out; }
+    100% { transform: rotate(0deg); }
+}
+
+.card-visual {
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    background-color: #f1f5f9;
+    flex-shrink: 0;
+    animation-name: tilt-sway;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.card-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* CTA FOREGROUND */
+.cta-foreground {
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+    position: relative;
+    pointer-events: auto;
+}
+
+.cta-foreground::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+
+.cta-subtitle {
+    font-family: 'Inter', sans-serif;
+    color: #111;
+    font-size: 1.35rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.cta-button {
+    background: #2563eb;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    padding: 24px 64px;
+    border-radius: 9999px;
+    font-size: 3rem;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.cta-button:hover {
+    transform: scale(1.04);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    color: #FFFFFF;
+ background: #1d4ed8;}
+
+.cta-secondary-button {
+    background: transparent;
+    border: 1px solid rgba(37, 99, 235, 0.4);
+    color: #2563eb;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    padding: 14px 28px;
+    border-radius: 9999px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cta-secondary-button:hover {
+    border-color: #2563eb;
+    background: rgba(37, 99, 235, 0.05);
+}
+
+
+.orbit-ring-1 { animation: spin 25s linear infinite; }
+.orbit-ring-1-wrapper { animation: anti-spin 25s linear infinite; }
+
+.orbit-ring-2 { animation: spin 45s linear infinite; }
+.orbit-ring-2-wrapper { animation: anti-spin 45s linear infinite; }
+
+.orbit-ring-3 { animation: spin 75s linear infinite; }
+.orbit-ring-3-wrapper { animation: anti-spin 75s linear infinite; }
+
+.orbit-ring-4 { animation: spin 115s linear infinite; }
+.orbit-ring-4-wrapper { animation: anti-spin 115s linear infinite; }
+
+.orbit-ring-5 { animation: spin 165s linear infinite; }
+.orbit-ring-5-wrapper { animation: anti-spin 165s linear infinite; }
+
+.orbit-ring-6 { animation: spin 230s linear infinite; }
+.orbit-ring-6-wrapper { animation: anti-spin 230s linear infinite; }
+
+.orbit-ring-7 { animation: spin 315s linear infinite; }
+.orbit-ring-7-wrapper { animation: anti-spin 315s linear infinite; }
+
+.timeline-step.active .step-desc-wrapper p { color: #19326F; }
+
+/* The active progress line */
+.timeline-step::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 4px;
+    width: 2px;
+    height: 100%;
+    background: #2563eb;
+    z-index: 2;
+    transform-origin: top;
+    transform: scaleY(0);
+}
+
+.timeline-step:last-child::before {
+    height: calc(100% - 15px); /* 10px top + 5px to stop middle of bottom dot */
+}
+
+/* When active, animate filling over 6 seconds */
+.timeline-step.active::before {
+    animation: fillProgress 4s linear forwards;
+}
+
+/* When done, stay fully filled */
+.timeline-step.done::before {
+    transform: scaleY(1);
+}
+
+/* Also make the done dots blue! */
+.timeline-step.done .step-dot {
+    background: #2563eb;
+    transform: scale(1); /* Return to normal size, but blue */
+}
+
+@keyframes fillProgress {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+}
+
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.oasis-footer {
+    padding: 30px 0 80px 0;
+    background: #FFFFFF;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 6rem;
+}
+
+.footer-left {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.footer-left img {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+.footer-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-center img {
+    height: 60px;
+    width: auto;
+    display: block;
+}
+
+.footer-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.footer-right p {
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111111;
+    margin: 0;
+    line-height: 1.4;
+    text-align: left;
+    max-width: 250px;
+}
+
+@media screen and (max-width: 768px) {
+    
+    .footer-container {
+        flex-direction: row;
+        gap: 10px;
+        padding: 0 1rem;
+    }
+    .footer-left img {
+        height: 20px;
+    }
+    .footer-center img {
+        height: 30px;
+    }
+    .footer-right p {
+        font-size: 0.65rem;
+        text-align: right;
+    }
+
+}
+
+
+/* Initial state for JS animation */
+.manifesto-label, .manifesto-text {
+    opacity: 0;
+}
+
+
+.number-item {
+    opacity: 0;
+}
+
+
+@media screen and (max-width: 768px) {
+    body, html {
+        overflow-x: hidden;
+    }
+    
+    .about-hero__title {
+        white-space: normal;
+        font-size: clamp(2.5rem, 8vw, 3.5rem);
+    }
+    
+    .about-hero__subtitle {
+        font-size: 1.1rem;
+        padding: 0 1rem;
+    }
+    
+    .about-card {
+        width: 160px;
+        margin: 0 -1rem;
+    }
+    
+    .about-hero__carousel {
+        height: 300px;
+        align-items: center;
+    }
+    
+    
+    
+    .about-card {
+        width: clamp(70px, 20vw, 120px);
+        margin: 0 -6vw; 
+    }
+    .about-card--1, .about-card--2, .about-card--3, .about-card--4, .about-card--5 {
+        display: block;
+    }
+
+    .about-card {
+        width: clamp(120px, 35vw, 180px);
+        margin: 0 -10vw; /* huge overlap */
+    }
+ /* Show only center on very small screens, or 3 cards if they fit */
+    
+    .cta-button {
+        padding: 16px 32px;
+        font-size: 1.5rem;
+    }
+    
+    .cta-secondary-button {
+        padding: 12px 24px;
+        font-size: 1rem;
+    }
+    
+    .hiw-image-container {
+        position: static;
+        margin-bottom: 2rem;
+    }
+    
+    .hiw-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    
+    .numbers-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+    .number-value {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+    .number-label {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+    }
+
+    .timeline-steps {
+        padding-left: 0;
+    }
+    
+    .manifesto-label {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .manifesto-text {
+        font-size: 1.5rem;
+    }
+    
+    .number-value {
+        font-size: 2.5rem;
+    }
+    
+    .number-label {
+        font-size: 0.9rem;
+    }
+    
+    .orbital-cta-section {
+        height: 400px;
+        min-height: 400px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    
+    .footer-container {
+        padding: 0 2rem;
+    }
+}
+
+
+
+
+@media screen and (max-width: 1024px) {
+    
+}
+
+@media screen and (max-width: 768px) {
+    
+}
+
+@media screen and (max-width: 480px) {
+    
+}
+
+
+.orbit-master-scaler {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 1vw; /* 1em = 1vw (desktop standard) */
+}
+
+@media screen and (max-width: 1024px) {
+    .orbit-master-scaler {
+        font-size: 1.5vw; /* Orbit is 1.5x wider relative to screen */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .orbit-master-scaler {
+        font-size: 2.2vw; /* Perfectly wraps the button */
+    }
+    .card-visual {
+        zoom: 0.6; 
+    }
+    /* Let's make the height of the section a bit taller so orbits don't get clipped too early */
+    .orbital-cta-section {
+        height: 600px;
+        min-height: 600px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .orbit-master-scaler {
+        font-size: 2.5vw; /* Keeps the first ring just outside the CTA button on small phones */
+    }
+    .card-visual {
+        zoom: 0.55;
+    }
+    .orbital-cta-section {
+        height: 500px;
+        min-height: 500px;
+    }
+}
