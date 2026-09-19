@@ -29,11 +29,11 @@
         </ul>
         <div class="nav__actions">
             <form action="search.html" method="GET" class="search-bar">
-                <img src="../assets/images/search.svg" alt="Search">
+                <img loading="lazy" src="../assets/images/search.svg" alt="Search">
                 <input type="text" placeholder="Search stories..." aria-label="Search stories">
             </form>
             <a href="notifications.html" class="notification-btn" aria-label="Notifications">
-                <img src="../assets/images/notification_icon.svg" alt="Notifications">
+                <img loading="lazy" src="../assets/images/notification_icon.svg" alt="Notifications">
             </a>
             <a href="dashboard.html" class="avatar">EA</a>
             <button id="open__nav-btn">☰</button>
@@ -81,11 +81,11 @@
                     <div class="form-grid">
                         <div class="form-group full-width">
                             <label>Email Address</label>
-                            <input type="email" class="form-input" value="jane@example.com">
+                            <input type="email" class="form-input" value="jane@example.com" required>
                         </div>
                         <div class="form-group full-width">
                             <label>Phone Number</label>
-                            <input type="tel" class="form-input" placeholder="+1 (555) 000-0000">
+                            <input type="tel" class="form-input" placeholder="+1 (555) 000-0000" pattern="[\+0-9\-\(\)\s]+">
                         </div>
                         <div class="form-group">
                             <label>Date of Birth</label>

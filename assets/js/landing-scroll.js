@@ -348,11 +348,19 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+
     // Bind close events (close button or overlay click)
     document.querySelectorAll('[data-close]').forEach(trigger => {
         trigger.addEventListener('click', (e) => {
             e.preventDefault();
             closeAllModals();
         });
+    });
+
+    // Close on ESC key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeAllModals();
+        }
     });
 });

@@ -8308,3 +8308,166 @@ html, body.landing-page {
         grid-column: 1 / -1; /* spans full width underneath */
     }
 }
+
+/* COMMENTS MODAL STYLES */
+.comments-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+.comments-modal.active {
+    display: flex;
+}
+.comments-modal__content {
+    background: #fff;
+    width: 90%;
+    max-width: 600px;
+    height: 80vh;
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+.comments-modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+.comments-modal__header h2 {
+    font-size: 1.25rem;
+    margin: 0;
+}
+.comments-modal__close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+}
+
+/* ==========================================================================
+   TOAST NOTIFICATIONS (Phase 2)
+   ========================================================================== */
+.toast-container {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .toast-container {
+        bottom: 24px;
+        left: 24px;
+        right: 24px;
+        align-items: center;
+    }
+    .toast {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.toast {
+    background: #10B981; /* Default success green */
+    color: white;
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.toast.error {
+    background: #EF4444; /* Error red */
+}
+
+/* ==========================================================================
+   BUTTON SPINNERS (Phase 2)
+   ========================================================================== */
+.btn-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 50%;
+    left: 50%;
+    margin-top: -12px;
+    margin-left: -12px;
+    border-radius: 50%;
+    background: 
+        radial-gradient(farthest-side, #ffffff 94%, #0000) top/3px 3px no-repeat,
+        conic-gradient(#0000 30%, #ffffff);
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 3px), #000 0);
+    mask: radial-gradient(farthest-side, #0000 calc(100% - 3px), #000 0);
+    animation: btn-spin 1s infinite linear;
+}
+
+@keyframes btn-spin { 
+    100% { transform: rotate(1turn); }
+}
+
+/* ==========================================================================
+   MICRO-ANIMATIONS (Phase 4)
+   ========================================================================== */
+.post-actions__input:checked + .post-actions__icon {
+    animation: icon-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes icon-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+}
+
+/* ==========================================================================
+   HEART & BOOKMARK FILL ANIMATIONS (Phase 4 Add-on)
+   ========================================================================== */
+.post-actions__input--like:checked + .post-actions__icon {
+    -webkit-mask-image: url('../images/heart-filled.svg') !important;
+    mask-image: url('../images/heart-filled.svg') !important;
+    background-color: #EF4444 !important; /* Red */
+}
+
+.post-actions__input--save:checked + .post-actions__icon {
+    -webkit-mask-image: url('../images/bookmark-filled.svg') !important;
+    mask-image: url('../images/bookmark-filled.svg') !important;
+    background-color: var(--color-primary-dark) !important; /* Dark Blue */
+}
+
+/* Also apply to comment likes if they use a similar structure */
+.comment__like-input:checked + .comment__like-icon {
+    -webkit-mask-image: url('../images/heart-filled.svg') !important;
+    mask-image: url('../images/heart-filled.svg') !important;
+    background-color: #EF4444 !important; /* Red */
+}
+
+/* Make sure the text color changes too for likes if needed, although the user just asked for the icon */

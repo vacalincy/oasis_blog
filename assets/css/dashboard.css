@@ -513,16 +513,6 @@
         font-size: 1.1rem !important;
     }
     
-    .stats-card-row
-    .stats-card-row strong {
-        font-size: 1.1rem !important;
-    }
-    .stats-card-header h3 {
-        font-size: 1.1rem !important;
-    }
-
-    }
-    
     .dashboard-main {
         grid-template-columns: 1fr !important;
         padding: 0 16px !important;
@@ -778,6 +768,7 @@
 
 .empty-state {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
@@ -1128,16 +1119,6 @@
     }
     .stats-card-header h3 {
         font-size: 1.1rem !important;
-    }
-    
-    .stats-card-row
-    .stats-card-row strong {
-        font-size: 1.1rem !important;
-    }
-    .stats-card-header h3 {
-        font-size: 1.1rem !important;
-    }
-
     }
     
     .dashboard-main {
@@ -1677,4 +1658,9 @@
         min-height: 416px !important;
         padding: 16px !important;
     }
+}
+
+.empty-state .btn-primary {
+    width: max-content !important;
+    padding: 0 32px !important; /* Make it a nice pill shape */
 }

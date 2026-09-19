@@ -30,11 +30,11 @@
         </ul>
         <div class="nav__actions">
             <form action="search.html" method="GET" class="search-bar">
-                <img src="../assets/images/search.svg" alt="Search">
+                <img loading="lazy" src="../assets/images/search.svg" alt="Search">
                 <input type="text" placeholder="Search stories..." aria-label="Search stories">
             </form>
             <a href="notifications.html" class="notification-btn" aria-label="Notifications">
-                <img src="../assets/images/notification_icon.svg" alt="Notifications">
+                <img loading="lazy" src="../assets/images/notification_icon.svg" alt="Notifications">
             </a>
             <a href="dashboard.html" class="avatar">EA</a>
             <button id="open__nav-btn">☰</button>
@@ -107,15 +107,15 @@
 
     <div class="hero-actions">
         <button class="btn-glass" id="btn-edit-profile">
-            <img src="../assets/images/editprofile_icon.svg" style="width: 16px; height: 16px;" alt="">
+            <img loading="lazy" src="../assets/images/editprofile_icon.svg" style="width: 16px; height: 16px;" alt="">
             Edit Profile
         </button>
         <button class="btn-glass" id="btn-settings">
-            <img src="../assets/images/gear_icon.svg" style="width: 16px; height: 16px;" alt="">
+            <img loading="lazy" src="../assets/images/gear_icon.svg" style="width: 16px; height: 16px;" alt="">
             Settings
         </button>
         <button class="btn-glass" id="btn-support" onclick="window.location.href='support.html'">
-            <img src="../assets/images/support_icon.png" style="width: 16px; height: 16px;" alt="">
+            <img loading="lazy" src="../assets/images/support_icon.png" style="width: 16px; height: 16px;" alt="">
             Support
         </button>
         
@@ -193,7 +193,11 @@
 
         <div class="stories-container">
             <div id="pane-published" class="tab-pane" style="display: none;">
-                <div class="empty-state">No stories here yet</div>
+                <div class="empty-state">
+                    <img src="../assets/images/plus.svg" alt="Empty" style="width: 48px; height: 48px; opacity: 0.3; margin-bottom: 16px;">
+                    <p style="margin: 0 0 16px 0;">No stories here yet</p>
+                    <button class="btn-primary" style="height: 44px; font-size: 0.9rem; border-radius: 100px;" onclick="window.location.href='add-post.html'">Write a Story</button>
+                </div>
             </div>
             <div id="pane-drafts" class="tab-pane">
                 <div class="articles-grid">
@@ -338,7 +342,7 @@
         </div>
         <div class="modal-user-list">
             <div class="user-list-item">
-                <img src="../assets/images/001.jpg" alt="Avatar" class="user-avatar">
+                <img loading="lazy" src="../assets/images/001.jpg" alt="Avatar" class="user-avatar">
                 <div class="user-info">
                     <span class="user-name">Sarah</span>
                     <span class="user-name">Jenkins</span>
@@ -346,7 +350,7 @@
                 <button class="btn-following-action">unfollow</button>
             </div>
             <div class="user-list-item">
-                <img src="../assets/images/002.jpg" alt="Avatar" class="user-avatar">
+                <img loading="lazy" src="../assets/images/002.jpg" alt="Avatar" class="user-avatar">
                 <div class="user-info">
                     <span class="user-name">Marcus</span>
                     <span class="user-name">Reed</span>
@@ -354,7 +358,7 @@
                 <button class="btn-following-action">unfollow</button>
             </div>
             <div class="user-list-item">
-                <img src="../assets/images/003.jpg" alt="Avatar" class="user-avatar">
+                <img loading="lazy" src="../assets/images/003.jpg" alt="Avatar" class="user-avatar">
                 <div class="user-info">
                     <span class="user-name">Elena</span>
                     <span class="user-name">Rostova</span>
@@ -362,7 +366,7 @@
                 <button class="btn-following-action">unfollow</button>
             </div>
             <div class="user-list-item">
-                <img src="../assets/images/004.jpg" alt="Avatar" class="user-avatar">
+                <img loading="lazy" src="../assets/images/004.jpg" alt="Avatar" class="user-avatar">
                 <div class="user-info">
                     <span class="user-name">James</span>
                     <span class="user-name">Cooper</span>
@@ -390,18 +394,30 @@
         const shareLinkInput = document.getElementById('shareLinkInput');
 
         if (btnShareProfile && shareProfileModal && closeShareModal) {
-            btnShareProfile.addEventListener('click', () => {
+            const openShareModal = () => {
                 shareProfileModal.classList.add('active');
-            });
-
-            closeShareModal.addEventListener('click', () => {
+                document.body.style.overflow = 'hidden';
+            };
+            
+            const closeShareModalFn = () => {
                 shareProfileModal.classList.remove('active');
-            });
+                document.body.style.overflow = '';
+            };
+
+            btnShareProfile.addEventListener('click', openShareModal);
+            closeShareModal.addEventListener('click', closeShareModalFn);
 
             // Close on overlay click
             shareProfileModal.addEventListener('click', (e) => {
                 if (e.target === shareProfileModal) {
-                    shareProfileModal.classList.remove('active');
+                    closeShareModalFn();
+                }
+            });
+            
+            // Close on ESC key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && shareProfileModal.classList.contains('active')) {
+                    closeShareModalFn();
                 }
             });
             
@@ -413,6 +429,7 @@
                     navigator.clipboard.writeText(shareLinkInput.value).then(() => {
                         const originalHTML = copyShareLink.innerHTML;
                         copyShareLink.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                        if (window.showToast) window.showToast('Link copied to clipboard!');
                         setTimeout(() => {
                             copyShareLink.innerHTML = originalHTML;
                         }, 2000);
@@ -600,7 +617,7 @@
 <div class="share-modal-overlay" id="shareProfileModal">
     <div class="share-modal">
         <div class="share-modal__top-icon">
-            <img src="../assets/images/link.png" alt="Link Icon" style="width: 32px; height: 32px; object-fit: contain;">
+            <img loading="lazy" src="../assets/images/link.png" alt="Link Icon" style="width: 32px; height: 32px; object-fit: contain;">
         </div>
         
         <button class="share-modal__close" id="closeShareModal">
@@ -618,7 +635,7 @@
             <div class="share-modal__link-box">
                 <input type="text" value="https://oasis.design/ea" readonly id="shareLinkInput">
                 <button class="share-modal__copy-btn" id="copyShareLink" aria-label="Copy link">
-                    <img src="../assets/images/copy.png" alt="Copy" style="width: 20px; height: 20px; object-fit: contain;">
+                    <img loading="lazy" src="../assets/images/copy.png" alt="Copy" style="width: 20px; height: 20px; object-fit: contain;">
                 </button>
             </div>
         </div>
@@ -628,31 +645,31 @@
             <div class="share-modal__socials">
                 <a href="#" class="social-btn facebook" aria-label="Facebook">
                     <div class="social-icon">
-                        <img src="../assets/images/Facebook - Original.png" alt="Facebook" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img loading="lazy" src="../assets/images/Facebook - Original.png" alt="Facebook" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <span>Facebook</span>
                 </a>
                 <a href="#" class="social-btn instagram" aria-label="Instagram">
                     <div class="social-icon">
-                        <img src="../assets/images/instagram.png" alt="Instagram" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img loading="lazy" src="../assets/images/instagram.png" alt="Instagram" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <span>Instagram</span>
                 </a>
                 <a href="#" class="social-btn whatsapp" aria-label="WhatsApp">
                     <div class="social-icon">
-                        <img src="../assets/images/whatsapp.png" alt="WhatsApp" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img loading="lazy" src="../assets/images/whatsapp.png" alt="WhatsApp" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <span>WhatsApp</span>
                 </a>
                 <a href="#" class="social-btn telegram" aria-label="Telegram">
                     <div class="social-icon">
-                        <img src="../assets/images/Telegram - Original.png" alt="Telegram" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img loading="lazy" src="../assets/images/Telegram - Original.png" alt="Telegram" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <span>Telegram</span>
                 </a>
                 <a href="#" class="social-btn linkedin" aria-label="LinkedIn">
                     <div class="social-icon">
-                        <img src="../assets/images/LinkedIn - Original.png" alt="LinkedIn" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img loading="lazy" src="../assets/images/LinkedIn - Original.png" alt="LinkedIn" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <span>Linkedin</span>
                 </a>

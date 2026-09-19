@@ -307,3 +307,119 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+
+
+    // =================================================================
+    // SMART TAB BAR (Hide on Mobile Keyboard Open)
+    // =================================================================
+    const tabBar = document.querySelector('.tab-bar-wrapper');
+    if (tabBar) {
+        const inputs = document.querySelectorAll('input, textarea');
+        
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                if (window.innerWidth <= 768) {
+                    tabBar.style.display = 'none';
+                }
+            });
+            
+            input.addEventListener('blur', () => {
+                if (window.innerWidth <= 768) {
+                    // Small delay to prevent flickering if jumping between inputs
+                    setTimeout(() => {
+                        if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                            tabBar.style.display = 'block';
+                        }
+                    }, 100);
+                }
+            });
+        });
+    }
+
+
+// =================================================================
+// TOAST NOTIFICATIONS (Phase 2)
+// =================================================================
+window.showToast = function(message, type = 'success') {
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+    
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icon = type === 'success' 
+        ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>'
+        : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+        
+    toast.innerHTML = `${icon} <span>${message}</span>`;
+    container.appendChild(toast);
+    
+    // Trigger animation
+    setTimeout(() => toast.classList.add('show'), 10);
+    
+    // Remove after 3s
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+    }, 3000);
+};
+
+// =================================================================
+// FORM VALIDATIONS & LOADING STATES (Phase 2)
+// =================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Settings Update Button
+    const btnUpdateSettings = document.querySelector('.settings-actions .btn-primary');
+    if (btnUpdateSettings) {
+        btnUpdateSettings.addEventListener('click', (e) => {
+            // Very basic frontend validation example
+            const emailInput = document.querySelector('input[type="email"]');
+            if (emailInput && !emailInput.value.includes('@')) {
+                showToast('Please enter a valid email address.', 'error');
+                emailInput.focus();
+                return;
+            }
+
+            e.preventDefault();
+            btnUpdateSettings.classList.add('btn-loading');
+            
+            // Simulate network request
+            setTimeout(() => {
+                btnUpdateSettings.classList.remove('btn-loading');
+                showToast('Settings saved successfully!');
+            }, 800);
+        });
+    }
+
+    // 2. Profile Editing Save Button (dashboard.html)
+    const btnSaveProfile = document.getElementById('btn-save-profile');
+    if (btnSaveProfile) {
+        // We need to inject this carefully because dashboard.html already has an event listener for this button
+        // Let's hook into it by overriding the onclick or just letting the existing click run and we add the toast
+        btnSaveProfile.addEventListener('click', () => {
+            btnSaveProfile.classList.add('btn-loading');
+            setTimeout(() => {
+                btnSaveProfile.classList.remove('btn-loading');
+                showToast('Profile updated!');
+            }, 600);
+        });
+    }
+
+    // 3. Delete Account Button (Settings)
+    const btnDeleteAccount = document.querySelector('.btn-danger');
+    if (btnDeleteAccount) {
+        btnDeleteAccount.addEventListener('click', (e) => {
+            e.preventDefault();
+            btnDeleteAccount.classList.add('btn-loading');
+            setTimeout(() => {
+                btnDeleteAccount.classList.remove('btn-loading');
+                showToast('Account scheduled for deletion.', 'error');
+            }, 1000);
+        });
+    }
+});
+
