@@ -181,8 +181,8 @@ nav {
     position: fixed;
     bottom: 1.5rem;
     top: auto;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0; right: 0; margin: 0 auto;
+    
     width: fit-content;
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(12px);
@@ -372,9 +372,9 @@ nav {
 .tab-bar-wrapper {
   position: fixed;
   bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 32px); max-width: 340px;
+  left: 0; right: 0; margin: 0 auto;
+  
+  width: 340px; max-width: calc(100% - 32px);
   height: 72px;
   z-index: 100;
   filter: drop-shadow(0 8px 24px rgba(0,0,0,0.12));
@@ -524,7 +524,7 @@ nav {
     align-items: center;
     justify-content: center;
     gap: 4px;
-    width: auto;
+    flex: 1;
     border-radius: 0;
     color: var(--color-text-secondary);
     text-decoration: none;
@@ -572,25 +572,22 @@ nav {
 .classics__image,
 .classics__content,
 .discussions__title,
-.discussions__item {
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-/* --- SINGLE POST INITIAL STATES --- */
+.discussions__item,
 .post-header__title,
 .post-header__badge,
 .post-header__author,
 .post-media__img,
-.post-media__caption {
-    opacity: 0;
-    transform: translateY(20px);
-}
-
-/* --- POPULAR PAGE INITIAL STATES --- */
+.post-media__caption,
 .popular-hero__title {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* When the intersection observer fires */
+.is-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
 }
 
 
@@ -777,3 +774,191 @@ nav {
 }
 
 /* Make sure the text color changes too for likes if needed, although the user just asked for the icon */
+
+/* --- GLOBAL ANIMATIONS --- */
+@keyframes hero-fade-in {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+}
+
+.section-header h2 { font-size: 2rem; }
+
+.filters { display: flex; list-style: none; gap: 0.5rem; }
+
+.filter-btn {
+    padding: 0.6rem 1.25rem;
+    border: none;
+    border-radius: var(--btn-border-radius);
+    background: var(--color-gray-light);
+    color: var(--color-text-secondary);
+    font-family: var(--font-body), sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.filter-btn:hover { background: var(--color-border); }
+.filter-btn.active { background: var(--color-primary); color: #fff; }
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.posts-grid--3col { grid-template-columns: repeat(3, 1fr); }
+
+.post-card { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.post-card__image {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+}
+
+.post-card__image-link { display: block; width: 100%; height: 100%; }
+
+.post-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: var(--transition);
+}
+
+.post-card:hover .post-card__image img { transform: scale(1.06); }
+
+.post-card__badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--btn-border-radius);
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--color-text-main);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.post-card__save-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.post-card:hover .post-card__save-btn { opacity: 1; }
+
+.post-card__save-input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.post-card__save-icon { width: 16px; height: 16px; color: var(--color-text-main); }
+.post-card__save-icon-path { transition: var(--transition); }
+.post-card__save-btn:hover { background: var(--color-border); }
+.post-card__save-btn:hover .post-card__save-icon { color: var(--color-primary-dark); }
+
+.post-card__save-input:checked ~ .post-card__save-icon,
+.post-card__save-input:checked ~ .post-card__save-icon .post-card__save-icon-path {
+    color: #ef4444;
+}
+
+.post-card__save-input:checked ~ .post-card__save-icon .post-card__save-icon-path {
+    stroke: #ef4444;
+    fill-opacity: 1;
+}
+
+.post-card__title-link { text-decoration: none; }
+
+.post-card__title {
+    font-family: var(--font-heading), sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    color: var(--color-text-main);
+    transition: var(--transition);
+}
+
+.post-card:hover .post-card__title { color: var(--color-primary); }
+
+.post-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+.post-card__meta .post-card__author { color: var(--color-text-main); font-weight: 500; }
+
+.load-more-btn {
+    display: block;
+    margin: 0 auto;
+    padding: 0.9rem 2rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--btn-border-radius);
+    background: var(--color-gray-light);
+    color: var(--color-text-main);
+    font-family: var(--font-body), sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.load-more-btn:hover { background: var(--color-border); }
+
+@media (max-width: 1024px) {
+    .posts-grid { grid-template-columns: repeat(2, 1fr); }
+    .posts-grid--3col { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .latest-posts-section { padding: 1.5rem 1rem; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .filters { width: 100%; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .filters::-webkit-scrollbar { display: none; }
+    .posts-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .posts-grid--3col { grid-template-columns: 1fr; }
+    .post-card__save-btn { opacity: 1; }
+    .post-card__badge {
+        font-size: 0.6rem;
+        padding: 0.3rem 0.6rem;
+        max-width: calc(100% - 4.5rem);
+        width: fit-content;
+        white-space: normal;
+    }
+}
+
+
+/* Dark spinners for outline/ghost buttons */
+.btn-ghost.btn-loading::after,
+.btn-outline-dark.btn-loading::after,
+.btn-cancel.btn-loading::after {
+    background: 
+        radial-gradient(farthest-side, var(--color-primary, #2563EB) 94%, #0000) top/3px 3px no-repeat,
+        conic-gradient(#0000 30%, var(--color-primary, #2563EB));
+}
+
+/* Color footer logos to match brand dark blue */
+.site-footer img[src*="logo.svg"] {
+    filter: invert(15%) sepia(34%) saturate(3665%) hue-rotate(211deg) brightness(92%) contrast(95%);
+}

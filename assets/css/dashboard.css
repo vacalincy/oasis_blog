@@ -283,12 +283,19 @@
 
 /* Content Area */
 .dashboard-content {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     min-height: 0;
 }
 
 .stories-container {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
     background-color: var(--color-bg);
     border-radius: 24px;
     padding: 32px;
@@ -492,6 +499,10 @@
         gap: 48px;
     }
     .stories-container {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
         height: 416px;
     }
 }
@@ -971,7 +982,9 @@
 
     .stories-container {
         width: 100% !important;
+        max-width: 100%;
         box-sizing: border-box !important;
+        margin: 0 auto;
         padding: 20px !important;
     }
 
@@ -1025,6 +1038,10 @@
     
     /* Adjust container height slightly if needed */
     .stories-container {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
         height: auto !important; /* Let it grow or fix it */
         min-height: 416px !important;
     }
@@ -1382,6 +1399,7 @@
         box-sizing: border-box !important;
         display: flex !important;
         flex-direction: column !important;
+        align-items: stretch !important;
     }
     
     .dashboard-sidebar {
@@ -1418,6 +1436,7 @@
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
+        margin: 0 auto;
     }
 }
 
@@ -1442,6 +1461,10 @@
         scrollbar-width: none;
     }
     .stories-container {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
         height: auto !important;
         min-height: 416px !important;
         padding: 16px !important;

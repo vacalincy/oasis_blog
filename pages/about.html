@@ -9,11 +9,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/about.css">
-    <link rel="icon" type="image/svg+xml" href="../assets/images/brand/favicon2.svg">
+    <link rel="stylesheet" href="../assets/css/style.css?v=4">
+    <link rel="stylesheet" href="../assets/css/about.css?v=8">
+    <link rel="icon" type="image/png" href="../assets/images/brand/favicon-label.png">
 
-    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/main-v3.js"></script>
 </head>
 <body>
 
@@ -1293,8 +1293,9 @@
         
         function updateTimeline(index) {
             // Remove classes and force reflow to perfectly restart CSS animations
-            steps.forEach(step => step.classList.remove('active', 'done'));
-            void img.offsetWidth; // trigger reflow
+            steps.forEach(step => { step.classList.remove('active', 'done'); });
+            // noinspection BadExpressionStatementJS
+            img.offsetWidth; // trigger reflow
             
             steps.forEach((step, i) => {
                 if (i < index) {
@@ -1336,7 +1337,7 @@
             updateTimeline(0);
             startTimer();
         }, 100);
-    });
+    })();
 </script>
 
 
@@ -1349,7 +1350,7 @@
             <img src="../assets/images/brand/logo.svg" alt="OASIS Logo">
         </div>
         <div class="footer-center">
-            <img loading="lazy" src="../assets/images/brand/favicon2.svg" alt="OASIS Icon">
+            <img loading="lazy" src="../assets/images/brand/favicon-label.png" alt="OASIS Icon">
         </div>
         <div class="footer-right">
             <p>Escape the noise.<br>Curate your world.</p>
@@ -1390,5 +1391,76 @@
         </div>
     </footer>
 
+
+
+<!-- ============================================= -->
+<!-- SCRIPTS                                       -->
+<!-- ============================================= -->
+<!--suppress HtmlUnknownTarget, JSUnresolvedLibraryURL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<!--suppress HtmlUnknownTarget, JSUnresolvedLibraryURL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<!-- INLINE GSAP ANIMATION TO BYPASS CACHE -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    if (typeof gsap === 'undefined') return;
+    if (typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+    }
+
+    // 1. HERO SECTION (Exactly like index.html)
+    const title = document.querySelector(".about-hero__title");
+    if (title) {
+        const lines = ["Curated Stories.", "Meaningful Whitespace."];
+        title.innerHTML = "";
+        lines.forEach((line, index) => {
+            const lineContainer = document.createElement("span");
+            lineContainer.style.display = "inline-block";
+            line.split(" ").forEach(word => {
+                const wordSpan = document.createElement("span");
+                wordSpan.innerHTML = word + "&nbsp;";
+                wordSpan.style.display = "inline-block";
+                wordSpan.classList.add("about-hero-word");
+                lineContainer.appendChild(wordSpan);
+            });
+            title.appendChild(lineContainer);
+            if (index === 0) title.appendChild(document.createElement("br"));
+        });
+    }
+
+    const subtitle = document.querySelector(".about-hero__subtitle");
+    if (subtitle) {
+        const subtitleText = "OASIS is a digital sanctuary for high-end photography, editorial reads, and minimalist design.";
+        subtitle.innerHTML = "";
+        subtitleText.split(" ").forEach(word => {
+            const wordSpan = document.createElement("span");
+            wordSpan.innerHTML = word + "&nbsp;";
+            wordSpan.style.display = "inline-block";
+            wordSpan.classList.add("about-subtitle-word");
+            subtitle.appendChild(wordSpan);
+        });
+    }
+
+    
+    // 3. ANIMATE HERO (Timeline without ScrollTrigger)
+    const heroTl = gsap.timeline();
+    if (title) {
+        heroTl.fromTo(".about-hero-word", 
+            { y: 30, opacity: 0 }, 
+            { y: 0, opacity: 1, duration: 1.3, ease: "power2.out", stagger: 0.25 }, 
+            0
+        );
+    }
+    if (subtitle) {
+        heroTl.fromTo(".about-subtitle-word", 
+            { y: 20, opacity: 0 }, 
+            { y: 0, opacity: 1, duration: 1.0, ease: "power2.out", stagger: 0.05 }, 
+            "-=0.8"
+        );
+    }
+});
+</script>
 </body>
+
 </html>

@@ -1,3 +1,6 @@
+/* global gsap, ScrollTrigger */
+// noinspection JSUnresolvedReference, JSCheckFunctionSignatures, JSUnusedGlobalSymbols
+
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -362,5 +365,21 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.key === 'Escape') {
             closeAllModals();
         }
+    });
+});
+// Hook up Auth Forms to redirect with loading animation
+document.addEventListener('DOMContentLoaded', () => {
+    const authForms = document.querySelectorAll('.auth-modal__form');
+    authForms.forEach(form => {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const submitBtn = form.querySelector('.auth-modal__submit');
+            if (submitBtn) submitBtn.classList.add('btn-loading');
+            
+            setTimeout(() => {
+                sessionStorage.setItem('pendingToast', 'Welcome to Oasis!');
+                window.location.href = 'pages/discover.html';
+            }, 800);
+        });
     });
 });

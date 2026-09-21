@@ -46,8 +46,7 @@
 
 /* Initially hide title for JS stagger */
 .about-hero__title {
-    opacity: 0;
-    transform: translateY(20px);
+    /* Animated via GSAP */
 }
 
 .about-hero__subtitle {
@@ -56,10 +55,7 @@
     color: var(--color-text-secondary);
     line-height: 1.6;
     width: 100%;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: hero-fade-in 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 1.0s; /* Waits for title */
+    /* Animated via GSAP */
 }
 
 
@@ -100,7 +96,7 @@
     position: relative; /* Overlap adjacent cards */
     opacity: 0;
     background: var(--color-surface);
-    }
+}
 
 .about-card img {
     width: 100%;
@@ -125,8 +121,8 @@
     height: 60%;
     z-index: 1;
     --base-y: 0px;
-    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    animation-delay: 0.8s; /* Outermost animates last */
+    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) both;
+    animation-delay: 1.9s; /* Outermost animates last */
 }
 
 .about-card--2 {
@@ -134,8 +130,8 @@
     height: 80%;
     z-index: 2;
     --base-y: 0px;
-    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    animation-delay: 0.65s; /* Adjacent animates second */
+    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) both;
+    animation-delay: 1.7s; /* Adjacent animates second */
 }
 
 .about-card--3 {
@@ -143,8 +139,8 @@
     height: 100%;
     z-index: 3;
     --base-y: 0px;
-    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    animation-delay: 0.5s; /* Center animates first */
+    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) both;
+    animation-delay: 1.5s; /* Center animates first */
         box-shadow: 0 24px 48px rgba(0,0,0,0.12); /* Soft premium shadow */
 }
 
@@ -153,8 +149,8 @@
     height: 80%;
     z-index: 2;
     --base-y: 0px;
-    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    animation-delay: 0.65s;
+    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) both;
+    animation-delay: 1.7s;
 }
 
 .about-card--5 {
@@ -162,8 +158,8 @@
     height: 60%;
     z-index: 1;
     --base-y: 0px;
-    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    animation-delay: 0.8s;
+    animation: center-out-scale 0.8s cubic-bezier(0.25, 1, 0.5, 1) both;
+    animation-delay: 1.9s;
 }
 
 /* Responsive */
@@ -224,6 +220,8 @@
 .number-item {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 0.5rem;
 }
 
@@ -366,15 +364,16 @@
 
 .step-content h3 {
     font-family: 'Sora', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: #64748b; /* Inactive color */
     margin: 0 0 0.5rem 0;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, font-size 0.3s ease;
 }
 
 .timeline-step.active .step-content h3 {
     color: #2563eb;
+    font-size: 1.75rem;
 }
 
 .step-desc-wrapper {
@@ -602,7 +601,7 @@
 
 /* When active, animate filling over 6 seconds */
 .timeline-step.active::before {
-    animation: fillProgress 4s linear forwards;
+    animation: fillProgress 4s linear both;
 }
 
 /* When done, stay fully filled */
@@ -628,7 +627,7 @@
 .oasis-footer {
     padding: 30px 0 80px 0;
     background: #FFFFFF;
-}
+    }
 
 .footer-container {
     display: flex;
@@ -644,38 +643,32 @@
 }
 
 .footer-left img {
+    filter: invert(15%) sepia(34%) saturate(3665%) hue-rotate(211deg) brightness(92%) contrast(95%);
+}
+
+.footer-left img {
     height: 40px;
     width: auto;
-    display: block;
 }
-
-.footer-center {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-}
-
 .footer-center img {
-    height: 60px;
+    height: 56px;
     width: auto;
-    display: block;
 }
 
 .footer-right {
     flex: 1;
     display: flex;
     justify-content: flex-end;
+    text-align: right;
 }
 
 .footer-right p {
-    font-family: 'Sora', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1rem;
-    font-weight: 600;
-    color: #111111;
-    margin: 0;
     line-height: 1.4;
-    text-align: left;
-    max-width: 250px;
+    color: var(--color-primary-dark, #19326F);
+    margin: 0;
+    font-weight: 600;
 }
 
 @media screen and (max-width: 768px) {
@@ -702,11 +695,23 @@
 /* Initial state for JS animation */
 .manifesto-label, .manifesto-text {
     opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease-out;
+}
+.manifesto-label.is-visible, .manifesto-text.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 
 .number-item {
     opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease-out;
+}
+.number-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 
@@ -874,3 +879,5 @@
         min-height: 500px;
     }
 }
+
+
