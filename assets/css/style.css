@@ -970,3 +970,13 @@ input:user-invalid, textarea:user-invalid {
 input:user-invalid:focus, textarea:user-invalid:focus {
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
 }
+
+/* ACCESSIBILITY: Keyboard Focus */
+*:focus-visible {
+    outline: 2px solid var(--color-primary, #19326F) !important;
+    outline-offset: 4px;
+}
+.timeline-step:focus-visible {
+    border-radius: 8px;
+    background: rgba(25, 50, 111, 0.05);
+}
