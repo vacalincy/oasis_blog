@@ -1,13 +1,15 @@
-import Header from './components/Header'
-import './App.css'
+import LandingPage from './pages/LandingPage'
+import Footer from './components/Footer'
+import './index.css'
+import './assets/css/style.css'
+import './assets/css/landing.css'
+import './assets/css/auth-modal.css'
 
 function App() {
   return (
     <div>
-      <Header />
-      <main style={{ marginTop: '100px', textAlign: 'center' }}>
-        <h1>OASIS is coming...</h1>
-      </main>
+      <LandingPage />
+      <Footer />
     </div>
   )
 }

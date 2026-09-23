@@ -28,7 +28,7 @@ html, body.landing-page {
     height: 80px;
 }
 
-.landing-nav__logo img { height: 32px; display: block; }
+.landing-nav__logo img { height: 32px; display: block; filter: invert(15%) sepia(34%) saturate(3665%) hue-rotate(211deg) brightness(92%) contrast(95%); }
 .landing-nav__actions { display: flex; align-items: center; gap: 1.5rem; }
 
 .landing-nav__login {
@@ -612,3 +612,7 @@ html, body.landing-page {
 }
 
 /* ══════════════════════════════════════════════ */
+
+.landing-page-wrapper + .site-footer {
+    margin-top: 0;
+}
