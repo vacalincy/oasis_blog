@@ -11,6 +11,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/style.css?v=5">
     <link rel="stylesheet" href="../assets/css/settings.css">
+
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="OASIS is a digital sanctuary for high-end photography, editorial reads, and minimalist design. Escape the noise.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oasis.design/">
+    <meta property="og:title" content="OASIS | Curate Your World">
+    <meta property="og:description" content="OASIS is a digital sanctuary for high-end photography, editorial reads, and minimalist design. Escape the noise.">
+    <meta property="og:image" content="https://oasis.design/assets/images/content/abstractcurvedlight.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://oasis.design/">
+    <meta property="twitter:title" content="OASIS | Curate Your World">
+    <meta property="twitter:description" content="OASIS is a digital sanctuary for high-end photography, editorial reads, and minimalist design. Escape the noise.">
+    <meta property="twitter:image" content="https://oasis.design/assets/images/content/abstractcurvedlight.jpg">
 </head>
 <body>
     
@@ -78,7 +95,7 @@
                 <div class="settings-card">
                     <h2>Personal details</h2>
                     
-                    <div class="form-grid">
+                    <form class="form-grid" id="settings-form">
                         <div class="form-group full-width">
                             <label for="settings-email">Email Address</label>
                             <input type="email" id="settings-email" class="form-input" value="jane@example.com" required>
@@ -95,7 +112,7 @@
                             <label for="settings-country">Country / Region</label>
                             <input type="text" id="settings-country" class="form-input" placeholder="e.g. United States">
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
 
@@ -218,53 +235,14 @@
 
             <!-- Action Bar -->
             <div class="settings-actions">
-                <button class="btn-primary">Update Settings</button>
+                <button type="submit" form="settings-form" class="btn-primary">Update Settings</button>
                 <button class="btn-ghost">Cancel</button>
             </div>
         </div>
     </main>
 
     <!-- Vanilla JS for Tab Switching and Toggles -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Tab Switching Logic
-            const navItems = document.querySelectorAll('.nav-item');
-            const panes = document.querySelectorAll('.settings-pane');
-
-            navItems.forEach(item => {
-                item.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    
-                    // Remove active class from all tabs
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    
-                    // Add active class to clicked tab
-                    item.classList.add('active');
-                    
-                    // Hide all panes
-                    panes.forEach(pane => pane.style.display = 'none');
-                    
-                    // Show target pane
-                    const targetId = item.getAttribute('data-target');
-                    const targetPane = document.getElementById(targetId);
-                    if (targetPane) {
-                        targetPane.style.display = 'block';
-                    }
-                });
-            });
-
-            
-            
-            
-            // Toggle Switches Logic
-            const toggles = document.querySelectorAll('.toggle-switch');
-            toggles.forEach(toggle => {
-                toggle.addEventListener('click', () => {
-                    toggle.classList.toggle('off');
-                });
-            });
-        });
-    </script>
+    <script src="../assets/js/pages/settings.js"></script>
     <!-- GSAP -->
     <!--suppress HtmlUnknownTarget, JSUnresolvedLibraryURL -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>

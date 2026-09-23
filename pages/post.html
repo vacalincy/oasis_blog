@@ -127,7 +127,7 @@
 <!-- ============================================= -->
 <section class="post-media">
     <div class="container post-media__container">
-        <img loading="lazy" src="../assets/images/content/discover_main_pc.jpg" alt="Snowboarder in mid-air" class="post-media__img">
+        <img src="../assets/images/content/discover_main_pc.jpg" alt="Snowboarder in mid-air" class="post-media__img">
         <p class="post-media__caption">Athlete performing a complex aerial maneuver. Photography by Extreme Winters.</p>
     </div>
 </section>
@@ -410,43 +410,7 @@
     </footer>
 
 <!-- Scripts -->
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Comments Modal Logic
-        const btnViewAll = document.querySelector('.comments__view-all');
-        const commentsModal = document.getElementById('comments-modal');
-        const closeCommentsModal = document.querySelector('.comments-modal__close');
-
-        if (btnViewAll && commentsModal && closeCommentsModal) {
-            const openModal = () => {
-                commentsModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            };
-            
-            const closeModal = () => {
-                commentsModal.classList.remove('active');
-                document.body.style.overflow = '';
-            };
-
-            btnViewAll.addEventListener('click', openModal);
-            closeCommentsModal.addEventListener('click', closeModal);
-
-            // Close on overlay click
-            commentsModal.addEventListener('click', (e) => {
-                if (e.target === commentsModal) {
-                    closeModal();
-                }
-            });
-
-            // Close on ESC
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && commentsModal.classList.contains('active')) {
-                    closeModal();
-                }
-            });
-        }
-    });
-</script>
+<script src="../assets/js/pages/post.js"></script>
 
 </body>
 </html>

@@ -12,6 +12,23 @@
     <link rel="stylesheet" href="../assets/css/style.css?v=5">
     <link rel="stylesheet" href="../assets/css/notifications.css">
     <link rel="icon" type="image/svg+xml" href="../assets/images/brand/favicon2.svg?v=4">
+
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="OASIS is a digital sanctuary for high-end photography, editorial reads, and minimalist design. Escape the noise.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oasis.design/">
+    <meta property="og:title" content="OASIS | Curate Your World">
+    <meta property="og:description" content="OASIS is a digital sanctuary for high-end photography, editorial reads, and minimalist design. Escape the noise.">
+    <meta property="og:image" content="https://oasis.design/assets/images/content/abstractcurvedlight.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://oasis.design/">
+    <meta property="twitter:title" content="OASIS | Curate Your World">
+    <meta property="twitter:description" content="OASIS is a digital sanctuary for high-end photography, editorial reads, and minimalist design. Escape the noise.">
+    <meta property="twitter:image" content="https://oasis.design/assets/images/content/abstractcurvedlight.jpg">
 </head>
 <body class="notifications-body">
 
@@ -180,66 +197,7 @@
 <!-- BOTTOM TAB BAR END -->
 
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const btnMarkRead = document.getElementById('btn-mark-all-read');
-        if (btnMarkRead) {
-            btnMarkRead.addEventListener('click', () => {
-                const unreadItems = document.querySelectorAll('.notification-item.unread');
-                unreadItems.forEach(item => {
-                    item.classList.remove('unread');
-                });
-            });
-        }
-
-        const btnFollow = document.getElementById('btn-follow-back');
-        if (btnFollow) {
-            btnFollow.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (btnFollow.innerText === 'Follow') {
-                    btnFollow.innerText = 'Following';
-                    btnFollow.style.background = 'var(--color-bg-light)';
-                    btnFollow.style.color = 'var(--color-text-main)';
-                    btnFollow.style.border = '1px solid var(--color-border)';
-                } else {
-                    btnFollow.innerText = 'Follow';
-                    btnFollow.style.background = 'var(--color-primary)';
-                    btnFollow.style.color = 'white';
-                    btnFollow.style.border = 'none';
-                }
-            });
-        }
-    });
-
-    // Tab switching logic and filtering for notifications
-    const filterTabs = document.querySelectorAll('.filter-tab');
-    const notifItems = document.querySelectorAll('.notification-item');
-
-    filterTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Update active state
-            filterTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-
-            // Filter logic
-            const filter = tab.getAttribute('data-filter');
-            notifItems.forEach(item => {
-                if (filter === 'all') {
-                    item.style.display = 'flex';
-                } else {
-                    const type = item.getAttribute('data-type');
-                    // Show item if its type matches the filter. 'like' and 'comment' both fall under 'Mentions'
-                    if (type === filter || (filter === 'mention' && type === 'like')) {
-                        item.style.display = 'flex';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                }
-            });
-        });
-    });
-
-</script>
+<script src="../assets/js/pages/notifications.js"></script>
 
 <script src="../assets/js/main-v4.js"></script>
     <script src="../assets/js/about-anim.js"></script>

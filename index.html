@@ -15,6 +15,23 @@
     <link rel="stylesheet" href="assets/css/auth-modal.css">
     <link rel="stylesheet" href="assets/css/landing.css">
     <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon2.svg?v=2">
+
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="OASIS is a digital sanctuary for high-end photography, editorial reads, and minimalist design. Escape the noise.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oasis.design/">
+    <meta property="og:title" content="OASIS | Curate Your World">
+    <meta property="og:description" content="OASIS is a digital sanctuary for high-end photography, editorial reads, and minimalist design. Escape the noise.">
+    <meta property="og:image" content="https://oasis.design/assets/images/content/abstractcurvedlight.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://oasis.design/">
+    <meta property="twitter:title" content="OASIS | Curate Your World">
+    <meta property="twitter:description" content="OASIS is a digital sanctuary for high-end photography, editorial reads, and minimalist design. Escape the noise.">
+    <meta property="twitter:image" content="https://oasis.design/assets/images/content/abstractcurvedlight.jpg">
 </head>
 <body class="landing-page">
 
@@ -45,12 +62,12 @@
         <h1 class="cards-intro__title">A place to display your <br>masterpiece.</h1>
 
         <div class="cards-intro__content">
-            <img src="assets/images/content/landing_p1.jpg" alt="Artwork 1" class="cards-intro__card cards-intro__card--1">
-            <img src="assets/images/content/landing_p2.jpg" alt="Artwork 2" class="cards-intro__card cards-intro__card--2">
-            <img src="assets/images/content/landing_p3.jpg" alt="Artwork 3" class="cards-intro__card cards-intro__card--3">
-            <img src="assets/images/content/landing_p4.jpg" alt="Artwork 4" class="cards-intro__card cards-intro__card--4">
-            <img src="assets/images/content/landing_p5.jpg" alt="Artwork 5" class="cards-intro__card cards-intro__card--5">
-            <img src="assets/images/content/landing_p6.jpg" alt="Artwork 6" class="cards-intro__card cards-intro__card--6">
+            <img src="assets/images/content/landing_p1.jpg" alt="Artwork 1" class="cards-intro__card cards-intro__card--1" loading="lazy">
+            <img src="assets/images/content/landing_p2.jpg" alt="Artwork 2" class="cards-intro__card cards-intro__card--2" loading="lazy">
+            <img src="assets/images/content/landing_p3.jpg" alt="Artwork 3" class="cards-intro__card cards-intro__card--3" loading="lazy">
+            <img src="assets/images/content/landing_p4.jpg" alt="Artwork 4" class="cards-intro__card cards-intro__card--4" loading="lazy">
+            <img src="assets/images/content/landing_p5.jpg" alt="Artwork 5" class="cards-intro__card cards-intro__card--5" loading="lazy">
+            <img src="assets/images/content/landing_p6.jpg" alt="Artwork 6" class="cards-intro__card cards-intro__card--6" loading="lazy">
 
             <span class="cards-intro__bubble cards-intro__bubble--left">Awesome!</span>
             <span class="cards-intro__bubble cards-intro__bubble--right">Nice!</span>
@@ -86,7 +103,7 @@
     <div class="container">
         <h2 class="showcase__big-title">A curated space to share <span>your</span> <br> creative vision.</h2>
         <div class="showcase__media">
-            <img src="assets/images/content/vr.jpg" alt="People exploring stories together" class="showcase__image">
+            <img src="assets/images/content/vr.jpg" alt="People exploring stories together" class="showcase__image" loading="lazy">
             <a href="pages/post.html" class="showcase__preview-card">
                 <div class="showcase__preview-content">
                     <span class="showcase__preview-badge">Design &amp; Interfaces</span>
@@ -128,7 +145,7 @@
                 </div>
                 <div class="signup-cta__field signup-cta__field--password">
                     <label for="signup-password" class="sr-only">Password</label>
-                    <input type="password" id="signup-password" name="password" placeholder="Password" required>
+                    <input type="password" id="signup-password" name="password" placeholder="Password" required minlength="8">
                 </div>
                 <div class="signup-cta__field">
                     <label for="signup-dob" class="sr-only">Date of birth</label>
@@ -137,7 +154,7 @@
                 <button type="submit" class="signup-cta__submit-btn">Continue</button>
                 <div class="signup-cta__divider"><span>or</span></div>
                 <button type="button" class="signup-cta__google-btn">
-                    <img src="assets/images/brand/Google - Original.png" alt="Google Logo" class="signup-cta__google-icon">
+                    <img src="assets/images/brand/Google - Original.png" alt="Google Logo" class="signup-cta__google-icon" loading="lazy">
                     Continue with Google
                 </button>
                 <p class="signup-cta__login-link">Already have an account? <a href="#" class="landing-nav__login">Log in</a></p>
@@ -172,7 +189,7 @@
                 <div class="auth-modal__field auth-modal__field--labeled">
                     <label for="modal-login-password">Password</label>
                     <div class="auth-modal__input-wrap">
-                        <input type="password" id="modal-login-password" name="password" placeholder="Enter your password" required>
+                        <input type="password" id="modal-login-password" name="password" placeholder="Enter your password" required minlength="8">
                         <button type="button" class="auth-modal__icon-btn" aria-label="Toggle password visibility">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         </button>
@@ -186,7 +203,7 @@
                 <div class="auth-modal__divider"><span>OR</span></div>
 
                 <button type="button" class="auth-modal__google">
-                    <img src="assets/images/brand/Google - Original.png" alt="Google icon" class="auth-modal__google-icon">
+                    <img src="assets/images/brand/Google - Original.png" alt="Google icon" class="auth-modal__google-icon" loading="lazy">
                     Continue with Google
                 </button>
             </form>
@@ -199,7 +216,7 @@
         <!-- Right Column: QR Code Scan -->
         <div class="auth-modal__right">
             <div class="auth-modal__qr-box">
-                <img src="assets/images/brand/qr.png" alt="Scan QR code to log in" class="auth-modal__qr-image">
+                <img src="assets/images/brand/qr.png" alt="Scan QR code to log in" class="auth-modal__qr-image" loading="lazy">
             </div>
             <p class="auth-modal__qr-text">Or, log in instantly by scanning code<br>with your phone.</p>
         </div>
@@ -227,7 +244,7 @@
                 <div class="auth-modal__field">
                     <label for="modal-signup-password" class="sr-only">Password</label>
                     <div class="auth-modal__input-wrap">
-                        <input type="password" id="modal-signup-password" name="password" placeholder="Password" required>
+                        <input type="password" id="modal-signup-password" name="password" placeholder="Password" required minlength="8">
                         <button type="button" class="auth-modal__icon-btn" aria-label="Toggle password visibility">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         </button>
@@ -249,7 +266,7 @@
                 <div class="auth-modal__divider"><span>OR</span></div>
 
                 <button type="button" class="auth-modal__google">
-                    <img src="assets/images/brand/Google - Original.png" alt="Google icon" class="auth-modal__google-icon">
+                    <img src="assets/images/brand/Google - Original.png" alt="Google icon" class="auth-modal__google-icon" loading="lazy">
                     Continue with Google
                 </button>
             </form>

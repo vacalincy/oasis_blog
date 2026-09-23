@@ -13,6 +13,23 @@
     <link rel="stylesheet" href="../assets/css/legal.css"> <!-- For the legal-nav -->
     <link rel="stylesheet" href="../assets/css/support.css">
     <link rel="icon" type="image/svg+xml" href="../assets/images/brand/favicon2.svg?v=4">
+
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="OASIS is a digital sanctuary for high-end photography, editorial reads, and minimalist design. Escape the noise.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oasis.design/">
+    <meta property="og:title" content="OASIS | Curate Your World">
+    <meta property="og:description" content="OASIS is a digital sanctuary for high-end photography, editorial reads, and minimalist design. Escape the noise.">
+    <meta property="og:image" content="https://oasis.design/assets/images/content/abstractcurvedlight.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://oasis.design/">
+    <meta property="twitter:title" content="OASIS | Curate Your World">
+    <meta property="twitter:description" content="OASIS is a digital sanctuary for high-end photography, editorial reads, and minimalist design. Escape the noise.">
+    <meta property="twitter:image" content="https://oasis.design/assets/images/content/abstractcurvedlight.jpg">
 </head>
 <body class="support-body">
 
@@ -88,21 +105,6 @@
 
     </main>
 
-    <script>
-        // Simple accordion logic for FAQs
-        document.querySelectorAll('.faq-question').forEach(item => {
-            item.addEventListener('click', () => {
-                const parent = item.parentElement;
-                
-                // Optional: Close other open items
-                document.querySelectorAll('.faq-item').forEach(faq => {
-                    if (faq !== parent) faq.classList.remove('active');
-                });
-
-                // Toggle current item
-                parent.classList.toggle('active');
-            });
-        });
-    </script>
+    <script src="../assets/js/pages/support.js"></script>
 </body>
 </html>
