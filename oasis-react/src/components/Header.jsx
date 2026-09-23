@@ -1,21 +1,22 @@
+import { Link } from 'react-router-dom';
 export default function Header() {
   return (
     <nav>
       <div className="container nav__container">
         
         {/* 1. Logo */}
-        <a href="/discover" className="nav__logo">
+        <Link to="/discover" className="nav__logo">
           <img src="/assets/images/brand/logo.svg" alt="OASIS Logo" />
-        </a>
+        </Link>
 
         {/* 2. Center menu (desktop) / sliding panel (mobile) */}
         <ul className="nav__items">
           <li><button id="close__nav-btn">✕</button></li>
-          <li><a href="/discover" className="active">Discover</a></li>
-          <li><a href="/following">Following</a></li>
-          <li><a href="/popular">Popular</a></li>
-          <li><a href="/topics">Topics</a></li>
-          <li><a href="/about">About</a></li>
+          <li><Link to="/discover" className="active">Discover</Link></li>
+          <li><Link to="/following">Following</Link></li>
+          <li><Link to="/popular">Popular</Link></li>
+          <li><Link to="/topics">Topics</Link></li>
+          <li><Link to="/about">About</Link></li>
         </ul>
 
         {/* 3. Right side: search, notifications, avatar, burger */}
@@ -25,11 +26,11 @@ export default function Header() {
             <input type="text" placeholder="Search stories..." aria-label="Search stories" />
           </form>
 
-          <a href="/notifications" className="notification-btn" aria-label="Notifications">
+          <Link to="/notifications" className="notification-btn" aria-label="Notifications">
             <img loading="lazy" src="/assets/images/icons/notification_icon.svg" alt="Notifications" />
-          </a>
+          </Link>
 
-          <a href="/dashboard" className="avatar">EA</a>
+          <Link to="/dashboard" className="avatar">EA</Link>
 
           {/* burger button, only visible on mobile */}
           <button id="open__nav-btn">☰</button>

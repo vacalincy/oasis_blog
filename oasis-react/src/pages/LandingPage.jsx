@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Footer from '../components/Footer';
 
 export default function LandingPage() {
   
@@ -31,7 +33,7 @@ export default function LandingPage() {
     <div className="landing-page-wrapper">
       <nav className="landing-nav">
     <div className="container landing-nav__container">
-        <a href="pages/discover.html" className="landing-nav__logo">
+        <a href="/discover" className="landing-nav__logo">
             <img src="/assets/images/brand/logo.svg" alt="OASIS Logo" />
         </a>
         <div className="landing-nav__actions">
@@ -69,7 +71,7 @@ export default function LandingPage() {
             <h2 className="cards-intro__subtitle">Writers share their insights, and readers discover stories about <br />design, code, and modern culture.</h2>
             <div className="cards-intro__button-group">
                 <a href="#" className="cards-intro__btn cards-intro__btn--primary">Join for free</a>
-                <a href="pages/discover.html" className="cards-intro__btn cards-intro__btn--secondary">Explore stories</a>
+                <Link to="/discover" className="cards-intro__btn cards-intro__btn--secondary">Explore stories</Link>
             </div>
         </div>
     </div>
