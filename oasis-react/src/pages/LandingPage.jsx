@@ -97,7 +97,7 @@ export default function LandingPage() {
         <h2 className="showcase__big-title">A curated space to share <span>your</span> <br /> creative vision.</h2>
         <div className="showcase__media">
             <img src="/assets/images/content/vr.jpg" alt="People exploring stories together" className="showcase__image" loading="lazy" />
-            <a href="pages/post.html" className="showcase__preview-card">
+            <Link to="/post" className="showcase__preview-card">
                 <div className="showcase__preview-content">
                     <span className="showcase__preview-badge">Design &amp; Interfaces</span>
                     <h3 className="showcase__preview-title">Warm Palettes &amp; Natural Textures</h3>
@@ -108,7 +108,7 @@ export default function LandingPage() {
                         <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                 </span>
-            </a>
+            </Link>
         </div>
         <div className="showcase__trust">
             <h2 className="showcase__trust-title">Trusted by <span>The Best.</span></h2>
@@ -131,7 +131,7 @@ export default function LandingPage() {
                 <img src="/assets/images/brand/favicon-label.png" alt="OASIS" className="signup-cta__form-icon" />
                 <p className="signup-cta__form-headline">Join Oasis for free to discover more ideas and stories.</p>
             </div>
-            <form className="signup-cta__fields" action="#" method="post">
+            <form className="signup-cta__fields" onSubmit={(e) => e.preventDefault()}>
                 <div className="signup-cta__field">
                     <label htmlFor="signup-email" className="sr-only">Email address</label>
                     <input type="email" id="signup-email" name="email" placeholder="Email address" required />
@@ -151,7 +151,7 @@ export default function LandingPage() {
                     Continue with Google
                 </button>
                 <p className="signup-cta__login-link">Already have an account? <a href="#" className="landing-nav__login">Log in</a></p>
-                <p className="signup-cta__legal">By continuing, you agree to Oasis's <a href="pages/terms.html">Terms of Service</a> and acknowledge you've read our <a href="pages/privacy.html">Privacy Policy</a>.</p>
+                <p className="signup-cta__legal">By continuing, you agree to Oasis's <Link to="/terms">Terms of Service</Link> and acknowledge you've read our <Link to="/privacy">Privacy Policy</Link>.</p>
             </form>
         </div>
     </div>
@@ -173,7 +173,7 @@ export default function LandingPage() {
             <h2 className="auth-modal__title">Welcome to OASIS</h2>
             <p className="auth-modal__subtitle">Log in to discover more ideas just for you</p>
 
-            <form className="auth-modal__form" action="#" method="post">
+            <form className="auth-modal__form" onSubmit={(e) => e.preventDefault()}>
                 <div className="auth-modal__field auth-modal__field--labeled">
                     <label htmlFor="modal-login-email">Email</label>
                     <input type="email" id="modal-login-email" name="email" placeholder="name@example.com" required />
@@ -189,7 +189,7 @@ export default function LandingPage() {
                     </div>
                 </div>
 
-                <a href="pages/forgot-password.html" className="auth-modal__forgot">forgotten password?</a>
+                <Link to="/forgot-password" className="auth-modal__forgot">forgotten password?</Link>
 
                 <button type="submit" className="auth-modal__submit">Log In</button>
 
@@ -202,7 +202,7 @@ export default function LandingPage() {
             </form>
 
             <p className="auth-modal__legal">
-                By continuing, you agree to the <a href="pages/terms.html">Terms of Service</a><br /> and <a href="pages/privacy.html">Privacy Policy</a>.
+                By continuing, you agree to the <Link to="/terms">Terms of Service</Link><br /> and <Link to="/privacy">Privacy Policy</Link>.
             </p>
         </div>
 
@@ -228,7 +228,7 @@ export default function LandingPage() {
             <h2 className="auth-modal__title">Welcome to OASIS</h2>
             <p className="auth-modal__subtitle">Sign up to discover more ideas<br />just for you.</p>
 
-            <form className="auth-modal__form" action="#" method="post">
+            <form className="auth-modal__form" onSubmit={(e) => e.preventDefault()}>
                 <div className="auth-modal__field">
                     <label htmlFor="modal-signup-email" className="sr-only">Email address</label>
                     <input type="email" id="modal-signup-email" name="email" placeholder="Email address" required />
@@ -265,7 +265,7 @@ export default function LandingPage() {
             </form>
 
             <p className="auth-modal__legal">
-                By continuing, you agree to the <a href="pages/terms.html">Terms of Service</a><br /> and <a href="pages/privacy.html">Privacy Policy</a>.
+                By continuing, you agree to the <Link to="/terms">Terms of Service</Link><br /> and <Link to="/privacy">Privacy Policy</Link>.
             </p>
         </div>
     </div>

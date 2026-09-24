@@ -1,11 +1,23 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation , Navigate } from 'react-router-dom'
 import LandingPage from './pages/LandingPage'
 import DiscoverPage from './pages/DiscoverPage'
+import TermsPage from './pages/TermsPage'
+import PrivacyPage from './pages/PrivacyPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
+import PostPage from './pages/PostPage'
+import CategoryPage from './pages/CategoryPage'
+import ProfilePage from './pages/ProfilePage'
+import './assets/css/legal.css'
 import './index.css'
 import './assets/css/style.css'
 import './assets/css/landing.css'
 import './assets/css/auth-modal.css'
+import './assets/css/auth.css'
+import './assets/css/post.css'
+import './assets/css/category-post.css'
+import './assets/css/profile.css'
 import './assets/css/discover.css' // Import discover css
 
 
@@ -13,6 +25,9 @@ function ScrollObserver() {
   const location = useLocation();
 
   useEffect(() => {
+    // Scroll to top on route change
+    window.scrollTo(0, 0);
+    
     const revealSelectors = [
         '.section-header h2', '.category-title', '.category-description',
         '.filters', '.post-card', '.load-more-btn',
@@ -54,6 +69,14 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/discover" element={<DiscoverPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/post" element={<PostPage />} />
+        <Route path="/category" element={<CategoryPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   )

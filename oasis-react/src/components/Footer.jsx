@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -7,24 +8,24 @@ export default function Footer() {
             <div className="footer-column">
                 <img src="/assets/images/brand/logo.svg" alt="OASIS Logo" style={{ height: '24px', marginBottom: '20px', display: 'block' }} />
                 <ul>
-                    <li><a href="/about">About Us</a></li>
-                    <li><a href="/contact">Contact</a></li>
+                    <li><Link to="/about">About Us</Link></li>
+                    <li><Link to="/contact">Contact</Link></li>
                 </ul>
             </div>
             <div className="footer-column">
                 <h4>Discover</h4>
                 <ul>
-                    <li><a href="/topics">All Topics</a></li>
-                    <li><a href="/popular">Popular Stories</a></li>
-                    <li><a href="/discover">Recommended</a></li>
+                    <li><Link to="/topics">All Topics</Link></li>
+                    <li><Link to="/popular">Popular Stories</Link></li>
+                    <li><Link to="/discover">Recommended</Link></li>
                 </ul>
             </div>
             <div className="footer-column">
                 <h4>Legal &amp; Help</h4>
                 <ul>
-                    <li><a href="/terms">Terms of Service</a></li>
-                    <li><a href="/privacy">Privacy Policy</a></li>
-                    <li><a href="/support">Support / Help Center</a></li>
+                    <li><Link to="/terms">Terms of Service</Link></li>
+                    <li><Link to="/privacy">Privacy Policy</Link></li>
+                    <li><Link to="/support">Support / Help Center</Link></li>
                 </ul>
             </div>
         </div>

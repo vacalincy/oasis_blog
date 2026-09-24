@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -6,75 +7,46 @@ export default function DiscoverPage() {
   return (
     <div className="discover-page">
       <Header />
-      {/* BOTTOM TAB BAR START */}
-<div className="tab-bar-wrapper">
-  <div className="tab-bar-base">
-    <a href="discover.html" className="nav-item active">
-       <img src="/assets/images/icons/tabbar_home.png" alt="Home" />
-    </a>
-    <a href="search.html" className="nav-item ">
-       <img src="/assets/images/icons/tabbar_search.png" alt="Search" />
-    </a>
-    <a href="add-post.html" className="nav-item ">
-       <img src="/assets/images/icons/tabbar_add.png" alt="Add post" />
-    </a>
-    <a href="dashboard.html" className="nav-item ">
-       <img src="/assets/images/icons/tabbar_profile.png" alt="Profile" />
-    </a>
-  </div>
-  <div className="tab-bar-highlight">
-    <div className="nav-item"><img src="/assets/images/icons/tabbar_home.png" alt="Home" /></div>
-    <div className="nav-item"><img src="/assets/images/icons/tabbar_search.png" alt="Search" /></div>
-    <div className="nav-item"><img src="/assets/images/icons/tabbar_add.png" alt="Add post" /></div>
-    <div className="nav-item"><img src="/assets/images/icons/tabbar_profile.png" alt="Profile" /></div>
-  </div>
-</div>
-{/* BOTTOM TAB BAR END */}
-{/* ============================================= */}
-{/* BOTTOM TAB BAR END                             */}
-{/* ============================================= */}
-
-
-{/* ============================================= */}
-{/* FEATURED POST SECTION START                    */}
+      
+      {/* FEATURED POST SECTION START                    */}
 {/* ============================================= */}
 <section className="featured-post-section">
     <div className="container">
         <div className="featured-post">
 
             {/* Left column: image, links to the full post */}
-            <a href="post.html" className="featured-post__link">
+            <Link to="/post" className="featured-post__link">
                 <img src="/assets/images/content/discover_main_pc.jpg" alt="Snowboarding" />
-            </a>
+            </Link>
 
             {/* Right column: badge, title, text, author */}
             <div className="featured-post__content">
 
                 {/* category badge, links to the category archive */}
-                <a href="category-post.html?cat=sports" className="featured-post__badge">
+                <Link to="/category?cat=sports" className="featured-post__badge">
                     <span className="featured-post__title">Action & Extreme</span>
-                </a>
+                </Link>
 
                 {/* title + text group */}
                 <div className="featured-post__info">
 
                     {/* title also links to the full post, same as the image */}
-                    <a href="post.html" className="featured-post__title-link">
+                    <Link to="/post" className="featured-post__title-link">
                         <h2>Defying Gravity: The Art of High-Altitude Snowboarding</h2>
-                    </a>
+                    </Link>
 
                     <p>Experience the raw thrill of winter sports. From soaring above the halfpipe to mastering complex aerial maneuvers, elite snowboarders are constantly pushing the boundaries of what is humanly possible in sub-zero conditions.</p>
 
                 </div>
 
                 {/* author block, pinned to the bottom via CSS — links to the author's profile page */}
-                <a href="profile.html" className="featured-post__author">
+                <Link to="/profile" className="featured-post__author">
                     <img loading="lazy" src="/assets/images/icons/avatar.svg" alt="Julian Vance" />
                     <div className="featured-post__author__name">
                         <p><b>Julian Vance</b></p>
                         <time dateTime="2024-02-12">February 12, 2024</time>
                     </div>
-                </a>
+                </Link>
 
             </div>
 
@@ -112,9 +84,9 @@ export default function DiscoverPage() {
                  stores the saved/not-saved state, styled via CSS only — no JS needed. */}
             <article className="post-card">
                 <div className="post-card__image">
-                    <a href="post.html" className="post-card__image-link">
+                    <Link to="/post" className="post-card__image-link">
                         <img loading="lazy" src="/assets/images/content/mainfeed1.jpg" alt="The New Wave of Motion Photography in Fashion" />
-                    </a>
+                    </Link>
                     <span className="post-card__badge">Photography &amp; Film</span>
 
                     <label className="post-card__save-btn" aria-label="Save post">
@@ -124,9 +96,9 @@ export default function DiscoverPage() {
                         </svg>
                     </label>
                 </div>
-                <a href="post.html" className="post-card__title-link">
+                <Link to="/post" className="post-card__title-link">
                     <h3 className="post-card__title">The New Wave of Motion Photography in Fashion</h3>
-                </a>
+                </Link>
                 <div className="post-card__meta">
                     <span className="post-card__author">Elena Rossi</span>
                     <span>·</span>
@@ -136,9 +108,9 @@ export default function DiscoverPage() {
 
             <article className="post-card">
                 <div className="post-card__image">
-                    <a href="post.html" className="post-card__image-link">
+                    <Link to="/post" className="post-card__image-link">
                         <img loading="lazy" src="/assets/images/content/mainfeed2.jpg" alt="Conquering the Alpine Giants: A Solo Ascent" />
-                    </a>
+                    </Link>
                     <span className="post-card__badge">Travel &amp; Outdoors</span>
 
                     <label className="post-card__save-btn" aria-label="Save post">
@@ -148,9 +120,9 @@ export default function DiscoverPage() {
                         </svg>
                     </label>
                 </div>
-                <a href="post.html" className="post-card__title-link">
+                <Link to="/post" className="post-card__title-link">
                     <h3 className="post-card__title">Conquering the Alpine Giants: A Solo Ascent</h3>
-                </a>
+                </Link>
                 <div className="post-card__meta">
                     <span className="post-card__author">David Chen</span>
                     <span>·</span>
@@ -160,9 +132,9 @@ export default function DiscoverPage() {
 
             <article className="post-card">
                 <div className="post-card__image">
-                    <a href="post.html" className="post-card__image-link">
+                    <Link to="/post" className="post-card__image-link">
                         <img loading="lazy" src="/assets/images/content/mainfeed3.jpg" alt="Brutalist Typography: Breaking the Grid in Print" />
-                    </a>
+                    </Link>
                     <span className="post-card__badge">Design &amp; Interfaces</span>
 
                     <label className="post-card__save-btn" aria-label="Save post">
@@ -172,9 +144,9 @@ export default function DiscoverPage() {
                         </svg>
                     </label>
                 </div>
-                <a href="post.html" className="post-card__title-link">
+                <Link to="/post" className="post-card__title-link">
                     <h3 className="post-card__title">Brutalist Typography: Breaking the Grid in Print</h3>
-                </a>
+                </Link>
                 <div className="post-card__meta">
                     <span className="post-card__author">Sarah Jenkins</span>
                     <span>·</span>
@@ -184,9 +156,9 @@ export default function DiscoverPage() {
 
             <article className="post-card">
                 <div className="post-card__image">
-                    <a href="post.html" className="post-card__image-link">
+                    <Link to="/post" className="post-card__image-link">
                         <img loading="lazy" src="/assets/images/content/mainfeed4.jpg" alt="Vertical Ice: The Psychology of Crevasse Climbing" />
-                    </a>
+                    </Link>
                     <span className="post-card__badge">Action &amp; Extreme</span>
 
                     <label className="post-card__save-btn" aria-label="Save post">
@@ -196,9 +168,9 @@ export default function DiscoverPage() {
                         </svg>
                     </label>
                 </div>
-                <a href="post.html" className="post-card__title-link">
+                <Link to="/post" className="post-card__title-link">
                     <h3 className="post-card__title">Vertical Ice: The Psychology of Crevasse Climbing</h3>
-                </a>
+                </Link>
                 <div className="post-card__meta">
                     <span className="post-card__author">David Chen</span>
                     <span>·</span>
@@ -208,9 +180,9 @@ export default function DiscoverPage() {
 
             <article className="post-card">
                 <div className="post-card__image">
-                    <a href="post.html" className="post-card__image-link">
+                    <Link to="/post" className="post-card__image-link">
                         <img loading="lazy" src="/assets/images/content/vr.jpg" alt="The Future of Virtual Reality in Modern Education" />
-                    </a>
+                    </Link>
                     <span className="post-card__badge">Science &amp; Technology</span>
 
                     <label className="post-card__save-btn" aria-label="Save post">
@@ -220,9 +192,9 @@ export default function DiscoverPage() {
                         </svg>
                     </label>
                 </div>
-                <a href="post.html" className="post-card__title-link">
+                <Link to="/post" className="post-card__title-link">
                     <h3 className="post-card__title">The Future of Virtual Reality in Modern Education</h3>
-                </a>
+                </Link>
                 <div className="post-card__meta">
                     <span className="post-card__author">Jane Doe</span>
                     <span>·</span>
@@ -232,9 +204,9 @@ export default function DiscoverPage() {
 
             <article className="post-card">
                 <div className="post-card__image">
-                    <a href="post.html" className="post-card__image-link">
+                    <Link to="/post" className="post-card__image-link">
                         <img loading="lazy" src="/assets/images/content/vr.jpg" alt="The Future of Virtual Reality in Modern Education" />
-                    </a>
+                    </Link>
                     <span className="post-card__badge">Science &amp; Technology</span>
 
                     <label className="post-card__save-btn" aria-label="Save post">
@@ -244,9 +216,9 @@ export default function DiscoverPage() {
                         </svg>
                     </label>
                 </div>
-                <a href="post.html" className="post-card__title-link">
+                <Link to="/post" className="post-card__title-link">
                     <h3 className="post-card__title">The Future of Virtual Reality in Modern Education</h3>
-                </a>
+                </Link>
                 <div className="post-card__meta">
                     <span className="post-card__author">Jane Doe</span>
                     <span>·</span>
@@ -256,9 +228,9 @@ export default function DiscoverPage() {
 
             <article className="post-card">
                 <div className="post-card__image">
-                    <a href="post.html" className="post-card__image-link">
+                    <Link to="/post" className="post-card__image-link">
                         <img loading="lazy" src="/assets/images/content/vr.jpg" alt="The Future of Virtual Reality in Modern Education" />
-                    </a>
+                    </Link>
                     <span className="post-card__badge">Science &amp; Technology</span>
 
                     <label className="post-card__save-btn" aria-label="Save post">
@@ -268,9 +240,9 @@ export default function DiscoverPage() {
                         </svg>
                     </label>
                 </div>
-                <a href="post.html" className="post-card__title-link">
+                <Link to="/post" className="post-card__title-link">
                     <h3 className="post-card__title">The Future of Virtual Reality in Modern Education</h3>
-                </a>
+                </Link>
                 <div className="post-card__meta">
                     <span className="post-card__author">Jane Doe</span>
                     <span>·</span>
@@ -280,9 +252,9 @@ export default function DiscoverPage() {
 
             <article className="post-card">
                 <div className="post-card__image">
-                    <a href="post.html" className="post-card__image-link">
+                    <Link to="/post" className="post-card__image-link">
                         <img loading="lazy" src="/assets/images/content/vr.jpg" alt="The Future of Virtual Reality in Modern Education" />
-                    </a>
+                    </Link>
                     <span className="post-card__badge">Science &amp; Technology</span>
 
                     <label className="post-card__save-btn" aria-label="Save post">
@@ -292,9 +264,9 @@ export default function DiscoverPage() {
                         </svg>
                     </label>
                 </div>
-                <a href="post.html" className="post-card__title-link">
+                <Link to="/post" className="post-card__title-link">
                     <h3 className="post-card__title">The Future of Virtual Reality in Modern Education</h3>
-                </a>
+                </Link>
                 <div className="post-card__meta">
                     <span className="post-card__author">Jane Doe</span>
                     <span>·</span>
@@ -312,6 +284,7 @@ export default function DiscoverPage() {
 {/* ============================================= */}
 {/* LATEST POSTS SECTION END                       */}
 {/* ============================================= */}
+
 
 
 
