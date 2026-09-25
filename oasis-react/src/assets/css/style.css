@@ -980,3 +980,20 @@ input:user-invalid:focus, textarea:user-invalid:focus {
     border-radius: 8px;
     background: rgba(25, 50, 111, 0.05);
 }
+
+/* Split Text Animation */
+.split-text-wrapper {
+    display: inline-block;
+}
+
+.split-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.is-visible .split-word {
+    opacity: 1;
+    transform: translateY(0);
+}

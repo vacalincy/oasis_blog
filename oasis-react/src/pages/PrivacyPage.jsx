@@ -44,7 +44,7 @@ export default function PrivacyPage() {
 
             <h2>5. Your Legal Rights</h2>
             <p>Under certain circumstances, you have rights under data protection laws in relation to your personal data, including the right to request access, correction, erasure, restriction, transfer, to object to processing, to portability of data and (where the lawful ground of processing is consent) to withdraw consent.</p>
-            <p>If you wish to exercise any of the rights set out above, please <a href="contact.html">contact us</a>.</p>
+            <p>If you wish to exercise any of the rights set out above, please <Link to="/contact">contact us</Link>.</p>
         </div>
     </main>
 

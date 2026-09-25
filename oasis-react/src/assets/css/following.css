@@ -161,3 +161,8 @@
 }
 
 /* ============================================= */
+
+/* Fix for React: offset the global body padding */
+.following-page {
+    margin-top: -80px;
+}

@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 export default function Header() {
+  console.log("Header rendered!");
   return (
     <nav>
       <div className="container nav__container">
@@ -12,11 +13,11 @@ export default function Header() {
         {/* 2. Center menu (desktop) / sliding panel (mobile) */}
         <ul className="nav__items">
           <li><button id="close__nav-btn">✕</button></li>
-          <li><Link to="/discover" className="active">Discover</Link></li>
-          <li><Link to="/following">Following</Link></li>
-          <li><Link to="/popular">Popular</Link></li>
-          <li><Link to="/topics">Topics</Link></li>
-          <li><Link to="/about">About</Link></li>
+          <li><NavLink to="/discover">Discover</NavLink></li>
+          <li><NavLink to="/following">Following</NavLink></li>
+          <li><NavLink to="/popular">Popular</NavLink></li>
+          <li><NavLink to="/topics">Topics</NavLink></li>
+          <li><NavLink to="/about">About</NavLink></li>
         </ul>
 
         {/* 3. Right side: search, notifications, avatar, burger */}

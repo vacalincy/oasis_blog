@@ -133,7 +133,7 @@ export default function PostPage() {
 
         {/* --- new comment input --- */}
         <form className="comment-form">
-            <a href="dashboard.html" className="avatar">EA</a>
+            <Link to="/dashboard" className="avatar">EA</Link>
             <textarea className="comment-form__input" placeholder="What are your thoughts?" aria-label="Comment text"></textarea>
             <button type="submit" className="comment-form__submit">Respond</button>
         </form>

@@ -9,6 +9,9 @@ import ResetPasswordPage from './pages/ResetPasswordPage'
 import PostPage from './pages/PostPage'
 import CategoryPage from './pages/CategoryPage'
 import ProfilePage from './pages/ProfilePage'
+import FollowingPage from './pages/FollowingPage'
+import PopularPage from './pages/PopularPage'
+import TopicsPage from './pages/TopicsPage'
 import './assets/css/legal.css'
 import './index.css'
 import './assets/css/style.css'
@@ -18,6 +21,9 @@ import './assets/css/auth.css'
 import './assets/css/post.css'
 import './assets/css/category-post.css'
 import './assets/css/profile.css'
+import './assets/css/following.css'
+import './assets/css/popular.css'
+import './assets/css/topics.css'
 import './assets/css/discover.css' // Import discover css
 
 
@@ -41,12 +47,20 @@ function ScrollObserver() {
     const revealElements = document.querySelectorAll(revealSelectors);
     if (revealElements.length > 0) {
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    // We don't unobserve so it re-triggers if needed, or we can unobserve
-                    observer.unobserve(entry.target);
+            let delay = 0;
+            let activeEntries = entries.filter(e => e.isIntersecting);
+            
+            activeEntries.forEach(entry => {
+                // Remove the animation conflict for Popular Page
+                // by using only the is-visible transition but staggering it.
+                if (entry.target.classList.contains('pick-card')) {
+                    entry.target.style.transitionDelay = `${0.3 + delay}s`;
+                } else {
+                    entry.target.style.transitionDelay = `${delay}s`;
                 }
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+                delay += 0.08;
             });
         }, {
             threshold: 0.1,
@@ -63,6 +77,7 @@ function ScrollObserver() {
 }
 
 function App() {
+  console.log("App rendered with animations fixed!");
   return (
     <Router>
       <ScrollObserver />
@@ -76,6 +91,9 @@ function App() {
         <Route path="/post" element={<PostPage />} />
         <Route path="/category" element={<CategoryPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/following" element={<FollowingPage />} />
+        <Route path="/popular" element={<PopularPage />} />
+        <Route path="/topics" element={<TopicsPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
