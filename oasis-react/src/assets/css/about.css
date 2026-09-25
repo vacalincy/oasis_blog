@@ -881,3 +881,12 @@
 }
 
 
+
+@keyframes fadeInAboutImg {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.hiw-fade {
+    animation: fadeInAboutImg 0.5s ease-in-out;
+}

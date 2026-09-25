@@ -12,6 +12,7 @@ import ProfilePage from './pages/ProfilePage'
 import FollowingPage from './pages/FollowingPage'
 import PopularPage from './pages/PopularPage'
 import TopicsPage from './pages/TopicsPage'
+import AboutPage from './pages/AboutPage'
 import './assets/css/legal.css'
 import './index.css'
 import './assets/css/style.css'
@@ -41,7 +42,7 @@ function ScrollObserver() {
         '.pick-card', '.classics__title', '.classics__image', '.classics__content',
         '.discussions__title', '.discussions__item',
         '.post-header__title', '.post-header__badge', '.post-header__author',
-        '.post-media__img', '.post-media__caption', '.popular-hero__title'
+        '.post-media__img', '.post-media__caption', '.popular-hero__title, .manifesto-label, .manifesto-text, .number-item, .about-hero__title, .about-hero__subtitle'
     ].join(', ');
     
     const revealElements = document.querySelectorAll(revealSelectors);
@@ -77,7 +78,7 @@ function ScrollObserver() {
 }
 
 function App() {
-  console.log("App rendered with animations fixed!");
+  console.log("App rendered with About title break fixed!");
   return (
     <Router>
       <ScrollObserver />
@@ -94,6 +95,7 @@ function App() {
         <Route path="/following" element={<FollowingPage />} />
         <Route path="/popular" element={<PopularPage />} />
         <Route path="/topics" element={<TopicsPage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

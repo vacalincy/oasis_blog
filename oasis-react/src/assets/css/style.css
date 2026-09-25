@@ -112,6 +112,14 @@ nav {
     width: 100%;
 }
 
+.search-bar input:focus,
+.search-bar input:focus-visible,
+.search-bar input:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
 .search-bar input::placeholder { color: var(--color-text-secondary); }
 
 .notification-btn {
@@ -989,8 +997,9 @@ input:user-invalid:focus, textarea:user-invalid:focus {
 .split-word {
     display: inline-block;
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(30px);
+    will-change: transform, opacity;
+    transition: opacity 1.3s cubic-bezier(0.25, 0.8, 0.25, 1), transform 1.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .is-visible .split-word {
