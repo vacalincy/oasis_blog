@@ -127,6 +127,7 @@
     font-size: 3rem;
     font-weight: 700;
     letter-spacing: -0.03em;
+    color: #ffffff;
 }
 
 .profile-stats {
@@ -774,6 +775,7 @@
 }
 
 .btn-glass {
+    text-decoration: none !important;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -912,7 +914,7 @@
 /* Hero Actions Position */
 .hero-actions {
     position: absolute;
-    top: 104px;
+    top: 72px;
     right: 48px;
     display: flex;
     flex-direction: column;

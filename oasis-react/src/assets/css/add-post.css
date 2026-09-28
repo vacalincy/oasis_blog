@@ -50,6 +50,16 @@ body.editor-page {
     color: #19326F;
     font-family: inherit;
 }
+.borderless-input:focus,
+.borderless-input:focus-visible,
+.editor-title:focus,
+.editor-subtitle:focus,
+#editor-body:focus,
+#editor-body:focus-visible {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
 .borderless-input::placeholder {
     color: #64748b;
 }

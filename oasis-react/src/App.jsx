@@ -13,6 +13,10 @@ import FollowingPage from './pages/FollowingPage'
 import PopularPage from './pages/PopularPage'
 import TopicsPage from './pages/TopicsPage'
 import AboutPage from './pages/AboutPage'
+import NotificationsPage from './pages/NotificationsPage'
+import DashboardPage from './pages/DashboardPage'
+import AddPostPage from './pages/AddPostPage'
+import SettingsPage from './pages/SettingsPage'
 import './assets/css/legal.css'
 import './index.css'
 import './assets/css/style.css'
@@ -78,7 +82,7 @@ function ScrollObserver() {
 }
 
 function App() {
-  console.log("App rendered with About title break fixed!");
+  console.log("App rendered with Settings Route!");
   return (
     <Router>
       <ScrollObserver />
@@ -96,6 +100,10 @@ function App() {
         <Route path="/popular" element={<PopularPage />} />
         <Route path="/topics" element={<TopicsPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/notifications" element={<NotificationsPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/add-post" element={<AddPostPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
