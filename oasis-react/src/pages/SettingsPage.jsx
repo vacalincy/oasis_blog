@@ -58,7 +58,7 @@ export default function SettingsPage() {
                     <form className="form-grid" id="settings-form">
                         <div className="form-group full-width">
                             <label htmlFor="settings-email">Email Address</label>
-                            <input type="email" id="settings-email" className="form-input" value="jane@example.com" required />
+                            <input type="email" id="settings-email" className="form-input" defaultValue="jane@example.com" required />
                         </div>
                         <div className="form-group full-width">
                             <label htmlFor="settings-phone">Phone Number</label>

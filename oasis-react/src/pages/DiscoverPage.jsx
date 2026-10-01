@@ -2,6 +2,90 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import PostCard from '../components/PostCard';
+
+const DISCOVER_POSTS = [
+    {
+        id: 1,
+        title: "Reading a City: Urban Topography and the Modern Flâneur",
+        image: "/assets/images/content/abstractstairs.jpg",
+        category: "Photography & Film",
+        author: "Bastian",
+        date: "Jan 12, 2024",
+        isoDate: "2024-01-12",
+        link: "/post"
+    },
+    {
+        id: 2,
+        title: "A Moment in the Sun: The Lost Art of Waiting",
+        image: "/assets/images/content/mainfeed2.jpg",
+        category: "Design & Interfaces",
+        author: "Jack",
+        date: "Oct 24, 2023",
+        isoDate: "2023-10-24",
+        link: "/post"
+    },
+    {
+        id: 3,
+        title: "Brutalist Typography: Breaking the Grid in Print",
+        image: "/assets/images/content/mainfeed3.jpg",
+        category: "Design & Interfaces",
+        author: "Sarah Jenkins",
+        date: "Jan 28, 2024",
+        isoDate: "2024-01-28",
+        link: "/post"
+    },
+    {
+        id: 4,
+        title: "Vertical Ice: The Psychology of Crevasse Climbing",
+        image: "/assets/images/content/mainfeed4.jpg",
+        category: "Action & Extreme",
+        author: "David Chen",
+        date: "Feb 05, 2024",
+        isoDate: "2024-02-05",
+        link: "/post"
+    },
+    {
+        id: 5,
+        title: "The Future of Virtual Reality in Modern Education",
+        image: "/assets/images/content/vr.jpg",
+        category: "Science & Technology",
+        author: "Jane Doe",
+        date: "Oct 12, 2023",
+        isoDate: "2023-10-12",
+        link: "/post"
+    },
+    {
+        id: 6,
+        title: "The Future of Virtual Reality in Modern Education",
+        image: "/assets/images/content/vr.jpg",
+        category: "Science & Technology",
+        author: "Jane Doe",
+        date: "Oct 12, 2023",
+        isoDate: "2023-10-12",
+        link: "/post"
+    },
+    {
+        id: 7,
+        title: "The Future of Virtual Reality in Modern Education",
+        image: "/assets/images/content/vr.jpg",
+        category: "Science & Technology",
+        author: "Jane Doe",
+        date: "Oct 12, 2023",
+        isoDate: "2023-10-12",
+        link: "/post"
+    },
+    {
+        id: 8,
+        title: "The Future of Virtual Reality in Modern Education",
+        image: "/assets/images/content/vr.jpg",
+        category: "Science & Technology",
+        author: "Jane Doe",
+        date: "Oct 12, 2023",
+        isoDate: "2023-10-12",
+        link: "/post"
+    }
+];
 
 export default function DiscoverPage() {
   return (
@@ -77,204 +161,10 @@ export default function DiscoverPage() {
         </div>
 
         <div className="posts-grid">
-
-            {/* post-card__image is a div (not a link) so the save button
-                 doesn't get trapped inside an <a> and trigger navigation.
-                 Save button uses the "checkbox hack": a hidden checkbox
-                 stores the saved/not-saved state, styled via CSS only — no JS needed. */}
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/mainfeed1.jpg" alt="The New Wave of Motion Photography in Fashion" />
-                    </Link>
-                    <span className="post-card__badge">Photography &amp; Film</span>
-
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
+                    {DISCOVER_POSTS.map(post => (
+                        <PostCard key={post.id} {...post} />
+                    ))}
                 </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">The New Wave of Motion Photography in Fashion</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">Elena Rossi</span>
-                    <span>·</span>
-                    <time dateTime="2023-11-14">Nov 14, 2023</time>
-                </div>
-            </article>
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/mainfeed2.jpg" alt="Conquering the Alpine Giants: A Solo Ascent" />
-                    </Link>
-                    <span className="post-card__badge">Travel &amp; Outdoors</span>
-
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">Conquering the Alpine Giants: A Solo Ascent</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">David Chen</span>
-                    <span>·</span>
-                    <time dateTime="2023-12-02">Dec 02, 2023</time>
-                </div>
-            </article>
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/mainfeed3.jpg" alt="Brutalist Typography: Breaking the Grid in Print" />
-                    </Link>
-                    <span className="post-card__badge">Design &amp; Interfaces</span>
-
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">Brutalist Typography: Breaking the Grid in Print</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">Sarah Jenkins</span>
-                    <span>·</span>
-                    <time dateTime="2024-01-28">Jan 28, 2024</time>
-                </div>
-            </article>
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/mainfeed4.jpg" alt="Vertical Ice: The Psychology of Crevasse Climbing" />
-                    </Link>
-                    <span className="post-card__badge">Action &amp; Extreme</span>
-
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">Vertical Ice: The Psychology of Crevasse Climbing</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">David Chen</span>
-                    <span>·</span>
-                    <time dateTime="2024-02-05">Feb 05, 2024</time>
-                </div>
-            </article>
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/vr.jpg" alt="The Future of Virtual Reality in Modern Education" />
-                    </Link>
-                    <span className="post-card__badge">Science &amp; Technology</span>
-
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">The Future of Virtual Reality in Modern Education</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">Jane Doe</span>
-                    <span>·</span>
-                    <time dateTime="2023-10-12">Oct 12, 2023</time>
-                </div>
-            </article>
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/vr.jpg" alt="The Future of Virtual Reality in Modern Education" />
-                    </Link>
-                    <span className="post-card__badge">Science &amp; Technology</span>
-
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">The Future of Virtual Reality in Modern Education</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">Jane Doe</span>
-                    <span>·</span>
-                    <time dateTime="2023-10-12">Oct 12, 2023</time>
-                </div>
-            </article>
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/vr.jpg" alt="The Future of Virtual Reality in Modern Education" />
-                    </Link>
-                    <span className="post-card__badge">Science &amp; Technology</span>
-
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">The Future of Virtual Reality in Modern Education</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">Jane Doe</span>
-                    <span>·</span>
-                    <time dateTime="2023-10-12">Oct 12, 2023</time>
-                </div>
-            </article>
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/vr.jpg" alt="The Future of Virtual Reality in Modern Education" />
-                    </Link>
-                    <span className="post-card__badge">Science &amp; Technology</span>
-
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">The Future of Virtual Reality in Modern Education</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">Jane Doe</span>
-                    <span>·</span>
-                    <time dateTime="2023-10-12">Oct 12, 2023</time>
-                </div>
-            </article>
-
-        </div>
 
         <button className="load-more-btn">Load More Stories</button>
 
