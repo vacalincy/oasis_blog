@@ -1475,3 +1475,10 @@
     width: max-content !important;
     padding: 0 32px !important; /* Make it a nice pill shape */
 }
+
+.share-modal__link-box input:focus,
+.share-modal__link-box input:focus-visible {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
