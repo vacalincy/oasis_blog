@@ -296,13 +296,13 @@ html, body.landing-page {
 
 .showcase__image {
     width: 100%;
-    height: 45vh;
-    min-height: 250px;
-    max-height: 480px;
+    height: 52vh;
+    min-height: 300px;
+    max-height: 550px;
     object-fit: cover;
     border-radius: var(--card-border-radius);
     display: block;
-    filter: grayscale(1);
+    /* filter: grayscale(1); removed to make it colorful */
 }
 
 .showcase__preview-card {
@@ -366,7 +366,7 @@ html, body.landing-page {
 @media (max-width: 768px) {
     .showcase { padding: 4rem 1rem; height: auto; min-height: 100vh; }
     .showcase .container { justify-content: center; gap: 2rem; }
-    .showcase__image { height: 320px; }
+    .showcase__image { height: 350px; }
     .showcase__preview-card {
         position: relative;
         right: 0;

@@ -55,7 +55,7 @@ export default function SettingsPage() {
                 <div className="settings-card">
                     <h2>Personal details</h2>
                     
-                    <form className="form-grid" id="settings-form">
+                    <form className="form-grid" id="settings-form" onSubmit={(e) => e.preventDefault()}>
                         <div className="form-group full-width">
                             <label htmlFor="settings-email">Email Address</label>
                             <input type="email" id="settings-email" className="form-input" defaultValue="jane@example.com" required />

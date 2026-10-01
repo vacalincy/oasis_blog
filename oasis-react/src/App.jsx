@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation , Navigate } from 'react-router-dom'
 import { ToastProvider } from './context/ToastContext'
+import ScrollToTop from './components/ScrollToTop'
 import LandingPage from './pages/LandingPage'
 import DiscoverPage from './pages/DiscoverPage'
 import TermsPage from './pages/TermsPage'
@@ -89,6 +90,7 @@ function App() {
   return (
     <ToastProvider>
       <Router>
+        <ScrollToTop />
         <ScrollObserver />
         <Routes>
           <Route path="/" element={<LandingPage />} />

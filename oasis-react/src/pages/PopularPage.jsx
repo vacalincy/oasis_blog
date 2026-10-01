@@ -4,6 +4,34 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SplitText from '../components/SplitText';
 
+
+const POPULAR_PICKS = [
+    {
+        id: 1,
+        title: "Warm Palettes & Natural Textures",
+        badge: "Design & Interfaces",
+        excerpt: "How to draw inspiration from extreme landscapes to build",
+        image: "/assets/images/content/dunes.jpg",
+        link: "/post"
+    },
+    {
+        id: 2,
+        title: "Alpine Routes: The Ultimate Hiking Guide",
+        badge: "Travel & Outdoors",
+        excerpt: "Planning your next mountain hike with essential gear checklists",
+        image: "/assets/images/content/lake-mountains.jpg",
+        link: "/post"
+    },
+    {
+        id: 3,
+        title: "Future of Film: Digital vs Analog",
+        badge: "Photography",
+        excerpt: "Why modern directors are returning to 35mm film in 2024",
+        image: "/assets/images/content/cinema.jpg",
+        link: "/post"
+    }
+];
+
 export default function PopularPage() {
   return (
     <div className="popular-page">
@@ -24,71 +52,28 @@ export default function PopularPage() {
 {/* ============================================= */}
 <section className="popular-picks">
     <div className="container popular-picks__grid">
-
-        {/* Card 1 */}
-        <article className="pick-card">
-            <Link to="/post" className="pick-card__image">
-                <img loading="lazy" src="/assets/images/content/dunes.jpg" alt="Warm Palettes & Natural Textures" />
-            </Link>
-            <div className="pick-card__overlay">
-                <span className="pick-card__badge">Design &amp; Interfaces</span>
-                <h3 className="pick-card__title">
-                    <Link to="/post">Warm Palettes &amp; Natural <br />Textures</Link>
-                </h3>
-                <div className="pick-card__footer">
-                    <p className="pick-card__excerpt">How to draw inspiration from extreme landscapes to build</p>
-                    <Link to="/post" className="pick-card__arrow" aria-label="Read article">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
+            {POPULAR_PICKS.map(pick => (
+                <article key={pick.id} className="pick-card">
+                    <Link to={pick.link} className="pick-card__image">
+                        <img loading="lazy" src={pick.image} alt={pick.title} />
                     </Link>
-                </div>
-            </div>
-        </article>
-
-        {/* Card 2 */}
-        <article className="pick-card">
-            <Link to="/post" className="pick-card__image">
-                <img loading="lazy" src="/assets/images/content/lake-mountains.jpg" alt="Alpine Routes: The Ultimate Hiking Guide" />
-            </Link>
-            <div className="pick-card__overlay">
-                <span className="pick-card__badge">Travel &amp; Outdoors</span>
-                <h3 className="pick-card__title">
-                    <Link to="/post">Alpine Routes: The Ultimate <br />Hiking Guide</Link>
-                </h3>
-                <div className="pick-card__footer">
-                    <p className="pick-card__excerpt">Planning your next mountain hike with essential gear checklists</p>
-                    <Link to="/post" className="pick-card__arrow" aria-label="Read article">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                    </Link>
-                </div>
-            </div>
-        </article>
-
-        {/* Card 3 */}
-        <article className="pick-card">
-            <Link to="/post" className="pick-card__image">
-                <img loading="lazy" src="/assets/images/content/field-tree.jpg" alt="Mastering Exposure in Bright Backlight" />
-            </Link>
-            <div className="pick-card__overlay">
-                <span className="pick-card__badge">Photography &amp; Film</span>
-                <h3 className="pick-card__title">
-                    <Link to="/post">Mastering Exposure in <br />Bright Backlight</Link>
-                </h3>
-                <div className="pick-card__footer">
-                    <p className="pick-card__excerpt">Technical camera settings for managing harsh sunlight and</p>
-                    <Link to="/post" className="pick-card__arrow" aria-label="Read article">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                    </Link>
-                </div>
-            </div>
-        </article>
-
-    </div>
+                    <div className="pick-card__overlay">
+                        <span className="pick-card__badge">{pick.badge}</span>
+                        <h3 className="pick-card__title">
+                            <Link to={pick.link}>{pick.title}</Link>
+                        </h3>
+                        <div className="pick-card__footer">
+                            <p className="pick-card__excerpt">{pick.excerpt}</p>
+                            <Link to={pick.link} className="pick-card__arrow" aria-label="Read article">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </Link>
+                        </div>
+                    </div>
+                </article>
+            ))}
+        </div>
 </section>
 {/* ============================================= */}
 {/* SECTION 1.5: POPULAR PICKS END                 */}

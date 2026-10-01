@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Footer from '../components/Footer';
 
 export default function LandingPage() {
   
@@ -96,12 +95,12 @@ export default function LandingPage() {
     <div className="container">
         <h2 className="showcase__big-title">A curated space to share <span>your</span> <br /> creative vision.</h2>
         <div className="showcase__media">
-            <img src="/assets/images/content/vr.jpg" alt="People exploring stories together" className="showcase__image" loading="lazy" />
+            <img src="/assets/images/content/snowboard.jpg" alt="Snowboarder carving through deep powder" className="showcase__image" loading="lazy" />
             <Link to="/post" className="showcase__preview-card">
                 <div className="showcase__preview-content">
-                    <span className="showcase__preview-badge">Design &amp; Interfaces</span>
-                    <h3 className="showcase__preview-title">Warm Palettes &amp; Natural Textures</h3>
-                    <p className="showcase__preview-excerpt">How to draw inspiration from extreme landscapes to build</p>
+                    <span className="showcase__preview-badge">Action &amp; Extreme</span>
+                    <h3 className="showcase__preview-title">Defying Gravity: The Art of High-Altitude Snowboarding</h3>
+                    <p className="showcase__preview-excerpt">Exploring the untouched powder and breathtaking drops of the world's most remote alpine peaks.</p>
                 </div>
                 <span className="showcase__preview-arrow" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -138,11 +137,11 @@ export default function LandingPage() {
                 </div>
                 <div className="signup-cta__field signup-cta__field--password">
                     <label htmlFor="signup-password" className="sr-only">Password</label>
-                    <input type="password" id="signup-password" name="password" placeholder="Password" required minlength="8" />
+                    <input type="password" id="signup-password" name="password" placeholder="Password" required minLength="8" />
                 </div>
                 <div className="signup-cta__field">
                     <label htmlFor="signup-dob" className="sr-only">Date of birth</label>
-                    <input type="text" id="signup-dob" name="dob" placeholder="Date of birth (MM/DD/YYYY)" onfocus="(this.type='date')" onblur="(this.type='text')" />
+                    <input type="text" id="signup-dob" name="dob" placeholder="Date of birth (MM/DD/YYYY)" onFocus="(this.type='date')" onBlur="(this.type='text')" />
                 </div>
                 <button type="submit" className="signup-cta__submit-btn">Continue</button>
                 <div className="signup-cta__divider"><span>or</span></div>
@@ -182,7 +181,7 @@ export default function LandingPage() {
                 <div className="auth-modal__field auth-modal__field--labeled">
                     <label htmlFor="modal-login-password">Password</label>
                     <div className="auth-modal__input-wrap">
-                        <input type="password" id="modal-login-password" name="password" placeholder="Enter your password" required minlength="8" />
+                        <input type="password" id="modal-login-password" name="password" placeholder="Enter your password" required minLength="8" />
                         <button type="button" className="auth-modal__icon-btn" aria-label="Toggle password visibility">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         </button>
@@ -237,7 +236,7 @@ export default function LandingPage() {
                 <div className="auth-modal__field">
                     <label htmlFor="modal-signup-password" className="sr-only">Password</label>
                     <div className="auth-modal__input-wrap">
-                        <input type="password" id="modal-signup-password" name="password" placeholder="Password" required minlength="8" />
+                        <input type="password" id="modal-signup-password" name="password" placeholder="Password" required minLength="8" />
                         <button type="button" className="auth-modal__icon-btn" aria-label="Toggle password visibility">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         </button>
@@ -247,7 +246,7 @@ export default function LandingPage() {
                 <div className="auth-modal__field">
                     <label htmlFor="modal-signup-dob" className="sr-only">Date of birth</label>
                     <div className="auth-modal__input-wrap">
-                        <input type="text" id="modal-signup-dob" name="dob" placeholder="Date of birth (MM/DD/YYYY)" onfocus="(this.type='date')" onblur="(this.type='text')" required />
+                        <input type="text" id="modal-signup-dob" name="dob" placeholder="Date of birth (MM/DD/YYYY)" onFocus="(this.type='date')" onBlur="(this.type='text')" required />
                         <button type="button" className="auth-modal__icon-btn" aria-label="Open calendar">
                             <span className="dynamic-icon" style={{ WebkitMaskImage: 'url(/assets/images/icons/dateofbirth.svg)', width: '20px', height: '20px' }}></span>
                         </button>

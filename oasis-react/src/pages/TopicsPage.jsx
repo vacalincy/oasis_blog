@@ -3,6 +3,55 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
+
+const TOPICS_DATA = [
+    {
+        id: 1,
+        image: "/assets/images/content/topic-architecture.jpg",
+        date: "Jan 8, 2025 · 6 min read",
+        isoDate: "2025-01-08",
+        title: "Reading a City Through Its Old Signs",
+        author: "Bastian Voss",
+        posClass: "topic-card--pos-1"
+    },
+    {
+        id: 2,
+        image: "/assets/images/content/topic-street.jpg",
+        date: "Jan 11, 2025 · 4 min read",
+        isoDate: "2025-01-11",
+        title: "A Moment, Held in One Hand",
+        author: "Jack Murphy",
+        posClass: "topic-card--pos-2"
+    },
+    {
+        id: 3,
+        image: "/assets/images/content/topic-main.jpg",
+        date: "Jan 12, 2025 · 8 min read",
+        isoDate: "2025-01-12",
+        title: "The Art of Doing Nothing at All",
+        author: "Nikita Pisarenko",
+        posClass: "topic-card--main"
+    },
+    {
+        id: 4,
+        image: "/assets/images/content/topic-minimal.jpg",
+        date: "Jan 9, 2025 · 5 min read",
+        isoDate: "2025-01-09",
+        title: "White Space: Letting Your Mind Breathe",
+        author: "Hojol Rahman",
+        posClass: "topic-card--pos-3"
+    },
+    {
+        id: 5,
+        image: "/assets/images/content/topic-nature.jpg",
+        date: "Jan 10, 2025 · 7 min read",
+        isoDate: "2025-01-10",
+        title: "Textures of the Forest Floor",
+        author: "Satu Amrita",
+        posClass: "topic-card--pos-4"
+    }
+];
+
 export default function TopicsPage() {
   const heroRef = useRef(null);
   const cardsWrapRef = useRef(null);
@@ -80,52 +129,16 @@ export default function TopicsPage() {
     <div className="topic-hero__stage">
 
         <div className="topic-hero__cards" ref={cardsWrapRef} id="topic-hero-cards">
-
-            <div className="topic-card topic-card--pos-1">
-                <img loading="lazy" src="/assets/images/content/topic-architecture.jpg" alt="Old building facade with a painted sign" />
-                <div className="topic-card__caption">
-                    <time dateTime="2025-01-08">Jan 8, 2025 · 6 min read</time>
-                    <p>Reading a City Through Its Old Signs</p>
-                    <span className="topic-card__author">Bastian Voss</span>
+            {TOPICS_DATA.map(topic => (
+                <div key={topic.id} className={`topic-card ${topic.posClass}`}>
+                    <img loading="lazy" src={topic.image} alt={topic.title} />
+                    <div className="topic-card__caption">
+                        <time dateTime={topic.isoDate}>{topic.date}</time>
+                        <p>{topic.title}</p>
+                        <span className="topic-card__author">{topic.author}</span>
+                    </div>
                 </div>
-            </div>
-
-            <div className="topic-card topic-card--pos-2">
-                <img loading="lazy" src="/assets/images/content/topic-street.jpg" alt="Close-up of a hand holding a phone on the street" />
-                <div className="topic-card__caption">
-                    <time dateTime="2025-01-11">Jan 11, 2025 · 4 min read</time>
-                    <p>A Moment, Held in One Hand</p>
-                    <span className="topic-card__author">Jack Murphy</span>
-                </div>
-            </div>
-
-            <div className="topic-card topic-card--main">
-                <img loading="lazy" src="/assets/images/content/topic-skyline.jpg" alt="Two skyscrapers in the morning fog" />
-                <div className="topic-card__caption">
-                    <time dateTime="2025-01-15">Jan 15, 2025 · 8 min read</time>
-                    <p>Skyline in the Morning Fog</p>
-                    <span className="topic-card__author">Nikita Pisarenko</span>
-                </div>
-            </div>
-
-            <div className="topic-card topic-card--pos-3">
-                <img loading="lazy" src="/assets/images/content/topic-guitar.jpg" alt="A person walking down an empty city street" />
-                <div className="topic-card__caption">
-                    <time dateTime="2025-01-18">Jan 18, 2025 · 5 min read</time>
-                    <p>Footsteps on an Empty Street</p>
-                    <span className="topic-card__author">Hojol Rahman</span>
-                </div>
-            </div>
-
-            <div className="topic-card topic-card--pos-4">
-                <img loading="lazy" src="/assets/images/content/topic-couple.jpg" alt="A couple embracing, portrait" />
-                <div className="topic-card__caption">
-                    <time dateTime="2025-01-21">Jan 21, 2025 · 3 min read</time>
-                    <p>Two People, One Frame</p>
-                    <span className="topic-card__author">Satu Amrita</span>
-                </div>
-            </div>
-
+            ))}
         </div>
 
         <div className="topic-hero__text" ref={textWrapRef} id="topic-hero-text">

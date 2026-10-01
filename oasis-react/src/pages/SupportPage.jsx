@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Footer from '../components/Footer';
 import '../assets/css/legal.css';
 import '../assets/css/support.css';
 
@@ -65,6 +66,7 @@ export default function SupportPage() {
                     <Link to="/contact" className="btn-outline">Contact Support</Link>
                 </section>
             </main>
+            <Footer />
         </div>
     );
 }

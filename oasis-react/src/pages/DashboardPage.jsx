@@ -421,7 +421,7 @@ export default function DashboardPage() {
 
 {/* SHARE MODAL */}
 {showShareModal && (
-<div className="share-modal-overlay" id="shareProfileModal" onClick={(e) => { if(e.target.id === 'shareProfileModal') setShowShareModal(false); }}>
+<div className="share-modal-overlay active" id="shareProfileModal" onClick={(e) => { if(e.target.id === 'shareProfileModal') setShowShareModal(false); }}>
     <div className="share-modal">
         <div className="share-modal__top-icon">
             <img loading="lazy" src="/assets/images/icons/link.png" alt="Link Icon" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />

@@ -1,11 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useToast } from '../context/ToastContext';
+import PostCard from '../components/PostCard';
+import CommentItem from '../components/CommentItem';
+
+
+const COMMENTS_DATA = [
+    {
+        id: 1,
+        author: "Marcus Chen",
+        avatar: "/assets/images/avatars/marcus.jpg",
+        time: "2 hours ago",
+        isoTime: "2023-10-12T10:00",
+        text: "The quote about material honesty really struck a chord. I've been trying to renovate my studio and the urge to just paint over raw concrete is strong, but there's something so beautiful about leaving it exposed.",
+        hasReplies: false
+    },
+    {
+        id: 2,
+        author: "Elena Rodriguez",
+        avatar: "/assets/images/avatars/elena.jpg",
+        time: "5 hours ago",
+        isoTime: "2023-10-12T05:00",
+        text: "Great read. Though I'd argue that true minimalism is a luxury of those who don't have to hoard items out of necessity. It's an aesthetic that requires a certain level of privilege to maintain perfectly.",
+        hasReplies: true
+    }
+];
+
+const RELATED_POSTS = [
+    {
+        id: 1,
+        title: "The Architecture of Silence: Finding Peace in Brutalism",
+        image: "/assets/images/content/011.jpg",
+        category: "Architecture",
+        author: "Marcus Chen",
+        date: "Oct 10, 2023",
+        isoDate: "2023-10-10"
+    },
+    {
+        id: 2,
+        title: "Japanese Woodworking and the Philosophy of Perfection",
+        image: "/assets/images/content/008.jpg",
+        category: "Design",
+        author: "Sarah Jenkins",
+        date: "Oct 05, 2023",
+        isoDate: "2023-10-05"
+    },
+    {
+        id: 3,
+        title: "Monochrome Spaces: Why Less Color Can Mean More",
+        image: "/assets/images/content/010.jpg",
+        category: "Interior",
+        author: "Elena Rostova",
+        date: "Sep 28, 2023",
+        isoDate: "2023-09-28"
+    }
+];
 
 export default function PostPage() {
   const addToast = useToast();
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
 
   return (
     <div className="single-post-page">
@@ -131,11 +186,11 @@ export default function PostPage() {
         <div className="comments__header">
             <h2 className="comments__title">Responses (128)</h2>
             {/* opens the full comments modal below — logic added later with JS */}
-            <button className="comments__view-all" data-modal-target="comments-modal">View all</button>
+            <button className="comments__view-all" onClick={() => setShowCommentsModal(true)}>View all</button>
         </div>
 
         {/* --- new comment input --- */}
-        <form className="comment-form">
+        <form className="comment-form" onSubmit={(e) => { e.preventDefault(); addToast('Comment submitted!', 'success'); }}>
             <Link to="/dashboard" className="avatar">EA</Link>
             <textarea className="comment-form__input" placeholder="What are your thoughts?" aria-label="Comment text"></textarea>
             <button type="submit" className="comment-form__submit">Respond</button>
@@ -143,81 +198,95 @@ export default function PostPage() {
 
         {/* --- top 2 comments, sorted by most likes --- */}
         <ul className="comment-list">
-
-            <li className="comment">
-                <img loading="lazy" src="/assets/images/avatars/marcus.jpg" alt="Marcus Chen" className="comment__avatar" />
-                <div className="comment__body">
-                    <p className="comment__author">Marcus Chen</p>
-                    <time className="comment__time" dateTime="2023-10-12T10:00">2 hours ago</time>
-                    <p className="comment__text">The quote about material honesty really struck a chord. I've been trying to renovate my studio and the urge to just paint over raw concrete is strong, but there's something so beautiful about leaving it exposed.</p>
-                    <div className="comment__actions">
-                        <label className="comment__like">
-                            <input type="checkbox" className="comment__like-input" />
-                            <span className="comment__like-icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/heart.svg')", width: "16px", height: "16px" }}></span>
-                            12
-                        </label>
-                        <button className="comment__reply">Reply</button>
-                    </div>
-                </div>
-            </li>
-
-            <li className="comment">
-                <img loading="lazy" src="/assets/images/avatars/elena.jpg" alt="Elena Rodriguez" className="comment__avatar" />
-
-                <div className="comment__content">
-                    <div className="comment__body">
-                        <p className="comment__author">Elena Rodriguez</p>
-                        <time className="comment__time" dateTime="2023-10-12T05:00">5 hours ago</time>
-                        <p className="comment__text">Great read. Though I'd argue that true minimalism is a luxury of those who don't have to hoard items out of necessity. It's an aesthetic that requires a certain level of privilege to maintain perfectly.</p>
-                        <div className="comment__actions">
-                            <label className="comment__like">
-                                <input type="checkbox" className="comment__like-input" />
-                                <span className="comment__like-icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/heart.svg')", width: "16px", height: "16px" }}></span>
-                                12
-                            </label>
-                            <button className="comment__reply">Reply</button>
-                        </div>
-                    </div>
-
-                    <details className="reply-toggle">
-                        <summary className="comment__view-replies">
-                            <span className="comment__view-replies-line"></span>
-                            <span className="comment__view-replies-closed-text">View 2 replies</span>
-                            <span className="comment__view-replies-open-text">Hide replies</span>
-                        </summary>
-
-                        <ul className="reply-list">
-                            <li className="reply">
-                                <p className="reply__author">Marcus Chen</p>
-                                <time className="reply__time" dateTime="2023-10-12T06:00">4 hours ago</time>
-                                <p className="reply__text">I see your point, but I'd say minimalism can also be a discipline anyone can practice, regardless of means — it's more about intention than privilege.</p>
-                            </li>
-                            <li className="reply">
-                                <p className="reply__author">Jane Doe</p>
-                                <time className="reply__time" dateTime="2023-10-12T07:00">3 hours ago</time>
-                                <p className="reply__text">Fair point, Elena. Though I'd argue the "curated" version of minimalism sold online is what actually requires privilege — the underlying idea doesn't have to.</p>
-                            </li>
-                        </ul>
-                    </details>
-
-                </div>
-            </li>
-
+            {COMMENTS_DATA.map(comment => (
+                <CommentItem key={comment.id} {...comment} />
+            ))}
         </ul>
 
     </div>
 </section>
 
 {/* --- full comments modal, hidden until JS toggles it — built now, wired up later --- */}
-<div className="comments-modal" id="comments-modal">
+{showCommentsModal && (
+<div className="comments-modal active" id="comments-modal" onClick={(e) => { if (e.target.id === 'comments-modal') setShowCommentsModal(false); }}>
     <div className="comments-modal__content">
         <div className="comments-modal__header">
             <h2>All Responses (128)</h2>
-            <button className="comments-modal__close" aria-label="Close">✕</button>
+            <button className="comments-modal__close" aria-label="Close" onClick={() => setShowCommentsModal(false)}>✕</button>
         </div>
         {/* full comment list will be repeated/loaded here */}
     </div>
 </div>
+)}
+{/* ============================================= */}
+{/* COMMENTS SECTION END                           */}
+{/* ============================================= */}
+
+
+{/* ============================================= */}
+{/* READ NEXT START                                */}
+{/* (3 related posts, reuses .post-card from home) */}
+{/* ============================================= */}
+<section className="read-next">
+    <div className="container">
+
+        <h2 className="read-next__title">Read Next</h2>
+
+        <div className="read-next__grid">
+            {RELATED_POSTS.map(post => (
+                <PostCard key={post.id} {...post} />
+            ))}
+        </div>
+
+    </div>
+</section>
+{/* ============================================= */}
+{/* POST ACTIONS END                               */}
+{/* ============================================= */}
+
+
+{/* ============================================= */}
+{/* COMMENTS SECTION START                         */}
+{/* (new comment input + top 2 comments + modal)   */}
+{/* ============================================= */}
+<section className="comments">
+    <div className="container comments__container">
+
+        <div className="comments__header">
+            <h2 className="comments__title">Responses (128)</h2>
+            {/* opens the full comments modal below — logic added later with JS */}
+            <button className="comments__view-all" onClick={() => setShowCommentsModal(true)}>View all</button>
+        </div>
+
+        {/* --- new comment input --- */}
+        <form className="comment-form" onSubmit={(e) => { e.preventDefault(); addToast('Comment submitted!', 'success'); }}>
+            <Link to="/dashboard" className="avatar">EA</Link>
+            <textarea className="comment-form__input" placeholder="What are your thoughts?" aria-label="Comment text"></textarea>
+            <button type="submit" className="comment-form__submit">Respond</button>
+        </form>
+
+        {/* --- top 2 comments, sorted by most likes --- */}
+        <ul className="comment-list">
+            {COMMENTS_DATA.map(comment => (
+                <CommentItem key={comment.id} {...comment} />
+            ))}
+        </ul>
+
+    </div>
+</section>
+
+{/* --- full comments modal, hidden until JS toggles it — built now, wired up later --- */}
+{showCommentsModal && (
+<div className="comments-modal active" id="comments-modal" onClick={(e) => { if (e.target.id === 'comments-modal') setShowCommentsModal(false); }}>
+    <div className="comments-modal__content">
+        <div className="comments-modal__header">
+            <h2>All Responses (128)</h2>
+            <button className="comments-modal__close" aria-label="Close" onClick={() => setShowCommentsModal(false)}>✕</button>
+        </div>
+        {/* full comment list will be repeated/loaded here */}
+    </div>
+</div>
+)}
 {/* ============================================= */}
 {/* COMMENTS SECTION END                           */}
 {/* ============================================= */}

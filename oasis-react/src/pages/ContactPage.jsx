@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Footer from '../components/Footer';
 import '../assets/css/legal.css';
 import '../assets/css/contact.css';
 
@@ -89,6 +90,7 @@ export default function ContactPage() {
                     )}
                 </div>
             </main>
+            <Footer />
         </div>
     );
 }
