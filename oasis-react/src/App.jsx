@@ -18,6 +18,8 @@ import NotificationsPage from './pages/NotificationsPage'
 import DashboardPage from './pages/DashboardPage'
 import AddPostPage from './pages/AddPostPage'
 import SettingsPage from './pages/SettingsPage'
+import SupportPage from './pages/SupportPage'
+import ContactPage from './pages/ContactPage'
 import './assets/css/legal.css'
 import './index.css'
 import './assets/css/style.css'
@@ -106,6 +108,8 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/add-post" element={<AddPostPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/support" element={<SupportPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>
