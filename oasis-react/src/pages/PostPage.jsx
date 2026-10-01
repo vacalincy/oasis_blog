@@ -2,8 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useToast } from '../context/ToastContext';
 
 export default function PostPage() {
+  const addToast = useToast();
+
   return (
     <div className="single-post-page">
       <Header />
@@ -106,7 +109,7 @@ export default function PostPage() {
             </label>
 
             {/* SHARE: not toggleable, opens a share sheet — plain button */}
-            <button className="post-actions__btn" aria-label="Share">
+            <button className="post-actions__btn" aria-label="Share" onClick={() => addToast('Link copied to clipboard!', 'success')}>
                 <span className="post-actions__icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/share.svg')", width: "16px", height: "16px" }}></span>
             </button>
         </div>

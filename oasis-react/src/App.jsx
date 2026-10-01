@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation , Navigate } from 'react-router-dom'
+import { ToastProvider } from './context/ToastContext'
 import LandingPage from './pages/LandingPage'
 import DiscoverPage from './pages/DiscoverPage'
 import TermsPage from './pages/TermsPage'
@@ -29,7 +30,7 @@ import './assets/css/profile.css'
 import './assets/css/following.css'
 import './assets/css/popular.css'
 import './assets/css/topics.css'
-import './assets/css/discover.css' // Import discover css
+import './assets/css/discover.css'
 
 
 function ScrollObserver() {
@@ -84,29 +85,31 @@ function ScrollObserver() {
 function App() {
   console.log("App rendered with Settings Route!");
   return (
-    <Router>
-      <ScrollObserver />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/discover" element={<DiscoverPage />} />
-        <Route path="/terms" element={<TermsPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/post" element={<PostPage />} />
-        <Route path="/category" element={<CategoryPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/following" element={<FollowingPage />} />
-        <Route path="/popular" element={<PopularPage />} />
-        <Route path="/topics" element={<TopicsPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/notifications" element={<NotificationsPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/add-post" element={<AddPostPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Router>
+    <ToastProvider>
+      <Router>
+        <ScrollObserver />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/discover" element={<DiscoverPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/post" element={<PostPage />} />
+          <Route path="/category" element={<CategoryPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/following" element={<FollowingPage />} />
+          <Route path="/popular" element={<PopularPage />} />
+          <Route path="/topics" element={<TopicsPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/add-post" element={<AddPostPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
+    </ToastProvider>
   )
 }
 

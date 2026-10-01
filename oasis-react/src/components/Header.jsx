@@ -1,6 +1,19 @@
-import { Link, NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+
 export default function Header() {
   console.log("Header rendered!");
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault(); // Блокируем стандартную перезагрузку браузера
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
   return (
     <nav>
       <div className="container nav__container">
@@ -11,20 +24,28 @@ export default function Header() {
         </Link>
 
         {/* 2. Center menu (desktop) / sliding panel (mobile) */}
-        <ul className="nav__items">
-          <li><button id="close__nav-btn">✕</button></li>
-          <li><NavLink to="/discover">Discover</NavLink></li>
-          <li><NavLink to="/following">Following</NavLink></li>
-          <li><NavLink to="/popular">Popular</NavLink></li>
-          <li><NavLink to="/topics">Topics</NavLink></li>
-          <li><NavLink to="/about">About</NavLink></li>
+        <ul className={`nav__items ${isNavOpen ? 'show' : ''}`}>
+          <li>
+            <button id="close__nav-btn" onClick={() => setIsNavOpen(false)}>✕</button>
+          </li>
+          <li><NavLink to="/discover" onClick={() => setIsNavOpen(false)}>Discover</NavLink></li>
+          <li><NavLink to="/following" onClick={() => setIsNavOpen(false)}>Following</NavLink></li>
+          <li><NavLink to="/popular" onClick={() => setIsNavOpen(false)}>Popular</NavLink></li>
+          <li><NavLink to="/topics" onClick={() => setIsNavOpen(false)}>Topics</NavLink></li>
+          <li><NavLink to="/about" onClick={() => setIsNavOpen(false)}>About</NavLink></li>
         </ul>
 
         {/* 3. Right side: search, notifications, avatar, burger */}
         <div className="nav__actions">
-          <form action="/search" method="GET" className="search-bar">
+          <form onSubmit={handleSearch} className="search-bar">
             <img loading="lazy" src="/assets/images/icons/search.svg" alt="Search" />
-            <input type="text" placeholder="Search stories..." aria-label="Search stories" />
+            <input 
+              type="text" 
+              placeholder="Search stories..." 
+              aria-label="Search stories" 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </form>
 
           <Link to="/notifications" className="notification-btn" aria-label="Notifications">
@@ -34,7 +55,7 @@ export default function Header() {
           <Link to="/dashboard" className="avatar">EA</Link>
 
           {/* burger button, only visible on mobile */}
-          <button id="open__nav-btn">☰</button>
+          <button id="open__nav-btn" onClick={() => setIsNavOpen(true)}>☰</button>
         </div>
 
       </div>
