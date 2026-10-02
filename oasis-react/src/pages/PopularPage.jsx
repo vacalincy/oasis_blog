@@ -24,10 +24,10 @@ const POPULAR_PICKS = [
     },
     {
         id: 3,
-        title: "Future of Film: Digital vs Analog",
-        badge: "Photography",
-        excerpt: "Why modern directors are returning to 35mm film in 2024",
-        image: "/assets/images/content/cinema.jpg",
+        title: "The Solitude of the Open Field",
+        badge: "Nature & Outdoors",
+        excerpt: "How lone trees and vast landscapes capture the essence of minimalist photography.",
+        image: "/assets/images/content/field-tree.jpg",
         link: "/post"
     }
 ];

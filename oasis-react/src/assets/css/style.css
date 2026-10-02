@@ -158,6 +158,8 @@ nav {
 }
 
 @media (max-width: 768px) {
+    .container { padding: 0 1rem; }
+
     .nav__items {
         display: none;
         position: fixed;
@@ -231,7 +233,7 @@ nav {
 @media (max-width: 768px) {
     /* Removes the hardcoded white space from the document bottom */
     body {
-        padding-bottom: 0 !important;
+        /* padding-bottom: 0 !important; removed to fit TabBar */
     }
 
     /* Adds the space inside the final section so the gradient stretches to the bottom edge */
@@ -428,6 +430,8 @@ nav {
   border-radius: 50%;
   transition: transform 0.2s ease;
 }
+
+
 
 .tab-bar-base .nav-item:hover {
   transform: scale(1.1);
@@ -940,11 +944,12 @@ nav {
 }
 
 @media (max-width: 768px) {
+    .section-header h2 { font-size: 1.5rem; }
     .latest-posts-section { padding: 1.5rem 1rem; }
     .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
     .filters { width: 100%; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
     .filters::-webkit-scrollbar { display: none; }
-    .posts-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .posts-grid { grid-template-columns: 1fr; gap: 1.5rem; }
     .posts-grid--3col { grid-template-columns: 1fr; }
     .post-card__save-btn { opacity: 1; }
     .post-card__badge {
@@ -952,7 +957,9 @@ nav {
         padding: 0.3rem 0.6rem;
         max-width: calc(100% - 4.5rem);
         width: fit-content;
-        white-space: normal;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 }
 
@@ -1005,4 +1012,13 @@ input:user-invalid:focus, textarea:user-invalid:focus {
 .is-visible .split-word {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Protect TabBar nav items from global conflicts */
+.tab-bar-wrapper .nav-item {
+    border-radius: 50% !important;
+    width: 56px !important;
+    height: 56px !important;
+    padding: 0 !important;
+    background: transparent !important;
 }

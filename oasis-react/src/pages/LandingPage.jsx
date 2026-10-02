@@ -32,12 +32,15 @@ export default function LandingPage() {
     <div className="landing-page-wrapper">
       <nav className="landing-nav">
     <div className="container landing-nav__container">
-        <a href="/discover" className="landing-nav__logo">
+        <Link to="/" className="landing-nav__logo" onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}>
             <img src="/assets/images/brand/logo.svg" alt="OASIS Logo" />
-        </a>
+        </Link>
         <div className="landing-nav__actions">
-            <a href="#" className="landing-nav__login">Log in</a>
-            <a href="#" className="landing-nav__signup">Sign up</a>
+            <button type="button" className="landing-nav__login" onClick={() => setShowLogin(true)}>Log in</button>
+            <button type="button" className="landing-nav__signup" onClick={() => setShowSignup(true)}>Sign up</button>
         </div>
     </div>
 </nav>
@@ -69,7 +72,7 @@ export default function LandingPage() {
         <div className="cards-intro__footer">
             <h2 className="cards-intro__subtitle">Writers share their insights, and readers discover stories about <br />design, code, and modern culture.</h2>
             <div className="cards-intro__button-group">
-                <a href="#" className="cards-intro__btn cards-intro__btn--primary">Join for free</a>
+                <button type="button" className="cards-intro__btn cards-intro__btn--primary" onClick={() => setShowSignup(true)}>Join for free</button>
                 <Link to="/discover" className="cards-intro__btn cards-intro__btn--secondary">Explore stories</Link>
             </div>
         </div>
@@ -149,7 +152,7 @@ export default function LandingPage() {
                     <img src="/assets/images/brand/Google - Original.png" alt="Google Logo" className="signup-cta__google-icon" loading="lazy" />
                     Continue with Google
                 </button>
-                <p className="signup-cta__login-link">Already have an account? <a href="#" className="landing-nav__login">Log in</a></p>
+                <p className="signup-cta__login-link">Already have an account? <button type="button" className="landing-nav__login" onClick={() => setShowLogin(true)}>Log in</button></p>
                 <p className="signup-cta__legal">By continuing, you agree to Oasis's <Link to="/terms">Terms of Service</Link> and acknowledge you've read our <Link to="/privacy">Privacy Policy</Link>.</p>
             </form>
         </div>
@@ -161,10 +164,10 @@ export default function LandingPage() {
 {/* ============================================= */}
 
 {/* 1. LOGIN MODAL (Wide layout with QR code) */}
-<div className="auth-modal" id="loginModal">
-    <div className="auth-modal__overlay" data-close="loginModal"></div>
+<div className={`auth-modal ${showLogin ? "active" : ""}`} id="loginModal">
+    <div className="auth-modal__overlay" onClick={() => setShowLogin(false)}></div>
     <div className="auth-modal__container auth-modal__container--wide">
-        <button className="auth-modal__close" data-close="loginModal" aria-label="Close modal">✕</button>
+        <button className="auth-modal__close" onClick={() => setShowLogin(false)} aria-label="Close modal">✕</button>
 
         {/* Left Column: Login Form */}
         <div className="auth-modal__left">
@@ -216,10 +219,10 @@ export default function LandingPage() {
 </div>
 
 {/* 2. SIGN UP MODAL (Narrow layout, pill buttons) */}
-<div className="auth-modal" id="signupModal">
-    <div className="auth-modal__overlay" data-close="signupModal"></div>
+<div className={`auth-modal ${showSignup ? "active" : ""}`} id="signupModal">
+    <div className="auth-modal__overlay" onClick={() => setShowSignup(false)}></div>
     <div className="auth-modal__container auth-modal__container--narrow">
-        <button className="auth-modal__close" data-close="signupModal" aria-label="Close modal">✕</button>
+        <button className="auth-modal__close" onClick={() => setShowSignup(false)} aria-label="Close modal">✕</button>
 
         {/* Full Width Column: Registration Form */}
         <div className="auth-modal__left auth-modal__left--full">

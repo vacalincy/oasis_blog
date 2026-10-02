@@ -616,3 +616,16 @@ html, body.landing-page {
 .landing-page-wrapper + .site-footer {
     margin-top: 0;
 }
+
+/* Fix buttons converted from anchor tags */
+button.landing-nav__login,
+button.landing-nav__signup,
+button.cards-intro__btn {
+    font-family: inherit;
+    cursor: pointer;
+}
+button.landing-nav__login {
+    background: none;
+    border: none;
+    padding: 0;
+}

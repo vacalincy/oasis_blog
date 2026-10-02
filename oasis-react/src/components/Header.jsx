@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 
 export default function Header() {
   console.log("Header rendered!");
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSearch = (e) => {
     e.preventDefault(); // Блокируем стандартную перезагрузку браузера
@@ -19,7 +20,12 @@ export default function Header() {
       <div className="container nav__container">
         
         {/* 1. Logo */}
-        <Link to="/discover" className="nav__logo">
+        <Link to="/discover" className="nav__logo" onClick={(e) => {
+          if (location.pathname === '/discover') {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }}>
           <img src="/assets/images/brand/logo.svg" alt="OASIS Logo" />
         </Link>
 

@@ -2,8 +2,10 @@ import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation , Navigate } from 'react-router-dom'
 import { ToastProvider } from './context/ToastContext'
 import ScrollToTop from './components/ScrollToTop'
+import TabBar from './components/TabBar'
 import LandingPage from './pages/LandingPage'
 import DiscoverPage from './pages/DiscoverPage'
+import SearchPage from './pages/SearchPage'
 import TermsPage from './pages/TermsPage'
 import PrivacyPage from './pages/PrivacyPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
@@ -34,6 +36,7 @@ import './assets/css/following.css'
 import './assets/css/popular.css'
 import './assets/css/topics.css'
 import './assets/css/discover.css'
+import './assets/css/search.css'
 
 
 function ScrollObserver() {
@@ -92,9 +95,11 @@ function App() {
       <Router>
         <ScrollToTop />
         <ScrollObserver />
+        <TabBar />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/discover" element={<DiscoverPage />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />

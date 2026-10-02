@@ -25,28 +25,28 @@ const TOPICS_DATA = [
     },
     {
         id: 3,
-        image: "/assets/images/content/topic-main.jpg",
-        date: "Jan 12, 2025 · 8 min read",
-        isoDate: "2025-01-12",
-        title: "The Art of Doing Nothing at All",
+        image: "/assets/images/content/topic-skyline.jpg",
+        date: "Jan 15, 2025 · 8 min read",
+        isoDate: "2025-01-15",
+        title: "Skyline in the Morning Fog",
         author: "Nikita Pisarenko",
         posClass: "topic-card--main"
     },
     {
         id: 4,
-        image: "/assets/images/content/topic-minimal.jpg",
-        date: "Jan 9, 2025 · 5 min read",
-        isoDate: "2025-01-09",
-        title: "White Space: Letting Your Mind Breathe",
+        image: "/assets/images/content/topic-guitar.jpg",
+        date: "Jan 18, 2025 · 5 min read",
+        isoDate: "2025-01-18",
+        title: "Footsteps on an Empty Street",
         author: "Hojol Rahman",
         posClass: "topic-card--pos-3"
     },
     {
         id: 5,
-        image: "/assets/images/content/topic-nature.jpg",
-        date: "Jan 10, 2025 · 7 min read",
-        isoDate: "2025-01-10",
-        title: "Textures of the Forest Floor",
+        image: "/assets/images/content/topic-couple.jpg",
+        date: "Jan 21, 2025 · 3 min read",
+        isoDate: "2025-01-21",
+        title: "Two People, One Frame",
         author: "Satu Amrita",
         posClass: "topic-card--pos-4"
     }
@@ -85,8 +85,10 @@ export default function TopicsPage() {
         return Math.min(Math.max(progress, 0), 1);
     }
 
+    let mobileTargetProgress = 0;
     function update() {
-        const progress = getProgress();
+        const isMobile = window.innerWidth <= 768;
+        const progress = isMobile ? mobileTargetProgress : getProgress();
         const vw = window.innerWidth / 100;
 
         cardConfig.forEach(({ el, restY, restRotate, extraXVw, extraRotate }) => {
@@ -112,6 +114,14 @@ export default function TopicsPage() {
     window.addEventListener('resize', onScroll);
 
     update(); 
+    
+    // Trigger CSS fan-out animation on mobile after a tiny delay
+    if (window.innerWidth <= 768) {
+        setTimeout(() => {
+            mobileTargetProgress = 1;
+            update();
+        }, 300);
+    }
 
     return () => {
         window.removeEventListener('scroll', onScroll);

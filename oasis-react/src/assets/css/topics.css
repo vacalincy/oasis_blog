@@ -118,10 +118,15 @@
 .topic-featured-card__meta { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--color-text-secondary); }
 
 @media (max-width: 768px) {
-    .topic-hero { height: 170vh; }
-    .topic-hero__cards { height: 220px; }
-    .topic-card { width: 150px; height: 200px; }
+    .topic-hero { height: auto; margin-bottom: 2rem; }
+    .topic-hero__stage { position: relative; height: auto; padding: 3rem 0; overflow: visible; }
+    .topic-hero__cards { height: 220px; margin-bottom: 1rem; }
+    .topic-card { 
+        width: 150px; height: 200px; 
+        transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
     .topic-card img { height: 120px; }
+    .topic-hero__text { transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
     .categories-grid { grid-template-columns: 1fr; }
     .topic-featured-grid { grid-template-columns: 1fr; }
 }
