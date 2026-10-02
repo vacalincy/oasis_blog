@@ -493,7 +493,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Custom Date of Birth Icon */
 input[type="date"]::-webkit-calendar-picker-indicator {
-    background: url('../images/icons/dateofbirth.svg') no-repeat center;
+    background: url('/assets/images/icons/dateofbirth.svg') no-repeat center;
     background-size: contain;
     width: 18px;
     height: 18px;

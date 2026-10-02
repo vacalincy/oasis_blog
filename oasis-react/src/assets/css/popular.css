@@ -31,7 +31,7 @@
     left: 0;
     width: 100%;
     height: 450px;
-    background: url("../images/ui/Ellipse-gradient.png") center top / cover no-repeat;
+    background: url("/assets/images/ui/Ellipse-gradient.png") center top / cover no-repeat;
     z-index: -1;
     pointer-events: none;
 }
