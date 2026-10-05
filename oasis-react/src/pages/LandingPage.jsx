@@ -1,7 +1,59 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
+import { useToast } from '../context/ToastContext';
 
 export default function LandingPage() {
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const addToast = useToast();
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    
+    setIsLoading(false);
+    
+    if (error) {
+      addToast(error.message, 'error');
+    } else {
+      addToast('Success! Please log in.', 'success');
+      setShowSignup(false);
+      setShowLogin(true);
+    }
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    
+    setIsLoading(false);
+    
+    if (error) {
+      addToast(error.message, 'error');
+    } else {
+      addToast('Welcome back!', 'success');
+      setShowLogin(false);
+      navigate('/discover');
+    }
+  };
+
   
   useEffect(() => {
     // Inject the GSAP script properly
@@ -133,7 +185,7 @@ export default function LandingPage() {
                 <img src="/assets/images/brand/favicon-label.png" alt="OASIS" className="signup-cta__form-icon" />
                 <p className="signup-cta__form-headline">Join Oasis for free to discover more ideas and stories.</p>
             </div>
-            <form className="signup-cta__fields" onSubmit={(e) => e.preventDefault()}>
+            <form className="signup-cta__fields" onSubmit={handleSignup}>
                 <div className="signup-cta__field">
                     <label htmlFor="signup-email" className="sr-only">Email address</label>
                     <input type="email" id="signup-email" name="email" placeholder="Email address" required />
@@ -146,7 +198,7 @@ export default function LandingPage() {
                     <label htmlFor="signup-dob" className="sr-only">Date of birth</label>
                     <input type="text" id="signup-dob" name="dob" placeholder="Date of birth (MM/DD/YYYY)" onFocus="(this.type='date')" onBlur="(this.type='text')" />
                 </div>
-                <button type="submit" className="signup-cta__submit-btn">Continue</button>
+                <button type="submit" className="signup-cta__submit-btn" disabled={isLoading}>Continue</button>
                 <div className="signup-cta__divider"><span>or</span></div>
                 <button type="button" className="signup-cta__google-btn">
                     <img src="/assets/images/brand/Google - Original.png" alt="Google Logo" className="signup-cta__google-icon" loading="lazy" />
@@ -175,7 +227,7 @@ export default function LandingPage() {
             <h2 className="auth-modal__title">Welcome to OASIS</h2>
             <p className="auth-modal__subtitle">Log in to discover more ideas just for you</p>
 
-            <form className="auth-modal__form" onSubmit={(e) => e.preventDefault()}>
+            <form className="auth-modal__form" onSubmit={handleLogin}>
                 <div className="auth-modal__field auth-modal__field--labeled">
                     <label htmlFor="modal-login-email">Email</label>
                     <input type="email" id="modal-login-email" name="email" placeholder="name@example.com" required />
@@ -193,7 +245,7 @@ export default function LandingPage() {
 
                 <Link to="/forgot-password" className="auth-modal__forgot">forgotten password?</Link>
 
-                <button type="submit" className="auth-modal__submit">Log In</button>
+                <button type="submit" className="auth-modal__submit" disabled={isLoading}>Log In</button>
 
                 <div className="auth-modal__divider"><span>OR</span></div>
 
@@ -230,7 +282,7 @@ export default function LandingPage() {
             <h2 className="auth-modal__title">Welcome to OASIS</h2>
             <p className="auth-modal__subtitle">Sign up to discover more ideas<br />just for you.</p>
 
-            <form className="auth-modal__form" onSubmit={(e) => e.preventDefault()}>
+            <form className="auth-modal__form" onSubmit={handleSignup}>
                 <div className="auth-modal__field">
                     <label htmlFor="modal-signup-email" className="sr-only">Email address</label>
                     <input type="email" id="modal-signup-email" name="email" placeholder="Email address" required />
@@ -256,7 +308,7 @@ export default function LandingPage() {
                     </div>
                 </div>
 
-                <button type="submit" className="auth-modal__submit">Continue</button>
+                <button type="submit" className="auth-modal__submit" disabled={isLoading}>Continue</button>
 
                 <div className="auth-modal__divider"><span>OR</span></div>
 
