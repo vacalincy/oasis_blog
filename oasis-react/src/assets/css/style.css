@@ -978,8 +978,25 @@ nav {
     filter: invert(15%) sepia(34%) saturate(3665%) hue-rotate(211deg) brightness(92%) contrast(95%);
 }
 
+
 /* Modern Form Validation Styles */
+.validation-message {
+    display: none;
+    color: #ef4444;
+    font-size: 0.75rem;
+    margin-top: 0.4rem;
+    margin-left: 1rem;
+    text-align: left;
+    font-weight: 500;
+}
+.auth-modal__field:has(input:user-invalid) .validation-message,
+.signup-cta__field:has(input:user-invalid) .validation-message,
+.auth-modal__input-wrap:has(input:user-invalid) + .validation-message {
+    display: block;
+    animation: fadeIn 0.2s ease-out;
+}
 input:user-invalid, textarea:user-invalid {
+
     border-color: #ef4444 !important;
 }
 input:user-invalid:focus, textarea:user-invalid:focus {

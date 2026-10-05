@@ -1,0 +1,252 @@
+.onboarding-page {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    font-family: var(--font-body), sans-serif;
+}
+
+.onboarding-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.onboarding-title {
+    color: var(--color-primary);
+    font-family: var(--font-heading), sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.onboarding-subtitle {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    max-width: 450px;
+    margin: 0 auto 3rem auto;
+}
+
+/* Indicators */
+.onboarding-indicators {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.indicator-dot {
+    width: 14px;
+    height: 6px;
+    border-radius: 999px;
+    background-color: #94a3b8; /* gray-400 */
+    transition: all 0.3s ease;
+}
+
+.indicator-dot.active {
+    width: 32px;
+    background-color: var(--color-primary);
+}
+
+/* Button */
+.onboarding-btn {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    padding: 0.8rem 3rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.onboarding-btn:hover {
+    background-color: var(--color-primary-dark);
+}
+
+/* Step 2: Input */
+.onboarding-input {
+    width: 100%;
+    max-width: 350px;
+    background-color: #f1f5f9; /* slate-100 */
+    border: 2px solid transparent;
+    border-radius: 999px;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    color: var(--color-text-main);
+
+    text-align: center;
+    outline: none;
+    transition: all 0.2s;
+}
+
+
+.onboarding-input::placeholder {
+    color: #94a3b8; /* Cool slate/blue-gray tint */
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+
+.onboarding-input:focus {
+    border-color: var(--color-primary);
+    background-color: #ffffff;
+    outline: none !important;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+.onboarding-input:focus-visible {
+    outline: none !important;
+}
+
+
+/* Step 3: Drag & Drop Area */
+.onboarding-dropzone {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 400px;
+    height: 200px;
+    background-color: #f8fafc; /* slate-50 */
+    border: 2px dashed #cbd5e1; /* slate-300 */
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.onboarding-dropzone:hover {
+    border-color: var(--color-primary);
+    background-color: #f0f9ff; /* sky-50 */
+}
+
+.onboarding-dropzone svg {
+    width: 32px;
+    height: 32px;
+    color: #94a3b8;
+    margin-bottom: 1rem;
+}
+
+.onboarding-dropzone p {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.onboarding-skip {
+    margin-top: 1.5rem;
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.onboarding-skip:hover {
+    color: var(--color-text-main);
+}
+
+.onboarding-btn:disabled {
+    background-color: #cbd5e1;
+    color: #f8fafc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.indicator-dot.clickable {
+    cursor: pointer;
+}
+.indicator-dot.clickable:hover {
+    background-color: #64748b;
+}
+
+/* Avatar preview */
+
+.onboarding-avatar-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    border-radius: 14px;
+}
+
+.onboarding-dropzone-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    z-index: 2;
+    transition: opacity 0.2s ease;
+    font-weight: 600;
+    border-radius: 14px;
+}
+
+.onboarding-dropzone:hover .onboarding-dropzone-overlay {
+    opacity: 1;
+}
+
+
+
+
+
+
+.onboarding-header-anim {
+    animation: fadeIn 0.4s ease-out;
+}
+
+
+.onboarding-middle-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.4s ease-out;
+    width: 100%;
+}
+
+
+.onboarding-footer-anim {
+    animation: fadeIn 0.4s ease-out;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.onboarding-subtitle {
+    margin-bottom: 1rem; /* Re-add a smaller margin */
+}
+
+/* Reset margin for specific elements since we stripped 3rem globally */
+.onboarding-input {
+    margin-bottom: 0; 
+}
+.onboarding-dropzone {
+    margin-bottom: 0;
+}

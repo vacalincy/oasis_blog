@@ -11,15 +11,11 @@ export default function LandingPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showSignupPassword, setShowSignupPassword] = useState(false);
-  const [showInlinePassword, setShowInlinePassword] = useState(false);
   const [dob, setDob] = useState(null);
   const [showYearGrid1, setShowYearGrid1] = useState(false);
   const [showYearGrid2, setShowYearGrid2] = useState(false);
   const datePickerRef1 = useRef(null);
   const datePickerRef2 = useRef(null);
-  
-  const getYears = () => { const years = []; const currentYear = new Date().getFullYear(); for (let i = 0; i < 100; i++) years.push(currentYear - i); return years; };
-  const navigate = useNavigate();
   const addToast = useToast();
 
   const handleSignup = async (e) => {
@@ -40,7 +36,7 @@ export default function LandingPage() {
     } else {
       addToast('Welcome to OASIS!', 'success');
       setShowSignup(false);
-      window.location.href = '/discover';
+      window.location.href = '/onboarding';
     }
   };
 
@@ -204,7 +200,8 @@ export default function LandingPage() {
                 </div>
                 <div className="signup-cta__field signup-cta__field--password">
                     <label htmlFor="signup-password" className="sr-only">Password</label>
-                    <input type={showInlinePassword ? "text" : "password"} id="signup-password" name="password" placeholder="Password" required minLength="8" />
+                    <input type="password" id="signup-password" name="password" placeholder="Password" required minLength="8" />
+                    <span className="validation-message">Minimum 8 characters</span>
                 </div>
                 <div className="signup-cta__field">
                     <label htmlFor="signup-dob" className="sr-only">Date of birth</label>
@@ -225,6 +222,7 @@ export default function LandingPage() {
                             <span className="dynamic-icon" style={{ WebkitMaskImage: 'url(/assets/images/icons/dateofbirth.svg)', width: '20px', height: '20px', backgroundColor: 'var(--color-text-light)' }}></span>
                         </button>
                     </div>
+                    <span className="validation-message">Minimum 8 characters</span>
                 </div>
                 <button type="submit" className="signup-cta__submit-btn react-datepicker-ignore-onclickoutside" disabled={isLoading} onMouseDown={(e) => e.preventDefault()}>Continue</button>
                 <div className="signup-cta__divider"><span>or</span></div>
@@ -269,6 +267,7 @@ export default function LandingPage() {
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         </button>
                     </div>
+                    <span className="validation-message">Minimum 8 characters</span>
                 </div>
 
                 <Link to="/forgot-password" className="auth-modal__forgot">forgotten password?</Link>
@@ -324,6 +323,7 @@ export default function LandingPage() {
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         </button>
                     </div>
+                    <span className="validation-message">Minimum 8 characters</span>
                 </div>
 
                 <div className="auth-modal__field">
@@ -345,6 +345,7 @@ export default function LandingPage() {
                             <span className="dynamic-icon" style={{ WebkitMaskImage: 'url(/assets/images/icons/dateofbirth.svg)', width: '20px', height: '20px' }}></span>
                         </button>
                     </div>
+                    <span className="validation-message">Minimum 8 characters</span>
                 </div>
 
                 <button type="submit" className="auth-modal__submit react-datepicker-ignore-onclickoutside" disabled={isLoading} onMouseDown={(e) => e.preventDefault()}>Continue</button>

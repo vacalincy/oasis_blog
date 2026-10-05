@@ -4,6 +4,7 @@ import { ToastProvider } from './context/ToastContext'
 import ScrollToTop from './components/ScrollToTop'
 import TabBar from './components/TabBar'
 import LandingPage from './pages/LandingPage'
+import OnboardingPage from './pages/OnboardingPage'
 import DiscoverPage from './pages/DiscoverPage'
 import SearchPage from './pages/SearchPage'
 import TermsPage from './pages/TermsPage'
@@ -37,6 +38,7 @@ import './assets/css/popular.css'
 import './assets/css/topics.css'
 import './assets/css/discover.css'
 import './assets/css/search.css'
+import './assets/css/onboarding.css'
 
 
 function ScrollObserver() {
@@ -99,6 +101,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/discover" element={<DiscoverPage />} />
+          <Route path="/onboarding" element={<OnboardingPage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
