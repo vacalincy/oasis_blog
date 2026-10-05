@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
+import { useToast } from '../context/ToastContext';
 
 export default function ResetPasswordPage() {
   const [pass1, setPass1] = useState('');
@@ -10,7 +12,9 @@ export default function ResetPasswordPage() {
   
   const navigate = useNavigate();
 
-  const handleReset = (e) => {
+  const addToast = useToast();
+  
+  const handleReset = async (e) => {
     e.preventDefault();
     if (pass1 !== pass2) {
       setError(true);
@@ -20,14 +24,22 @@ export default function ResetPasswordPage() {
     setError(false);
     setIsLoading(true);
     
-    setTimeout(() => {
-      setIsLoading(false);
+    const { data, error } = await supabase.auth.updateUser({
+      password: pass1
+    });
+    
+    setIsLoading(false);
+    
+    if (error) {
+      addToast(error.message, 'error');
+    } else {
       setIsSuccess(true);
+      addToast('Password successfully reset!', 'success');
       
       setTimeout(() => {
         navigate('/');
-      }, 1000);
-    }, 800);
+      }, 1500);
+    }
   };
 
   return (

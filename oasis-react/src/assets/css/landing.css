@@ -530,7 +530,7 @@ html, body.landing-page {
 .signup-cta__password-toggle-input:checked ~ .signup-cta__password-toggle-btn .signup-cta__eye-icon--show { display: none; }
 .signup-cta__password-toggle-input:checked ~ .signup-cta__password-toggle-btn .signup-cta__eye-icon--hide { display: block; }
 
-.signup-cta__submit-btn {
+.signup-cta__submit-btn { border: none; outline: none;
     display: block !important;
     opacity: 1 !important;
     margin-top: 1rem;
@@ -623,6 +623,8 @@ button.landing-nav__signup,
 button.cards-intro__btn {
     font-family: inherit;
     cursor: pointer;
+    border: none;
+    outline: none;
 }
 button.landing-nav__login {
     background: none;

@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { supabase } from '../supabaseClient';
 import { useToast } from '../context/ToastContext';
 
@@ -7,6 +9,16 @@ export default function LandingPage() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
+  const [showInlinePassword, setShowInlinePassword] = useState(false);
+  const [dob, setDob] = useState(null);
+  const [showYearGrid1, setShowYearGrid1] = useState(false);
+  const [showYearGrid2, setShowYearGrid2] = useState(false);
+  const datePickerRef1 = useRef(null);
+  const datePickerRef2 = useRef(null);
+  
+  const getYears = () => { const years = []; const currentYear = new Date().getFullYear(); for (let i = 0; i < 100; i++) years.push(currentYear - i); return years; };
   const navigate = useNavigate();
   const addToast = useToast();
 
@@ -26,9 +38,9 @@ export default function LandingPage() {
     if (error) {
       addToast(error.message, 'error');
     } else {
-      addToast('Success! Please log in.', 'success');
+      addToast('Welcome to OASIS!', 'success');
       setShowSignup(false);
-      setShowLogin(true);
+      window.location.href = '/discover';
     }
   };
 
@@ -46,11 +58,11 @@ export default function LandingPage() {
     setIsLoading(false);
     
     if (error) {
-      addToast(error.message, 'error');
+      addToast(error.message, 'error'); alert('Supabase Error: ' + error.message);
     } else {
       addToast('Welcome back!', 'success');
       setShowLogin(false);
-      navigate('/discover');
+      window.location.href = '/discover';
     }
   };
 
@@ -192,15 +204,31 @@ export default function LandingPage() {
                 </div>
                 <div className="signup-cta__field signup-cta__field--password">
                     <label htmlFor="signup-password" className="sr-only">Password</label>
-                    <input type="password" id="signup-password" name="password" placeholder="Password" required minLength="8" />
+                    <input type={showInlinePassword ? "text" : "password"} id="signup-password" name="password" placeholder="Password" required minLength="8" />
                 </div>
                 <div className="signup-cta__field">
                     <label htmlFor="signup-dob" className="sr-only">Date of birth</label>
-                    <input type="text" id="signup-dob" name="dob" placeholder="Date of birth (MM/DD/YYYY)" onFocus="(this.type='date')" onBlur="(this.type='text')" />
+                    <div className="auth-modal__input-wrap" style={{"width": "100%"}}>
+                        <DatePicker selected={dob} onChange={(date) => { setDob(date); if (showYearGrid2) setShowYearGrid2(false); }} id="signup-dob" name="dob" placeholderText="Date of birth (MM/DD/YYYY)" required ref={datePickerRef2} maxDate={new Date()} popperPlacement="bottom-start" popperModifiers={[ { name: "flip", enabled: false }, { name: "offset", options: { offset: [0, 15] } } ]} showYearPicker={showYearGrid2} shouldCloseOnSelect={!showYearGrid2} renderCustomHeader={({ date, decreaseMonth, increaseMonth, decreaseYear, increaseYear, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 8px 12px' }}>
+            <button type="button" onClick={() => setShowYearGrid2(!showYearGrid2)} style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', color: 'var(--color-primary-dark)', fontSize: '1.1rem', background: 'none', border: 'none', cursor: 'pointer' }}>
+                {showYearGrid2 ? date.getFullYear() : date.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
+                <span style={{ marginLeft: '6px', fontSize: '1.2rem', color: 'var(--color-primary)' }}>›</span>
+            </button>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <button type="button" onClick={showYearGrid2 ? decreaseYear : decreaseMonth} disabled={prevMonthButtonDisabled} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', fontSize: '1.2rem', padding: 0 }}>{'<'}</button>
+              <button type="button" onClick={showYearGrid2 ? increaseYear : increaseMonth} disabled={nextMonthButtonDisabled} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', fontSize: '1.2rem', padding: 0 }}>{'>'}</button>
+            </div>
+          </div>
+        )} />
+                        <button type="button" className="auth-modal__icon-btn" aria-label="Open calendar" onClick={() => datePickerRef2.current?.setOpen(true)} style={{position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', display: 'flex'}}>
+                            <span className="dynamic-icon" style={{ WebkitMaskImage: 'url(/assets/images/icons/dateofbirth.svg)', width: '20px', height: '20px', backgroundColor: 'var(--color-text-light)' }}></span>
+                        </button>
+                    </div>
                 </div>
-                <button type="submit" className="signup-cta__submit-btn" disabled={isLoading}>Continue</button>
+                <button type="submit" className="signup-cta__submit-btn react-datepicker-ignore-onclickoutside" disabled={isLoading} onMouseDown={(e) => e.preventDefault()}>Continue</button>
                 <div className="signup-cta__divider"><span>or</span></div>
-                <button type="button" className="signup-cta__google-btn">
+                <button type="button" className="signup-cta__google-btn react-datepicker-ignore-onclickoutside">
                     <img src="/assets/images/brand/Google - Original.png" alt="Google Logo" className="signup-cta__google-icon" loading="lazy" />
                     Continue with Google
                 </button>
@@ -216,7 +244,7 @@ export default function LandingPage() {
 {/* ============================================= */}
 
 {/* 1. LOGIN MODAL (Wide layout with QR code) */}
-<div className={`auth-modal ${showLogin ? "active" : ""}`} id="loginModal">
+<div className={`auth-modal ${showLogin ? "is-active" : ""}`} id="loginModal">
     <div className="auth-modal__overlay" onClick={() => setShowLogin(false)}></div>
     <div className="auth-modal__container auth-modal__container--wide">
         <button className="auth-modal__close" onClick={() => setShowLogin(false)} aria-label="Close modal">✕</button>
@@ -230,14 +258,14 @@ export default function LandingPage() {
             <form className="auth-modal__form" onSubmit={handleLogin}>
                 <div className="auth-modal__field auth-modal__field--labeled">
                     <label htmlFor="modal-login-email">Email</label>
-                    <input type="email" id="modal-login-email" name="email" placeholder="name@example.com" required />
+                    <input type="email" id="modal-login-email" name="email" placeholder="name@example.com" required autoComplete="off" />
                 </div>
 
                 <div className="auth-modal__field auth-modal__field--labeled">
                     <label htmlFor="modal-login-password">Password</label>
                     <div className="auth-modal__input-wrap">
-                        <input type="password" id="modal-login-password" name="password" placeholder="Enter your password" required minLength="8" />
-                        <button type="button" className="auth-modal__icon-btn" aria-label="Toggle password visibility">
+                        <input type={showLoginPassword ? "text" : "password"} id="modal-login-password" name="password" placeholder="Enter your password" required minLength="8" autoComplete="new-password" />
+                        <button type="button" className="auth-modal__icon-btn" aria-label="Toggle password visibility" onClick={() => setShowLoginPassword(!showLoginPassword)}>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         </button>
                     </div>
@@ -245,11 +273,11 @@ export default function LandingPage() {
 
                 <Link to="/forgot-password" className="auth-modal__forgot">forgotten password?</Link>
 
-                <button type="submit" className="auth-modal__submit" disabled={isLoading}>Log In</button>
+                <button type="submit" className="auth-modal__submit react-datepicker-ignore-onclickoutside" disabled={isLoading} onMouseDown={(e) => e.preventDefault()}>Log In</button>
 
                 <div className="auth-modal__divider"><span>OR</span></div>
 
-                <button type="button" className="auth-modal__google">
+                <button type="button" className="auth-modal__google react-datepicker-ignore-onclickoutside">
                     <img src="/assets/images/brand/Google - Original.png" alt="Google icon" className="auth-modal__google-icon" loading="lazy" />
                     Continue with Google
                 </button>
@@ -271,7 +299,7 @@ export default function LandingPage() {
 </div>
 
 {/* 2. SIGN UP MODAL (Narrow layout, pill buttons) */}
-<div className={`auth-modal ${showSignup ? "active" : ""}`} id="signupModal">
+<div className={`auth-modal ${showSignup ? "is-active" : ""}`} id="signupModal">
     <div className="auth-modal__overlay" onClick={() => setShowSignup(false)}></div>
     <div className="auth-modal__container auth-modal__container--narrow">
         <button className="auth-modal__close" onClick={() => setShowSignup(false)} aria-label="Close modal">✕</button>
@@ -291,8 +319,8 @@ export default function LandingPage() {
                 <div className="auth-modal__field">
                     <label htmlFor="modal-signup-password" className="sr-only">Password</label>
                     <div className="auth-modal__input-wrap">
-                        <input type="password" id="modal-signup-password" name="password" placeholder="Password" required minLength="8" />
-                        <button type="button" className="auth-modal__icon-btn" aria-label="Toggle password visibility">
+                        <input type={showSignupPassword ? "text" : "password"} id="modal-signup-password" name="password" placeholder="Password" required minLength="8" />
+                        <button type="button" className="auth-modal__icon-btn" aria-label="Toggle password visibility" onClick={() => setShowSignupPassword(!showSignupPassword)}>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         </button>
                     </div>
@@ -301,18 +329,29 @@ export default function LandingPage() {
                 <div className="auth-modal__field">
                     <label htmlFor="modal-signup-dob" className="sr-only">Date of birth</label>
                     <div className="auth-modal__input-wrap">
-                        <input type="text" id="modal-signup-dob" name="dob" placeholder="Date of birth (MM/DD/YYYY)" onFocus="(this.type='date')" onBlur="(this.type='text')" required />
-                        <button type="button" className="auth-modal__icon-btn" aria-label="Open calendar">
+                        <DatePicker selected={dob} onChange={(date) => { setDob(date); if (showYearGrid1) setShowYearGrid1(false); }} id="modal-signup-dob" name="dob" placeholderText="Date of birth (MM/DD/YYYY)" required ref={datePickerRef1} maxDate={new Date()} popperPlacement="bottom-start" popperModifiers={[ { name: "flip", enabled: false }, { name: "offset", options: { offset: [0, 15] } } ]} showYearPicker={showYearGrid1} shouldCloseOnSelect={!showYearGrid1} renderCustomHeader={({ date, decreaseMonth, increaseMonth, decreaseYear, increaseYear, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 8px 12px' }}>
+            <button type="button" onClick={() => setShowYearGrid1(!showYearGrid1)} style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', color: 'var(--color-primary-dark)', fontSize: '1.1rem', background: 'none', border: 'none', cursor: 'pointer' }}>
+                {showYearGrid1 ? date.getFullYear() : date.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
+                <span style={{ marginLeft: '6px', fontSize: '1.2rem', color: 'var(--color-primary)' }}>›</span>
+            </button>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <button type="button" onClick={showYearGrid1 ? decreaseYear : decreaseMonth} disabled={prevMonthButtonDisabled} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', fontSize: '1.2rem', padding: 0 }}>{'<'}</button>
+              <button type="button" onClick={showYearGrid1 ? increaseYear : increaseMonth} disabled={nextMonthButtonDisabled} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', fontSize: '1.2rem', padding: 0 }}>{'>'}</button>
+            </div>
+          </div>
+        )} />
+                        <button type="button" className="auth-modal__icon-btn" aria-label="Open calendar" onClick={() => datePickerRef1.current?.setOpen(true)}>
                             <span className="dynamic-icon" style={{ WebkitMaskImage: 'url(/assets/images/icons/dateofbirth.svg)', width: '20px', height: '20px' }}></span>
                         </button>
                     </div>
                 </div>
 
-                <button type="submit" className="auth-modal__submit" disabled={isLoading}>Continue</button>
+                <button type="submit" className="auth-modal__submit react-datepicker-ignore-onclickoutside" disabled={isLoading} onMouseDown={(e) => e.preventDefault()}>Continue</button>
 
                 <div className="auth-modal__divider"><span>OR</span></div>
 
-                <button type="button" className="auth-modal__google">
+                <button type="button" className="auth-modal__google react-datepicker-ignore-onclickoutside">
                     <img src="/assets/images/brand/Google - Original.png" alt="Google icon" className="auth-modal__google-icon" loading="lazy" />
                     Continue with Google
                 </button>

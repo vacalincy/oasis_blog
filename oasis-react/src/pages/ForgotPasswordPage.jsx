@@ -1,20 +1,31 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
+import { useToast } from '../context/ToastContext';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const addToast = useToast();
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) return;
     
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'http://localhost:5173/reset-password',
+    });
+    
+    setIsLoading(false);
+    
+    if (error) {
+      addToast(error.message, 'error');
+    } else {
       setIsSubmitted(true);
-    }, 800);
+    }
   };
 
   return (
@@ -54,11 +65,7 @@ export default function ForgotPasswordPage() {
             </div>
             <h1 className="auth-title">Check your inbox</h1>
             <p className="auth-subtitle">We've sent a password reset link to <strong>{email}</strong>. Please check your spam folder if you don't see it within a few minutes.</p>
-            <Link to="/reset-password" style={{ width: '100%' }}>
-                <button className="btn-auth" style={{ background: 'transparent', color: 'var(--color-primary)', border: '1px solid var(--color-border)', marginTop: 0, width: '100%' }}>
-                    Simulate clicking email link
-                </button>
-            </Link>
+            
           </div>
         )}
 
