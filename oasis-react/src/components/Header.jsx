@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Header() {
   console.log("Header rendered!");
@@ -7,6 +8,7 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const { profile, loading } = useAuth();
 
   const handleSearch = (e) => {
     e.preventDefault(); // Блокируем стандартную перезагрузку браузера
@@ -57,8 +59,16 @@ export default function Header() {
           <Link to="/notifications" className="notification-btn" aria-label="Notifications">
             <img loading="lazy" src="/assets/images/icons/notification_icon.svg" alt="Notifications" />
           </Link>
-
-          <Link to="/dashboard" className="avatar">EA</Link>
+          
+          {loading ? (
+             <div className="avatar" style={{ background: '#e2e8f0', color: 'transparent', animation: 'pulse 1.5s infinite' }}>..</div>
+          ) : profile?.avatar_url ? (
+            <Link to="/dashboard" className="avatar" style={{ padding: 0, overflow: 'hidden' }}>
+              <img src={profile.avatar_url} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </Link>
+          ) : (
+            <Link to="/dashboard" className="avatar">{profile?.username ? profile.username.substring(0, 2).toUpperCase() : 'EA'}</Link>
+          )}
 
           {/* burger button, only visible on mobile */}
           <button id="open__nav-btn" onClick={() => setIsNavOpen(true)}>☰</button>

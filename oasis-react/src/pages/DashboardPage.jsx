@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../assets/css/dashboard.css'; // Direct import
@@ -7,6 +8,7 @@ import { useToast } from '../context/ToastContext';
 
 export default function DashboardPage() {
   const addToast = useToast();
+  const { profile } = useAuth();
 
   const [isEditing, setIsEditing] = useState(false);
   const [profileName, setProfileName] = useState("Alina Bezsonova");
@@ -14,7 +16,23 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("drafts");
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
-  const [coverImage, setCoverImage] = useState(null);
+    const [coverImage, setCoverImage] = useState(null);
+
+  useEffect(() => {
+    if (profile) {
+        if (profile.username) {
+            setProfileName(profile.username);
+            setEditName(profile.username);
+        }
+        if (profile.bio) {
+            setProfileBio(profile.bio);
+            setEditBio(profile.bio);
+        }
+        if (profile.avatar_url) {
+            setCoverImage(profile.avatar_url);
+        }
+    }
+  }, [profile]);
   
   const [indicatorStyle, setIndicatorStyle] = useState({ width: 0, left: 0 });
   const tabsRef = useRef(null);

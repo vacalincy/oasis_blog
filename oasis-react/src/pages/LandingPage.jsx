@@ -17,34 +17,63 @@ export default function LandingPage() {
   const datePickerRef1 = useRef(null);
   const datePickerRef2 = useRef(null);
   const addToast = useToast();
+  const navigate = useNavigate();
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-    
-    setIsLoading(false);
-    
-    if (error) {
-      addToast(error.message, 'error');
-    } else {
-      addToast('Welcome to OASIS!', 'success');
-      setShowSignup(false);
-      window.location.href = '/onboarding';
+  const handleSignup = async (formElement) => {
+    try {
+        setIsLoading(true);
+
+        if (!dob) {
+            addToast('Please select your date of birth.', 'error');
+            setIsLoading(false);
+            return;
+        }
+
+        const today = new Date();
+        const birthDate = new Date(dob);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        if (age < 13) {
+            addToast('You must be at least 13 years old to register.', 'error');
+            setIsLoading(false);
+            return;
+        }
+        
+        const email = formElement.email.value;
+        const password = formElement.password.value;
+        
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+        });
+        
+        setIsLoading(false);
+        
+        if (error) {
+          addToast(error.message, 'error');
+        } else if (!data.session) {
+          addToast('Check your email for the confirmation link, or log in if you already have an account.', 'success');
+        } else {
+          addToast('Welcome to OASIS!', 'success');
+          setShowSignup(false);
+          navigate('/onboarding');
+        }
+    } catch (err) {
+        console.error("Signup error:", err);
+        addToast("An unexpected error occurred.", "error");
+        setIsLoading(false);
     }
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+    const email = formElement.email.value;
+    const password = formElement.password.value;
     
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -58,7 +87,7 @@ export default function LandingPage() {
     } else {
       addToast('Welcome back!', 'success');
       setShowLogin(false);
-      window.location.href = '/discover';
+      navigate('/discover');
     }
   };
 
@@ -193,7 +222,7 @@ export default function LandingPage() {
                 <img src="/assets/images/brand/favicon-label.png" alt="OASIS" className="signup-cta__form-icon" />
                 <p className="signup-cta__form-headline">Join Oasis for free to discover more ideas and stories.</p>
             </div>
-            <form className="signup-cta__fields" onSubmit={handleSignup}>
+            <form className="signup-cta__fields" onSubmit={(e) => e.preventDefault()}>
                 <div className="signup-cta__field">
                     <label htmlFor="signup-email" className="sr-only">Email address</label>
                     <input type="email" id="signup-email" name="email" placeholder="Email address" required />
@@ -205,8 +234,8 @@ export default function LandingPage() {
                 </div>
                 <div className="signup-cta__field">
                     <label htmlFor="signup-dob" className="sr-only">Date of birth</label>
-                    <div className="auth-modal__input-wrap" style={{"width": "100%"}}>
-                        <DatePicker selected={dob} onChange={(date) => { setDob(date); if (showYearGrid2) setShowYearGrid2(false); }} id="signup-dob" name="dob" placeholderText="Date of birth (MM/DD/YYYY)" required ref={datePickerRef2} maxDate={new Date()} popperPlacement="bottom-start" popperModifiers={[ { name: "flip", enabled: false }, { name: "offset", options: { offset: [0, 15] } } ]} showYearPicker={showYearGrid2} shouldCloseOnSelect={!showYearGrid2} renderCustomHeader={({ date, decreaseMonth, increaseMonth, decreaseYear, increaseYear, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
+                    <div className="auth-modal__input-wrap">
+                        <DatePicker selected={dob} onChange={(date) => { setDob(date); if (showYearGrid2) setShowYearGrid2(false); }} id="signup-dob" name="dob" placeholderText="Date of birth (MM/DD/YYYY)" required ref={datePickerRef2} maxDate={new Date()} popperPlacement="bottom-start" popperModifiers={[ { name: "flip", enabled: false }, { name: "offset", options: { offset: [0, 15] } } ]} showYearPicker={showYearGrid2} showMonthYearDropdown={false} shouldCloseOnSelect={!showYearGrid2} renderCustomHeader={({ date, decreaseMonth, increaseMonth, decreaseYear, increaseYear, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 8px 12px' }}>
             <button type="button" onClick={() => setShowYearGrid2(!showYearGrid2)} style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', color: 'var(--color-primary-dark)', fontSize: '1.1rem', background: 'none', border: 'none', cursor: 'pointer' }}>
                 {showYearGrid2 ? date.getFullYear() : date.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
@@ -222,9 +251,21 @@ export default function LandingPage() {
                             <span className="dynamic-icon" style={{ WebkitMaskImage: 'url(/assets/images/icons/dateofbirth.svg)', width: '20px', height: '20px', backgroundColor: 'var(--color-text-light)' }}></span>
                         </button>
                     </div>
-                    <span className="validation-message">Minimum 8 characters</span>
                 </div>
-                <button type="submit" className="signup-cta__submit-btn react-datepicker-ignore-onclickoutside" disabled={isLoading} onMouseDown={(e) => e.preventDefault()}>Continue</button>
+                
+                <div className="custom-checkbox-wrapper" style={{ marginTop: '8px' }}>
+                    <input type="checkbox" id="signup-age-check" name="ageCheck" required className="custom-checkbox-input" />
+                    <label htmlFor="signup-age-check" className="custom-checkbox-label">I confirm that I am at least 13 years old</label>
+                </div>
+                <button type="button" className="signup-cta__submit-btn react-datepicker-ignore-onclickoutside" disabled={isLoading} onClick={(e) => {
+                    const form = e.target.closest('form');
+                    if (form.checkValidity()) {
+                        e.preventDefault();
+                        handleSignup(form);
+                    } else {
+                        form.reportValidity();
+                    }
+                }}>Continue</button>
                 <div className="signup-cta__divider"><span>or</span></div>
                 <button type="button" className="signup-cta__google-btn react-datepicker-ignore-onclickoutside">
                     <img src="/assets/images/brand/Google - Original.png" alt="Google Logo" className="signup-cta__google-icon" loading="lazy" />
@@ -253,7 +294,7 @@ export default function LandingPage() {
             <h2 className="auth-modal__title">Welcome to OASIS</h2>
             <p className="auth-modal__subtitle">Log in to discover more ideas just for you</p>
 
-            <form className="auth-modal__form" onSubmit={handleLogin}>
+            <form className="auth-modal__form" onSubmit={(e) => e.preventDefault()}>
                 <div className="auth-modal__field auth-modal__field--labeled">
                     <label htmlFor="modal-login-email">Email</label>
                     <input type="email" id="modal-login-email" name="email" placeholder="name@example.com" required autoComplete="off" />
@@ -272,7 +313,15 @@ export default function LandingPage() {
 
                 <Link to="/forgot-password" className="auth-modal__forgot">forgotten password?</Link>
 
-                <button type="submit" className="auth-modal__submit react-datepicker-ignore-onclickoutside" disabled={isLoading} onMouseDown={(e) => e.preventDefault()}>Log In</button>
+                <button type="button" className="auth-modal__submit react-datepicker-ignore-onclickoutside" disabled={isLoading} onClick={(e) => {
+                    const form = e.target.closest('form');
+                    if (form.checkValidity()) {
+                        e.preventDefault();
+                        handleLogin(form);
+                    } else {
+                        form.reportValidity();
+                    }
+                }}>Log In</button>
 
                 <div className="auth-modal__divider"><span>OR</span></div>
 
@@ -309,7 +358,7 @@ export default function LandingPage() {
             <h2 className="auth-modal__title">Welcome to OASIS</h2>
             <p className="auth-modal__subtitle">Sign up to discover more ideas<br />just for you.</p>
 
-            <form className="auth-modal__form" onSubmit={handleSignup}>
+            <form className="auth-modal__form" onSubmit={(e) => e.preventDefault()}>
                 <div className="auth-modal__field">
                     <label htmlFor="modal-signup-email" className="sr-only">Email address</label>
                     <input type="email" id="modal-signup-email" name="email" placeholder="Email address" required />
@@ -329,7 +378,7 @@ export default function LandingPage() {
                 <div className="auth-modal__field">
                     <label htmlFor="modal-signup-dob" className="sr-only">Date of birth</label>
                     <div className="auth-modal__input-wrap">
-                        <DatePicker selected={dob} onChange={(date) => { setDob(date); if (showYearGrid1) setShowYearGrid1(false); }} id="modal-signup-dob" name="dob" placeholderText="Date of birth (MM/DD/YYYY)" required ref={datePickerRef1} maxDate={new Date()} popperPlacement="bottom-start" popperModifiers={[ { name: "flip", enabled: false }, { name: "offset", options: { offset: [0, 15] } } ]} showYearPicker={showYearGrid1} shouldCloseOnSelect={!showYearGrid1} renderCustomHeader={({ date, decreaseMonth, increaseMonth, decreaseYear, increaseYear, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
+                        <DatePicker selected={dob} onChange={(date) => { setDob(date); if (showYearGrid1) setShowYearGrid1(false); }} id="modal-signup-dob" name="dob" placeholderText="Date of birth (MM/DD/YYYY)" required ref={datePickerRef1} maxDate={new Date()} popperPlacement="bottom-start" popperModifiers={[ { name: "flip", enabled: false }, { name: "offset", options: { offset: [0, 15] } } ]} showYearPicker={showYearGrid1} showMonthYearDropdown={false} shouldCloseOnSelect={!showYearGrid1} renderCustomHeader={({ date, decreaseMonth, increaseMonth, decreaseYear, increaseYear, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 8px 12px' }}>
             <button type="button" onClick={() => setShowYearGrid1(!showYearGrid1)} style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', color: 'var(--color-primary-dark)', fontSize: '1.1rem', background: 'none', border: 'none', cursor: 'pointer' }}>
                 {showYearGrid1 ? date.getFullYear() : date.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
@@ -345,10 +394,22 @@ export default function LandingPage() {
                             <span className="dynamic-icon" style={{ WebkitMaskImage: 'url(/assets/images/icons/dateofbirth.svg)', width: '20px', height: '20px' }}></span>
                         </button>
                     </div>
-                    <span className="validation-message">Minimum 8 characters</span>
+                </div>
+                
+                <div className="custom-checkbox-wrapper">
+                    <input type="checkbox" id="modal-signup-age-check" name="ageCheck" required className="custom-checkbox-input" />
+                    <label htmlFor="modal-signup-age-check" className="custom-checkbox-label">I confirm that I am at least 13 years old</label>
                 </div>
 
-                <button type="submit" className="auth-modal__submit react-datepicker-ignore-onclickoutside" disabled={isLoading} onMouseDown={(e) => e.preventDefault()}>Continue</button>
+                <button type="button" className="auth-modal__submit react-datepicker-ignore-onclickoutside" disabled={isLoading} onClick={(e) => {
+                    const form = e.target.closest('form');
+                    if (form.checkValidity()) {
+                        e.preventDefault();
+                        handleSignup(form);
+                    } else {
+                        form.reportValidity();
+                    }
+                }}>Continue</button>
 
                 <div className="auth-modal__divider"><span>OR</span></div>
 

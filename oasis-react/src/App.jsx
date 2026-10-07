@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation , Navigate } from 'react-router-dom'
 import { ToastProvider } from './context/ToastContext'
+import { AuthProvider } from './context/AuthContext'
 import ScrollToTop from './components/ScrollToTop'
 import TabBar from './components/TabBar'
 import LandingPage from './pages/LandingPage'
@@ -94,6 +95,7 @@ function App() {
   console.log("App rendered with Settings Route!");
   return (
     <ToastProvider>
+      <AuthProvider>
       <Router>
         <ScrollToTop />
         <ScrollObserver />
@@ -123,6 +125,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>
+      </AuthProvider>
     </ToastProvider>
   )
 }

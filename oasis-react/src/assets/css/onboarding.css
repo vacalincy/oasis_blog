@@ -250,3 +250,12 @@
 .onboarding-dropzone {
     margin-bottom: 0;
 }
+
+/* Override for textarea on Step 3 */
+textarea.onboarding-input {
+    max-width: 500px;
+    border-radius: 16px;
+    text-align: left;
+    padding: 20px 24px;
+    line-height: 1.5;
+}

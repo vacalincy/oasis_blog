@@ -1,21 +1,132 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
+import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
+
+
+const resizeImage = (file, maxWidth, maxHeight) => {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                let width = img.width;
+                let height = img.height;
+
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width = Math.round((width * maxHeight) / height);
+                        height = maxHeight;
+                    }
+                }
+
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                canvas.toBlob((blob) => {
+                    // Create a new file from the blob
+                    const newFile = new File([blob], file.name, {
+                        type: 'image/jpeg',
+                        lastModified: Date.now(),
+                    });
+                    resolve(newFile);
+                }, 'image/jpeg', 0.95); // 85% quality JPEG
+            };
+        };
+    });
+};
 
 export default function OnboardingPage() {
     const [step, setStep] = useState(1);
     const [username, setUsername] = useState('');
+    const [bio, setBio] = useState('');
     const [avatar, setAvatar] = useState(null);
     const [avatarPreview, setAvatarPreview] = useState(null);
     const navigate = useNavigate();
 
-    const handleNext = () => {
-        if (step === 2 && !username.trim()) return;
-        if (step === 3 && !avatar) return;
+    const addToast = useToast();
+    const { fetchProfile } = useAuth();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-        if (step < 3) {
+    const handleNext = async () => {
+        if (step === 2 && !username.trim()) return;
+        if (step === 4 && !avatar) return;
+
+        if (step < 4) {
             setStep(step + 1);
         } else {
+            await handleFinishSetup();
+        }
+    };
+
+    const handleFinishSetup = async () => {
+        try {
+            setIsSubmitting(true);
+            
+            // 1. Get current logged in user
+            const { data: { user }, error: userError } = await supabase.auth.getUser();
+            if (userError || !user) {
+                addToast("User not found. Please log in again.", "error");
+                setIsSubmitting(false);
+                return;
+            }
+
+            // 2. Resize and Upload avatar to Supabase Storage
+            const resizedAvatar = await resizeImage(avatar, 2560, 2560);
+            const fileName = `${user.id}-${Math.random()}.jpg`;
+            const filePath = `${fileName}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from('avatars')
+                .upload(filePath, resizedAvatar);
+
+            if (uploadError) {
+                addToast(uploadError.message, "error");
+                setIsSubmitting(false);
+                return;
+            }
+
+            // 3. Get the public URL of the uploaded avatar
+            const { data: { publicUrl } } = supabase.storage
+                .from('avatars')
+                .getPublicUrl(filePath);
+
+            // 4. Save username, bio, and avatar URL to the profiles table
+            const { error: profileError } = await supabase
+                .from('profiles')
+                .upsert({
+                    id: user.id,
+                    username: username,
+                    bio: bio,
+                    avatar_url: publicUrl
+                });
+
+            if (profileError) {
+                addToast(profileError.message, "error");
+                setIsSubmitting(false);
+                return;
+            }
+
+            await fetchProfile(user.id);
+
+            addToast("Profile setup complete!", "success");
             navigate('/discover');
+        } catch (error) {
+            console.error(error);
+            addToast(error.message, "error");
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -35,13 +146,15 @@ export default function OnboardingPage() {
     const titles = {
         1: "Welcome to OASIS!",
         2: "Choose your username",
-        3: "Add a profile picture"
+        3: "Tell us about yourself",
+        4: "Add a profile picture"
     };
 
     const subtitles = {
         1: "Let's personalize your profile so the community can get to know you.",
         2: "This is how you'll appear to other readers and writers on the platform.",
-        3: "Upload a photo to make your profile stand out. Square images work best."
+        3: "Add a short bio to let others know who you are and what you do.",
+        4: "Upload a photo to make your profile stand out. Square images work best."
     };
 
     return (
@@ -68,6 +181,16 @@ export default function OnboardingPage() {
                     )}
 
                     {step === 3 && (
+                        <textarea 
+                            className="onboarding-input" 
+                            placeholder="I'm a Medientechnik designer and front-end developer..." 
+                            value={bio}
+                            onChange={(e) => setBio(e.target.value)}
+                            style={{ height: '120px', resize: 'none', padding: '16px' }}
+                        />
+                    )}
+
+                    {step === 4 && (
                         <label htmlFor="avatar-upload" className="onboarding-dropzone">
                             <input 
                                 type="file" 
@@ -95,7 +218,7 @@ export default function OnboardingPage() {
 
                 {/* Persistent Indicators */}
                 <div className="onboarding-indicators">
-                    {[1, 2, 3].map(i => (
+                    {[1, 2, 3, 4].map(i => (
                         <div 
                             key={i} 
                             className={`indicator-dot ${step === i ? 'active' : ''} ${i < step ? 'clickable' : ''}`}
@@ -124,12 +247,18 @@ export default function OnboardingPage() {
                         </button>
                     )}
                     {step === 3 && (
+                        <>
+                            <button className="onboarding-btn" onClick={handleNext}>Next Step</button>
+                            <button className="onboarding-skip" onClick={handleNext}>Skip</button>
+                        </>
+                    )}
+                    {step === 4 && (
                         <button 
                             className="onboarding-btn" 
                             onClick={handleNext}
-                            disabled={!avatar}
+                            disabled={!avatar || isSubmitting}
                         >
-                            Finish setup
+                            {isSubmitting ? 'Saving...' : 'Finish setup'}
                         </button>
                     )}
                 </div>

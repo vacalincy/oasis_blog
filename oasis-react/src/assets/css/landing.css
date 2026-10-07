@@ -530,7 +530,7 @@ html, body.landing-page {
 .signup-cta__password-toggle-input:checked ~ .signup-cta__password-toggle-btn .signup-cta__eye-icon--show { display: none; }
 .signup-cta__password-toggle-input:checked ~ .signup-cta__password-toggle-btn .signup-cta__eye-icon--hide { display: block; }
 
-.signup-cta__submit-btn { border: none; outline: none;
+.signup-cta__submit-btn { outline: none;
     display: block !important;
     opacity: 1 !important;
     margin-top: 1rem;
@@ -630,4 +630,57 @@ button.landing-nav__login {
     background: none;
     border: none;
     padding: 0;
+}
+
+
+/* Custom Checkbox Styles */
+.custom-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+    margin-bottom: 24px;
+}
+
+.custom-checkbox-input {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--color-primary-light);
+    border-radius: 6px;
+    background-color: var(--color-bg);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.custom-checkbox-input:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.custom-checkbox-input:checked::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.custom-checkbox-input:focus-visible {
+    outline: none;
+}
+
+.custom-checkbox-label {
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+    cursor: pointer;
+    margin: 0;
+    line-height: 1.4;
 }
