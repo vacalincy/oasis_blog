@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
 import PostCard from '../components/PostCard';
 import CommentItem from '../components/CommentItem';
 
@@ -66,6 +67,119 @@ export default function PostPage() {
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const { user, profile } = useAuth();
+  const [isLiked, setIsLiked] = useState(false);
+  const [likesCount, setLikesCount] = useState(0);
+  const [isSaved, setIsSaved] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+
+  useEffect(() => {
+      const fetchEngagement = async () => {
+          if (!id) return;
+          
+          // Get total likes
+          const { count, error: countError } = await supabase
+              .from('likes')
+              .select('*', { count: 'exact', head: true })
+              .eq('post_id', id);
+              
+          if (!countError) setLikesCount(count || 0);
+
+          if (user) {
+              const { data: likeData } = await supabase
+                  .from('likes')
+                  .select('id')
+                  .eq('post_id', id)
+                  .eq('user_id', user.id)
+                  .maybeSingle();
+                  
+              setIsLiked(!!likeData);
+              
+              const { data: saveData } = await supabase
+                  .from('saved_posts')
+                  .select('id')
+                  .eq('post_id', id)
+                  .eq('user_id', user.id)
+                  .maybeSingle();
+                  
+              setIsSaved(!!saveData);
+          }
+          
+          // Fetch Comments
+          const { data: commentsData } = await supabase
+              .from('comments')
+              .select('*, profiles(username, avatar_url)')
+              .eq('post_id', id)
+              .is('parent_id', null)
+              .order('created_at', { ascending: false });
+              
+          if (commentsData) setComments(commentsData);
+      };
+      
+      fetchEngagement();
+  }, [id, user]);
+
+  const handleLike = async () => {
+      if (!user) {
+          addToast("Please login to like posts", "info");
+          return;
+      }
+      const previousLiked = isLiked;
+      const previousCount = likesCount;
+      setIsLiked(!previousLiked);
+      setLikesCount(previousLiked ? previousCount - 1 : previousCount + 1);
+      
+      if (!previousLiked) {
+          await supabase.from('likes').insert({ post_id: id, user_id: user.id });
+      } else {
+          await supabase.from('likes').delete().eq('post_id', id).eq('user_id', user.id);
+      }
+  };
+
+  const handleCommentSubmit = async (e) => {
+      e.preventDefault();
+      if (!user) {
+          addToast("Please login to comment", "info");
+          return;
+      }
+      if (!newComment.trim()) return;
+      
+      setIsSubmittingComment(true);
+      const { data, error } = await supabase
+          .from('comments')
+          .insert({ post_id: id, user_id: user.id, text: newComment.trim() })
+          .select('*, profiles(username, avatar_url)')
+          .single();
+          
+      setIsSubmittingComment(false);
+      
+      if (error) {
+          addToast("Error: " + error.message, "error");
+      } else if (data) {
+          setComments([data, ...comments]);
+          setNewComment("");
+          addToast("Comment posted!", "success");
+      }
+  };
+
+  const handleSave = async () => {
+      if (!user) {
+          addToast("Please login to save posts", "info");
+          return;
+      }
+      const previousSaved = isSaved;
+      setIsSaved(!previousSaved);
+      
+      if (!previousSaved) {
+          await supabase.from('saved_posts').insert({ post_id: id, user_id: user.id });
+          addToast("Story saved to Dashboard", "success");
+      } else {
+          await supabase.from('saved_posts').delete().eq('post_id', id).eq('user_id', user.id);
+      }
+  };
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -180,9 +294,9 @@ export default function PostPage() {
 
         <div className="post-actions__group">
             <label className="post-actions__btn" aria-label="Like">
-                <input type="checkbox" className="post-actions__input post-actions__input--like" />
+                <input type="checkbox" className="post-actions__input post-actions__input--like" checked={isLiked} onChange={handleLike} />
                 <span className="post-actions__icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/heart.svg')", width: "16px", height: "16px" }}></span>
-                <span>1.2k</span>
+                <span>{likesCount}</span>
             </label>
 
             <button className="post-actions__btn" aria-label="Comments" onClick={() => setShowCommentsModal(true)}>
@@ -193,7 +307,7 @@ export default function PostPage() {
 
         <div className="post-actions__group">
             <label className="post-actions__btn" aria-label="Save">
-                <input type="checkbox" className="post-actions__input post-actions__input--save" />
+                <input type="checkbox" className="post-actions__input post-actions__input--save" checked={isSaved} onChange={handleSave} />
                 <span className="post-actions__icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/bookmark.svg')", width: "16px", height: "16px" }}></span>
             </label>
             
@@ -217,19 +331,40 @@ export default function PostPage() {
     <div className="container comments__container">
 
         <div className="comments__header">
-            <h2 className="comments__title">Responses (128)</h2>
+            <h2 className="comments__title">Responses ({comments.length})</h2>
             <button className="comments__view-all" onClick={() => setShowCommentsModal(true)}>View all</button>
         </div>
 
-        <form className="comment-form" onSubmit={(e) => { e.preventDefault(); addToast('Comment submitted!', 'success'); }}>
-            <Link to="/dashboard" className="avatar">EA</Link>
-            <textarea className="comment-form__input" placeholder="What are your thoughts?" aria-label="Comment text"></textarea>
-            <button type="submit" className="comment-form__submit">Respond</button>
+        <form className="comment-form" onSubmit={handleCommentSubmit}>
+            <Link to="/dashboard" className="avatar" style={profile?.avatar_url ? { backgroundImage: `url(${profile.avatar_url})`, backgroundSize: 'cover', backgroundPosition: 'center', color: 'transparent' } : {}}>
+                {!profile?.avatar_url && (profile?.username ? profile.username.substring(0,2).toUpperCase() : (user ? user.email.substring(0,2).toUpperCase() : "GU"))}
+            </Link>
+            <textarea 
+                className="comment-form__input" 
+                placeholder="What are your thoughts?" 
+                aria-label="Comment text"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                disabled={isSubmittingComment}
+            ></textarea>
+            <button type="submit" className="comment-form__submit" disabled={isSubmittingComment || !newComment.trim()}>
+                {isSubmittingComment ? "..." : "Respond"}
+            </button>
         </form>
 
         <ul className="comment-list">
-            {COMMENTS_DATA.map(comment => (
-                <CommentItem key={comment.id} {...comment} />
+            {comments.map(c => (
+                <CommentItem 
+                    key={c.id} 
+                    id={c.id}
+                    post_id={id}
+                    author_id={c.user_id}
+                    author={c.profiles?.username || "Unknown"}
+                    avatar={c.profiles?.avatar_url || "/assets/images/icons/avatar.svg"}
+                    time={new Date(c.created_at).toLocaleDateString()}
+                    isoTime={c.created_at}
+                    text={c.text}
+                />
             ))}
         </ul>
 

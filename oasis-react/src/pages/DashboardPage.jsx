@@ -12,10 +12,13 @@ export default function DashboardPage() {
   const navigate = useNavigate();
   const { profile, user } = useAuth();
   const [posts, setPosts] = useState([]);
+  const [savedPosts, setSavedPosts] = useState([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
         if (!user) return;
+        
+        // Fetch authored posts
         const { data } = await supabase
             .from('posts')
             .select('*')
@@ -23,6 +26,17 @@ export default function DashboardPage() {
             .order('created_at', { ascending: false });
         
         if (data) setPosts(data);
+        
+        // Fetch saved posts
+        const { data: savedData } = await supabase
+            .from('saved_posts')
+            .select('posts(*)')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false });
+            
+        if (savedData) {
+            setSavedPosts(savedData.map(s => s.posts).filter(p => p !== null));
+        }
     };
     fetchPosts();
   }, [user]);
@@ -357,9 +371,25 @@ export default function DashboardPage() {
 
             {activeTab === 'saved' && (
                 <div id="pane-saved" className="tab-pane active" >
-                    <div className="empty-state">
-                        <p style={{ margin: "0 0 16px 0" }}>No saved stories yet</p>
-                    </div>
+                    {savedPosts.length === 0 ? (
+                        <div className="empty-state">
+                            <p style={{ margin: "0 0 16px 0" }}>No saved stories yet</p>
+                        </div>
+                    ) : (
+                        <div className="articles-grid">
+                            {savedPosts.map(post => (
+                                <article key={post.id} className="article-card" style={{ cursor: "pointer" }} onClick={() => navigate(`/post/${post.id}`)}>
+                                    <div className="card-image" style={{ backgroundImage: `url('${post.cover_image}')` }}>
+                                        <span className="category-tag">{post.category?.split(' - ')[0] || 'Story'}</span>
+                                    </div>
+                                    <div className="card-body">
+                                        <h3 className="card-title">{post.title || 'Untitled Story'}</h3>
+                                        <time className="card-date">{new Date(post.created_at).toLocaleDateString()}</time>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    )}
                 </div>
             )}
         </div>
