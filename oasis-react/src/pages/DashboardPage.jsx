@@ -31,9 +31,9 @@ export default function DashboardPage() {
   const draftPosts = posts.filter(p => p.status === 'draft');
 
   const [isEditing, setIsEditing] = useState(false);
-  const [profileName, setProfileName] = useState("Alina Bezsonova");
-  const [profileBio, setProfileBio] = useState("Medientechnik designer and front-end developer focused on CSS Grid, modern UI, and cinematic photography.");
-  const [activeTab, setActiveTab] = useState("drafts");
+  const [profileName, setProfileName] = useState("");
+  const [profileBio, setProfileBio] = useState("");
+  const [activeTab, setActiveTab] = useState("published");
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
     const [coverImage, setCoverImage] = useState(null);

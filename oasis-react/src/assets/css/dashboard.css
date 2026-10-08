@@ -51,7 +51,7 @@
     width: 100%;
     aspect-ratio: 2980 / 1676;
     min-height: 60vh;
-    background-image: url('/assets/images/avatars/dashboard-avatar.jpg');
+    background-color: #f1f5f9; /* fallback solid color */
     background-size: cover;
     background-position: center;
     background-attachment: scroll;
