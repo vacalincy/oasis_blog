@@ -69,8 +69,19 @@ export default function LandingPage() {
     }
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleGoogleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/dashboard`
+      }
+    });
+    if (error) {
+      addToast('Error logging in with Google: ' + error.message, 'error');
+    }
+  };
+
+  const handleLogin = async (formElement) => {
     setIsLoading(true);
     const email = formElement.email.value;
     const password = formElement.password.value;
@@ -267,7 +278,7 @@ export default function LandingPage() {
                     }
                 }}>Continue</button>
                 <div className="signup-cta__divider"><span>or</span></div>
-                <button type="button" className="signup-cta__google-btn react-datepicker-ignore-onclickoutside">
+                <button type="button" className="signup-cta__google-btn react-datepicker-ignore-onclickoutside" onClick={handleGoogleLogin}>
                     <img src="/assets/images/brand/Google - Original.png" alt="Google Logo" className="signup-cta__google-icon" loading="lazy" />
                     Continue with Google
                 </button>
@@ -325,7 +336,7 @@ export default function LandingPage() {
 
                 <div className="auth-modal__divider"><span>OR</span></div>
 
-                <button type="button" className="auth-modal__google react-datepicker-ignore-onclickoutside">
+                <button type="button" className="auth-modal__google react-datepicker-ignore-onclickoutside" onClick={handleGoogleLogin}>
                     <img src="/assets/images/brand/Google - Original.png" alt="Google icon" className="auth-modal__google-icon" loading="lazy" />
                     Continue with Google
                 </button>
@@ -413,7 +424,7 @@ export default function LandingPage() {
 
                 <div className="auth-modal__divider"><span>OR</span></div>
 
-                <button type="button" className="auth-modal__google react-datepicker-ignore-onclickoutside">
+                <button type="button" className="auth-modal__google react-datepicker-ignore-onclickoutside" onClick={handleGoogleLogin}>
                     <img src="/assets/images/brand/Google - Original.png" alt="Google icon" className="auth-modal__google-icon" loading="lazy" />
                     Continue with Google
                 </button>

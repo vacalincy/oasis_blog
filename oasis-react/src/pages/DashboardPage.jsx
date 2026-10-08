@@ -37,6 +37,8 @@ export default function DashboardPage() {
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
     const [coverImage, setCoverImage] = useState(null);
+    const [coverFile, setCoverFile] = useState(null);
+    const [isSavingProfile, setIsSavingProfile] = useState(false);
 
   useEffect(() => {
     if (profile) {
@@ -75,6 +77,7 @@ export default function DashboardPage() {
   const handleCoverChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+        setCoverFile(file);
         setCoverImage(URL.createObjectURL(file));
     }
   };
@@ -170,13 +173,47 @@ export default function DashboardPage() {
             </>
         ) : (
             <>
-                <button className="btn-save-action" id="btn-save-profile" onClick={() => {
-                    setProfileName(editName);
-                    setProfileBio(editBio);
+                <button className="btn-glass" id="btn-save-profile" disabled={isSavingProfile} onClick={async () => {
+                    if (!user) return;
+                    setIsSavingProfile(true);
+                    try {
+                        let uploadedUrl = coverImage;
+                        if (coverFile) {
+                            const fileExt = coverFile.name.split('.').pop();
+                            const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+                            const { error: uploadError } = await supabase.storage.from('avatars').upload(fileName, coverFile);
+                            if (uploadError) throw uploadError;
+                            const { data } = supabase.storage.from('avatars').getPublicUrl(fileName);
+                            uploadedUrl = data.publicUrl;
+                        }
+                        
+                        const { error } = await supabase.from('profiles').update({
+                            username: editName,
+                            bio: editBio,
+                            avatar_url: uploadedUrl
+                        }).eq('id', user.id);
+                        
+                        if (error) throw error;
+                        
+                        setProfileName(editName);
+                        setProfileBio(editBio);
+                        setCoverImage(uploadedUrl);
+                        setCoverFile(null);
+                        setIsEditing(false);
+                        addToast('Profile updated successfully!', 'success');
+                    } catch (err) {
+                        addToast('Error saving profile: ' + err.message, 'error');
+                    } finally {
+                        setIsSavingProfile(false);
+                    }
+                }}>{isSavingProfile ? 'Saving...' : 'Save'}</button>
+                <button className="btn-glass" id="btn-cancel-profile" onClick={() => {
                     setIsEditing(false);
-                    addToast('Profile updated!', 'success');
-                }}>Save</button>
-                <button className="btn-cancel-action" id="btn-cancel-profile" onClick={() => setIsEditing(false)}>Cancel</button>
+                    setEditName(profileName);
+                    setEditBio(profileBio);
+                    setCoverFile(null);
+                    setCoverImage(profile?.avatar_url || null);
+                }}>Cancel</button>
             </>
         )}
     </div>
@@ -273,8 +310,18 @@ export default function DashboardPage() {
                                         <span className="category-tag">{post.category?.split(' - ')[0] || 'Story'}</span>
                                     </div>
                                     <div className="card-body">
-                                        <h3 className="card-title">{post.title}</h3>
-                                        <time className="card-date">{new Date(post.created_at).toLocaleDateString()}</time>
+                                        <h3 className="card-title">{post.title || 'Untitled Story'}</h3>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginTop: 'auto' }}>
+                                            <time className="card-date">{new Date(post.created_at).toLocaleDateString()}</time>
+                                            <button 
+                                                className="btn-primary" 
+                                                style={{ padding: '6px 16px', fontSize: '0.85rem', borderRadius: '100px', zIndex: 2, border: 'none', height: 'auto', minHeight: '32px', width: 'auto' }}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    navigate(`/edit-post/${post.id}`);
+                                                }}
+                                            >Edit</button>
+                                        </div>
                                     </div>
                                 </article>
                             ))}
@@ -293,7 +340,7 @@ export default function DashboardPage() {
                     ) : (
                         <div className="articles-grid">
                             {draftPosts.map(post => (
-                                <article key={post.id} className="article-card" style={{ cursor: "pointer" }} onClick={() => navigate(`/post/${post.id}`)}>
+                                <article key={post.id} className="article-card" style={{ cursor: "pointer" }} onClick={() => navigate(`/edit-post/${post.id}`)}>
                                     <div className="card-image" style={{ backgroundImage: `url('${post.cover_image}')` }}>
                                         <span className="category-tag">{post.category?.split(' - ')[0] || 'Draft'}</span>
                                     </div>

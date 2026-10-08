@@ -246,8 +246,10 @@ body.editor-page {
    ========================================================================== */
 .editor-footer {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     gap: 20px;
+    width: 100%;
     margin-top: 80px;
     padding-top: 40px;
 }
@@ -419,7 +421,8 @@ button:disabled {
 .tooltip-wrapper {
     position: relative;
     display: inline-flex;
-    gap: 20px;
+    gap: 16px;
+    justify-content: flex-end;
 }
 
 .tooltip-wrapper.show-tooltip::before {

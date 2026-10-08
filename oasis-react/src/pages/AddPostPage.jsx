@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useToast } from '../context/ToastContext';
@@ -34,8 +34,40 @@ export default function AddPostPage() {
   
   const [activeMainCat, setActiveMainCat] = useState(null);
   const [activeSubCats, setActiveSubCats] = useState([]);
+  const [originalStatus, setOriginalStatus] = useState('draft');
   
   const fileInputRef = useRef(null);
+  const editorRef = useRef(null);
+  
+  const { id } = useParams();
+  const isEditing = !!id;
+
+  React.useEffect(() => {
+    if (id) {
+        const fetchPost = async () => {
+            const { data } = await supabase.from('posts').select('*').eq('id', id).single();
+            if (data) {
+                setTitle(data.title || '');
+                setSubtitle(data.subtitle || '');
+                setBodyContent(data.content || '');
+                if (editorRef.current && data.content) {
+                    editorRef.current.innerHTML = data.content;
+                }
+                setCoverImage(data.cover_image || null);
+                setOriginalStatus(data.status || 'draft');
+                
+                if (data.category) {
+                    const parts = data.category.split(' - ');
+                    setActiveMainCat(parts[0]);
+                    if (parts.length > 1) {
+                        setActiveSubCats(parts[1].split(', '));
+                    }
+                }
+            }
+        };
+        fetchPost();
+    }
+  }, [id]);
 
   // Validation
   let missingFields = [];
@@ -70,7 +102,22 @@ export default function AddPostPage() {
     }
   };
 
-    const savePost = async (status) => {
+    
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this post?")) return;
+    setIsSaving(true);
+    try {
+        const { error } = await supabase.from('posts').delete().eq('id', id);
+        if (error) throw error;
+        addToast('Post deleted successfully', 'success');
+        navigate('/dashboard');
+    } catch (err) {
+        addToast('Error deleting post: ' + err.message, 'error');
+        setIsSaving(false);
+    }
+  };
+
+  const savePost = async (status) => {
     if (!user) {
         addToast('You must be logged in to post.', 'error');
         return;
@@ -97,22 +144,37 @@ export default function AddPostPage() {
         }
 
         // 2. Save to database
-        const { error: dbError } = await supabase
-            .from('posts')
-            .insert({
-                author_id: user.id,
-                title: title,
-                subtitle: subtitle,
-                content: bodyContent,
-                category: activeMainCat + (activeSubCats.length > 0 ? ' - ' + activeSubCats.join(', ') : ''),
-                cover_image: uploadedImageUrl,
-                status: status
-            });
+        const postData = {
+            author_id: user.id,
+            title: title,
+            subtitle: subtitle,
+            content: bodyContent,
+            category: activeMainCat + (activeSubCats.length > 0 ? ' - ' + activeSubCats.join(', ') : ''),
+            cover_image: uploadedImageUrl || coverImage,
+            status: status
+        };
+        
+        let dbError;
+        let savedPostId = id;
+        if (isEditing) {
+            const { data, error } = await supabase.from('posts').update(postData).eq('id', id).select().single();
+            dbError = error;
+            if (data) savedPostId = data.id;
+        } else {
+            const { data, error } = await supabase.from('posts').insert(postData).select().single();
+            dbError = error;
+            if (data) savedPostId = data.id;
+        }
             
         if (dbError) throw dbError;
         
         addToast(status === 'published' ? 'Post published successfully!' : 'Saved as draft.', 'success');
-        navigate('/dashboard');
+        
+        if (status === 'published') {
+            navigate(`/post/${savedPostId}`);
+        } else {
+            navigate('/dashboard');
+        }
         
     } catch (error) {
         addToast(error.message, 'error');
@@ -227,7 +289,7 @@ export default function AddPostPage() {
           {/* Body Content */}
           <div 
             contentEditable="true" 
-            className="borderless-input editor-body" 
+            ref={editorRef} className="borderless-input editor-body" 
             data-placeholder="Tell the story behind this shot..."
             onInput={(e) => setBodyContent(e.currentTarget.innerHTML)}
             style={{ minHeight: "300px" }}
@@ -235,25 +297,60 @@ export default function AddPostPage() {
 
           {/* Action Footer */}
           <div className="editor-footer">
-              <Link to="/dashboard" className="btn-cancel">Cancel</Link>
-              <div className={`tooltip-wrapper ${!isValid ? 'show-tooltip' : ''}`} data-tooltip={tooltipMessage}>
-                  <button 
-                    className="btn-ghost-rounded" 
-                    disabled={!isValid || isSaving}
-                    onClick={() => savePost('draft')}
-                  >
-                    {isSaving ? 'Saving...' : 'Save as Draft'}
-                  </button>
-                  <button 
-                    className="btn-primary-rounded" 
-                    disabled={!isValid || isSaving}
-                    onClick={() => savePost('published')}
-                  >
-                    {isSaving ? 'Publishing...' : 'Publish Story'}
-                  </button>
+              <Link to="/dashboard" className="btn-cancel">{isEditing ? 'Discard Changes' : 'Cancel'}</Link>
+              <div className={`tooltip-wrapper ${!isValid ? 'show-tooltip' : ''}`} data-tooltip={tooltipMessage} style={{ display: 'flex', gap: '16px' }}>
+                  
+                  {!isEditing ? (
+                      <>
+                          <button 
+                            className="btn-primary-rounded"
+                            disabled={!isValid || isSaving}
+                            onClick={() => savePost('draft')}
+                          >
+                            {isSaving ? 'Saving...' : 'Save as Draft'}
+                          </button>
+                      </>
+                  ) : (
+                      <>
+                          <button 
+                            className="btn-danger" 
+                            style={{ padding: '12px 24px', borderRadius: '100px', fontWeight: '600', backgroundColor: '#FEE2E2', color: '#DC2626', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+                            disabled={isSaving}
+                            onClick={handleDelete}
+                          >
+                            {isSaving ? 'Deleting...' : 'Delete Post'}
+                          </button>
+                          
+                          {originalStatus === 'draft' ? (
+                              <>
+                                  <button 
+                                    className="btn-ghost-rounded"
+                                    disabled={!isValid || isSaving}
+                                    onClick={() => savePost('draft')}
+                                  >
+                                    {isSaving ? 'Saving...' : 'Save Draft'}
+                                  </button>
+                                  <button 
+                                    className="btn-primary-rounded"
+                                    disabled={!isValid || isSaving}
+                                    onClick={() => savePost('published')}
+                                  >
+                                    {isSaving ? 'Publishing...' : 'Publish'}
+                                  </button>
+                              </>
+                          ) : (
+                              <button 
+                                className="btn-primary-rounded"
+                                disabled={!isValid || isSaving}
+                                onClick={() => savePost('published')}
+                              >
+                                {isSaving ? 'Saving...' : 'Save Changes'}
+                              </button>
+                          )}
+                      </>
+                  )}
               </div>
           </div>
-          
       </main>
       <Footer />
     </div>

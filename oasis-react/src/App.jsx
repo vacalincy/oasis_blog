@@ -99,6 +99,29 @@ function ScrollObserver() {
   return null;
 }
 
+
+import { useAuth } from './context/AuthContext'
+
+function ProfileEnforcer({ children }) {
+    const { user, profile, loading } = useAuth();
+    const location = useLocation();
+    
+    useEffect(() => {
+        if (loading) return;
+        
+        // If user is logged in but has no username/profile, they are new!
+        // Redirect them to onboarding unless they are already there or on auth pages
+        const isAuthPage = ['/', '/onboarding', '/terms', '/privacy'].includes(location.pathname);
+        if (user && (!profile || !profile.username)) {
+            if (!isAuthPage) {
+                window.location.href = '/onboarding';
+            }
+        }
+    }, [user, profile, loading, location]);
+    
+    return children;
+}
+
 function App() {
   console.log("App rendered with Settings Route!");
   return (
@@ -108,6 +131,7 @@ function App() {
         <ScrollToTop />
         <ScrollObserver />
         <TabBar />
+        <ProfileEnforcer>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/discover" element={<DiscoverPage />} />
@@ -127,11 +151,13 @@ function App() {
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/add-post" element={<AddPostPage />} />
+          <Route path="/edit-post/:id" element={<AddPostPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/support" element={<SupportPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        </ProfileEnforcer>
       </Router>
       </AuthProvider>
     </ToastProvider>
