@@ -143,6 +143,7 @@ function App() {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/post/:id" element={<PostPage />} />
           <Route path="/category" element={<CategoryPage />} />
+          <Route path="/profile/:id" element={<ProfilePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/following" element={<FollowingPage />} />
           <Route path="/popular" element={<PopularPage />} />

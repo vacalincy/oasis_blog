@@ -303,11 +303,18 @@ export default function AddPostPage() {
                   {!isEditing ? (
                       <>
                           <button 
-                            className="btn-primary-rounded"
+                            className="btn-ghost-rounded"
                             disabled={!isValid || isSaving}
                             onClick={() => savePost('draft')}
                           >
                             {isSaving ? 'Saving...' : 'Save as Draft'}
+                          </button>
+                          <button 
+                            className="btn-primary-rounded"
+                            disabled={!isValid || isSaving}
+                            onClick={() => savePost('published')}
+                          >
+                            {isSaving ? 'Publishing...' : 'Publish'}
                           </button>
                       </>
                   ) : (

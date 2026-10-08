@@ -127,7 +127,7 @@ export default function PostPage() {
 
         <h1 className="post-header__title">{post.title || "Untitled Story"}</h1>
 
-        <Link to="/profile" className="post-header__author">
+        <Link to={`/profile/${post.author_id}`} className="post-header__author">
             <img loading="lazy" src={post.profiles?.avatar_url || "/assets/images/icons/avatar.svg"} alt={post.profiles?.username} />
             <div className="post-header__author-info">
                 <p><b>{post.profiles?.username || 'Unknown Author'}</b></p>

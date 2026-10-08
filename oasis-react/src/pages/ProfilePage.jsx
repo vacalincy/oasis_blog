@@ -1,208 +1,161 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 import Header from '../components/Header';
+import PostCard from '../components/PostCard';
 import Footer from '../components/Footer';
+import '../assets/css/dashboard.css'; // We reuse dashboard CSS for the hero layout
+import { useToast } from '../context/ToastContext';
 
 export default function ProfilePage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const addToast = useToast();
+  
+  const [profile, setProfile] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  useEffect(() => {
+    if (!id) {
+        // If no ID provided, we can't show a profile. 
+        // A better approach would be to check if logged in and redirect to dashboard, but let's just go to discover.
+        navigate('/discover');
+        return;
+    }
+
+    const fetchProfileAndPosts = async () => {
+      setLoading(true);
+      try {
+        // 1. Fetch Profile
+        const { data: profileData, error: profileError } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', id)
+          .single();
+          
+        if (profileError) throw profileError;
+        setProfile(profileData);
+
+        // 2. Fetch Published Posts
+        const { data: postsData, error: postsError } = await supabase
+          .from('posts')
+          .select('*')
+          .eq('author_id', id)
+          .eq('status', 'published')
+          .order('created_at', { ascending: false });
+          
+        if (postsError) throw postsError;
+        setPosts(postsData || []);
+
+      } catch (err) {
+        console.error(err);
+        addToast("Profile not found", "error");
+        navigate('/discover');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfileAndPosts();
+  }, [id, navigate, addToast]);
+
+  if (loading || !profile) {
+      return (
+          <div className="dashboard-page">
+              <Header />
+              <div style={{ padding: '120px 24px', textAlign: 'center' }}>Loading...</div>
+              <Footer />
+          </div>
+      );
+  }
+
+  const profileName = profile.username || "Unknown Author";
+  const profileBio = profile.bio || "No bio available.";
+  const coverImage = profile.avatar_url;
+
   return (
-    <div className="profile-page">
+    <div className="dashboard-page">
       <Header />
       
-      {/* AUTHOR HERO START                              */}
-{/* ============================================= */}
-<section className="author-hero">
-  <div className="container author-hero__container">
+      {/* Reusing Dashboard Hero Layout */}
+      <header className="dashboard-hero" style={coverImage ? { backgroundImage: `url(${coverImage})` } : { backgroundColor: '#f1f5f9' }}>
+        <div className="hero-content">
+            <h1 className="profile-name">{profileName}</h1>
 
-    <img loading="lazy" src="/assets/images/avatars/JaneDoe.jpg" alt="Jane Doe" className="author-hero__avatar" />
-
-    <h1 className="author-hero__name">Jane Doe</h1>
-
-    <div className="author-hero__stats">
-      <div className="author-hero__stat">
-        <span className="author-hero__stat-number">120</span>
-        <span className="author-hero__stat-label">Posts</span>
-      </div>
-      <div className="author-hero__stat">
-        <span className="author-hero__stat-number">10.5K</span>
-        <span className="author-hero__stat-label">Followers</span>
-      </div>
-      <div className="author-hero__stat">
-        <span className="author-hero__stat-number">450</span>
-        <span className="author-hero__stat-label">Following</span>
-      </div>
-    </div>
-
-    <p className="author-hero__bio">Tech enthusiast and writer exploring the intersection of human experience and emerging technologies. Formerly a lead researcher at a major AI lab, now dedicated to translating complex systems into compelling stories.</p>
-
-    <button className="author-hero__follow-btn">Follow</button>
-
-  </div>
-</section>
-{/* ============================================= */}
-{/* AUTHOR HERO END                                */}
-{/* ============================================= */}
-
-
-{/* ============================================= */}
-{/* AUTHOR POSTS GRID START                        */}
-{/* ============================================= */}
-<section className="latest-posts-section">
-  <div className="container">
-
-    <h2 className="author-posts__title">Latest from Jane Doe</h2>
-
-    <div className="posts-grid posts-grid--3col">
-
-      <article className="post-card">
-        <div className="post-card__image">
-          <Link to="/post" className="post-card__image-link">
-            <img loading="lazy" src="/assets/images/content/vr.jpg" alt="The Future of Virtual Reality in Modern Education" />
-          </Link>
-          <span className="post-card__badge">Science &amp; Technology</span>
-          <label className="post-card__save-btn" aria-label="Save post">
-            <input type="checkbox" className="post-card__save-input" />
-            <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-            </svg>
-          </label>
+            <div className="profile-stats">
+                <div className="stat-item">
+                    <span className="stat-value">{posts.length}</span>
+                    <span className="stat-label">Posts</span>
+                </div>
+                <div className="stat-item">
+                    <span className="stat-value">10.5K</span>
+                    <span className="stat-label">Followers</span>
+                </div>
+                <div className="stat-item">
+                    <span className="stat-value">450</span>
+                    <span className="stat-label">Following</span>
+                </div>
+            </div>
+            
+            <div className="bio-glass-card">
+                <p className="profile-bio">{profileBio}</p>
+            </div>
+            
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
+                <button 
+                    className="btn-glass" 
+                    style={{ 
+                        padding: '12px 40px', 
+                        fontSize: '1.05rem', 
+                        width: '160px',
+                        background: !isFollowing ? 'rgba(255, 255, 255, 0.9)' : '',
+                        color: !isFollowing ? '#0f172a' : '',
+                        borderColor: !isFollowing ? 'transparent' : ''
+                    }} 
+                    onClick={() => {
+                        if (isFollowing) {
+                            setIsFollowing(false);
+                            addToast(`Unfollowed ${profileName}`, 'info');
+                        } else {
+                            setIsFollowing(true);
+                            addToast(`Followed ${profileName}!`, 'success');
+                        }
+                    }}
+                >
+                    {isFollowing ? 'Unfollow' : 'Follow'}
+                </button>
+            </div>
         </div>
-        <Link to="/post" className="post-card__title-link">
-          <h3 className="post-card__title">The Future of Virtual Reality in Modern Education</h3>
-        </Link>
-        <div className="post-card__meta">
-          <span className="post-card__author">Jane Doe</span>
-          <span>·</span>
-          <time dateTime="2023-10-12">Oct 12, 2023</time>
-        </div>
-      </article>
+      </header>
 
-      <article className="post-card">
-        <div className="post-card__image">
-          <Link to="/post" className="post-card__image-link">
-            <img loading="lazy" src="/assets/images/content/villa.jpg" alt="Material Honesty: Why Digital Spaces Need Authenticity" />
-          </Link>
-          <span className="post-card__badge">Design</span>
-          <label className="post-card__save-btn" aria-label="Save post">
-            <input type="checkbox" className="post-card__save-input" />
-            <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-            </svg>
-          </label>
+      <section className="latest-posts-section" style={{ marginTop: '64px', marginBottom: '96px' }}>
+        <div className="container">
+            <h2 className="author-posts__title" style={{ fontSize: '2.5rem', marginBottom: '40px', color: 'var(--color-text)' }}>Latest from {profileName}</h2>
+            
+            {posts.length === 0 ? (
+                <div className="empty-state" style={{ textAlign: 'center', padding: '64px' }}>
+                    <p style={{ fontSize: '1.2rem', color: 'var(--color-text-light)' }}>No published stories yet</p>
+                </div>
+            ) : (
+                <div className="posts-grid posts-grid--3col">
+                    {posts.map(post => (
+                        <PostCard 
+                            key={post.id}
+                            title={post.title || "Untitled Story"}
+                            image={post.cover_image || "/assets/images/content/default.jpg"}
+                            category={post.category?.split(' - ')[0] || "Story"}
+                            author={profileName}
+                            date={new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                            isoDate={post.created_at}
+                            link={`/post/${post.id}`}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
-        <Link to="/post" className="post-card__title-link">
-          <h3 className="post-card__title">Material Honesty: Why Digital Spaces Need Authenticity</h3>
-        </Link>
-        <div className="post-card__meta">
-          <span className="post-card__author">Jane Doe</span>
-          <span>·</span>
-          <time dateTime="2023-09-28">Sep 28, 2023</time>
-        </div>
-      </article>
-
-      <article className="post-card">
-        <div className="post-card__image">
-          <Link to="/post" className="post-card__image-link">
-            <img loading="lazy" src="/assets/images/content/vr.jpg" alt="Redefining Productivity in an Always-On World" />
-          </Link>
-          <span className="post-card__badge">Culture</span>
-          <label className="post-card__save-btn" aria-label="Save post">
-            <input type="checkbox" className="post-card__save-input" />
-            <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-            </svg>
-          </label>
-        </div>
-        <Link to="/post" className="post-card__title-link">
-          <h3 className="post-card__title">Redefining Productivity in an Always-On World</h3>
-        </Link>
-        <div className="post-card__meta">
-          <span className="post-card__author">Jane Doe</span>
-          <span>·</span>
-          <time dateTime="2023-08-15">Aug 15, 2023</time>
-        </div>
-      </article>
-
-      <article className="post-card">
-        <div className="post-card__image">
-          <Link to="/post" className="post-card__image-link">
-            <img loading="lazy" src="/assets/images/content/vr.jpg" alt="The Ethics of Sentient Machines" />
-          </Link>
-          <span className="post-card__badge">Technology</span>
-          <label className="post-card__save-btn" aria-label="Save post">
-            <input type="checkbox" className="post-card__save-input" />
-            <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-            </svg>
-          </label>
-        </div>
-        <Link to="/post" className="post-card__title-link">
-          <h3 className="post-card__title">The Ethics of Sentient Machines</h3>
-        </Link>
-        <div className="post-card__meta">
-          <span className="post-card__author">Jane Doe</span>
-          <span>·</span>
-          <time dateTime="2023-07-02">Jul 02, 2023</time>
-        </div>
-      </article>
-
-      <article className="post-card">
-        <div className="post-card__image">
-          <Link to="/post" className="post-card__image-link">
-            <img loading="lazy" src="/assets/images/content/vr.jpg" alt="Beyond the Screen: Interfaces of Tomorrow" />
-          </Link>
-          <span className="post-card__badge">UX Research</span>
-          <label className="post-card__save-btn" aria-label="Save post">
-            <input type="checkbox" className="post-card__save-input" />
-            <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-            </svg>
-          </label>
-        </div>
-        <Link to="/post" className="post-card__title-link">
-          <h3 className="post-card__title">Beyond the Screen: Interfaces of Tomorrow</h3>
-        </Link>
-        <div className="post-card__meta">
-          <span className="post-card__author">Jane Doe</span>
-          <span>·</span>
-          <time dateTime="2023-06-11">Jun 11, 2023</time>
-        </div>
-      </article>
-
-      <article className="post-card">
-        <div className="post-card__image">
-          <Link to="/post" className="post-card__image-link">
-            <img loading="lazy" src="/assets/images/content/vr.jpg" alt="Minimalism as a Strategy for Focus" />
-          </Link>
-          <span className="post-card__badge">Lifestyle</span>
-          <label className="post-card__save-btn" aria-label="Save post">
-            <input type="checkbox" className="post-card__save-input" />
-            <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-            </svg>
-          </label>
-        </div>
-        <Link to="/post" className="post-card__title-link">
-          <h3 className="post-card__title">Minimalism as a Strategy for Focus</h3>
-        </Link>
-        <div className="post-card__meta">
-          <span className="post-card__author">Jane Doe</span>
-          <span>·</span>
-          <time dateTime="2023-05-20">May 20, 2023</time>
-        </div>
-      </article>
-
-    </div>
-
-    <button className="load-more-btn">Load More Stories</button>
-
-  </div>
-</section>
-{/* ============================================= */}
-{/* AUTHOR POSTS GRID END                          */}
-{/* ============================================= */}
-
-
-
+      </section>
 
       <Footer />
     </div>
