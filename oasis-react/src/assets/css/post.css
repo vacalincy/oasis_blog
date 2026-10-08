@@ -224,3 +224,10 @@
     .read-next__grid { grid-template-columns: 1fr; gap: 1.5rem; }
 }
 
+
+.post-header__author img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}

@@ -40,6 +40,14 @@ import './assets/css/topics.css'
 import './assets/css/discover.css'
 import './assets/css/search.css'
 import './assets/css/onboarding.css'
+import './assets/css/dashboard.css'
+import './assets/css/add-post.css'
+import './assets/css/settings.css'
+import './assets/css/about.css'
+import './assets/css/notifications.css'
+import './assets/css/contact.css'
+import './assets/css/support.css'
+
 
 
 function ScrollObserver() {
@@ -109,7 +117,7 @@ function App() {
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/post" element={<PostPage />} />
+          <Route path="/post/:id" element={<PostPage />} />
           <Route path="/category" element={<CategoryPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/following" element={<FollowingPage />} />

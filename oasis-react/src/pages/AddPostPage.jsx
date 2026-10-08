@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import '../assets/css/add-post.css'; // Direct import
 import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
+import { supabase } from '../supabaseClient';
 
 const categoryData = {
   "Travel & Outdoors": ["Mountain Hiking", "Alpine Routes", "Gear & Preparation", "Travel Logistics", "Other"],
@@ -25,7 +26,10 @@ export default function AddPostPage() {
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
   const [bodyContent, setBodyContent] = useState('');
+  const { user } = useAuth();
   const [coverImage, setCoverImage] = useState(null);
+  const [coverFile, setCoverFile] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
   const [isDragActive, setIsDragActive] = useState(false);
   
   const [activeMainCat, setActiveMainCat] = useState(null);
@@ -54,6 +58,7 @@ export default function AddPostPage() {
   const handleFile = (file) => {
     if (file && file.type.startsWith('image/')) {
       setCoverImage(URL.createObjectURL(file));
+      setCoverFile(file);
     }
   };
 
@@ -62,6 +67,57 @@ export default function AddPostPage() {
     setIsDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       handleFile(e.dataTransfer.files[0]);
+    }
+  };
+
+    const savePost = async (status) => {
+    if (!user) {
+        addToast('You must be logged in to post.', 'error');
+        return;
+    }
+    
+    setIsSaving(true);
+    try {
+        let uploadedImageUrl = null;
+        
+        // 1. Upload image if exists
+        if (coverFile) {
+            const fileName = `${user.id}-${Date.now()}.jpg`;
+            const { error: uploadError } = await supabase.storage
+                .from('avatars') // reusing the avatars bucket but putting it in a covers folder
+                .upload(`covers/${fileName}`, coverFile);
+                
+            if (uploadError) throw uploadError;
+            
+            const { data: { publicUrl } } = supabase.storage
+                .from('avatars')
+                .getPublicUrl(`covers/${fileName}`);
+                
+            uploadedImageUrl = publicUrl;
+        }
+
+        // 2. Save to database
+        const { error: dbError } = await supabase
+            .from('posts')
+            .insert({
+                author_id: user.id,
+                title: title,
+                subtitle: subtitle,
+                content: bodyContent,
+                category: activeMainCat + (activeSubCats.length > 0 ? ' - ' + activeSubCats.join(', ') : ''),
+                cover_image: uploadedImageUrl,
+                status: status
+            });
+            
+        if (dbError) throw dbError;
+        
+        addToast(status === 'published' ? 'Post published successfully!' : 'Saved as draft.', 'success');
+        navigate('/dashboard');
+        
+    } catch (error) {
+        addToast(error.message, 'error');
+    } finally {
+        setIsSaving(false);
     }
   };
 
@@ -173,7 +229,7 @@ export default function AddPostPage() {
             contentEditable="true" 
             className="borderless-input editor-body" 
             data-placeholder="Tell the story behind this shot..."
-            onInput={(e) => setBodyContent(e.currentTarget.textContent)}
+            onInput={(e) => setBodyContent(e.currentTarget.innerHTML)}
             style={{ minHeight: "300px" }}
           ></div>
 
@@ -183,23 +239,17 @@ export default function AddPostPage() {
               <div className={`tooltip-wrapper ${!isValid ? 'show-tooltip' : ''}`} data-tooltip={tooltipMessage}>
                   <button 
                     className="btn-ghost-rounded" 
-                    disabled={!isValid}
-                    onClick={() => {
-                        addToast('Saved as draft.', 'success');
-                        navigate('/dashboard');
-                    }}
+                    disabled={!isValid || isSaving}
+                    onClick={() => savePost('draft')}
                   >
-                    Save as Draft
+                    {isSaving ? 'Saving...' : 'Save as Draft'}
                   </button>
                   <button 
                     className="btn-primary-rounded" 
-                    disabled={!isValid}
-                    onClick={() => {
-                        addToast('Post published successfully!', 'success');
-                        navigate('/dashboard');
-                    }}
+                    disabled={!isValid || isSaving}
+                    onClick={() => savePost('published')}
                   >
-                    Publish Story
+                    {isSaving ? 'Publishing...' : 'Publish Story'}
                   </button>
               </div>
           </div>

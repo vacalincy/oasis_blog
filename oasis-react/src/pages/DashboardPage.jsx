@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { supabase } from '../supabaseClient';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../assets/css/dashboard.css'; // Direct import
@@ -8,7 +9,26 @@ import { useToast } from '../context/ToastContext';
 
 export default function DashboardPage() {
   const addToast = useToast();
-  const { profile } = useAuth();
+  const navigate = useNavigate();
+  const { profile, user } = useAuth();
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+        if (!user) return;
+        const { data } = await supabase
+            .from('posts')
+            .select('*')
+            .eq('author_id', user.id)
+            .order('created_at', { ascending: false });
+        
+        if (data) setPosts(data);
+    };
+    fetchPosts();
+  }, [user]);
+  
+  const publishedPosts = posts.filter(p => p.status === 'published');
+  const draftPosts = posts.filter(p => p.status === 'draft');
 
   const [isEditing, setIsEditing] = useState(false);
   const [profileName, setProfileName] = useState("Alina Bezsonova");
@@ -239,146 +259,62 @@ export default function DashboardPage() {
 
         <div className="stories-container">
             {activeTab === 'published' && (
-<div id="pane-published" className="tab-pane" >
-                <div className="empty-state">
-                    <img src="/assets/images/icons/plus.svg" alt="Empty" style={{ width: "48px", height: "48px", opacity: "0.3", marginBottom: "16px" }} loading="lazy" />
-                    <p style={{ margin: "0 0 16px 0" }}>No stories here yet</p>
-                    <Link to="/add-post" className="btn-primary" style={{ height: "44px", fontSize: "0.9rem", borderRadius: "100px", textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center" }} >Write a Story</Link>
+                <div id="pane-published" className="tab-pane active" >
+                    {publishedPosts.length === 0 ? (
+                        <div className="empty-state">
+                            <p style={{ margin: "0 0 16px 0" }}>No published stories here yet</p>
+                            <Link to="/add-post" className="btn-primary" style={{ height: "44px", fontSize: "0.9rem", borderRadius: "100px", textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center" }} >Write a Story</Link>
+                        </div>
+                    ) : (
+                        <div className="articles-grid">
+                            {publishedPosts.map(post => (
+                                <article key={post.id} className="article-card" style={{ cursor: "pointer" }} onClick={() => navigate(`/post/${post.id}`)}>
+                                    <div className="card-image" style={{ backgroundImage: `url('${post.cover_image}')` }}>
+                                        <span className="category-tag">{post.category?.split(' - ')[0] || 'Story'}</span>
+                                    </div>
+                                    <div className="card-body">
+                                        <h3 className="card-title">{post.title}</h3>
+                                        <time className="card-date">{new Date(post.created_at).toLocaleDateString()}</time>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    )}
                 </div>
-            </div>
-            
-)}
-{activeTab === 'drafts' && (
-<div id="pane-drafts" className="tab-pane">
-                <div className="articles-grid">
-                    <article className="article-card"  style={{ cursor: "pointer" }}>
-                        <div className="card-image" style={{ backgroundImage: "url('../assets/images/content/001.jpg')" }}>
-                            <span className="category-tag">HTML & CSS Architecture</span>
-                        </div>
-                        <div className="card-body">
-                            <h3 className="card-title">The Evolution of Swiss Typography in Digital Interfaces</h3>
-                            <time className="card-date">2 days ago</time>
-                        </div>
-                    </article>
+            )}
 
-                    <article className="article-card"  style={{ cursor: "pointer" }}>
-                        <div className="card-image" style={{ backgroundImage: "url('../assets/images/content/002.jpg')" }}>
-                            <span className="category-tag">Minimalist UI</span>
+            {activeTab === 'drafts' && (
+                <div id="pane-drafts" className="tab-pane active">
+                    {draftPosts.length === 0 ? (
+                        <div className="empty-state">
+                            <p style={{ margin: "0 0 16px 0" }}>No drafts here yet</p>
+                            <Link to="/add-post" className="btn-primary" style={{ height: "44px", fontSize: "0.9rem", borderRadius: "100px", textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center" }} >Write a Story</Link>
                         </div>
-                        <div className="card-body">
-                            <h3 className="card-title">Mastering CSS Grid: Building Complex Layouts with Ease</h3>
-                            <time className="card-date">5 days ago</time>
+                    ) : (
+                        <div className="articles-grid">
+                            {draftPosts.map(post => (
+                                <article key={post.id} className="article-card" style={{ cursor: "pointer" }} onClick={() => navigate(`/post/${post.id}`)}>
+                                    <div className="card-image" style={{ backgroundImage: `url('${post.cover_image}')` }}>
+                                        <span className="category-tag">{post.category?.split(' - ')[0] || 'Draft'}</span>
+                                    </div>
+                                    <div className="card-body">
+                                        <h3 className="card-title">{post.title || 'Untitled Draft'}</h3>
+                                        <time className="card-date">{new Date(post.created_at).toLocaleDateString()}</time>
+                                    </div>
+                                </article>
+                            ))}
                         </div>
-                    </article>
-
-                    <article className="article-card"  style={{ cursor: "pointer" }}>
-                        <div className="card-image" style={{ backgroundImage: "url('../assets/images/content/003.jpg')" }}>
-                            <span className="category-tag">Alpine Routes</span>
-                        </div>
-                        <div className="card-body">
-                            <h3 className="card-title">Capturing the Canary Islands: A Visual Journey</h3>
-                            <time className="card-date">1 week ago</time>
-                        </div>
-                    </article>
-
-                    <article className="article-card"  style={{ cursor: "pointer" }}>
-                        <div className="card-image" style={{ backgroundImage: "url('../assets/images/content/004.jpg')" }}>
-                            <span className="category-tag">Landscape & Nature</span>
-                        </div>
-                        <div className="card-body">
-                            <h3 className="card-title">The Evolution of Swiss Typography in Digital Interfaces</h3>
-                            <time className="card-date">2 days ago</time>
-                        </div>
-                    </article>
-
-                    <article className="article-card"  style={{ cursor: "pointer" }}>
-                        <div className="card-image" style={{ backgroundImage: "url('../assets/images/content/005.jpg')" }}>
-                            <span className="category-tag">Tech Trends</span>
-                        </div>
-                        <div className="card-body">
-                            <h3 className="card-title">Mastering CSS Grid: Building Complex Layouts with Ease</h3>
-                            <time className="card-date">5 days ago</time>
-                        </div>
-                    </article>
-
-                    <article className="article-card"  style={{ cursor: "pointer" }}>
-                        <div className="card-image" style={{ backgroundImage: "url('../assets/images/content/006.jpg')" }}>
-                            <span className="category-tag">Artist Retrospectives</span>
-                        </div>
-                        <div className="card-body">
-                            <h3 className="card-title">Capturing the Canary Islands: A Visual Journey</h3>
-                            <time className="card-date">1 week ago</time>
-                        </div>
-                    </article>
-
-                    <article className="article-card"  style={{ cursor: "pointer" }}>
-                        <div className="card-image" style={{ backgroundImage: "url('../assets/images/content/007.jpg')" }}>
-                            <span className="category-tag">Quick Everyday Meals</span>
-                        </div>
-                        <div className="card-body">
-                            <h3 className="card-title">The Evolution of Swiss Typography in Digital Interfaces</h3>
-                            <time className="card-date">2 days ago</time>
-                        </div>
-                    </article>
-
-                    <article className="article-card"  style={{ cursor: "pointer" }}>
-                        <div className="card-image" style={{ backgroundImage: "url('../assets/images/content/008.jpg')" }}>
-                            <span className="category-tag">Classic & Sports Cars</span>
-                        </div>
-                        <div className="card-body">
-                            <h3 className="card-title">Mastering CSS Grid: Building Complex Layouts with Ease</h3>
-                            <time className="card-date">5 days ago</time>
-                        </div>
-                    </article>
-
-                    <article className="article-card"  style={{ cursor: "pointer" }}>
-                        <div className="card-image" style={{ backgroundImage: "url('../assets/images/content/009.jpg')" }}>
-                            <span className="category-tag">Dystopian Fiction</span>
-                        </div>
-                        <div className="card-body">
-                            <h3 className="card-title">Capturing the Canary Islands: A Visual Journey</h3>
-                            <time className="card-date">1 week ago</time>
-                        </div>
-                    </article>
+                    )}
                 </div>
-            </div>
-            
-)}
-{activeTab === 'saved' && (
-<div id="pane-saved" className="tab-pane" >
-                <div className="articles-grid">
-                    <article className="article-card"  style={{ cursor: "pointer" }}>
-                        <div className="card-image" style={{ backgroundImage: "url('../assets/images/content/mainfeed2.jpg')" }}>
-                            <span className="category-tag">Action & Extreme</span>
-                        </div>
-                        <div className="card-body">
-                            <h3 className="card-title">Conquering the Alpine Giants: A Solo Ascent</h3>
-                            <time className="card-date">David Chen &middot; Saved 2 days ago</time>
-                        </div>
-                    </article>
+            )}
 
-                    <article className="article-card"  style={{ cursor: "pointer" }}>
-                        <div className="card-image" style={{ backgroundImage: "url('../assets/images/content/mainfeed3.jpg')" }}>
-                            <span className="category-tag">Design & Interfaces</span>
-                        </div>
-                        <div className="card-body">
-                            <h3 className="card-title">Brutalist Typography: Breaking the Grid in Print</h3>
-                            <time className="card-date">Sarah Jenkins &middot; Saved 1 week ago</time>
-                        </div>
-                    </article>
-
-                    <article className="article-card"  style={{ cursor: "pointer" }}>
-                        <div className="card-image" style={{ backgroundImage: "url('../assets/images/content/about_4.jpg')" }}>
-                            <span className="category-tag">Music & Culture</span>
-                        </div>
-                        <div className="card-body">
-                            <h3 className="card-title">The Resurrection of Analog Synths in Modern Pop</h3>
-                            <time className="card-date">Marcus Frost &middot; Saved 2 weeks ago</time>
-                        </div>
-                    </article>
+            {activeTab === 'saved' && (
+                <div id="pane-saved" className="tab-pane active" >
+                    <div className="empty-state">
+                        <p style={{ margin: "0 0 16px 0" }}>No saved stories yet</p>
+                    </div>
                 </div>
-            </div>
-)}
+            )}
         </div>
 </section>
 
