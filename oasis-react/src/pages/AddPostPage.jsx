@@ -29,7 +29,8 @@ export default function AddPostPage() {
   const { user } = useAuth();
   const [coverImage, setCoverImage] = useState(null);
   const [coverFile, setCoverFile] = useState(null);
-  const [isSaving, setIsSaving] = useState(false);
+  const [savingType, setSavingType] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isDragActive, setIsDragActive] = useState(false);
   
   const [activeMainCat, setActiveMainCat] = useState(null);
@@ -103,17 +104,18 @@ export default function AddPostPage() {
   };
 
     
-  const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this post?")) return;
-    setIsSaving(true);
+  const handleConfirmDelete = async () => {
+    setSavingType(status);
     try {
         const { error } = await supabase.from('posts').delete().eq('id', id);
         if (error) throw error;
         addToast('Post deleted successfully', 'success');
+        setShowDeleteModal(false);
         navigate('/dashboard');
     } catch (err) {
         addToast('Error deleting post: ' + err.message, 'error');
-        setIsSaving(false);
+        setSavingType(null);
+        setShowDeleteModal(false);
     }
   };
 
@@ -123,7 +125,7 @@ export default function AddPostPage() {
         return;
     }
     
-    setIsSaving(true);
+    setSavingType(status);
     try {
         let uploadedImageUrl = null;
         
@@ -179,7 +181,7 @@ export default function AddPostPage() {
     } catch (error) {
         addToast(error.message, 'error');
     } finally {
-        setIsSaving(false);
+        setSavingType(null);
     }
   };
 
@@ -304,17 +306,19 @@ export default function AddPostPage() {
                       <>
                           <button 
                             className="btn-ghost-rounded"
-                            disabled={!isValid || isSaving}
+                            disabled={!isValid || savingType !== null}
                             onClick={() => savePost('draft')}
+                            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
                           >
-                            {isSaving ? 'Saving...' : 'Save as Draft'}
+                            {savingType === 'draft' ? <><svg className="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width: '16px', height: '16px', animation: 'spin 1s linear infinite'}}><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg> Saving...</> : 'Save as Draft'}
                           </button>
                           <button 
                             className="btn-primary-rounded"
-                            disabled={!isValid || isSaving}
+                            disabled={!isValid || savingType !== null}
                             onClick={() => savePost('published')}
+                            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
                           >
-                            {isSaving ? 'Publishing...' : 'Publish'}
+                            {savingType === 'published' ? <><svg className="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width: '16px', height: '16px', animation: 'spin 1s linear infinite'}}><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg> Publishing...</> : 'Publish'}
                           </button>
                       </>
                   ) : (
@@ -322,44 +326,61 @@ export default function AddPostPage() {
                           <button 
                             className="btn-danger" 
                             style={{ padding: '12px 24px', borderRadius: '100px', fontWeight: '600', backgroundColor: '#FEE2E2', color: '#DC2626', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
-                            disabled={isSaving}
-                            onClick={handleDelete}
+                            disabled={(savingType !== null)}
+                            onClick={() => setShowDeleteModal(true)}
                           >
-                            {isSaving ? 'Deleting...' : 'Delete Post'}
+                            {(savingType !== null) ? 'Deleting...' : 'Delete Post'}
                           </button>
                           
                           {originalStatus === 'draft' ? (
                               <>
                                   <button 
                                     className="btn-ghost-rounded"
-                                    disabled={!isValid || isSaving}
+                                    disabled={!isValid || savingType !== null}
                                     onClick={() => savePost('draft')}
+                                    style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
                                   >
-                                    {isSaving ? 'Saving...' : 'Save Draft'}
+                                    {savingType === 'draft' ? <><svg className="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width: '16px', height: '16px', animation: 'spin 1s linear infinite'}}><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg> Saving...</> : 'Save Draft'}
                                   </button>
                                   <button 
                                     className="btn-primary-rounded"
-                                    disabled={!isValid || isSaving}
+                                    disabled={!isValid || savingType !== null}
                                     onClick={() => savePost('published')}
+                                    style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
                                   >
-                                    {isSaving ? 'Publishing...' : 'Publish'}
+                                    {savingType === 'published' ? <><svg className="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width: '16px', height: '16px', animation: 'spin 1s linear infinite'}}><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg> Publishing...</> : 'Publish'}
                                   </button>
                               </>
                           ) : (
                               <button 
                                 className="btn-primary-rounded"
-                                disabled={!isValid || isSaving}
+                                disabled={!isValid || savingType !== null}
                                 onClick={() => savePost('published')}
+                                style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
                               >
-                                {isSaving ? 'Saving...' : 'Save Changes'}
+                                {savingType === 'published' ? <><svg className="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width: '16px', height: '16px', animation: 'spin 1s linear infinite'}}><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg> Saving...</> : 'Save Changes'}
                               </button>
                           )}
                       </>
                   )}
               </div>
           </div>
+      <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
       </main>
-      <Footer />
+      
+      {showDeleteModal && (
+          <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0, 0, 0, 0.4)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+              <div style={{ backgroundColor: 'var(--color-bg)', padding: '24px', borderRadius: '16px', maxWidth: '400px', width: '90%', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}>
+                  <h3 style={{ marginTop: 0, color: 'var(--color-text-main)', fontSize: '1.2rem', marginBottom: '12px' }}>Delete Post</h3>
+                  <p style={{ color: 'var(--color-text-secondary)', marginBottom: '24px', lineHeight: 1.5 }}>Are you sure you want to delete this post? This action cannot be undone.</p>
+                  <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                      <button onClick={() => setShowDeleteModal(false)} style={{ padding: '8px 20px', borderRadius: '20px', border: '1px solid #eef2f6', background: 'transparent', color: 'var(--color-text-main)', cursor: 'pointer', fontWeight: 600 }}>Cancel</button>
+                      <button onClick={handleConfirmDelete} style={{ padding: '8px 20px', borderRadius: '20px', border: 'none', background: '#ef4444', color: 'white', cursor: 'pointer', fontWeight: 600 }}>{(savingType !== null) ? "..." : "Delete"}</button>
+                  </div>
+              </div>
+          </div>
+      )}
+<Footer />
     </div>
   );
 }

@@ -10,7 +10,7 @@ import { useToast } from '../context/ToastContext';
 export default function DashboardPage() {
   const addToast = useToast();
   const navigate = useNavigate();
-  const { profile, user } = useAuth();
+  const { profile, user, fetchProfile } = useAuth();
   const [posts, setPosts] = useState([]);
   const [savedPosts, setSavedPosts] = useState([]);
 
@@ -50,12 +50,16 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("published");
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
-    const [coverImage, setCoverImage] = useState(null);
-    const [coverFile, setCoverFile] = useState(null);
-    const [isSavingProfile, setIsSavingProfile] = useState(false);
+      const [coverImage, setCoverImage] = useState(null);
+  const [coverFile, setCoverFile] = useState(null);
+  const [isSavingProfile, setIsSavingProfile] = useState(false);
+  const [followingProfiles, setFollowingProfiles] = useState([]);
+  const [followersCount, setFollowersCount] = useState(0);
+
 
   useEffect(() => {
     if (profile) {
+        
         if (profile.username) {
             setProfileName(profile.username);
             setEditName(profile.username);
@@ -67,6 +71,18 @@ export default function DashboardPage() {
         if (profile.avatar_url) {
             setCoverImage(profile.avatar_url);
         }
+
+        // Fetch Follows
+        const fetchFollows = async () => {
+            const { data } = await supabase.from('follows').select('following_id, profiles!follows_following_id_fkey(id, username, avatar_url)').eq('follower_id', profile.id);
+            if (data) {
+                setFollowingProfiles(data.map(d => d.profiles));
+            }
+            const { count } = await supabase.from('follows').select('*', { count: 'exact', head: true }).eq('following_id', profile.id);
+            setFollowersCount(count || 0);
+        };
+        fetchFollows();
+
     }
   }, [profile]);
   
@@ -214,6 +230,9 @@ export default function DashboardPage() {
                         setCoverImage(uploadedUrl);
                         setCoverFile(null);
                         setIsEditing(false);
+                        if (fetchProfile && user?.id) {
+                            fetchProfile(user.id);
+                        }
                         addToast('Profile updated successfully!', 'success');
                     } catch (err) {
                         addToast('Error saving profile: ' + err.message, 'error');
@@ -256,17 +275,17 @@ export default function DashboardPage() {
             </div>
             <div className="stats-card-row">
                 <span>Profile Views</span>
-                <strong>12.4k</strong>
+                <strong>--</strong>
             </div>
             <div className="stats-card-row">
                 <span>Article Reads</span>
-                <strong>48.2k</strong>
+                <strong>--</strong>
             </div>
             <div className="stats-card-row">
                 <span>New Followers</span>
                 <div className="stat-value-group">
                     <span className="trend-positive">+12%</span>
-                    <strong>3,190</strong>
+                    <strong>{followersCount}</strong>
                 </div>
             </div>
         </div>
@@ -408,39 +427,20 @@ export default function DashboardPage() {
                 <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
             </button>
         </div>
+        
         <div className="modal-user-list">
-            <div className="user-list-item">
-                <img loading="lazy" src="/assets/images/content/001.jpg" alt="Avatar" className="user-avatar" />
-                <div className="user-info">
-                    <span className="user-name">Sarah</span>
-                    <span className="user-name">Jenkins</span>
+            {followingProfiles.length === 0 ? <p style={{textAlign: 'center', padding: '20px'}}>You aren't following anyone yet.</p> : followingProfiles.map(fp => (
+                <div className="user-list-item" key={fp.id}>
+                    <img loading="lazy" src={fp.avatar_url || "/assets/images/icons/avatar.svg"} alt="Avatar" className="user-avatar" style={{objectFit: 'cover'}} />
+                    <div className="user-info">
+                        <Link to={`/profile/${fp.id}`} className="user-name" onClick={() => setShowFollowingModal(false)} style={{textDecoration: 'none', color: 'inherit'}}>{fp.username}</Link>
+                    </div>
+                    <button className="btn-following-action" onClick={async () => {
+                        await supabase.from('follows').delete().eq('follower_id', profile.id).eq('following_id', fp.id);
+                        setFollowingProfiles(prev => prev.filter(p => p.id !== fp.id));
+                    }}>unfollow</button>
                 </div>
-                <button className="btn-following-action">unfollow</button>
-            </div>
-            <div className="user-list-item">
-                <img loading="lazy" src="/assets/images/content/002.jpg" alt="Avatar" className="user-avatar" />
-                <div className="user-info">
-                    <span className="user-name">Marcus</span>
-                    <span className="user-name">Reed</span>
-                </div>
-                <button className="btn-following-action">unfollow</button>
-            </div>
-            <div className="user-list-item">
-                <img loading="lazy" src="/assets/images/content/003.jpg" alt="Avatar" className="user-avatar" />
-                <div className="user-info">
-                    <span className="user-name">Elena</span>
-                    <span className="user-name">Rostova</span>
-                </div>
-                <button className="btn-following-action">unfollow</button>
-            </div>
-            <div className="user-list-item">
-                <img loading="lazy" src="/assets/images/content/004.jpg" alt="Avatar" className="user-avatar" />
-                <div className="user-info">
-                    <span className="user-name">James</span>
-                    <span className="user-name">Cooper</span>
-                </div>
-                <button className="btn-following-action">unfollow</button>
-            </div>
+            ))}
         </div>
     </div>
 </div>

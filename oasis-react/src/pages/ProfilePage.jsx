@@ -6,6 +6,7 @@ import PostCard from '../components/PostCard';
 import Footer from '../components/Footer';
 import '../assets/css/dashboard.css'; // We reuse dashboard CSS for the hero layout
 import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function ProfilePage() {
   const { id } = useParams();
@@ -16,6 +17,9 @@ export default function ProfilePage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false);
+  const { user } = useAuth();
+  const [followersCount, setFollowersCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
 
   useEffect(() => {
     if (!id) {
@@ -46,8 +50,21 @@ export default function ProfilePage() {
           .eq('status', 'published')
           .order('created_at', { ascending: false });
           
+        
         if (postsError) throw postsError;
         setPosts(postsData || []);
+
+        // 3. Fetch Follows stats
+        const { count: f1 } = await supabase.from('follows').select('*', { count: 'exact', head: true }).eq('following_id', id);
+        const { count: f2 } = await supabase.from('follows').select('*', { count: 'exact', head: true }).eq('follower_id', id);
+        setFollowersCount(f1 || 0);
+        setFollowingCount(f2 || 0);
+
+        if (user) {
+            const { data: followData } = await supabase.from('follows').select('*').eq('follower_id', user.id).eq('following_id', id).single();
+            if (followData) setIsFollowing(true);
+        }
+
 
       } catch (err) {
         console.error(err);
@@ -59,7 +76,7 @@ export default function ProfilePage() {
     };
 
     fetchProfileAndPosts();
-  }, [id, navigate, addToast]);
+  }, [id, navigate, addToast, user]);
 
   if (loading || !profile) {
       return (
@@ -90,11 +107,11 @@ export default function ProfilePage() {
                     <span className="stat-label">Posts</span>
                 </div>
                 <div className="stat-item">
-                    <span className="stat-value">10.5K</span>
+                    <span className="stat-value">{followersCount}</span>
                     <span className="stat-label">Followers</span>
                 </div>
                 <div className="stat-item">
-                    <span className="stat-value">450</span>
+                    <span className="stat-value">{followingCount}</span>
                     <span className="stat-label">Following</span>
                 </div>
             </div>
@@ -103,7 +120,7 @@ export default function ProfilePage() {
                 <p className="profile-bio">{profileBio}</p>
             </div>
             
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
+            {user?.id !== profile.id && (<div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
                 <button 
                     className="btn-glass" 
                     style={{ 
@@ -114,19 +131,27 @@ export default function ProfilePage() {
                         color: !isFollowing ? '#0f172a' : '',
                         borderColor: !isFollowing ? 'transparent' : ''
                     }} 
-                    onClick={() => {
+                    onClick={async () => {
+                        if (!user) {
+                            addToast("Please sign in to follow", "error");
+                            return;
+                        }
                         if (isFollowing) {
                             setIsFollowing(false);
+                            setFollowersCount(prev => prev - 1);
+                            await supabase.from('follows').delete().eq('follower_id', user.id).eq('following_id', profile.id);
                             addToast(`Unfollowed ${profileName}`, 'info');
                         } else {
                             setIsFollowing(true);
+                            setFollowersCount(prev => prev + 1);
+                            await supabase.from('follows').insert({ follower_id: user.id, following_id: profile.id });
                             addToast(`Followed ${profileName}!`, 'success');
                         }
                     }}
                 >
                     {isFollowing ? 'Unfollow' : 'Follow'}
                 </button>
-            </div>
+            </div>)}
         </div>
       </header>
 

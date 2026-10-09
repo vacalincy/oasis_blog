@@ -1,11 +1,58 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { supabase } from '../supabaseClient';
+import { useAuth } from '../context/AuthContext';
 
 export default function FollowingPage() {
+  const { user } = useAuth();
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const observerRef = useRef(null);
+
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
+    const fetchFollowingPosts = async () => {
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+
+      // 1. Get IDs of users the current user is following
+      const { data: follows, error: followsError } = await supabase
+        .from('follows')
+        .select('following_id')
+        .eq('follower_id', user.id);
+
+      if (followsError || !follows || follows.length === 0) {
+        setLoading(false);
+        return;
+      }
+
+      const followingIds = follows.map(f => f.following_id);
+
+      // 2. Fetch the latest published posts from those users
+      const { data: followedPosts, error: postsError } = await supabase
+        .from('posts')
+        .select('*, profiles(*)')
+        .in('author_id', followingIds)
+        .eq('status', 'published')
+        .order('created_at', { ascending: false })
+        .limit(10); // Feed size
+
+      if (!postsError && followedPosts) {
+        setPosts(followedPosts);
+      }
+      setLoading(false);
+    };
+
+    fetchFollowingPosts();
+  }, [user]);
+
+  useEffect(() => {
+    if (loading || posts.length === 0) return;
+
+    observerRef.current = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
@@ -18,127 +65,80 @@ export default function FollowingPage() {
     });
 
     const slides = document.querySelectorAll('.slide');
-    slides.forEach(slide => observer.observe(slide));
+    slides.forEach(slide => observerRef.current.observe(slide));
 
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+        if (observerRef.current) {
+            observerRef.current.disconnect();
+        }
+    };
+  }, [loading, posts]);
+
+  const getInitials = (name) => {
+    if (!name) return 'U';
+    return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+  };
 
   return (
     <div className="following-page">
       <Header />
       
-      {/* SLIDES CONTAINER START                         */}
-{/* ============================================= */}
-<main className="following-feed">
-
-    {/* Slide 1 */}
-    <article className="slide">
-        <div className="slide__bg">
-            <img loading="lazy" src="/assets/images/content/modernbuildingfacade.jpg" alt="" className="slide__bg-blur" aria-hidden="true" />
-            <img loading="lazy" src="/assets/images/content/modernbuildingfacade.jpg" alt="Modern building facade" className="slide__bg-image" />
-        </div>
-        <div className="slide__content">
-
-            <div className="slide__author">
-                {/* avatar + name/role are clickable, links to the author's profile */}
-                <Link to="/profile" className="slide__author-badge">
-                    <span className="avatar">ER</span>
-                    <div className="slide__author-info">
-                        <p>Elena Rostova</p>
-                        <span>Architecture Critic</span>
+      <main className="following-feed">
+        {loading ? (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', color: '#fff' }}>
+                <p>Loading your feed...</p>
+            </div>
+        ) : !user ? (
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', color: '#fff', textAlign: 'center', padding: '2rem' }}>
+                <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Welcome to Oasis</h2>
+                <p style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.7)', marginBottom: '2rem' }}>Sign in to follow your favorite authors.</p>
+                <Link to="/login" className="btn btn--primary">Log In</Link>
+            </div>
+        ) : posts.length === 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', color: '#fff', textAlign: 'center', padding: '2rem' }}>
+                <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>It's quiet here...</h2>
+                <p style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.7)', marginBottom: '2rem' }}>Follow some authors to populate your feed.</p>
+                <Link to="/" className="btn btn--primary">Discover Authors</Link>
+            </div>
+        ) : (
+            posts.map((post, index) => (
+                <article key={post.id} className="slide">
+                    <div className="slide__bg">
+                        <img loading="lazy" src={post.cover_image || "/assets/images/content/modernbuildingfacade.jpg"} alt="" className="slide__bg-blur" aria-hidden="true" />
+                        <img loading="lazy" src={post.cover_image || "/assets/images/content/modernbuildingfacade.jpg"} alt={post.title} className="slide__bg-image" />
                     </div>
-                </Link>
-                <span className="slide__new-badge">New</span>
-            </div>
+                    <div className="slide__content">
+                        <div className="slide__author">
+                            <Link to={`/profile/${post.author_id}`} className="slide__author-badge">
+                                {post.profiles?.avatar_url ? (
+                                    <img src={post.profiles.avatar_url} alt={post.profiles.username} className="avatar" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
+                                ) : (
+                                    <span className="avatar">{getInitials(post.profiles?.username)}</span>
+                                )}
+                                <div className="slide__author-info">
+                                    <p>{post.profiles?.username || 'Unknown Author'}</p>
+                                    <span>{post.profiles?.bio && post.profiles.bio !== 'Oasis enthusiast.' ? post.profiles.bio.substring(0, 30) : 'Author'}</span>
+                                </div>
+                            </Link>
+                            {index === 0 && <span className="slide__new-badge">New</span>}
+                        </div>
 
-            <h2 className="slide__title">The Architecture of Silence: Designing for Empty Spaces</h2>
-            <p className="slide__excerpt">In a world of constant noise, the ultimate luxury is a space engineered for complete and utter stillness.</p>
+                        <h2 className="slide__title">{post.title}</h2>
+                        <p className="slide__excerpt">{post.subtitle}</p>
 
-            <Link to="/post" className="slide__cta">Read Article</Link>
-
-        </div>
-
-        <div className="slide__scroll-hint">
-            <span>Scroll to explore</span>
-            <div className="slide__scroll-track">
-                <div className="slide__scroll-highlight"></div>
-            </div>
-        </div>
-    </article>
-
-    {/* Slide 2 */}
-    <article className="slide">
-        <div className="slide__bg">
-            <img loading="lazy" src="/assets/images/content/abstractcurvedlight.jpg" alt="" className="slide__bg-blur" aria-hidden="true" />
-            <img loading="lazy" src="/assets/images/content/abstractcurvedlight.jpg" alt="Abstract curved light" className="slide__bg-image" />
-        </div>
-        <div className="slide__content">
-
-            <div className="slide__author">
-                <Link to="/profile" className="slide__author-badge">
-                    <span className="avatar">MC</span>
-                    <div className="slide__author-info">
-                        <p>Marcus Chen</p>
-                        <span>Design Theorist</span>
+                        <Link to={`/post/${post.id}`} className="slide__cta">Read Article</Link>
                     </div>
-                </Link>
-            </div>
 
-            <h2 className="slide__title">Curvature &amp; Light: The Evolution of Modernism</h2>
-            <p className="slide__excerpt">How parametric design is softening the rigid edges of the cities we inhabit.</p>
-
-            <Link to="/post" className="slide__cta">Read Article</Link>
-
-        </div>
-
-        <div className="slide__scroll-hint">
-            <span>Scroll to explore</span>
-            <div className="slide__scroll-track">
-                <div className="slide__scroll-highlight"></div>
-            </div>
-        </div>
-    </article>
-
-    {/* Slide 3 */}
-    <article className="slide">
-        <div className="slide__bg">
-            <img loading="lazy" src="/assets/images/content/landscape-photo.jpg" alt="" className="slide__bg-blur" aria-hidden="true" />
-            <img loading="lazy" src="/assets/images/content/landscape-photo.jpg" alt="Green rolling hills at sunset" className="slide__bg-image" />
-        </div>
-        <div className="slide__content">
-
-            <div className="slide__author">
-                <Link to="/profile" className="slide__author-badge">
-                    <span className="avatar">SL</span>
-                    <div className="slide__author-info">
-                        <p>Sofia Lindqvist</p>
-                        <span>Landscape Photographer</span>
+                    <div className="slide__scroll-hint">
+                        <span>Scroll to explore</span>
+                        <div className="slide__scroll-track">
+                            <div className="slide__scroll-highlight"></div>
+                        </div>
                     </div>
-                </Link>
-            </div>
-
-            <h2 className="slide__title">Chasing the Golden Hour: A Field Journal</h2>
-            <p className="slide__excerpt">Notes from six months spent photographing the same valley in every season and every light.</p>
-
-            <Link to="/post" className="slide__cta">Read Article</Link>
-
-        </div>
-
-        <div className="slide__scroll-hint">
-            <span>Scroll to explore</span>
-            <div className="slide__scroll-track">
-                <div className="slide__scroll-highlight"></div>
-            </div>
-        </div>
-    </article>
-
-</main>
-{/* ============================================= */}
-{/* SLIDES CONTAINER END                           */}
-{/* ============================================= */}
-
-
-
+                </article>
+            ))
+        )}
+      </main>
 
       <Footer />
     </div>

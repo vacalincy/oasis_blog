@@ -1,93 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PostCard from '../components/PostCard';
+import { supabase } from '../supabaseClient';
 
-const DISCOVER_POSTS = [
-    {
-        id: 1,
-        title: "Reading a City: Urban Topography and the Modern Flâneur",
-        image: "/assets/images/content/topic-architecture.jpg",
-        category: "Photography & Film",
-        author: "Bastian",
-        date: "Jan 12, 2024",
-        isoDate: "2024-01-12",
-        link: "/post"
-    },
-    {
-        id: 2,
-        title: "A Moment in the Sun: The Lost Art of Waiting",
-        image: "/assets/images/content/mainfeed2.jpg",
-        category: "Design & Interfaces",
-        author: "Jack",
-        date: "Oct 24, 2023",
-        isoDate: "2023-10-24",
-        link: "/post"
-    },
-    {
-        id: 3,
-        title: "Brutalist Typography: Breaking the Grid in Print",
-        image: "/assets/images/content/mainfeed3.jpg",
-        category: "Design & Interfaces",
-        author: "Sarah Jenkins",
-        date: "Jan 28, 2024",
-        isoDate: "2024-01-28",
-        link: "/post"
-    },
-    {
-        id: 4,
-        title: "Vertical Ice: The Psychology of Crevasse Climbing",
-        image: "/assets/images/content/mainfeed4.jpg",
-        category: "Action & Extreme",
-        author: "David Chen",
-        date: "Feb 05, 2024",
-        isoDate: "2024-02-05",
-        link: "/post"
-    },
-    {
-        id: 5,
-        title: "The Future of Virtual Reality in Modern Education",
-        image: "/assets/images/content/vr.jpg",
-        category: "Science & Technology",
-        author: "Jane Doe",
-        date: "Oct 12, 2023",
-        isoDate: "2023-10-12",
-        link: "/post"
-    },
-    {
-        id: 6,
-        title: "Minimalist Workspaces: A Guide to Less Clutter",
-        image: "/assets/images/content/interior.jpg",
-        category: "Architecture",
-        author: "Marcus Chen",
-        date: "Nov 02, 2023",
-        isoDate: "2023-11-02",
-        link: "/post"
-    },
-    {
-        id: 7,
-        title: "Analog Revival: Shooting 35mm in a Digital Age",
-        image: "/assets/images/content/sony.jpg",
-        category: "Photography & Film",
-        author: "Elena Rostova",
-        date: "Dec 14, 2023",
-        isoDate: "2023-12-14",
-        link: "/post"
-    },
-    {
-        id: 8,
-        title: "Nature's Palette: Designing with Earth Tones",
-        image: "/assets/images/content/dunes.jpg",
-        category: "Design & Interfaces",
-        author: "Satu Amrita",
-        date: "Sep 28, 2023",
-        isoDate: "2023-09-28",
-        link: "/post"
-    }
-];
+
 
 export default function DiscoverPage() {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [featuredPost, setFeaturedPost] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(8);
+
+  useEffect(() => {
+      const fetchDiscoverPosts = async () => {
+          setLoading(true);
+          const { data, error } = await supabase
+              .from('posts')
+              .select('*, profiles(username, avatar_url)')
+              .eq('status', 'published')
+              .order('created_at', { ascending: false })
+              .limit(50);
+              
+          if (data && data.length > 0) {
+              setFeaturedPost(data[0]); // First post is featured
+              setPosts(data.slice(1)); // Rest go to the grid
+          }
+          setLoading(false);
+      };
+      
+      fetchDiscoverPosts();
+  }, []);
   return (
     <div className="discover-page">
       <Header />
@@ -98,41 +42,42 @@ export default function DiscoverPage() {
     <div className="container">
         <div className="featured-post">
 
-            {/* Left column: image, links to the full post */}
-            <Link to="/post" className="featured-post__link">
-                <img src="/assets/images/content/discover_main_pc.jpg" alt="Snowboarding" />
-            </Link>
-
-            {/* Right column: badge, title, text, author */}
-            <div className="featured-post__content">
-
-                {/* category badge, links to the category archive */}
-                <Link to="/category?cat=sports" className="featured-post__badge">
-                    <span className="featured-post__title">Action & Extreme</span>
-                </Link>
-
-                {/* title + text group */}
-                <div className="featured-post__info">
-
-                    {/* title also links to the full post, same as the image */}
-                    <Link to="/post" className="featured-post__title-link">
-                        <h2>Defying Gravity: The Art of High-Altitude Snowboarding</h2>
+            {featuredPost ? (
+                <>
+                    {/* Left column: image, links to the full post */}
+                    <Link to={`/post/${featuredPost.id}`} className="featured-post__link">
+                        <img src={featuredPost.cover_image || '/assets/images/content/discover_main_pc.jpg'} alt={featuredPost.title} />
                     </Link>
 
-                    <p>Experience the raw thrill of winter sports. From soaring above the halfpipe to mastering complex aerial maneuvers, elite snowboarders are constantly pushing the boundaries of what is humanly possible in sub-zero conditions.</p>
+                    {/* Right column: badge, title, text, author */}
+                    <div className="featured-post__content">
 
-                </div>
+                        {/* category badge */}
+                        <Link to={`/category?cat=${featuredPost.category}`} className="featured-post__badge">
+                            <span className="featured-post__title">{featuredPost.category || 'General'}</span>
+                        </Link>
 
-                {/* author block, pinned to the bottom via CSS — links to the author's profile page */}
-                <Link to="/profile" className="featured-post__author">
-                    <img loading="lazy" src="/assets/images/icons/avatar.svg" alt="Julian Vance" />
-                    <div className="featured-post__author__name">
-                        <p><b>Julian Vance</b></p>
-                        <time dateTime="2024-02-12">February 12, 2024</time>
+                        {/* title + text group */}
+                        <div className="featured-post__info">
+                            <Link to={`/post/${featuredPost.id}`} className="featured-post__title-link">
+                                <h2>{featuredPost.title}</h2>
+                            </Link>
+                            <p className="featured-post__subtitle">{featuredPost.subtitle}</p>
+                        </div>
+
+                        {/* author block */}
+                        <Link to={`/profile/${featuredPost.author_id}`} className="featured-post__author">
+                            <img loading="lazy" src={featuredPost.profiles?.avatar_url || "/assets/images/icons/avatar.svg"} alt={featuredPost.profiles?.username} style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover' }} />
+                            <div className="featured-post__author__name">
+                                <p><b>{featuredPost.profiles?.username || 'Unknown Author'}</b></p>
+                                <time dateTime={featuredPost.created_at}>{new Date(featuredPost.created_at).toLocaleDateString()}</time>
+                            </div>
+                        </Link>
                     </div>
-                </Link>
-
-            </div>
+                </>
+            ) : (
+                <div style={{ padding: '40px' }}>Loading featured story...</div>
+            )}
 
         </div>
     </div>
@@ -161,12 +106,29 @@ export default function DiscoverPage() {
         </div>
 
         <div className="posts-grid">
-                    {DISCOVER_POSTS.map(post => (
-                        <PostCard key={post.id} {...post} />
-                    ))}
+                    {loading ? (
+                        <p>Loading stories...</p>
+                    ) : (
+                        posts.slice(0, visibleCount).map(post => (
+                            <PostCard 
+                                key={post.id} 
+                                id={post.id}
+                                title={post.title}
+                                image={post.cover_image}
+                                category={post.category}
+                                author={post.profiles?.username || 'Unknown'}
+                                author_id={post.author_id}
+                                date={new Date(post.created_at).toLocaleDateString()}
+                                isoDate={post.created_at}
+                                link={`/post/${post.id}`}
+                            />
+                        ))
+                    )}
                 </div>
 
-        <button className="load-more-btn">Load More Stories</button>
+        {posts.length > visibleCount && (
+            <button className="load-more-btn" onClick={() => setVisibleCount(prev => prev + 8)}>Load More Stories</button>
+        )}
 
     </div>
 </section>

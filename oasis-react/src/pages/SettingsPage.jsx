@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../assets/css/settings.css';
 import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('account');
@@ -13,6 +14,7 @@ export default function SettingsPage() {
   
   const addToast = useToast();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleUpdate = () => {
     setIsUpdating(true);
@@ -58,7 +60,7 @@ export default function SettingsPage() {
                     <form className="form-grid" id="settings-form" onSubmit={(e) => e.preventDefault()}>
                         <div className="form-group full-width">
                             <label htmlFor="settings-email">Email Address</label>
-                            <input type="email" id="settings-email" className="form-input" defaultValue="jane@example.com" required />
+                            <input type="email" id="settings-email" className="form-input" defaultValue={user?.email || ""} required />
                         </div>
                         <div className="form-group full-width">
                             <label htmlFor="settings-phone">Phone Number</label>

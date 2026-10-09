@@ -31,35 +31,6 @@ const COMMENTS_DATA = [
     }
 ];
 
-const RELATED_POSTS = [
-    {
-        id: 1,
-        title: "The Architecture of Silence: Finding Peace in Brutalism",
-        image: "/assets/images/content/011.jpg",
-        category: "Architecture",
-        author: "Marcus Chen",
-        date: "Oct 10, 2023",
-        isoDate: "2023-10-10"
-    },
-    {
-        id: 2,
-        title: "Japanese Woodworking and the Philosophy of Perfection",
-        image: "/assets/images/content/008.jpg",
-        category: "Design",
-        author: "Sarah Jenkins",
-        date: "Oct 05, 2023",
-        isoDate: "2023-10-05"
-    },
-    {
-        id: 3,
-        title: "Monochrome Spaces: Why Less Color Can Mean More",
-        image: "/assets/images/content/010.jpg",
-        category: "Interior",
-        author: "Elena Rostova",
-        date: "Sep 28, 2023",
-        isoDate: "2023-09-28"
-    }
-];
 
 export default function PostPage() {
   const { id } = useParams();
@@ -73,6 +44,7 @@ export default function PostPage() {
   const [likesCount, setLikesCount] = useState(0);
   const [isSaved, setIsSaved] = useState(false);
   const [comments, setComments] = useState([]);
+  const [relatedPosts, setRelatedPosts] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
 
@@ -182,6 +154,7 @@ export default function PostPage() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchPost = async () => {
         setLoading(true);
         if (!id) return;
@@ -196,6 +169,32 @@ export default function PostPage() {
             addToast('Error loading post: ' + error.message, 'error');
         } else {
             setPost(data);
+            
+            // Fetch related posts (same category)
+            let { data: relatedData } = await supabase
+                .from('posts')
+                .select('*, profiles(username, avatar_url)')
+                .eq('status', 'published')
+                .eq('category', data.category)
+                .neq('id', data.id)
+                .order('created_at', { ascending: false })
+                .limit(3);
+                
+            if (relatedData && relatedData.length < 3) {
+                // Fallback to latest posts overall if we don't have enough in this category
+                const { data: fallbackData } = await supabase
+                    .from('posts')
+                    .select('*, profiles(username, avatar_url)')
+                    .eq('status', 'published')
+                    .neq('id', data.id)
+                    .order('created_at', { ascending: false })
+                    .limit(3);
+                relatedData = fallbackData;
+            }
+            
+            if (relatedData) {
+                setRelatedPosts(relatedData);
+            }
         }
         setLoading(false);
     };
@@ -301,7 +300,7 @@ export default function PostPage() {
 
             <button className="post-actions__btn" aria-label="Comments" onClick={() => setShowCommentsModal(true)}>
                 <span className="post-actions__icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/comment.svg')", width: "20px", height: "20px" }}></span>
-                <span>84</span>
+                <span>{comments.length}</span>
             </button>
         </div>
 
@@ -375,7 +374,7 @@ export default function PostPage() {
 <div className="comments-modal active" id="comments-modal" onClick={(e) => { if (e.target.id === 'comments-modal') setShowCommentsModal(false); }}>
     <div className="comments-modal__content">
         <div className="comments-modal__header">
-            <h2>All Responses (128)</h2>
+            <h2>All Responses ({comments.length})</h2>
             <button className="comments-modal__close" aria-label="Close" onClick={() => setShowCommentsModal(false)}>✕</button>
         </div>
     </div>
@@ -389,8 +388,17 @@ export default function PostPage() {
     <div className="container">
         <h2 className="read-next__title">Read Next</h2>
         <div className="read-next__grid">
-            {RELATED_POSTS.map(post => (
-                <PostCard key={post.id} {...post} />
+            {relatedPosts.map(post => (
+                <PostCard 
+                    key={post.id}
+                    title={post.title || "Untitled Story"}
+                    image={post.cover_image || "/assets/images/content/default.jpg"}
+                    category={post.category?.split(' - ')[0] || "Story"}
+                    author={post.profiles?.username || "Unknown"}
+                    date={new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    isoDate={post.created_at}
+                    link={`/post/${post.id}`}
+                />
             ))}
         </div>
     </div>

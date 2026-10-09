@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+//, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
@@ -105,10 +107,14 @@ export default function CommentItem({ id, post_id, author_id, author, avatar, ti
 
     return (
         <li className="comment">
-            <img loading="lazy" src={avatar} alt={author} className="comment__avatar" />
+            <Link to={`/profile/${author_id}`}>
+                <img loading="lazy" src={avatar} alt={author} className="comment__avatar" style={{ cursor: 'pointer', border: '2px solid transparent' }} />
+            </Link>
             <div className="comment__content">
                 <div className="comment__body">
-                    <p className="comment__author">{author}</p>
+                    <Link to={`/profile/${author_id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <p className="comment__author" style={{ cursor: 'pointer' }}>{author}</p>
+                    </Link>
                     <time className="comment__time" dateTime={isoTime}>{time}</time>
                     <p className="comment__text">{text}</p>
                 </div>
