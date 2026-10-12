@@ -29,7 +29,7 @@
   <br />
 
   <p align="center">
-    <img src="https://via.placeholder.com/1200x675/0F172A/FFFFFF?text=%5BInsert+GIF%3A+Full+Landing+%26+About+Us+Scroll+Demo%5D" alt="OASIS Landing Preview" width="100%" />
+    <img src="./oasis-react/public/assets/video/landing.gif" alt="OASIS Landing Preview" width="100%" />
   </p>
 </div>
 
