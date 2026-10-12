@@ -5,20 +5,12 @@ import Footer from '../components/Footer';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabaseClient';
+import { CATEGORIES } from '../constants/categories';
 
-const categoryData = {
-  "Travel & Outdoors": ["Mountain Hiking", "Alpine Routes", "Gear & Preparation", "Travel Logistics", "Other"],
-  "Photography & Film": ["Camera Settings", "Landscape & Nature", "Video & Slow-Motion", "Post-Production", "Other"],
-  "Design & Interfaces": ["Figma Mastery", "Minimalist UI", "Typography", "UX Case Studies", "Other"],
-  "Science & Technology": ["Ecosystems & Devices", "Audio & Streaming Systems", "Software & Tools", "Tech Trends", "Other"],
-  "Music & Culture": ["Progressive & Classic Rock", "Alternative & Synthpop", "Artist Retrospectives", "Music Theory & Meaning", "Other"],
-  "Food & Culinary": ["Healthy Grains", "Cheese & Veggie Bowls", "Quick Everyday Meals", "Culinary Chemistry", "Other"],
-  "Automotive & Mobility": ["Classic & Sports Cars", "Ownership & Insurance", "Driving Culture", "Road Trips", "Other"],
-  "Education & Lifestyle": ["Student Life", "Financial Logistics", "Productivity", "Career & Freelance", "Other"],
-  "Literature & Culture": ["Dystopian Fiction", "Literary Influences", "Modern Prose", "Art & Society", "Other"],
-  "Sports & Movement": ["Action & Extreme", "Fitness & Lifestyle", "Pro & Competitive", "Body & Recovery", "Other"],
-  "Other": ["Other"]
-};
+const categoryData = CATEGORIES.reduce((acc, cat) => {
+  acc[cat.name] = [...cat.subcategories.map(s => typeof s === 'string' ? s : s.name), "Other"];
+  return acc;
+}, {});
 
 export default function AddPostPage() {
   const addToast = useToast();

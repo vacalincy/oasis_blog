@@ -1,250 +1,191 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import PostCard from '../components/PostCard';
+import { supabase } from '../supabaseClient';
+import { CATEGORIES, findCategory } from '../constants/categories';
+import '../assets/css/category-post.css';
 
 export default function CategoryPage() {
-  const [searchParams] = useSearchParams();
-  const category = searchParams.get('cat');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const catParam = searchParams.get('cat') || 'architecture';
+  const subParam = searchParams.get('sub') || 'All';
 
-  // We could use `category` to dynamically change the title, but for now we just render the static template.
-  
+  const [activeCategory, setActiveCategory] = useState(() => findCategory(catParam) || CATEGORIES[0]);
+  const [activeSub, setActiveSub] = useState(subParam);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Sync with URL params when they change
+  useEffect(() => {
+    const matched = findCategory(catParam) || CATEGORIES[0];
+    setActiveCategory(matched);
+    setActiveSub(subParam || 'All');
+  }, [catParam, subParam]);
+
+  // Fetch posts from Supabase for this category
+  useEffect(() => {
+    const fetchCategoryPosts = async () => {
+      setLoading(true);
+      try {
+        // Query posts
+        const { data, error } = await supabase
+          .from('posts')
+          .select('*, profiles(username, avatar_url)')
+          .eq('status', 'published')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        // Filter in JS using category name and aliases for robust matching
+        const filtered = (data || []).filter(post => {
+          if (!post.category) return false;
+          const postCatLower = post.category.toLowerCase();
+          
+          // Match main category
+          const isCategoryMatch = 
+            postCatLower.includes(activeCategory.name.toLowerCase()) ||
+            postCatLower.includes(activeCategory.slug.toLowerCase()) ||
+            (activeCategory.aliases && activeCategory.aliases.some(a => postCatLower.includes(a.toLowerCase())));
+
+          if (!isCategoryMatch) return false;
+
+          // If a specific subcategory is selected (and not 'All')
+          if (activeSub && activeSub !== 'All') {
+            return postCatLower.includes(activeSub.toLowerCase());
+          }
+
+          return true;
+        });
+
+        setPosts(filtered);
+      } catch (err) {
+        console.error('Error fetching category posts:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategoryPosts();
+  }, [activeCategory, activeSub]);
+
+  const handleSubcategoryClick = (sub) => {
+    setActiveSub(sub);
+    setSearchParams({ cat: activeCategory.slug, sub });
+  };
+
   return (
     <div className="category-page">
       <Header />
       
-      {/* Pass through the converted HTML block */}
-      {/* CATEGORY HEADER START                         */}
-{/* ============================================= */}
-<section className="category-header">
-    <div className="container category-header__container">
-        <h1 className="category-header__title">Science &amp; Technology</h1>
-        <p className="category-header__description">
-            Explore the latest innovations, breakthroughs, and insights shaping our digital future.
-        </p>
+      {/* CATEGORY HEADER START */}
+      <section className="category-header">
+        <div className="container category-header__container">
+          <h1 className="category-header__title">{activeCategory.name}</h1>
+          <p className="category-header__description">
+            {activeCategory.description}
+          </p>
 
-        {/* Subcategory filter buttons */}
-        <div className="category-header__filters">
-            <button className="category-header__filter-btn active">All</button>
-            <button className="category-header__filter-btn">Ecosystems &amp; Devices</button>
-            <button className="category-header__filter-btn">Audio &amp; Streaming</button>
-            <button className="category-header__filter-btn">Software &amp; Tools</button>
-            <button className="category-header__filter-btn">Tech Trends</button>
+          {/* Subcategory filter buttons */}
+          <div className="category-header__filters">
+            <button 
+              className={`category-header__filter-btn ${activeSub === 'All' ? 'active' : ''}`}
+              onClick={() => handleSubcategoryClick('All')}
+            >
+              All
+            </button>
+            {activeCategory.subcategories.map(subItem => {
+              const subName = typeof subItem === 'string' ? subItem : subItem.name;
+              return (
+                <button 
+                  key={subName}
+                  className={`category-header__filter-btn ${activeSub === subName ? 'active' : ''}`}
+                  onClick={() => handleSubcategoryClick(subName)}
+                  title={typeof subItem === 'object' ? subItem.desc : ''}
+                >
+                  {subName}
+                </button>
+              );
+            })}
+          </div>
         </div>
-    </div>
-</section>
-{/* ============================================= */}
-{/* CATEGORY HEADER END                           */}
-{/* ============================================= */}
+      </section>
+      {/* CATEGORY HEADER END */}
 
+      {/* CATEGORY POSTS GRID */}
+      <section className="latest-posts-section" style={{ paddingBottom: '5rem' }}>
+        <div className="container">
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--color-text-secondary)' }}>
+              <p>Loading {activeCategory.name} stories...</p>
+            </div>
+          ) : posts.length > 0 ? (
+            <div className="posts-grid">
+              {posts.map(post => {
+                const parts = post.category ? post.category.split(' - ') : [];
+                const subPart = parts[1] || parts[0] || activeCategory.name;
 
-{/* ============================================= */}
-{/* CATEGORY POSTS GRID START — reuses .post-card  */}
-{/* and .posts-grid from index.html, same markup,  */}
-{/* just filtered to this category's posts +       */}
-{/* Load More button, same as index.html           */}
-{/* ============================================= */}
-<section className="latest-posts-section">
-    <div className="container">
-
-        <div className="posts-grid">
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/vr.jpg" alt="The Future of Virtual Reality in Modern Education" />
-                    </Link>
-                    <span className="post-card__badge">Science &amp; Technology</span>
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">The Future of Virtual Reality in Modern Education</h3>
+                return (
+                  <PostCard 
+                    key={post.id}
+                    id={post.id}
+                    title={post.title}
+                    image={post.cover_image || '/assets/images/content/default.jpg'}
+                    category={subPart}
+                    categoryLink={`/category?cat=${activeCategory.slug}&sub=${encodeURIComponent(subPart)}`}
+                    author={post.profiles?.username || 'Unknown Author'}
+                    author_id={post.author_id}
+                    date={new Date(post.created_at).toLocaleDateString()}
+                    isoDate={post.created_at}
+                    link={`/post/${post.id}`}
+                  />
+                );
+              })}
+            </div>
+          ) : (
+            <div style={{ textAlign: 'center', padding: '60px 20px', maxWidth: '500px', margin: '0 auto' }}>
+              <h3 style={{ marginBottom: '10px', color: 'var(--color-text-main)' }}>No stories yet in this section</h3>
+              <p style={{ color: 'var(--color-text-secondary)', marginBottom: '24px' }}>
+                {activeSub !== 'All' 
+                  ? `There are no articles tagged "${activeSub}" right now.` 
+                  : `Be the first to publish a story in ${activeCategory.name}!`}
+              </p>
+              {activeSub !== 'All' ? (
+                <button 
+                  onClick={() => handleSubcategoryClick('All')}
+                  style={{
+                    padding: '10px 20px',
+                    borderRadius: '2rem',
+                    background: 'var(--color-primary)',
+                    color: '#fff',
+                    border: 'none',
+                    fontWeight: 600,
+                    cursor: 'pointer'
+                  }}
+                >
+                  View All {activeCategory.name}
+                </button>
+              ) : (
+                <Link 
+                  to="/topics"
+                  style={{
+                    display: 'inline-block',
+                    padding: '10px 24px',
+                    borderRadius: '2rem',
+                    background: 'var(--color-primary)',
+                    color: '#fff',
+                    textDecoration: 'none',
+                    fontWeight: 600
+                  }}
+                >
+                  Browse Other Topics
                 </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">Jane Doe</span>
-                    <span>·</span>
-                    <time dateTime="2023-10-12">Oct 12, 2023</time>
-                </div>
-            </article>
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/vr.jpg" alt="How AI is Shaping the Next Generation of Robotics" />
-                    </Link>
-                    <span className="post-card__badge">Artificial Intelligence</span>
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">How AI is Shaping the Next Generation of Robotics</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">John Smith</span>
-                    <span>·</span>
-                    <time dateTime="2023-10-12">Oct 12, 2023</time>
-                </div>
-            </article>
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/vr.jpg" alt="The Evolution of Consumer Wearables in 2024" />
-                    </Link>
-                    <span className="post-card__badge">Hardware</span>
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">The Evolution of Consumer Wearables in 2024</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">Jane Doe</span>
-                    <span>·</span>
-                    <time dateTime="2023-10-12">Oct 12, 2023</time>
-                </div>
-            </article>
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/vr.jpg" alt="The Future of Virtual Reality in Modern Education" />
-                    </Link>
-                    <span className="post-card__badge">Science &amp; Technology</span>
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">The Future of Virtual Reality in Modern Education</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">Jane Doe</span>
-                    <span>·</span>
-                    <time dateTime="2023-10-12">Oct 12, 2023</time>
-                </div>
-            </article>
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/vr.jpg" alt="Building Resilient Systems for the Cloud Era" />
-                    </Link>
-                    <span className="post-card__badge">Software</span>
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">Building Resilient Systems for the Cloud Era</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">Jane Doe</span>
-                    <span>·</span>
-                    <time dateTime="2023-10-12">Oct 12, 2023</time>
-                </div>
-            </article>
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/vr.jpg" alt="Protecting Your Digital Identity in a Connected World" />
-                    </Link>
-                    <span className="post-card__badge">Cybersecurity</span>
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">Protecting Your Digital Identity in a Connected World</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">Jane Doe</span>
-                    <span>·</span>
-                    <time dateTime="2023-10-12">Oct 12, 2023</time>
-                </div>
-            </article>
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/vr.jpg" alt="The Future of Virtual Reality in Modern Education" />
-                    </Link>
-                    <span className="post-card__badge">Science &amp; Technology</span>
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">The Future of Virtual Reality in Modern Education</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">Jane Doe</span>
-                    <span>·</span>
-                    <time dateTime="2023-10-12">Oct 12, 2023</time>
-                </div>
-            </article>
-
-            <article className="post-card">
-                <div className="post-card__image">
-                    <Link to="/post" className="post-card__image-link">
-                        <img loading="lazy" src="/assets/images/content/vr.jpg" alt="Sustainable Tech: Greener Solutions for Tomorrow" />
-                    </Link>
-                    <span className="post-card__badge">Innovation</span>
-                    <label className="post-card__save-btn" aria-label="Save post">
-                        <input type="checkbox" className="post-card__save-input" />
-                        <svg className="post-card__save-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path className="post-card__save-icon-path" d="M5 3h14a1 1 0 0 1 1 1v17l-8-4-8 4V4a1 1 0 0 1 1-1z" fill="currentColor" fillOpacity="0" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        </svg>
-                    </label>
-                </div>
-                <Link to="/post" className="post-card__title-link">
-                    <h3 className="post-card__title">Sustainable Tech: Greener Solutions for Tomorrow</h3>
-                </Link>
-                <div className="post-card__meta">
-                    <span className="post-card__author">Jane Doe</span>
-                    <span>·</span>
-                    <time dateTime="2023-10-12">Oct 12, 2023</time>
-                </div>
-            </article>
-
+              )}
+            </div>
+          )}
         </div>
-
-        <button className="load-more-btn">Load More Stories</button>
-
-    </div>
-</section>
-{/* ============================================= */}
-{/* CATEGORY POSTS GRID END                        */}
-{/* ============================================= */}
-
-
-
+      </section>
 
       <Footer />
     </div>

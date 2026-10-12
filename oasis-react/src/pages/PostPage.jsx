@@ -234,9 +234,21 @@ export default function PostPage() {
 <section className="post-header">
     <div className="container post-header__container">
 
-        <Link to={`/category?cat=${post.category}`} className="post-header__badge">
-            {post.category?.split(' - ')[0] || 'Story'}
-        </Link>
+        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
+            <Link to={`/category?cat=${encodeURIComponent(post.category?.split(' - ')[0] || '')}`} className="post-header__badge">
+                {post.category?.split(' - ')[0] || 'Story'}
+            </Link>
+            {post.category?.includes(' - ') && post.category.split(' - ')[1]?.split(', ').map(sub => (
+                <Link 
+                    key={sub}
+                    to={`/category?cat=${encodeURIComponent(post.category?.split(' - ')[0] || '')}&sub=${encodeURIComponent(sub.trim())}`}
+                    className="post-header__badge"
+                    style={{ background: 'var(--color-surface, #f1f5f9)', color: 'var(--color-text-secondary)', border: '1px solid var(--color-border)' }}
+                >
+                    {sub.trim()}
+                </Link>
+            ))}
+        </div>
 
         <h1 className="post-header__title">{post.title || "Untitled Story"}</h1>
 

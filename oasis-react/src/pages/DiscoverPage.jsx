@@ -12,6 +12,7 @@ export default function DiscoverPage() {
   const [loading, setLoading] = useState(true);
   const [featuredPost, setFeaturedPost] = useState(null);
   const [visibleCount, setVisibleCount] = useState(8);
+  const [selectedFilter, setSelectedFilter] = useState('all');
 
   useEffect(() => {
       const fetchDiscoverPosts = async () => {
@@ -53,8 +54,8 @@ export default function DiscoverPage() {
                     <div className="featured-post__content">
 
                         {/* category badge */}
-                        <Link to={`/category?cat=${featuredPost.category}`} className="featured-post__badge">
-                            <span className="featured-post__title">{featuredPost.category || 'General'}</span>
+                        <Link to={`/category?cat=${encodeURIComponent(featuredPost.category?.split(' - ')[0] || '')}`} className="featured-post__badge">
+                            <span className="featured-post__title">{featuredPost.category?.split(' - ')[0] || 'General'}</span>
                         </Link>
 
                         {/* title + text group */}
@@ -97,38 +98,68 @@ export default function DiscoverPage() {
 
         <div className="section-header">
             <h2>Explore the latest</h2>
-            <ul className="filters">
-                <li><button className="filter-btn active" data-filter="all">All</button></li>
-                <li><button className="filter-btn" data-filter="design">Design</button></li>
-                <li><button className="filter-btn" data-filter="technology">Technology</button></li>
-                <li><button className="filter-btn" data-filter="lifestyle">Lifestyle</button></li>
+            <ul className="filters" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {[
+                    { key: 'all', label: 'All' },
+                    { key: 'architecture', label: 'Architecture' },
+                    { key: 'design', label: 'Design' },
+                    { key: 'photography', label: 'Photography' },
+                    { key: 'music', label: 'Music' },
+                    { key: 'tech', label: 'Technology' },
+                    { key: 'food', label: 'Food' }
+                ].map(f => (
+                    <li key={f.key}>
+                        <button 
+                            className={`filter-btn ${selectedFilter === f.key ? 'active' : ''}`}
+                            onClick={() => { setSelectedFilter(f.key); setVisibleCount(8); }}
+                        >
+                            {f.label}
+                        </button>
+                    </li>
+                ))}
             </ul>
         </div>
 
-        <div className="posts-grid">
-                    {loading ? (
-                        <p>Loading stories...</p>
-                    ) : (
-                        posts.slice(0, visibleCount).map(post => (
-                            <PostCard 
-                                key={post.id} 
-                                id={post.id}
-                                title={post.title}
-                                image={post.cover_image}
-                                category={post.category}
-                                author={post.profiles?.username || 'Unknown'}
-                                author_id={post.author_id}
-                                date={new Date(post.created_at).toLocaleDateString()}
-                                isoDate={post.created_at}
-                                link={`/post/${post.id}`}
-                            />
-                        ))
-                    )}
-                </div>
+        {(() => {
+            const filteredPosts = posts.filter(post => {
+                if (selectedFilter === 'all') return true;
+                if (!post.category) return false;
+                return post.category.toLowerCase().includes(selectedFilter.toLowerCase());
+            });
 
-        {posts.length > visibleCount && (
-            <button className="load-more-btn" onClick={() => setVisibleCount(prev => prev + 8)}>Load More Stories</button>
-        )}
+            return (
+                <>
+                    <div className="posts-grid">
+                        {loading ? (
+                            <p>Loading stories...</p>
+                        ) : filteredPosts.length > 0 ? (
+                            filteredPosts.slice(0, visibleCount).map(post => (
+                                <PostCard 
+                                    key={post.id} 
+                                    id={post.id}
+                                    title={post.title}
+                                    image={post.cover_image}
+                                    category={post.category}
+                                    author={post.profiles?.username || 'Unknown'}
+                                    author_id={post.author_id}
+                                    date={new Date(post.created_at).toLocaleDateString()}
+                                    isoDate={post.created_at}
+                                    link={`/post/${post.id}`}
+                                />
+                            ))
+                        ) : (
+                            <div style={{ gridColumn: '1 / -1', padding: '40px 0', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
+                                No stories found under this topic yet.
+                            </div>
+                        )}
+                    </div>
+
+                    {filteredPosts.length > visibleCount && (
+                        <button className="load-more-btn" onClick={() => setVisibleCount(prev => prev + 8)}>Load More Stories</button>
+                    )}
+                </>
+            );
+        })()}
 
     </div>
 </section>

@@ -25,6 +25,7 @@ import AddPostPage from './pages/AddPostPage'
 import SettingsPage from './pages/SettingsPage'
 import SupportPage from './pages/SupportPage'
 import ContactPage from './pages/ContactPage'
+import ProtectedRoute from './components/ProtectedRoute'
 import './assets/css/legal.css'
 import './index.css'
 import './assets/css/style.css'
@@ -150,10 +151,10 @@ function App() {
           <Route path="/topics" element={<TopicsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/add-post" element={<AddPostPage />} />
-          <Route path="/edit-post/:id" element={<AddPostPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+          <Route path="/add-post" element={<ProtectedRoute><AddPostPage /></ProtectedRoute>} />
+          <Route path="/edit-post/:id" element={<ProtectedRoute><AddPostPage /></ProtectedRoute>} />
+          <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
           <Route path="/support" element={<SupportPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />

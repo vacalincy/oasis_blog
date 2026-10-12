@@ -1,14 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function PostCard({ title, image, category, author, date, isoDate, link = "/post" }) {
+export default function PostCard({ title, image, category, categoryLink, author, date, isoDate, link = "/post" }) {
     return (
         <article className="post-card">
             <div className="post-card__image">
                 <Link to={link} className="post-card__image-link">
                     <img loading="lazy" src={image} alt={title} />
                 </Link>
-                <span className="post-card__badge">{category}</span>
+                {category && (
+                    <Link 
+                        to={categoryLink || `/category?cat=${encodeURIComponent(category.split(' - ')[0])}`}
+                        className="post-card__badge"
+                        style={{ textDecoration: 'none' }}
+                    >
+                        {category}
+                    </Link>
+                )}
 
                 <label className="post-card__save-btn" aria-label="Save post">
                     <input type="checkbox" className="post-card__save-input" />
