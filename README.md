@@ -2,7 +2,7 @@
   <br />
   <a href="https://github.com/vacalincy/oasis_blog" target="_blank">
     <!-- Top Hero Visual: Orbital Animation -->
-    <img src="https://via.placeholder.com/1200x675/0F172A/FFFFFF?text=%5BInsert+GIF%3A+Orbital+Gallery+Hero+Animation%5D" alt="OASIS Orbital Gallery Hero Demo" width="100%" />
+    <img src="./oasis-react/public/assets/video/orbitral.gif" alt="OASIS Orbital Gallery Hero Demo" width="100%" />
   </a>
   <br />
   <br />
