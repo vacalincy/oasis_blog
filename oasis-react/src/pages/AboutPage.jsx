@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -14,16 +14,42 @@ const hiwImages = [
 
 export default function AboutPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const hiwSectionRef = useRef(null);
+  const timerRef = useRef(null);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
+  const startTimer = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % hiwImages.length);
     }, 4000);
-    return () => clearInterval(timer);
+  };
+
+  useEffect(() => {
+    const sectionEl = hiwSectionRef.current;
+    if (!sectionEl) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setCurrentIndex(0);
+          startTimer();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(sectionEl);
+
+    return () => {
+      observer.disconnect();
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, []);
 
   const handleStepClick = (idx) => {
     setCurrentIndex(idx);
+    startTimer();
   };
 
   return (
@@ -108,7 +134,7 @@ export default function AboutPage() {
 {/* ============================================= */}
 {/* HOW IT WORKS SECTION                           */}
 {/* ============================================= */}
-<section className="how-it-works-section">
+<section className="how-it-works-section" ref={hiwSectionRef}>
     <div className="container">
         <h2 className="section-title" style={{ fontFamily: "'Sora', sans-serif", fontSize: "2.2rem", fontWeight: "600", letterSpacing: "-0.02em", marginBottom: "3rem", color: "#19326F", textTransform: "uppercase" }}>HOW IT WORKS</h2>
         
