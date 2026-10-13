@@ -40,9 +40,8 @@
 1. 📖 [Introduction](#introduction)
 2. ⚙️ [Tech Stack](#tech-stack)
 3. 🔋 [Features](#features)
-4. 🌌 [The Orbital Gallery](#orbital-gallery)
-5. 🤸 [Quick Start](#quick-start)
-6. 📁 [Project Structure](#project-structure)
+4. 🤸 [Quick Start](#quick-start)
+5. 📁 [Project Structure](#project-structure)
 
 ---
 
@@ -82,22 +81,6 @@ The modern web is congested with algorithmic feeds, synthetic urgency, and endle
 👉 **Nested Comments & Engagement**: Community discussions, private collections/saved posts, and post interactions without toxic vanity algorithms.
 
 👉 **Meaningful Whitespace**: Layouts designed with generous breathing room, prioritizing legibility and cognitive calm.
-
----
-
-## <a name="orbital-gallery">🌌 The Orbital Gallery</a>
-
-The centerpiece visual experience in OASIS is the **Orbital Gallery**—an interactive canvas breaking away from rigid tabular grids.
-
-<div align="center">
-  <img src="https://via.placeholder.com/1200x675/0F172A/FFFFFF?text=%5BInsert+Visual%3A+Orbital+Interaction+%26+Card+Drift+Closeup%5D" alt="Orbital Gallery Closeup" width="100%" />
-</div>
-
-<br />
-
-- **Vogel's Spiral Scattering**: Floating cards are dynamically calculated using the Fibonacci golden angle ($137.508^\circ$), ensuring an isotropic, uniform distribution without clumping.
-- **Central Exclusion Zone**: Preserves an intentional negative space at the center of the viewport for typography and call-to-actions.
-- **Harmonic CSS Drift**: Multi-phase asynchronous sway animations give each card a natural, floating celestial behavior at 60 FPS.
 
 ---
 
