@@ -24,25 +24,25 @@ export default function FollowingPage() {
         .select('following_id')
         .eq('follower_id', user.id);
 
-      if (followsError || !follows || follows.length === 0) {
-        setLoading(false);
-        return;
+      let followedPostsList = [];
+      if (!followsError && follows && follows.length > 0) {
+        const followingIds = follows.map(f => f.following_id);
+
+        // 2. Fetch the latest published posts from those users
+        const { data: followedPosts, error: postsError } = await supabase
+          .from('posts')
+          .select('*, profiles(*)')
+          .in('author_id', followingIds)
+          .eq('status', 'published')
+          .order('created_at', { ascending: false })
+          .limit(10); // Feed size
+
+        if (!postsError && followedPosts) {
+          followedPostsList = followedPosts;
+        }
       }
 
-      const followingIds = follows.map(f => f.following_id);
-
-      // 2. Fetch the latest published posts from those users
-      const { data: followedPosts, error: postsError } = await supabase
-        .from('posts')
-        .select('*, profiles(*)')
-        .in('author_id', followingIds)
-        .eq('status', 'published')
-        .order('created_at', { ascending: false })
-        .limit(10); // Feed size
-
-      if (!postsError && followedPosts) {
-        setPosts(followedPosts);
-      }
+      setPosts(followedPostsList);
       setLoading(false);
     };
 
