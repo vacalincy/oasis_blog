@@ -158,10 +158,11 @@
     transition: var(--transition);
 }
 
-.auth-modal__field input:focus {
-    outline: none;
+.auth-modal__field input:focus,
+.auth-modal__field input:focus-visible {
+    outline: none !important;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
 }
 
 .auth-modal__field input::placeholder {

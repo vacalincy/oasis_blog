@@ -1041,11 +1041,108 @@ input:user-invalid:focus, textarea:user-invalid:focus {
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
 }
 
-/* ACCESSIBILITY: Keyboard Focus */
-*:focus-visible {
-    outline: 2px solid var(--color-primary, #19326F) !important;
-    outline-offset: 4px;
+/* ==========================================================================
+   UNIFIED FOCUS & ACTIVE SYSTEM (Header Search Bar Halo Style)
+   ========================================================================== */
+*,
+*::before,
+*::after {
+    outline-offset: 0 !important;
 }
+
+*:focus {
+    outline: none !important;
+}
+
+/* Beautiful modern focus ring across all interactive controls */
+*:focus-visible {
+    outline: none !important;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15) !important;
+}
+
+/* Explicit button focus & active states */
+button:focus-visible,
+button:active,
+.btn:focus-visible,
+.btn:active,
+.btn-primary:focus-visible,
+.btn-primary:active,
+.btn-ghost:focus-visible,
+.btn-ghost:active,
+.btn-outline:focus-visible,
+.btn-outline:active,
+.btn-outline-dark:focus-visible,
+.btn-outline-dark:active,
+.btn-danger:focus-visible,
+.btn-danger:active,
+.btn-send-verification:focus-visible,
+.btn-send-verification:active,
+.btn-link-action:focus-visible,
+.btn-link-action:active,
+.row-action:focus-visible,
+.row-action:active,
+.nav-item:focus-visible,
+.nav-item:active {
+    outline: none !important;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15) !important;
+}
+
+/* Form Inputs Focus Halo */
+input:focus,
+input:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+select:focus,
+select:focus-visible,
+.form-input:focus,
+.form-input:focus-visible,
+.auth-input:focus,
+.auth-input:focus-visible,
+.onboarding-input:focus,
+.onboarding-input:focus-visible {
+    outline: none !important;
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15) !important;
+}
+
+/* Danger buttons get matching red halo */
+.btn-danger:focus,
+.btn-danger:focus-visible,
+.btn-danger:active,
+.btn-danger-rounded:focus,
+.btn-danger-rounded:focus-visible,
+.btn-danger-rounded:active {
+    border-color: #EF4444 !important;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2) !important;
+}
+
+/* Elements that must remain borderless / shadowless */
+.search-bar input:focus,
+.search-bar input:focus-visible,
+.search-bar input:active,
+.search-input-box input:focus,
+.search-input-box input:focus-visible,
+.search-input-box input:active,
+.support-search input:focus,
+.support-search input:focus-visible,
+.support-search input:active,
+.auth-modal__icon-btn:focus,
+.auth-modal__icon-btn:focus-visible,
+.auth-modal__icon-btn:active,
+.borderless-input:focus,
+.borderless-input:focus-visible,
+.editor-title:focus,
+.editor-title:focus-visible,
+.editor-subtitle:focus,
+.editor-subtitle:focus-visible,
+#editor-body:focus,
+#editor-body:focus-visible,
+.custom-checkbox-input:focus,
+.custom-checkbox-input:focus-visible {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
 .timeline-step:focus-visible {
     border-radius: 8px;
     background: rgba(25, 50, 111, 0.05);

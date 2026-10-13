@@ -63,14 +63,38 @@ export default function OnboardingPage() {
                 .getPublicUrl(filePath);
 
             // 4. Save username, bio, and avatar URL to the profiles table
+            let savedDob = null;
+            try {
+                savedDob = localStorage.getItem('oasis_registration_dob');
+            } catch { }
+            savedDob = savedDob || user.user_metadata?.dob || user.user_metadata?.date_of_birth || null;
+
+            const profilePayload = {
+                id: user.id,
+                username: username,
+                bio: bio,
+                avatar_url: publicUrl
+            };
+            if (savedDob) {
+                profilePayload.date_of_birth = savedDob;
+            }
+
             const { error: profileError } = await supabase
                 .from('profiles')
-                .upsert({
-                    id: user.id,
-                    username: username,
-                    bio: bio,
-                    avatar_url: publicUrl
-                });
+                .upsert(profilePayload);
+
+            // Also ensure user_metadata has it
+            if (savedDob && (!user.user_metadata?.dob || !user.user_metadata?.date_of_birth)) {
+                try {
+                    await supabase.auth.updateUser({
+                        data: {
+                            ...(user.user_metadata || {}),
+                            dob: savedDob,
+                            date_of_birth: savedDob
+                        }
+                    });
+                } catch { }
+            }
 
             if (profileError) {
                 addToast(profileError.message, "error");
@@ -90,7 +114,29 @@ export default function OnboardingPage() {
         }
     };
 
-    const handleSkip = () => {
+    const handleSkip = async () => {
+        try {
+            let savedDob = null;
+            try {
+                savedDob = localStorage.getItem('oasis_registration_dob');
+            } catch { }
+            if (savedDob) {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    await supabase.from('profiles').upsert({
+                        id: user.id,
+                        date_of_birth: savedDob
+                    });
+                    await supabase.auth.updateUser({
+                        data: {
+                            ...(user.user_metadata || {}),
+                            dob: savedDob,
+                            date_of_birth: savedDob
+                        }
+                    });
+                }
+            }
+        } catch { }
         navigate('/discover');
     };
 

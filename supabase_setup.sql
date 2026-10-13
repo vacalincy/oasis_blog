@@ -5,7 +5,11 @@
 -- Supabase Dashboard -> SQL Editor -> New Query -> Paste & Run
 -- ==============================================================================
 
--- 1. PROFILES TABLE: Ensure public read access so any user can see authors
+-- 1. PROFILES TABLE: Ensure columns and public read access
+ALTER TABLE IF EXISTS public.profiles ADD COLUMN IF NOT EXISTS phone TEXT;
+ALTER TABLE IF EXISTS public.profiles ADD COLUMN IF NOT EXISTS date_of_birth DATE;
+ALTER TABLE IF EXISTS public.profiles ADD COLUMN IF NOT EXISTS country TEXT;
+
 ALTER TABLE IF EXISTS public.profiles ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Public profiles are viewable by everyone" ON public.profiles;

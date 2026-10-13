@@ -19,36 +19,90 @@ export default function LandingPage() {
   const addToast = useToast();
   const navigate = useNavigate();
 
+// Robust date formatter supporting ISO, US (MM/DD/YYYY) and European (DD.MM.YYYY / DD/MM/YYYY)
+const formatToDateInput = (val) => {
+  if (!val) return '';
+  if (typeof val === 'string') {
+    val = val.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(val)) return val;
+    const dmyMatch = val.match(/^(\d{1,2})[\.\/](\d{1,2})[\.\/](\d{4})$/);
+    if (dmyMatch) {
+      const first = parseInt(dmyMatch[1], 10);
+      const second = parseInt(dmyMatch[2], 10);
+      const year = dmyMatch[3];
+      if (second <= 12 && first <= 31) {
+        return `${year}-${String(second).padStart(2, '0')}-${String(first).padStart(2, '0')}`;
+      } else if (first <= 12 && second <= 31) {
+        return `${year}-${String(first).padStart(2, '0')}-${String(second).padStart(2, '0')}`;
+      }
+    }
+    const ymdMatch = val.match(/^(\d{4})[\.\/](\d{1,2})[\.\/](\d{1,2})$/);
+    if (ymdMatch) {
+      return `${ymdMatch[1]}-${ymdMatch[2].padStart(2, '0')}-${ymdMatch[3].padStart(2, '0')}`;
+    }
+  }
+  try {
+    const d = new Date(val);
+    if (isNaN(d.getTime())) return '';
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  } catch {
+    return '';
+  }
+};
+
   const handleSignup = async (formElement) => {
     try {
         setIsLoading(true);
 
-        if (!dob) {
+        const formDobVal = formElement.dob?.value;
+        const targetDate = dob || formDobVal;
+
+        if (!targetDate) {
             addToast('Please select your date of birth.', 'error');
             setIsLoading(false);
             return;
         }
 
-        const today = new Date();
-        const birthDate = new Date(dob);
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
+        const dobFormatted = formatToDateInput(targetDate);
 
-        if (age < 13) {
-            addToast('You must be at least 13 years old to register.', 'error');
-            setIsLoading(false);
-            return;
+        // Validate age (minimum 13 years old)
+        if (dobFormatted) {
+            const birthDate = new Date(dobFormatted);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            if (age < 13) {
+                addToast('You must be at least 13 years old to register.', 'error');
+                setIsLoading(false);
+                return;
+            }
         }
         
         const email = formElement.email.value;
         const password = formElement.password.value;
         
+        // Cache in localStorage as a bulletproof fallback for onboarding & settings
+        if (dobFormatted) {
+            try {
+                localStorage.setItem('oasis_registration_dob', dobFormatted);
+            } catch { }
+        }
+
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            data: {
+              dob: dobFormatted,
+              date_of_birth: dobFormatted
+            }
+          }
         });
         
         setIsLoading(false);
@@ -248,17 +302,17 @@ export default function LandingPage() {
                     <div className="auth-modal__input-wrap">
                         <DatePicker selected={dob} onChange={(date) => { setDob(date); if (showYearGrid2) setShowYearGrid2(false); }} id="signup-dob" name="dob" placeholderText="Date of birth (MM/DD/YYYY)" required ref={datePickerRef2} maxDate={new Date()} popperPlacement="bottom-start" popperModifiers={[ { name: "flip", enabled: false }, { name: "offset", options: { offset: [0, 15] } } ]} showYearPicker={showYearGrid2} showMonthYearDropdown={false} shouldCloseOnSelect={!showYearGrid2} renderCustomHeader={({ date, decreaseMonth, increaseMonth, decreaseYear, increaseYear, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 8px 12px' }}>
-            <button type="button" onClick={() => setShowYearGrid2(!showYearGrid2)} style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', color: 'var(--color-primary-dark)', fontSize: '1.1rem', background: 'none', border: 'none', cursor: 'pointer' }}>
+            <button type="button" onClick={() => setShowYearGrid2(!showYearGrid2)} style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', color: 'var(--color-primary-dark)', fontSize: '1.1rem', background: 'none', border: 'none', cursor: 'pointer', outline: 'none' }}>
                 {showYearGrid2 ? date.getFullYear() : date.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
                 <span style={{ marginLeft: '6px', fontSize: '1.2rem', color: 'var(--color-primary)' }}>›</span>
             </button>
             <div style={{ display: 'flex', gap: '16px' }}>
-              <button type="button" onClick={showYearGrid2 ? decreaseYear : decreaseMonth} disabled={prevMonthButtonDisabled} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', fontSize: '1.2rem', padding: 0 }}>{'<'}</button>
-              <button type="button" onClick={showYearGrid2 ? increaseYear : increaseMonth} disabled={nextMonthButtonDisabled} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', fontSize: '1.2rem', padding: 0 }}>{'>'}</button>
+              <button type="button" onClick={showYearGrid2 ? decreaseYear : decreaseMonth} disabled={prevMonthButtonDisabled} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', fontSize: '1.2rem', padding: 0, outline: 'none' }}>{'<'}</button>
+              <button type="button" onClick={showYearGrid2 ? increaseYear : increaseMonth} disabled={nextMonthButtonDisabled} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', fontSize: '1.2rem', padding: 0, outline: 'none' }}>{'>'}</button>
             </div>
           </div>
         )} />
-                        <button type="button" className="auth-modal__icon-btn" aria-label="Open calendar" onClick={() => datePickerRef2.current?.setOpen(true)} style={{position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', display: 'flex'}}>
+                        <button type="button" className="auth-modal__icon-btn" aria-label="Open calendar" onClick={() => datePickerRef2.current?.setOpen(true)} style={{position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', outline: 'none'}}>
                             <span className="dynamic-icon" style={{ WebkitMaskImage: 'url(/assets/images/icons/dateofbirth.svg)', width: '20px', height: '20px', backgroundColor: 'var(--color-text-light)' }}></span>
                         </button>
                     </div>
@@ -391,17 +445,17 @@ export default function LandingPage() {
                     <div className="auth-modal__input-wrap">
                         <DatePicker selected={dob} onChange={(date) => { setDob(date); if (showYearGrid1) setShowYearGrid1(false); }} id="modal-signup-dob" name="dob" placeholderText="Date of birth (MM/DD/YYYY)" required ref={datePickerRef1} maxDate={new Date()} popperPlacement="bottom-start" popperModifiers={[ { name: "flip", enabled: false }, { name: "offset", options: { offset: [0, 15] } } ]} showYearPicker={showYearGrid1} showMonthYearDropdown={false} shouldCloseOnSelect={!showYearGrid1} renderCustomHeader={({ date, decreaseMonth, increaseMonth, decreaseYear, increaseYear, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 8px 12px' }}>
-            <button type="button" onClick={() => setShowYearGrid1(!showYearGrid1)} style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', color: 'var(--color-primary-dark)', fontSize: '1.1rem', background: 'none', border: 'none', cursor: 'pointer' }}>
+            <button type="button" onClick={() => setShowYearGrid1(!showYearGrid1)} style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', color: 'var(--color-primary-dark)', fontSize: '1.1rem', background: 'none', border: 'none', cursor: 'pointer', outline: 'none' }}>
                 {showYearGrid1 ? date.getFullYear() : date.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
                 <span style={{ marginLeft: '6px', fontSize: '1.2rem', color: 'var(--color-primary)' }}>›</span>
             </button>
             <div style={{ display: 'flex', gap: '16px' }}>
-              <button type="button" onClick={showYearGrid1 ? decreaseYear : decreaseMonth} disabled={prevMonthButtonDisabled} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', fontSize: '1.2rem', padding: 0 }}>{'<'}</button>
-              <button type="button" onClick={showYearGrid1 ? increaseYear : increaseMonth} disabled={nextMonthButtonDisabled} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', fontSize: '1.2rem', padding: 0 }}>{'>'}</button>
+              <button type="button" onClick={showYearGrid1 ? decreaseYear : decreaseMonth} disabled={prevMonthButtonDisabled} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', fontSize: '1.2rem', padding: 0, outline: 'none' }}>{'<'}</button>
+              <button type="button" onClick={showYearGrid1 ? increaseYear : increaseMonth} disabled={nextMonthButtonDisabled} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', fontSize: '1.2rem', padding: 0, outline: 'none' }}>{'>'}</button>
             </div>
           </div>
         )} />
-                        <button type="button" className="auth-modal__icon-btn" aria-label="Open calendar" onClick={() => datePickerRef1.current?.setOpen(true)}>
+                        <button type="button" className="auth-modal__icon-btn" aria-label="Open calendar" onClick={() => datePickerRef1.current?.setOpen(true)} style={{ outline: 'none' }}>
                             <span className="dynamic-icon" style={{ WebkitMaskImage: 'url(/assets/images/icons/dateofbirth.svg)', width: '20px', height: '20px' }}></span>
                         </button>
                     </div>
