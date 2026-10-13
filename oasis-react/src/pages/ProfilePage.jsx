@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import Header from '../components/Header';
 import PostCard from '../components/PostCard';
@@ -7,11 +7,13 @@ import Footer from '../components/Footer';
 import '../assets/css/dashboard.css'; // We reuse dashboard CSS for the hero layout
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
+import { useNotifications } from '../context/NotificationContext';
 
 export default function ProfilePage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const addToast = useToast();
+  const { createNotification } = useNotifications();
   
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -23,48 +25,65 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!id) {
-        // If no ID provided, we can't show a profile. 
-        // A better approach would be to check if logged in and redirect to dashboard, but let's just go to discover.
         navigate('/discover');
         return;
     }
 
     const fetchProfileAndPosts = async () => {
       setLoading(true);
+
       try {
-        // 1. Fetch Profile
-        const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', id)
-          .single();
-          
-        if (profileError) throw profileError;
+        const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+        let profileData = null;
+
+        if (isUuid) {
+          const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', id)
+            .maybeSingle();
+          if (!error && data) profileData = data;
+        } else {
+          // If not UUID, fallback to lookup by username
+          const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .ilike('username', id)
+            .maybeSingle();
+          if (!error && data) profileData = data;
+        }
+
+        if (!profileData) {
+          addToast("Profile not found", "error");
+          navigate('/discover');
+          return;
+        }
+
         setProfile(profileData);
 
         // 2. Fetch Published Posts
         const { data: postsData, error: postsError } = await supabase
           .from('posts')
           .select('*')
-          .eq('author_id', id)
+          .eq('author_id', profileData.id)
           .eq('status', 'published')
           .order('created_at', { ascending: false });
           
-        
-        if (postsError) throw postsError;
+        if (postsError) {
+          console.error("Posts fetch error:", postsError);
+        }
         setPosts(postsData || []);
 
         // 3. Fetch Follows stats
-        const { count: f1 } = await supabase.from('follows').select('*', { count: 'exact', head: true }).eq('following_id', id);
-        const { count: f2 } = await supabase.from('follows').select('*', { count: 'exact', head: true }).eq('follower_id', id);
+        const { count: f1 } = await supabase.from('follows').select('*', { count: 'exact', head: true }).eq('following_id', profileData.id);
+        const { count: f2 } = await supabase.from('follows').select('*', { count: 'exact', head: true }).eq('follower_id', profileData.id);
         setFollowersCount(f1 || 0);
         setFollowingCount(f2 || 0);
 
         if (user) {
-            const { data: followData } = await supabase.from('follows').select('*').eq('follower_id', user.id).eq('following_id', id).single();
+            const { data: followData } = await supabase.from('follows').select('*').eq('follower_id', user.id).eq('following_id', profileData.id).maybeSingle();
             if (followData) setIsFollowing(true);
         }
-
 
       } catch (err) {
         console.error(err);
@@ -136,9 +155,10 @@ export default function ProfilePage() {
                             addToast("Please sign in to follow", "error");
                             return;
                         }
+
                         if (isFollowing) {
                             setIsFollowing(false);
-                            setFollowersCount(prev => prev - 1);
+                            setFollowersCount(prev => Math.max(0, prev - 1));
                             await supabase.from('follows').delete().eq('follower_id', user.id).eq('following_id', profile.id);
                             addToast(`Unfollowed ${profileName}`, 'info');
                         } else {
@@ -146,6 +166,11 @@ export default function ProfilePage() {
                             setFollowersCount(prev => prev + 1);
                             await supabase.from('follows').insert({ follower_id: user.id, following_id: profile.id });
                             addToast(`Followed ${profileName}!`, 'success');
+                            createNotification({
+                                userId: profile.id,
+                                actorId: user.id,
+                                type: 'follower'
+                            });
                         }
                     }}
                 >

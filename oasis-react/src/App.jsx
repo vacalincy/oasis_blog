@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation , Navigate } from 'react-router-dom'
 import { ToastProvider } from './context/ToastContext'
 import { AuthProvider } from './context/AuthContext'
+import { NotificationProvider } from './context/NotificationContext'
 import ScrollToTop from './components/ScrollToTop'
 import TabBar from './components/TabBar'
 import LandingPage from './pages/LandingPage'
@@ -128,39 +129,41 @@ function App() {
   return (
     <ToastProvider>
       <AuthProvider>
-      <Router>
-        <ScrollToTop />
-        <ScrollObserver />
-        <TabBar />
-        <ProfileEnforcer>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/discover" element={<DiscoverPage />} />
-          <Route path="/onboarding" element={<OnboardingPage />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/terms" element={<TermsPage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/post/:id" element={<PostPage />} />
-          <Route path="/category" element={<CategoryPage />} />
-          <Route path="/profile/:id" element={<ProfilePage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/following" element={<FollowingPage />} />
-          <Route path="/popular" element={<PopularPage />} />
-          <Route path="/topics" element={<TopicsPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/notifications" element={<NotificationsPage />} />
-          <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-          <Route path="/add-post" element={<ProtectedRoute><AddPostPage /></ProtectedRoute>} />
-          <Route path="/edit-post/:id" element={<ProtectedRoute><AddPostPage /></ProtectedRoute>} />
-          <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
-          <Route path="/support" element={<SupportPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-        </ProfileEnforcer>
-      </Router>
+        <NotificationProvider>
+          <Router>
+            <ScrollToTop />
+            <ScrollObserver />
+            <TabBar />
+            <ProfileEnforcer>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/discover" element={<DiscoverPage />} />
+              <Route path="/onboarding" element={<OnboardingPage />} />
+              <Route path="/search" element={<SearchPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
+              <Route path="/post/:id" element={<PostPage />} />
+              <Route path="/category" element={<CategoryPage />} />
+              <Route path="/profile/:id" element={<ProfilePage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/following" element={<FollowingPage />} />
+              <Route path="/popular" element={<PopularPage />} />
+              <Route path="/topics" element={<TopicsPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/notifications" element={<NotificationsPage />} />
+              <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+              <Route path="/add-post" element={<ProtectedRoute><AddPostPage /></ProtectedRoute>} />
+              <Route path="/edit-post/:id" element={<ProtectedRoute><AddPostPage /></ProtectedRoute>} />
+              <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+              <Route path="/support" element={<SupportPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+            </ProfileEnforcer>
+          </Router>
+        </NotificationProvider>
       </AuthProvider>
     </ToastProvider>
   )

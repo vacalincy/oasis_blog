@@ -1,20 +1,82 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useNotifications } from '../context/NotificationContext';
+import { searchContent } from '../utils/searchService';
 
 export default function Header() {
-  console.log("Header rendered!");
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState({ posts: [], authors: [], topics: [] });
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const searchWrapperRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { profile, loading } = useAuth();
+  const { unreadCount } = useNotifications();
+
+  // Close dropdown on route change
+  useEffect(() => {
+    setIsDropdownOpen(false);
+  }, [location.pathname, location.search]);
+
+  // Click outside and escape key handling
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchWrapperRef.current && !searchWrapperRef.current.contains(e.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  // Live search debounce
+  useEffect(() => {
+    const clean = searchQuery.trim();
+    if (clean.length < 2) {
+      setSearchResults({ posts: [], authors: [], topics: [] });
+      setSearchLoading(false);
+      setIsDropdownOpen(false);
+      return;
+    }
+
+    setSearchLoading(true);
+    setIsDropdownOpen(true);
+
+    const timer = setTimeout(async () => {
+      const results = await searchContent(clean, { limitPosts: 4, limitAuthors: 3 });
+      setSearchResults(results);
+      setSearchLoading(false);
+    }, 260);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const handleSearch = (e) => {
-    e.preventDefault(); // Блокируем стандартную перезагрузку браузера
+    e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setIsDropdownOpen(false);
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
+  };
+
+  const handleClear = () => {
+    setSearchQuery("");
+    setIsDropdownOpen(false);
+    setSearchResults({ posts: [], authors: [], topics: [] });
   };
 
   return (
@@ -43,31 +105,174 @@ export default function Header() {
           <li><NavLink to="/about" onClick={() => setIsNavOpen(false)}>About</NavLink></li>
         </ul>
 
-        {/* 3. Right side: search, notifications, avatar, burger */}
+        {/* 3. Right side: search with instant dropdown, notifications, avatar, burger */}
         <div className="nav__actions">
-          <form onSubmit={handleSearch} className="search-bar">
-            <img loading="lazy" src="/assets/images/icons/search.svg" alt="Search" />
-            <input 
-              type="text" 
-              placeholder="Search stories..." 
-              aria-label="Search stories" 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </form>
+          <div className="search-bar-wrapper" ref={searchWrapperRef}>
+            <form onSubmit={handleSearch} className="search-bar">
+              <img loading="lazy" src="/assets/images/icons/search.svg" alt="Search" />
+              <input 
+                type="text" 
+                placeholder="Search stories..." 
+                aria-label="Search stories" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => {
+                  if (searchQuery.trim().length >= 2) {
+                    setIsDropdownOpen(true);
+                  }
+                }}
+              />
+              {searchLoading && <span className="search-bar-spinner" />}
+              {searchQuery && !searchLoading && (
+                <button 
+                  type="button" 
+                  className="search-bar-clear" 
+                  onClick={handleClear}
+                  aria-label="Clear search"
+                >
+                  ✕
+                </button>
+              )}
+            </form>
 
-          <Link to="/notifications" className="notification-btn" aria-label="Notifications">
-            <img loading="lazy" src="/assets/images/icons/notification_icon.svg" alt="Notifications" />
+            {/* Instant live dropdown */}
+            {isDropdownOpen && searchQuery.trim().length >= 2 && (
+              <div className="search-dropdown">
+                {searchLoading ? (
+                  <div className="search-dropdown__loading">
+                    <span className="search-dropdown__spinner" />
+                    <span>Searching stories & authors...</span>
+                  </div>
+                ) : (!searchResults.posts?.length && !searchResults.authors?.length && !searchResults.topics?.length) ? (
+                  <div className="search-dropdown__empty">
+                    <p>No results for "<b>{searchQuery}</b>"</p>
+                    <span className="search-dropdown__empty-sub">Try searching by topic, author, or keyword</span>
+                  </div>
+                ) : (
+                  <div className="search-dropdown__content">
+                    {/* Topics */}
+                    {searchResults.topics?.length > 0 && (
+                      <div className="search-dropdown__section">
+                        <span className="search-dropdown__section-label">TOPICS</span>
+                        <div className="search-dropdown__topics-list">
+                          {searchResults.topics.map(topic => (
+                            <Link 
+                              key={topic.id} 
+                              to={`/category?cat=${encodeURIComponent(topic.name)}`}
+                              className="search-dropdown__topic-chip"
+                              onClick={() => setIsDropdownOpen(false)}
+                            >
+                              {topic.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Stories */}
+                    {searchResults.posts?.length > 0 && (
+                      <div className="search-dropdown__section">
+                        <span className="search-dropdown__section-label">STORIES ({searchResults.posts.length})</span>
+                        <div className="search-dropdown__list">
+                          {searchResults.posts.map(post => (
+                            <Link 
+                              key={post.id} 
+                              to={`/post/${post.id}`} 
+                              className="search-dropdown__story-item"
+                              onClick={() => setIsDropdownOpen(false)}
+                            >
+                              <img 
+                                src={post.cover_image || '/assets/images/content/default.jpg'} 
+                                alt="" 
+                                className="search-dropdown__story-thumb" 
+                              />
+                              <div className="search-dropdown__story-info">
+                                <span className="search-dropdown__story-title">{post.title}</span>
+                                <div className="search-dropdown__story-meta">
+                                  <span className="search-dropdown__story-cat">{post.category?.split(' - ')[0] || 'Story'}</span>
+                                  <span className="search-dropdown__meta-dot">&middot;</span>
+                                  <span className="search-dropdown__story-author">{post.profiles?.username || 'Author'}</span>
+                                </div>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Authors */}
+                    {searchResults.authors?.length > 0 && (
+                      <div className="search-dropdown__section">
+                        <span className="search-dropdown__section-label">AUTHORS ({searchResults.authors.length})</span>
+                        <div className="search-dropdown__list">
+                          {searchResults.authors.map(author => (
+                            <Link 
+                              key={author.id} 
+                              to={`/profile/${author.id}`} 
+                              className="search-dropdown__author-item"
+                              onClick={() => setIsDropdownOpen(false)}
+                            >
+                              <img 
+                                src={author.avatar_url || '/assets/images/icons/avatar.svg'} 
+                                alt="" 
+                                className="search-dropdown__author-avatar"
+                                onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/assets/images/icons/avatar.svg'; }}
+                              />
+                              <div className="search-dropdown__author-info">
+                                <span className="search-dropdown__author-name">{author.username}</span>
+                                {author.bio && (
+                                  <span className="search-dropdown__author-bio">
+                                    {author.bio.length > 55 ? `${author.bio.substring(0, 55)}...` : author.bio}
+                                  </span>
+                                )}
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* View all footer */}
+                    <Link 
+                      to={`/search?q=${encodeURIComponent(searchQuery.trim())}`}
+                      className="search-dropdown__footer"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      <span>See all results for "<b>{searchQuery}</b>"</span>
+                      <span className="search-dropdown__footer-icon">↵</span>
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          <Link 
+            to="/notifications" 
+            className={`notification-btn ${location.pathname === '/notifications' ? 'active' : ''}`} 
+            aria-label="Notifications"
+          >
+            <img src="/assets/images/icons/notification_icon.svg" alt="Notifications" width="20" height="20" />
+            {unreadCount > 0 && (
+              <span className="notification-btn__badge">{unreadCount > 9 ? '9+' : unreadCount}</span>
+            )}
           </Link>
           
-          {loading ? (
-             <div className="avatar" style={{ background: '#e2e8f0', color: 'transparent', animation: 'pulse 1.5s infinite' }}>..</div>
-          ) : profile?.avatar_url ? (
+          {profile?.avatar_url ? (
             <Link to="/dashboard" className="avatar" style={{ padding: 0, overflow: 'hidden' }}>
-              <img src={profile.avatar_url} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img 
+                decoding="async" 
+                src={profile.avatar_url} 
+                alt="Profile" 
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
+              />
             </Link>
+          ) : profile?.username ? (
+            <Link to="/dashboard" className="avatar">{profile.username.substring(0, 2).toUpperCase()}</Link>
+          ) : loading ? (
+             <div className="avatar" style={{ background: '#e2e8f0', color: 'transparent', animation: 'pulse 1.5s infinite' }}>..</div>
           ) : (
-            <Link to="/dashboard" className="avatar">{profile?.username ? profile.username.substring(0, 2).toUpperCase() : 'EA'}</Link>
+            <Link to="/dashboard" className="avatar">EA</Link>
           )}
 
           {/* burger button, only visible on mobile */}

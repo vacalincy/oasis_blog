@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
+import { useNotifications } from '../context/NotificationContext';
 
 export default function CommentItem({ id, post_id, author_id, author, avatar, time, isoTime, text }) {
     const { user } = useAuth();
     const addToast = useToast();
+    const { createNotification } = useNotifications();
     const [isLiked, setIsLiked] = useState(false);
     const [likesCount, setLikesCount] = useState(0);
     const [replies, setReplies] = useState([]);
@@ -69,6 +71,15 @@ export default function CommentItem({ id, post_id, author_id, author, avatar, ti
             setReplyText("");
             setIsReplying(false);
             addToast("Reply posted!", "success");
+            if (author_id && author_id !== user.id) {
+                createNotification({
+                    userId: author_id,
+                    actorId: user.id,
+                    type: 'comment',
+                    postId: post_id,
+                    content: replyText.trim()
+                });
+            }
         } else {
             addToast("Error: " + error.message, "error");
             console.error("Reply insert error:", error);
@@ -108,7 +119,14 @@ export default function CommentItem({ id, post_id, author_id, author, avatar, ti
     return (
         <li className="comment">
             <Link to={`/profile/${author_id}`}>
-                <img loading="lazy" src={avatar} alt={author} className="comment__avatar" style={{ cursor: 'pointer', border: '2px solid transparent' }} />
+                <img 
+                    decoding="async" 
+                    src={avatar} 
+                    alt={author} 
+                    className="comment__avatar" 
+                    onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/assets/images/icons/avatar.svg'; }}
+                    style={{ cursor: 'pointer', border: '2px solid transparent', aspectRatio: '1 / 1', objectFit: 'cover' }} 
+                />
             </Link>
             <div className="comment__content">
                 <div className="comment__body">

@@ -33,6 +33,12 @@
    ========================================================================== */
 
 /* Base overrides & fonts */
+.dashboard-page {
+    margin-top: -80px; /* Pull hero under the fixed frosted header so photo starts from the very top */
+    position: relative;
+    width: 100%;
+}
+
 .dashboard-body {
     margin: 0;
     padding: 0;
@@ -118,7 +124,7 @@
     width: 100%;
     position: relative;
     z-index: 3;
-    padding-top: 80px;
+    padding-top: 104px;
 }
 
 .profile-name {
@@ -919,7 +925,7 @@
 /* Hero Actions Position */
 .hero-actions {
     position: absolute;
-    top: 72px;
+    top: 104px;
     right: 48px;
     display: flex;
     flex-direction: column;
@@ -1122,7 +1128,7 @@
     }
     
     .hero-content {
-        padding-top: 40px;
+        padding-top: 100px;
         position: relative;
     }
     

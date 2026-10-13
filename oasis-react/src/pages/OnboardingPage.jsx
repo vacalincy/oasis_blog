@@ -5,48 +5,6 @@ import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
 
 
-const resizeImage = (file, maxWidth, maxHeight) => {
-    return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (event) => {
-            const img = new Image();
-            img.src = event.target.result;
-            img.onload = () => {
-                let width = img.width;
-                let height = img.height;
-
-                if (width > height) {
-                    if (width > maxWidth) {
-                        height = Math.round((height * maxWidth) / width);
-                        width = maxWidth;
-                    }
-                } else {
-                    if (height > maxHeight) {
-                        width = Math.round((width * maxHeight) / height);
-                        height = maxHeight;
-                    }
-                }
-
-                const canvas = document.createElement('canvas');
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, width, height);
-                
-                canvas.toBlob((blob) => {
-                    // Create a new file from the blob
-                    const newFile = new File([blob], file.name, {
-                        type: 'image/jpeg',
-                        lastModified: Date.now(),
-                    });
-                    resolve(newFile);
-                }, 'image/jpeg', 0.95); // 85% quality JPEG
-            };
-        };
-    });
-};
-
 export default function OnboardingPage() {
     const [step, setStep] = useState(1);
     const [username, setUsername] = useState('');
@@ -82,14 +40,16 @@ export default function OnboardingPage() {
                 return;
             }
 
-            // 2. Resize and Upload avatar to Supabase Storage
-            const resizedAvatar = await resizeImage(avatar, 2560, 2560);
-            const fileName = `${user.id}-${Math.random()}.jpg`;
+            // 2. Upload avatar to Supabase Storage in high quality
+            const fileExt = avatar.name ? avatar.name.split('.').pop() : 'jpg';
+            const fileName = `${user.id}-${Date.now()}.${fileExt}`;
             const filePath = `${fileName}`;
 
             const { error: uploadError } = await supabase.storage
                 .from('avatars')
-                .upload(filePath, resizedAvatar);
+                .upload(filePath, avatar, {
+                    upsert: true
+                });
 
             if (uploadError) {
                 addToast(uploadError.message, "error");

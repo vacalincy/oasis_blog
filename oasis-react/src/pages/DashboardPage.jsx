@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../assets/css/dashboard.css'; // Direct import
 import { useToast } from '../context/ToastContext';
+import { resizeImage } from '../utils/imageUtils';
 
 export default function DashboardPage() {
   const addToast = useToast();
@@ -50,8 +51,9 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("published");
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
-      const [coverImage, setCoverImage] = useState(null);
+  const [coverImage, setCoverImage] = useState(null);
   const [coverFile, setCoverFile] = useState(null);
+  const [preparedCoverFile, setPreparedCoverFile] = useState(null);
   const [isSavingProfile, setIsSavingProfile] = useState(false);
   const [followingProfiles, setFollowingProfiles] = useState([]);
   const [followersCount, setFollowersCount] = useState(0);
@@ -104,11 +106,18 @@ export default function DashboardPage() {
   const [editName, setEditName] = useState(profileName);
   const [editBio, setEditBio] = useState(profileBio);
   
-  const handleCoverChange = (e) => {
+  const handleCoverChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
         setCoverFile(file);
         setCoverImage(URL.createObjectURL(file));
+        try {
+            // Pre-optimize in background to crisp 2560px Retina at 0.90 quality (~400KB)
+            const opt = await resizeImage(file, 2560, 2560, 0.90);
+            setPreparedCoverFile(opt);
+        } catch {
+            setPreparedCoverFile(file);
+        }
     }
   };
 
@@ -209,10 +218,20 @@ export default function DashboardPage() {
                     try {
                         let uploadedUrl = coverImage;
                         if (coverFile) {
-                            const fileExt = coverFile.name.split('.').pop();
-                            const fileName = `${user.id}-${Date.now()}.${fileExt}`;
-                            const { error: uploadError } = await supabase.storage.from('avatars').upload(fileName, coverFile);
-                            if (uploadError) throw uploadError;
+                            let fileToUpload = preparedCoverFile;
+                            if (!fileToUpload) {
+                                fileToUpload = await resizeImage(coverFile, 2560, 2560, 0.90);
+                            }
+                            const fileName = `${user.id}-${Date.now()}.jpg`;
+                            const { error: uploadError } = await supabase.storage.from('avatars').upload(fileName, fileToUpload, {
+                                contentType: 'image/jpeg',
+                                upsert: true
+                            });
+                            if (uploadError) {
+                                addToast('Error uploading photo: ' + uploadError.message, 'error');
+                                setIsSavingProfile(false);
+                                return;
+                            }
                             const { data } = supabase.storage.from('avatars').getPublicUrl(fileName);
                             uploadedUrl = data.publicUrl;
                         }
@@ -223,13 +242,31 @@ export default function DashboardPage() {
                             avatar_url: uploadedUrl
                         }).eq('id', user.id);
                         
-                        if (error) throw error;
+                        if (error) {
+                            addToast('Error saving profile: ' + error.message, 'error');
+                            setIsSavingProfile(false);
+                            return;
+                        }
                         
                         setProfileName(editName);
                         setProfileBio(editBio);
                         setCoverImage(uploadedUrl);
                         setCoverFile(null);
+                        setPreparedCoverFile(null);
                         setIsEditing(false);
+
+                        // Update localStorage profile cache immediately
+                        try {
+                            const updatedProfile = {
+                                ...(profile || {}),
+                                id: user.id,
+                                username: editName,
+                                bio: editBio,
+                                avatar_url: uploadedUrl
+                            };
+                            localStorage.setItem('oasis_cached_profile', JSON.stringify(updatedProfile));
+                        } catch (e) {}
+
                         if (fetchProfile && user?.id) {
                             fetchProfile(user.id);
                         }
@@ -245,6 +282,7 @@ export default function DashboardPage() {
                     setEditName(profileName);
                     setEditBio(profileBio);
                     setCoverFile(null);
+                    setPreparedCoverFile(null);
                     setCoverImage(profile?.avatar_url || null);
                 }}>Cancel</button>
             </>
@@ -431,7 +469,14 @@ export default function DashboardPage() {
         <div className="modal-user-list">
             {followingProfiles.length === 0 ? <p style={{textAlign: 'center', padding: '20px'}}>You aren't following anyone yet.</p> : followingProfiles.map(fp => (
                 <div className="user-list-item" key={fp.id}>
-                    <img loading="lazy" src={fp.avatar_url || "/assets/images/icons/avatar.svg"} alt="Avatar" className="user-avatar" style={{objectFit: 'cover'}} />
+                    <img 
+                        decoding="async" 
+                        src={fp.avatar_url || "/assets/images/icons/avatar.svg"} 
+                        alt="Avatar" 
+                        className="user-avatar" 
+                        onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/assets/images/icons/avatar.svg'; }}
+                        style={{ objectFit: 'cover', aspectRatio: '1 / 1' }} 
+                    />
                     <div className="user-info">
                         <Link to={`/profile/${fp.id}`} className="user-name" onClick={() => setShowFollowingModal(false)} style={{textDecoration: 'none', color: 'inherit'}}>{fp.username}</Link>
                     </div>

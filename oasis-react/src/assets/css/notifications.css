@@ -73,8 +73,21 @@
 }
 
 .notification-item.unread {
-    background: rgba(37, 82, 254, 0.03);
-    border-color: rgba(37, 82, 254, 0.2);
+    background: rgba(37, 82, 254, 0.035);
+    border-color: rgba(37, 82, 254, 0.25);
+    position: relative;
+}
+
+.notification-item.unread::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #2563eb;
 }
 
 .notif-avatar {
@@ -87,8 +100,10 @@
 .notif-avatar img:not(.notif-icon) {
     width: 100%;
     height: 100%;
+    aspect-ratio: 1 / 1;
     border-radius: 50%;
     object-fit: cover;
+    display: block;
 }
 
 .notif-avatar.system img:not(.notif-icon) {
@@ -266,4 +281,73 @@
     padding: 0;
     background: transparent;
     object-fit: contain;
+}
+
+.btn-mark-read:disabled,
+.btn-mark-read.disabled {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Empty State */
+.notifications-empty {
+    text-align: center;
+    padding: 4.5rem 2rem;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px dashed #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.notifications-empty__icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    color: #64748b;
+}
+
+.notifications-empty__icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+.notifications-empty h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #19326F;
+    margin: 0 0 0.5rem 0;
+}
+
+.notifications-empty p {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin: 0 0 1.5rem 0;
+    max-width: 340px;
+    line-height: 1.5;
+}
+
+.notifications-empty .btn-explore {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 24px;
+    background: #2563eb;
+    color: #ffffff;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.notifications-empty .btn-explore:hover {
+    opacity: 0.9;
 }

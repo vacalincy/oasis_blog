@@ -123,17 +123,57 @@ nav {
 .search-bar input::placeholder { color: var(--color-text-secondary); }
 
 .notification-btn {
+    position: relative;
     background: none;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
-.notification-btn img { width: 20px; height: 20px; }
+.notification-btn:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.notification-btn.active {
+    background-color: rgba(37, 82, 254, 0.08);
+}
+
+.notification-btn img { 
+    width: 20px; 
+    height: 20px; 
+    transition: transform 0.2s ease;
+}
+
+.notification-btn:hover img {
+    transform: scale(1.05);
+}
+
+.notification-btn__badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: #ef4444;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 16px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff;
+    box-shadow: 0 1px 3px rgba(239, 68, 68, 0.35);
+    pointer-events: none;
+}
 
 .avatar {
     width: 40px;

@@ -70,3 +70,155 @@ h2 {
 }
 
 .latest-posts-section { padding: 3rem 4rem; }
+
+/* =========================================
+   Discover Category Horizontal Scroll Bar
+   ========================================= */
+.category-scroll-container {
+    position: relative;
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 2.25rem;
+    display: flex;
+    align-items: center;
+}
+
+.category-scroll-track {
+    display: flex;
+    gap: 0.65rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    list-style: none;
+    margin: 0;
+    padding: 6px 4px;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    cursor: grab;
+}
+
+.category-scroll-track.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+}
+
+.category-scroll-track::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.category-scroll-track > li {
+    flex-shrink: 0;
+}
+
+.category-scroll-track .filter-btn {
+    white-space: nowrap;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.35rem;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.category-scroll-track .filter-btn:hover {
+    transform: translateY(-1px);
+}
+
+.category-scroll-track .filter-btn:active {
+    transform: translateY(0);
+}
+
+/* Edge gradient masks */
+.category-scroll-container::before,
+.category-scroll-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 54px;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.category-scroll-container::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-bg, #ffffff) 20%, transparent);
+}
+
+.category-scroll-container::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-bg, #ffffff) 20%, transparent);
+}
+
+.category-scroll-container.has-left-fade::before {
+    opacity: 1;
+}
+
+.category-scroll-container.has-right-fade::after {
+    opacity: 1;
+}
+
+/* Glass navigation arrows (like YouTube/Medium) */
+.category-scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 6;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--color-text-main, #19326F);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0;
+}
+
+.category-scroll-btn:hover {
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    transform: translateY(-50%) scale(1.08);
+    color: var(--color-primary, #2563eb);
+}
+
+.category-scroll-btn:active {
+    transform: translateY(-50%) scale(0.94);
+}
+
+.category-scroll-btn--left {
+    left: 0;
+}
+
+.category-scroll-btn--right {
+    right: 0;
+}
+
+@media (max-width: 768px) {
+    .latest-posts-section { padding: 2rem 1rem; }
+    
+    .category-scroll-container {
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .category-scroll-btn {
+        display: none; /* Mobile users swipe natively */
+    }
+    
+    .category-scroll-track .filter-btn {
+        padding: 0.55rem 1.1rem;
+        font-size: 0.85rem;
+    }
+}

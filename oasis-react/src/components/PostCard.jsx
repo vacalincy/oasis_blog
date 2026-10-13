@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function PostCard({ title, image, category, categoryLink, author, date, isoDate, link = "/post" }) {
+    const displayCategory = category ? category.split(' - ')[0] : '';
+    const targetLink = categoryLink || (displayCategory ? `/category?cat=${encodeURIComponent(displayCategory)}` : '#');
+
     return (
         <article className="post-card">
             <div className="post-card__image">
@@ -10,11 +13,11 @@ export default function PostCard({ title, image, category, categoryLink, author,
                 </Link>
                 {category && (
                     <Link 
-                        to={categoryLink || `/category?cat=${encodeURIComponent(category.split(' - ')[0])}`}
+                        to={targetLink}
                         className="post-card__badge"
                         style={{ textDecoration: 'none' }}
                     >
-                        {category}
+                        {displayCategory}
                     </Link>
                 )}
 

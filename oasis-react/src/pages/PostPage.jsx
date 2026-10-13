@@ -6,31 +6,9 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
+import { useNotifications } from '../context/NotificationContext';
 import PostCard from '../components/PostCard';
 import CommentItem from '../components/CommentItem';
-
-
-const COMMENTS_DATA = [
-    {
-        id: 1,
-        author: "Marcus Chen",
-        avatar: "/assets/images/avatars/marcus.jpg",
-        time: "2 hours ago",
-        isoTime: "2023-10-12T10:00",
-        text: "The quote about material honesty really struck a chord. I've been trying to renovate my studio and the urge to just paint over raw concrete is strong, but there's something so beautiful about leaving it exposed.",
-        hasReplies: false
-    },
-    {
-        id: 2,
-        author: "Elena Rodriguez",
-        avatar: "/assets/images/avatars/elena.jpg",
-        time: "5 hours ago",
-        isoTime: "2023-10-12T05:00",
-        text: "Great read. Though I'd argue that true minimalism is a luxury of those who don't have to hoard items out of necessity. It's an aesthetic that requires a certain level of privilege to maintain perfectly.",
-        hasReplies: true
-    }
-];
-
 
 export default function PostPage() {
   const { id } = useParams();
@@ -40,6 +18,7 @@ export default function PostPage() {
   const [loading, setLoading] = useState(true);
 
   const { user, profile } = useAuth();
+  const { createNotification } = useNotifications();
   const [isLiked, setIsLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const [isSaved, setIsSaved] = useState(false);
@@ -106,6 +85,19 @@ export default function PostPage() {
       
       if (!previousLiked) {
           await supabase.from('likes').insert({ post_id: id, user_id: user.id });
+          let targetAuthorId = post?.author_id;
+          if (!targetAuthorId) {
+              const { data: pData } = await supabase.from('posts').select('author_id').eq('id', id).maybeSingle();
+              targetAuthorId = pData?.author_id;
+          }
+          if (targetAuthorId && targetAuthorId !== user.id) {
+              createNotification({
+                  userId: targetAuthorId,
+                  actorId: user.id,
+                  type: 'like',
+                  postId: id
+              });
+          }
       } else {
           await supabase.from('likes').delete().eq('post_id', id).eq('user_id', user.id);
       }
@@ -134,6 +126,21 @@ export default function PostPage() {
           setComments([data, ...comments]);
           setNewComment("");
           addToast("Comment posted!", "success");
+          
+          let targetAuthorId = post?.author_id;
+          if (!targetAuthorId) {
+              const { data: pData } = await supabase.from('posts').select('author_id').eq('id', id).maybeSingle();
+              targetAuthorId = pData?.author_id;
+          }
+          if (targetAuthorId && targetAuthorId !== user.id) {
+              createNotification({
+                  userId: targetAuthorId,
+                  actorId: user.id,
+                  type: 'comment',
+                  postId: id,
+                  content: newComment.trim()
+              });
+          }
       }
   };
 
@@ -158,42 +165,73 @@ export default function PostPage() {
     const fetchPost = async () => {
         setLoading(true);
         if (!id) return;
-        
-        const { data, error } = await supabase
-            .from('posts')
-            .select('*, profiles(username, avatar_url)')
-            .eq('id', id)
-            .single();
-            
-        if (error) {
-            addToast('Error loading post: ' + error.message, 'error');
-        } else {
-            setPost(data);
-            
-            // Fetch related posts (same category)
-            let { data: relatedData } = await supabase
+
+        let postData = null;
+        try {
+            const { data, error } = await supabase
                 .from('posts')
                 .select('*, profiles(username, avatar_url)')
-                .eq('status', 'published')
-                .eq('category', data.category)
-                .neq('id', data.id)
-                .order('created_at', { ascending: false })
-                .limit(3);
+                .eq('id', id)
+                .maybeSingle();
                 
-            if (relatedData && relatedData.length < 3) {
-                // Fallback to latest posts overall if we don't have enough in this category
-                const { data: fallbackData } = await supabase
+            if (error || !data) {
+                // Fallback to plain query in case profiles join is constrained
+                const { data: rawPost, error: rawError } = await supabase
+                    .from('posts')
+                    .select('*')
+                    .eq('id', id)
+                    .maybeSingle();
+
+                if (rawPost) {
+                    if (rawPost.author_id) {
+                        const { data: authorProf } = await supabase
+                            .from('profiles')
+                            .select('username, avatar_url')
+                            .eq('id', rawPost.author_id)
+                            .maybeSingle();
+                        rawPost.profiles = authorProf || null;
+                    }
+                    postData = rawPost;
+                } else if (rawError) {
+                    addToast('Error loading post: ' + rawError.message, 'error');
+                }
+            } else {
+                postData = data;
+            }
+        } catch (err) {
+            console.warn('Error fetching post:', err);
+        }
+
+        if (postData) {
+            setPost(postData);
+            
+            // Fetch related posts (same category)
+            try {
+                let { data: relatedData } = await supabase
                     .from('posts')
                     .select('*, profiles(username, avatar_url)')
                     .eq('status', 'published')
-                    .neq('id', data.id)
+                    .eq('category', postData.category)
+                    .neq('id', postData.id)
                     .order('created_at', { ascending: false })
                     .limit(3);
-                relatedData = fallbackData;
-            }
-            
-            if (relatedData) {
-                setRelatedPosts(relatedData);
+                    
+                if (!relatedData || relatedData.length < 3) {
+                    const { data: fallbackData } = await supabase
+                        .from('posts')
+                        .select('*, profiles(username, avatar_url)')
+                        .eq('status', 'published')
+                        .neq('id', postData.id)
+                        .order('created_at', { ascending: false })
+                        .limit(3);
+                    relatedData = fallbackData;
+                }
+                
+                if (relatedData) {
+                    setRelatedPosts(relatedData);
+                }
+            } catch (rErr) {
+                console.warn('Related posts issue:', rErr);
             }
         }
         setLoading(false);
@@ -253,7 +291,12 @@ export default function PostPage() {
         <h1 className="post-header__title">{post.title || "Untitled Story"}</h1>
 
         <Link to={`/profile/${post.author_id}`} className="post-header__author">
-            <img loading="lazy" src={post.profiles?.avatar_url || "/assets/images/icons/avatar.svg"} alt={post.profiles?.username} />
+            <img 
+                decoding="async" 
+                src={post.profiles?.avatar_url || "/assets/images/icons/avatar.svg"} 
+                alt={post.profiles?.username} 
+                onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/assets/images/icons/avatar.svg'; }}
+            />
             <div className="post-header__author-info">
                 <p><b>{post.profiles?.username || 'Unknown Author'}</b></p>
                 <time dateTime={post.created_at}>{new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</time>

@@ -8,8 +8,26 @@ import { useAuth } from '../context/AuthContext';
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('account');
-  const [emailAlerts, setEmailAlerts] = useState(true);
-  const [emailUpdates, setEmailUpdates] = useState(false);
+  const [emailAlerts, setEmailAlerts] = useState(() => {
+    const s = localStorage.getItem('oasis_pref_email_alerts');
+    return s !== null ? JSON.parse(s) : true;
+  });
+  const [emailUpdates, setEmailUpdates] = useState(() => {
+    const s = localStorage.getItem('oasis_pref_email_updates');
+    return s !== null ? JSON.parse(s) : false;
+  });
+  const [notifyLikes, setNotifyLikes] = useState(() => {
+    const s = localStorage.getItem('oasis_pref_likes');
+    return s !== null ? JSON.parse(s) : true;
+  });
+  const [notifyComments, setNotifyComments] = useState(() => {
+    const s = localStorage.getItem('oasis_pref_comments');
+    return s !== null ? JSON.parse(s) : true;
+  });
+  const [notifyFollowers, setNotifyFollowers] = useState(() => {
+    const s = localStorage.getItem('oasis_pref_followers');
+    return s !== null ? JSON.parse(s) : true;
+  });
   const [isUpdating, setIsUpdating] = useState(false);
   
   const addToast = useToast();
@@ -18,7 +36,13 @@ export default function SettingsPage() {
 
   const handleUpdate = () => {
     setIsUpdating(true);
-    addToast('Settings saved successfully!', 'success');
+    localStorage.setItem('oasis_pref_email_alerts', JSON.stringify(emailAlerts));
+    localStorage.setItem('oasis_pref_email_updates', JSON.stringify(emailUpdates));
+    localStorage.setItem('oasis_pref_likes', JSON.stringify(notifyLikes));
+    localStorage.setItem('oasis_pref_comments', JSON.stringify(notifyComments));
+    localStorage.setItem('oasis_pref_followers', JSON.stringify(notifyFollowers));
+
+    addToast('Notification preferences saved successfully!', 'success');
     
     // Simulate network delay before redirecting
     setTimeout(() => {
@@ -169,6 +193,34 @@ export default function SettingsPage() {
                             <p>News about new features and improvements</p>
                         </div>
                         <div className={`toggle-switch ${emailUpdates ? "active" : ""}`} onClick={() => setEmailUpdates(!emailUpdates)}></div>
+                    </div>
+                </div>
+
+                <div className="settings-card" style={{ marginTop: "1.5rem" }}>
+                    <h2>Activity Notifications</h2>
+                    
+                    <div className="card-row">
+                        <div className="row-info">
+                            <h3>Likes</h3>
+                            <p>Notify when someone appreciates your stories</p>
+                        </div>
+                        <div className={`toggle-switch ${notifyLikes ? "active" : ""}`} onClick={() => setNotifyLikes(!notifyLikes)}></div>
+                    </div>
+
+                    <div className="card-row">
+                        <div className="row-info">
+                            <h3>Comments & Mentions</h3>
+                            <p>Notify when someone leaves a response</p>
+                        </div>
+                        <div className={`toggle-switch ${notifyComments ? "active" : ""}`} onClick={() => setNotifyComments(!notifyComments)}></div>
+                    </div>
+                    
+                    <div className="card-row no-border">
+                        <div className="row-info">
+                            <h3>New Followers</h3>
+                            <p>Notify when a creator starts following your profile</p>
+                        </div>
+                        <div className={`toggle-switch ${notifyFollowers ? "active" : ""}`} onClick={() => setNotifyFollowers(!notifyFollowers)}></div>
                     </div>
                 </div>
             </div>

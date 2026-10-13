@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
+import { useNotifications } from '../context/NotificationContext';
 import { supabase } from '../supabaseClient';
 import { CATEGORIES } from '../constants/categories';
 
@@ -15,6 +16,7 @@ const categoryData = CATEGORIES.reduce((acc, cat) => {
 export default function AddPostPage() {
   const addToast = useToast();
   const navigate = useNavigate();
+  const { createNotification } = useNotifications();
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
   const [bodyContent, setBodyContent] = useState('');
@@ -100,7 +102,12 @@ export default function AddPostPage() {
     setSavingType(status);
     try {
         const { error } = await supabase.from('posts').delete().eq('id', id);
-        if (error) throw error;
+        if (error) {
+            addToast('Error deleting post: ' + error.message, 'error');
+            setSavingType(null);
+            setShowDeleteModal(false);
+            return;
+        }
         addToast('Post deleted successfully', 'success');
         setShowDeleteModal(false);
         navigate('/dashboard');
@@ -128,7 +135,11 @@ export default function AddPostPage() {
                 .from('avatars') // reusing the avatars bucket but putting it in a covers folder
                 .upload(`covers/${fileName}`, coverFile);
                 
-            if (uploadError) throw uploadError;
+            if (uploadError) {
+                addToast('Error uploading image: ' + uploadError.message, 'error');
+                setSavingType(null);
+                return;
+            }
             
             const { data: { publicUrl } } = supabase.storage
                 .from('avatars')
@@ -151,21 +162,42 @@ export default function AddPostPage() {
         let dbError;
         let savedPostId = id;
         if (isEditing) {
-            const { data, error } = await supabase.from('posts').update(postData).eq('id', id).select().single();
+            const { data, error } = await supabase.from('posts').update(postData).eq('id', id).select();
             dbError = error;
-            if (data) savedPostId = data.id;
+            if (data && data[0]) savedPostId = data[0].id;
         } else {
-            const { data, error } = await supabase.from('posts').insert(postData).select().single();
+            const { data, error } = await supabase.from('posts').insert(postData).select();
             dbError = error;
-            if (data) savedPostId = data.id;
+            if (data && data[0]) savedPostId = data[0].id;
         }
             
-        if (dbError) throw dbError;
+        if (dbError) {
+            addToast('Error saving post: ' + dbError.message, 'error');
+            setSavingType(null);
+            return;
+        }
         
+        if (status === 'published' && savedPostId) {
+            try {
+                await createNotification({
+                    userId: user.id,
+                    type: 'system',
+                    postId: savedPostId,
+                    content: `Your post "${title}" was published successfully.`
+                });
+            } catch (notifErr) {
+                console.warn('System notification skipped:', notifErr);
+            }
+        }
+
         addToast(status === 'published' ? 'Post published successfully!' : 'Saved as draft.', 'success');
         
         if (status === 'published') {
-            navigate(`/post/${savedPostId}`);
+            if (savedPostId) {
+                navigate(`/post/${savedPostId}`);
+            } else {
+                navigate('/discover');
+            }
         } else {
             navigate('/dashboard');
         }
