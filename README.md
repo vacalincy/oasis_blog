@@ -119,12 +119,6 @@ Custom weighted recommendation algorithm combining interaction signals, time-dec
 
 [![OASIS Live Preview](oasis-react/public/assets/images/oasis-live-card.svg)](https://oasis-blog-one.vercel.app/)
 
-<p align="center">
-  <a href="https://oasis-blog-one.vercel.app" target="_blank" rel="noopener noreferrer">
-    <strong>Explore OASIS</strong> ↗
-  </a>
-</p>
-
 </div>
 
 ---
