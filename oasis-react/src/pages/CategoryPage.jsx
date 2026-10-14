@@ -24,6 +24,12 @@ export default function CategoryPage() {
     setActiveSub(subParam || 'All');
   }, [catParam, subParam]);
 
+  useEffect(() => {
+    if (activeCategory?.name) {
+      document.title = `${activeCategory.name} — OASIS`;
+    }
+  }, [activeCategory]);
+
   // Fetch posts from Supabase for this category
   useEffect(() => {
     const fetchCategoryPosts = async () => {

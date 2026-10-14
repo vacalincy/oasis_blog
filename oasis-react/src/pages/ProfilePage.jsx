@@ -98,6 +98,12 @@ export default function ProfilePage() {
     fetchProfileAndPosts();
   }, [id, navigate, addToast, user]);
 
+  useEffect(() => {
+    if (profile?.username) {
+      document.title = `${profile.username} — OASIS`;
+    }
+  }, [profile?.username]);
+
   if (loading || !profile) {
       return (
           <div className="dashboard-page">

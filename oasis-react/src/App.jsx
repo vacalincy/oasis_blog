@@ -26,6 +26,7 @@ import AddPostPage from './pages/AddPostPage'
 import SettingsPage from './pages/SettingsPage'
 import SupportPage from './pages/SupportPage'
 import ContactPage from './pages/ContactPage'
+import QrAuthPage from './pages/QrAuthPage'
 import ProtectedRoute from './components/ProtectedRoute'
 import './assets/css/legal.css'
 import './index.css'
@@ -58,6 +59,34 @@ function ScrollObserver() {
   useEffect(() => {
     // Scroll to top on route change
     window.scrollTo(0, 0);
+
+    // Dynamic document title based on current route
+    const routeTitles = {
+      '/': 'OASIS — Read, Share & Explore Stories',
+      '/discover': 'Discover Stories — OASIS',
+      '/following': 'Following Feed — OASIS',
+      '/popular': 'Popular Stories & Discussions — OASIS',
+      '/topics': 'Topics & Themes — OASIS',
+      '/about': 'About OASIS — A Curated Digital Space',
+      '/dashboard': 'Your Dashboard — OASIS',
+      '/add-post': 'Write a Story — OASIS',
+      '/notifications': 'Notifications — OASIS',
+      '/settings': 'Settings & Account — OASIS',
+      '/support': 'Help Center & FAQ — OASIS',
+      '/contact': 'Contact Support — OASIS',
+      '/terms': 'Terms of Service — OASIS',
+      '/privacy': 'Privacy Policy — OASIS',
+      '/onboarding': 'Welcome to OASIS — Onboarding',
+      '/forgot-password': 'Reset Password — OASIS',
+      '/reset-password': 'Create New Password — OASIS',
+      '/qr-auth': 'Approve Login — OASIS'
+    };
+
+    if (routeTitles[location.pathname]) {
+      document.title = routeTitles[location.pathname];
+    } else if (location.pathname.startsWith('/edit-post/')) {
+      document.title = 'Edit Story — OASIS';
+    }
     
     const revealSelectors = [
       '.section-header h2', '.category-title', '.category-description',
@@ -183,7 +212,7 @@ function ProfileEnforcer({ children }) {
         
         // If user is logged in but has no username/profile, they are new!
         // Redirect them to onboarding unless they are already there or on auth pages
-        const isAuthPage = ['/', '/onboarding', '/terms', '/privacy', '/forgot-password', '/reset-password'].includes(location.pathname);
+        const isAuthPage = ['/', '/onboarding', '/terms', '/privacy', '/forgot-password', '/reset-password', '/qr-auth'].includes(location.pathname);
         if (user && (!profile || !profile.username)) {
             if (!isAuthPage) {
                 navigate('/onboarding', { replace: true });
@@ -231,6 +260,7 @@ function App() {
               <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
               <Route path="/support" element={<SupportPage />} />
               <Route path="/contact" element={<ContactPage />} />
+              <Route path="/qr-auth" element={<QrAuthPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             </ProfileEnforcer>

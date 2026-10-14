@@ -63,10 +63,13 @@ export default function SearchPage() {
   useEffect(() => {
     setInputVal(qParam);
     if (!qParam.trim()) {
+      document.title = 'Search Stories & Authors — OASIS';
       setResults({ posts: [], authors: [], topics: [] });
       setLoading(false);
       return;
     }
+
+    document.title = `Search: "${qParam.trim()}" — OASIS`;
 
     const fetchResults = async () => {
       setLoading(true);

@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { supabase } from '../supabaseClient';
 import { useToast } from '../context/ToastContext';
+import '../assets/css/qr-auth.css';
 
 export default function LandingPage() {
   const [showLogin, setShowLogin] = useState(false);
@@ -20,6 +21,168 @@ export default function LandingPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [showcasePostId, setShowcasePostId] = useState(null);
+
+  // QR Login State
+  const [qrSessionId, setQrSessionId] = useState(null);
+  const [qrStatus, setQrStatus] = useState('idle'); // 'idle' | 'loading' | 'ready' | 'approved' | 'declined' | 'expired'
+  const [qrAuthUrl, setQrAuthUrl] = useState('');
+  const [qrTimeLeft, setQrTimeLeft] = useState(300);
+  const qrChannelRef = useRef(null);
+  const qrPollRef = useRef(null);
+  const qrTimerRef = useRef(null);
+
+  const cleanupQrSession = useCallback(() => {
+    if (qrChannelRef.current) {
+      supabase.removeChannel(qrChannelRef.current);
+      qrChannelRef.current = null;
+    }
+    if (qrPollRef.current) {
+      clearInterval(qrPollRef.current);
+      qrPollRef.current = null;
+    }
+    if (qrTimerRef.current) {
+      clearInterval(qrTimerRef.current);
+      qrTimerRef.current = null;
+    }
+  }, []);
+
+  const initQrSession = useCallback(async () => {
+    cleanupQrSession();
+
+    const sessionId = (typeof crypto !== 'undefined' && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : 'qr_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
+
+    const lanIp = import.meta.env.VITE_DEV_LAN_IP;
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const effectiveOrigin = (isLocalhost && lanIp)
+      ? `${window.location.protocol}//${lanIp}:${window.location.port || '5173'}`
+      : window.location.origin;
+
+    const qrTargetUrl = `${effectiveOrigin}/qr-auth?session=${sessionId}`;
+
+    setQrSessionId(sessionId);
+    setQrAuthUrl(qrTargetUrl);
+    setQrStatus('loading');
+    setQrTimeLeft(300);
+
+    try {
+      const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString();
+      const { error } = await supabase.from('qr_logins').insert({
+        session_id: sessionId,
+        status: 'pending',
+        expires_at: expiresAt
+      });
+
+      if (error) {
+        console.error('Failed to register QR session:', error);
+      }
+
+      setQrStatus('ready');
+
+      // 5-minute countdown
+      qrTimerRef.current = setInterval(() => {
+        setQrTimeLeft((prev) => {
+          if (prev <= 1) {
+            clearInterval(qrTimerRef.current);
+            cleanupQrSession();
+            setQrStatus('expired');
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      // Handler for updates from Realtime or polling
+      const handleStatusUpdate = async (record) => {
+        if (!record || record.session_id !== sessionId) return;
+
+        if (record.status === 'approved' && record.access_token && record.refresh_token) {
+          cleanupQrSession();
+          setQrStatus('approved');
+          addToast('Login approved via QR code! Welcome to OASIS.', 'success');
+
+          try {
+            await supabase.auth.setSession({
+              access_token: record.access_token,
+              refresh_token: record.refresh_token
+            });
+            // Clean up the temporary row from DB
+            await supabase.from('qr_logins').delete().eq('session_id', sessionId);
+          } catch (sessionErr) {
+            console.error('Error establishing session from QR:', sessionErr);
+          }
+
+          setTimeout(() => {
+            setShowLogin(false);
+            navigate('/discover');
+          }, 800);
+        } else if (record.status === 'declined') {
+          cleanupQrSession();
+          setQrStatus('declined');
+          addToast('QR login was declined on mobile device.', 'info');
+        } else if (record.status === 'expired') {
+          cleanupQrSession();
+          setQrStatus('expired');
+        }
+      };
+
+      // 1. Supabase Realtime channel
+      try {
+        qrChannelRef.current = supabase
+          .channel(`qr-login-${sessionId}`)
+          .on(
+            'postgres_changes',
+            {
+              event: 'UPDATE',
+              schema: 'public',
+              table: 'qr_logins',
+              filter: `session_id=eq.${sessionId}`
+            },
+            (payload) => {
+              handleStatusUpdate(payload.new);
+            }
+          )
+          .subscribe();
+      } catch (rtErr) {
+        console.warn('Realtime subscription error for QR:', rtErr);
+      }
+
+      // 2. Dependable polling backup (every 2.5s)
+      qrPollRef.current = setInterval(async () => {
+        try {
+          const { data } = await supabase
+            .from('qr_logins')
+            .select('*')
+            .eq('session_id', sessionId)
+            .maybeSingle();
+
+          if (data) {
+            handleStatusUpdate(data);
+          }
+        } catch (pollErr) {
+          console.error('QR polling check error:', pollErr);
+        }
+      }, 2500);
+
+    } catch (err) {
+      console.error('QR init exception:', err);
+      setQrStatus('ready');
+    }
+  }, [cleanupQrSession, addToast, navigate]);
+
+  useEffect(() => {
+    if (showLogin) {
+      initQrSession();
+    } else {
+      cleanupQrSession();
+      setQrStatus('idle');
+    }
+
+    return () => {
+      cleanupQrSession();
+    };
+  }, [showLogin, initQrSession, cleanupQrSession]);
 
   useEffect(() => {
     let isMounted = true;
@@ -458,9 +621,72 @@ const formatToDateInput = (val) => {
         {/* Right Column: QR Code Scan */}
         <div className="auth-modal__right">
             <div className="auth-modal__qr-box">
-                <img src="/assets/images/brand/qr.png" alt="Scan QR code to log in" className="auth-modal__qr-image" loading="lazy" />
+                {qrStatus === 'loading' && (
+                    <div className="auth-modal__qr-loader">
+                        <div className="auth-modal__spinner"></div>
+                        <span>Preparing QR code...</span>
+                    </div>
+                )}
+
+                {qrStatus === 'ready' && (
+                    <img 
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=${encodeURIComponent(qrAuthUrl)}`} 
+                        alt="Scan QR code to log in" 
+                        className="auth-modal__qr-image" 
+                        onError={(e) => {
+                            e.currentTarget.src = '/assets/images/brand/qr.png';
+                        }}
+                    />
+                )}
+
+                {qrStatus === 'approved' && (
+                    <div className="auth-modal__qr-state" style={{ color: '#16a34a' }}>
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>Approved! Logging in...</span>
+                    </div>
+                )}
+
+                {qrStatus === 'declined' && (
+                    <div className="auth-modal__qr-state" style={{ color: '#dc2626' }}>
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                        <span>Request Declined</span>
+                        <button type="button" onClick={initQrSession} className="auth-modal__qr-refresh-btn">
+                            Try Again
+                        </button>
+                    </div>
+                )}
+
+                {qrStatus === 'expired' && (
+                    <div className="auth-modal__qr-state">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span>QR Code Expired</span>
+                        <button type="button" onClick={initQrSession} className="auth-modal__qr-refresh-btn">
+                            Refresh QR
+                        </button>
+                    </div>
+                )}
             </div>
-            <p className="auth-modal__qr-text">Instant mobile login<br /><span style={{ fontSize: '0.82rem', opacity: 0.7, fontWeight: 500 }}>(Coming soon with mobile app)</span></p>
+
+            <p className="auth-modal__qr-text">
+                <strong>Log in with QR Code</strong><br />
+                <span style={{ fontSize: '0.84rem', opacity: 0.8, fontWeight: 400 }}>
+                    Scan with your mobile camera or device
+                </span>
+            </p>
+
+            {qrStatus === 'ready' && qrTimeLeft > 0 && (
+                <div className="auth-modal__qr-countdown">
+                    Valid for {Math.floor(qrTimeLeft / 60)}:{(qrTimeLeft % 60).toString().padStart(2, '0')}
+                </div>
+            )}
         </div>
     </div>
 </div>

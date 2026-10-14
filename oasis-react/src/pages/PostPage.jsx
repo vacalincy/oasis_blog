@@ -264,6 +264,14 @@ export default function PostPage() {
     fetchPost();
   }, [id]);
 
+  useEffect(() => {
+    if (post?.title) {
+      document.title = `${post.title} — OASIS`;
+    } else if (loading) {
+      document.title = 'Loading story... — OASIS';
+    }
+  }, [post?.title, loading]);
+
   if (loading) {
       return (
           <div className="single-post-page">
