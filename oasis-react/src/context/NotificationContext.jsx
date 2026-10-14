@@ -4,74 +4,9 @@ import { useAuth } from './AuthContext';
 
 const NotificationContext = createContext({});
 
-// Fallback demo notifications for guest preview or before DB table is created
-const DEMO_NOTIFICATIONS = [
-  {
-    id: 'demo-1',
-    type: 'like',
-    is_read: false,
-    actor: {
-      id: 'demo-user-1',
-      username: 'Sarah Jenkins',
-      avatar_url: '/assets/images/avatars/JaneDoe.jpg'
-    },
-    post: {
-      id: 'demo-post-1',
-      title: 'The Evolution of Swiss Typography'
-    },
-    content: null,
-    created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-    link: '/post'
-  },
-  {
-    id: 'demo-2',
-    type: 'comment',
-    is_read: false,
-    actor: {
-      id: 'demo-user-2',
-      username: 'Alex Chen',
-      avatar_url: '/assets/images/avatars/elena.jpg'
-    },
-    post: {
-      id: 'demo-post-1',
-      title: 'The Evolution of Swiss Typography'
-    },
-    content: 'This completely changed how I approach my grid layouts. Thank you!',
-    created_at: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
-    link: '/post'
-  },
-  {
-    id: 'demo-3',
-    type: 'follower',
-    is_read: true,
-    actor: {
-      id: 'demo-user-3',
-      username: 'Marcus Wright',
-      avatar_url: '/assets/images/avatars/marcus.jpg'
-    },
-    post: null,
-    content: null,
-    created_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
-    link: null
-  },
-  {
-    id: 'demo-4',
-    type: 'system',
-    is_read: true,
-    actor: null,
-    post: {
-      id: 'demo-post-2',
-      title: 'Mastering CSS Grid'
-    },
-    content: 'Your post Mastering CSS Grid was published successfully.',
-    created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-    link: '/post'
-  }
-];
-
 export const NotificationProvider = ({ children }) => {
   const { user } = useAuth();
-  const [notifications, setNotifications] = useState(DEMO_NOTIFICATIONS);
+  const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
   const [followingMap, setFollowingMap] = useState({});
 
@@ -95,16 +30,16 @@ export const NotificationProvider = ({ children }) => {
   // Fetch notifications from Supabase
   const fetchNotifications = useCallback(async () => {
     if (!user) {
-      // Use local storage / demo fallback for guests
+      // Use local storage for guests
       const saved = localStorage.getItem('oasis_guest_notifications');
       if (saved) {
         try {
           setNotifications(JSON.parse(saved));
         } catch {
-          setNotifications(DEMO_NOTIFICATIONS);
+          setNotifications([]);
         }
       } else {
-        setNotifications(DEMO_NOTIFICATIONS);
+        setNotifications([]);
       }
       return;
     }
@@ -166,15 +101,20 @@ export const NotificationProvider = ({ children }) => {
 
       if (loadedData) {
         setNotifications(loadedData);
+        try {
+          localStorage.setItem(`oasis_notifications_${user.id}`, JSON.stringify(loadedData));
+        } catch { }
       } else {
-        // Fallback to local storage or demo
+        // Fallback to local storage
         const saved = localStorage.getItem(`oasis_notifications_${user.id}`);
         if (saved) {
           try {
             setNotifications(JSON.parse(saved));
           } catch {
-            setNotifications(DEMO_NOTIFICATIONS);
+            setNotifications([]);
           }
+        } else {
+          setNotifications([]);
         }
       }
 

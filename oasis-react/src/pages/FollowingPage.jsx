@@ -92,13 +92,13 @@ export default function FollowingPage() {
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', color: '#fff', textAlign: 'center', padding: '2rem' }}>
                 <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Welcome to Oasis</h2>
                 <p style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.7)', marginBottom: '2rem' }}>Sign in to follow your favorite authors.</p>
-                <Link to="/login" className="btn btn--primary">Log In</Link>
+                <Link to="/?auth=login" className="btn btn--primary">Log In</Link>
             </div>
         ) : posts.length === 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', color: '#fff', textAlign: 'center', padding: '2rem' }}>
                 <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>It's quiet here...</h2>
                 <p style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.7)', marginBottom: '2rem' }}>Follow some authors to populate your feed.</p>
-                <Link to="/" className="btn btn--primary">Discover Authors</Link>
+                <Link to="/discover" className="btn btn--primary">Discover Authors</Link>
             </div>
         ) : (
             posts.map((post, index) => (

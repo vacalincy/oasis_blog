@@ -160,6 +160,30 @@ export default function PostPage() {
       }
   };
 
+  const handleShare = async () => {
+      const url = window.location.href;
+      if (navigator.share && navigator.canShare && navigator.canShare({ url })) {
+          try {
+              await navigator.share({
+                  title: post?.title || 'OASIS Story',
+                  text: post?.subtitle || 'Read this story on OASIS',
+                  url
+              });
+              return;
+          } catch (err) {
+              if (err.name !== 'AbortError') {
+                  console.warn('Share error:', err);
+              }
+          }
+      }
+      try {
+          await navigator.clipboard.writeText(url);
+          addToast('Story link copied to clipboard!', 'success');
+      } catch {
+          addToast('Failed to copy link', 'error');
+      }
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchPost = async () => {
@@ -392,7 +416,7 @@ export default function PostPage() {
                 <span className="post-actions__icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/bookmark.svg')", width: "16px", height: "16px" }}></span>
             </label>
             
-            <button className="post-actions__btn" aria-label="Share">
+            <button className="post-actions__btn" aria-label="Share" onClick={handleShare}>
                 <span className="post-actions__icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/share.svg')", width: "16px", height: "16px" }}></span>
             </button>
         </div>

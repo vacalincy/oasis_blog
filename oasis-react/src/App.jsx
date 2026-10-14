@@ -60,42 +60,58 @@ function ScrollObserver() {
     window.scrollTo(0, 0);
     
     const revealSelectors = [
-        '.section-header h2', '.category-title', '.category-description',
-        '.filters', '.post-card', '.load-more-btn',
-        '.post-body h3', '.post-body p', '.post-body blockquote', '.post-body img',
-        '.pick-card', '.classics__title', '.classics__image', '.classics__content',
-        '.discussions__title', '.discussions__item',
-        '.post-header__title', '.post-header__badge', '.post-header__author',
-        '.post-media__img', '.post-media__caption', '.popular-hero__title, .manifesto-label, .manifesto-text, .number-item, .about-hero__title, .about-hero__subtitle'
+      '.section-header h2', '.category-title', '.category-description',
+      '.filters', '.post-card', '.load-more-btn',
+      '.post-body h3', '.post-body p', '.post-body blockquote', '.post-body img',
+      '.classics__title', '.classics__image', '.classics__content',
+      '.discussions__title', '.discussions__item',
+      '.post-header__title', '.post-header__badge', '.post-header__author',
+      '.post-media__img', '.post-media__caption',
+      '.popular-hero__title', '.manifesto-label', '.manifesto-text',
+      '.number-item', '.about-hero__title', '.about-hero__subtitle'
     ].join(', ');
     
-    const revealElements = document.querySelectorAll(revealSelectors);
-    if (revealElements.length > 0) {
-        const observer = new IntersectionObserver((entries) => {
-            let delay = 0;
-            let activeEntries = entries.filter(e => e.isIntersecting);
-            
-            activeEntries.forEach(entry => {
-                // Remove the animation conflict for Popular Page
-                // by using only the is-visible transition but staggering it.
-                if (entry.target.classList.contains('pick-card')) {
-                    entry.target.style.transitionDelay = `${0.3 + delay}s`;
-                } else {
-                    entry.target.style.transitionDelay = `${delay}s`;
-                }
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-                delay += 0.08;
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-        
-        revealElements.forEach(el => observer.observe(el));
-        
-        return () => observer.disconnect();
-    }
+    const observer = new IntersectionObserver((entries) => {
+      let delay = 0;
+      const activeEntries = entries.filter(e => e.isIntersecting);
+      
+      activeEntries.forEach(entry => {
+        entry.target.style.transitionDelay = `${delay}s`;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+        delay += 0.08;
+      });
+    }, {
+      threshold: 0.05,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    const observedSet = new WeakSet();
+    const observeAll = () => {
+      const elements = document.querySelectorAll(revealSelectors);
+      elements.forEach(el => {
+        if (!observedSet.has(el) && !el.classList.contains('is-visible')) {
+          observedSet.add(el);
+          observer.observe(el);
+        }
+      });
+    };
+
+    observeAll();
+    const t1 = setTimeout(observeAll, 150);
+    const t2 = setTimeout(observeAll, 500);
+
+    const mutationObserver = new MutationObserver(() => {
+      observeAll();
+    });
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      observer.disconnect();
+      mutationObserver.disconnect();
+    };
   }, [location.pathname]);
 
   return null;

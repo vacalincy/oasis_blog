@@ -622,7 +622,6 @@ nav {
 .post-body p,
 .post-body blockquote,
 .post-body img,
-.pick-card,
 .classics__title,
 .classics__image,
 .classics__content,
@@ -634,6 +633,8 @@ nav {
 .post-media__img,
 .post-media__caption,
 .popular-hero__title {
+    opacity: 0;
+    transform: translateY(30px);
     transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -641,6 +642,34 @@ nav {
 .is-visible {
     opacity: 1 !important;
     transform: translateY(0) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .section-header h2,
+    .category-title,
+    .category-description,
+    .filters,
+    .post-card,
+    .load-more-btn,
+    .post-body h3,
+    .post-body p,
+    .post-body blockquote,
+    .post-body img,
+    .classics__title,
+    .classics__image,
+    .classics__content,
+    .discussions__title,
+    .discussions__item,
+    .post-header__title,
+    .post-header__badge,
+    .post-header__author,
+    .post-media__img,
+    .post-media__caption,
+    .popular-hero__title {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
 }
 
 

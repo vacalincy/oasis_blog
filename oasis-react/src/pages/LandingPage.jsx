@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { supabase } from '../supabaseClient';
@@ -18,6 +18,19 @@ export default function LandingPage() {
   const datePickerRef2 = useRef(null);
   const addToast = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const authAction = params.get('auth');
+    if (authAction === 'login' || location.state?.openLogin) {
+      setShowLogin(true);
+      setShowSignup(false);
+    } else if (authAction === 'signup' || location.state?.openSignup) {
+      setShowSignup(true);
+      setShowLogin(false);
+    }
+  }, [location]);
 
 // Robust date formatter supporting ISO, US (MM/DD/YYYY) and European (DD.MM.YYYY / DD/MM/YYYY)
 const formatToDateInput = (val) => {
@@ -254,7 +267,7 @@ const formatToDateInput = (val) => {
         <h2 className="showcase__big-title">A curated space to share <span>your</span> <br /> creative vision.</h2>
         <div className="showcase__media">
             <img src="/assets/images/content/snowboard.jpg" alt="Snowboarder carving through deep powder" className="showcase__image" loading="lazy" />
-            <Link to="/post" className="showcase__preview-card">
+            <Link to="/category?cat=travel-outdoors" className="showcase__preview-card">
                 <div className="showcase__preview-content">
                     <span className="showcase__preview-badge">Action &amp; Extreme</span>
                     <h3 className="showcase__preview-title">Defying Gravity: The Art of High-Altitude Snowboarding</h3>
@@ -407,7 +420,7 @@ const formatToDateInput = (val) => {
             <div className="auth-modal__qr-box">
                 <img src="/assets/images/brand/qr.png" alt="Scan QR code to log in" className="auth-modal__qr-image" loading="lazy" />
             </div>
-            <p className="auth-modal__qr-text">Or, log in instantly by scanning code<br />with your phone.</p>
+            <p className="auth-modal__qr-text">Instant mobile login<br /><span style={{ fontSize: '0.82rem', opacity: 0.7, fontWeight: 500 }}>(Coming soon with mobile app)</span></p>
         </div>
     </div>
 </div>

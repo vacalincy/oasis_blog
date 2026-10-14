@@ -149,15 +149,15 @@ export default function DashboardPage() {
 
         <div className="profile-stats">
             <div className="stat-item">
-                <span className="stat-value">183</span>
+                <span className="stat-value">{publishedPosts.length}</span>
                 <span className="stat-label">Posts</span>
             </div>
             <div className="stat-item">
-                <span className="stat-value">27K</span>
+                <span className="stat-value">{followersCount}</span>
                 <span className="stat-label">Followers</span>
             </div>
             <div className="stat-item">
-                <span className="stat-value">134</span>
+                <span className="stat-value">{followingProfiles.length}</span>
                 <span className="stat-label">Following</span>
             </div>
         </div>
@@ -309,20 +309,19 @@ export default function DashboardPage() {
         <div className="stats-card">
             <div className="stats-card-header">
                 <h3>Overview</h3>
-                <span className="text-muted">Last 30 days</span>
+                <span className="text-muted">Activity</span>
             </div>
             <div className="stats-card-row">
-                <span>Profile Views</span>
-                <strong>--</strong>
+                <span>Published Stories</span>
+                <strong>{publishedPosts.length}</strong>
             </div>
             <div className="stats-card-row">
-                <span>Article Reads</span>
-                <strong>--</strong>
+                <span>Saved Stories</span>
+                <strong>{savedPosts.length}</strong>
             </div>
             <div className="stats-card-row">
-                <span>New Followers</span>
+                <span>Followers</span>
                 <div className="stat-value-group">
-                    <span className="trend-positive">+12%</span>
                     <strong>{followersCount}</strong>
                 </div>
             </div>
