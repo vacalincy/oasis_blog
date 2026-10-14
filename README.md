@@ -113,82 +113,13 @@ No endless scrolling or opaque engagement loops. Just thoughtful content, transp
 ## Technical Highlights
 
 ### 1. Cross-Device QR Authentication
-OASIS implements a cross-device authentication bridge enabling desktop authentication through mobile verification:
-
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Desktop as Desktop Browser
-    participant Supabase as Supabase
-    participant Mobile as Mobile Browser
-    Desktop->>Supabase: Create QR session (300s TTL)
-    Desktop->>Supabase: Subscribe to session updates
-    Desktop->>Desktop: Display QR verification link
-    Mobile->>Mobile: Scan QR code and open verification link
-    Mobile->>Supabase: Validate session and approve login
-    Supabase-->>Desktop: Notify desktop of approval
-    Desktop->>Desktop: Establish authenticated session
-    Desktop->>Supabase: Delete temporary QR session
-```
-
-- **QR Session**: Temporary session record with a 300-second validity window, tracked through database timestamps and a client-side countdown.
-- **Mobile Approval**: Verification and authorization performed directly on the mobile verification route (`/qr-auth`), which validates session expiration against database timestamps before permitting approval.
-- **Desktop Authentication**: Desktop detects approval via Supabase Realtime channel (with automatic polling fallback), establishes the authenticated session via `supabase.auth.setSession()`, and deletes the temporary record upon completion.
+Seamless passwordless login allowing desktop users to authenticate instantly by scanning a dynamic QR code on their mobile device, synchronized in real time via Supabase.
 
 ### 2. 30-Day Rolling Analytics Engine
-The creator dashboard calculates rolling performance telemetry by comparing the trailing 30-day period with the preceding 30-day window:
-
-**Formula:**
-
-```
-Δ% = ((M_30d - M_prev30d) / M_prev30d) × 100
-```
-
-**Where:**
-- `M_30d` — metric value for the trailing 30 days.
-- `M_prev30d` — metric value for the preceding 30 days.
-
-**Baseline Handling:** When the prior period metric equals zero (or for accounts under 30 days old), percentage change is mathematically undefined. The dashboard applies an adaptive baseline threshold to indicate initial growth without division-by-zero errors.
+Creator dashboard providing rolling performance telemetry by tracking 30-day growth trends, engagement deltas, and audience interaction metrics.
 
 ### 3. Smart Discovery & Feed Ranking Engine
-OASIS features a custom weighted scoring engine that combines engagement signals, time decay, and user affinity to rank stories in the **✦ For You** feed (drawing inspiration from Hacker News time-decay gravity and Pinterest's long-term value model):
-
-**Scoring Model:**
-
-```
-Engagement = 4S + 3C + 2L
-Decay = (Engagement + 1.2) / (HoursOld + 2)^1.35
-SmartScore = Decay * Affinity
-```
-
-**Where:**
-- `S` — saves (weight: 4).
-- `C` — comments (weight: 3).
-- `L` — likes (weight: 2).
-- `Affinity` — personalization multiplier (1.4 for followed creators, 1.3 for preferred categories, or 1.82 when both apply).
-
-```javascript
-// 1. Value-Weighted Engagement (Saves: 4x, Comments: 3x, Likes: 2x)
-const engagement = (saves * 4) + (comments * 3) + (likes * 2);
-
-// 2. Time-Decay Gravity (Power decay factor: 1.35)
-const decayScore = (engagement + 1.2) / Math.pow(hoursOld + 2, 1.35);
-
-// 3. User Affinity Multipliers (+40% followed authors, +30% favorite categories)
-let multiplier = 1.0;
-if (isFollowedAuthor) multiplier *= 1.4;
-if (isPreferredCategory) multiplier *= 1.3;
-
-const smartScore = decayScore * multiplier;
-```
-
-- **Author Diversification:** Queue-based interleaving prevents consecutive stories from the same author in the **✦ For You** feed, creating a more varied discovery experience.
-
-### 4. Swiss Minimalist Design System
-- Minimalist palette of pure whites, deep navy (`#0F172A`), and slate tones.
-- **Sora** for headlines and **Inter** for editorial typography.
-- Vogel spiral-based image distribution in the Orbital Gallery.
-- Responsive mobile dock navigation with iOS safe-area support.
+Custom weighted recommendation algorithm combining interaction signals, time-decay gravity, and author affinity with automated author diversification.
 
 ---
 
