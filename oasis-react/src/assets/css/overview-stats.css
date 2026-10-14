@@ -1,0 +1,118 @@
+/* ==============================================================================
+   OASIS: Overview 30-Day Analytics Card (Exact Figma/Screenshot Spec)
+   ============================================================================== */
+
+.overview-stats-card {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 2.25rem 2rem;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.05), 0 2px 6px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(226, 232, 240, 0.85);
+    width: 100%;
+    box-sizing: border-box;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.overview-stats-card:hover {
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+}
+
+.overview-stats-header {
+    margin-bottom: 2.25rem;
+}
+
+.overview-stats-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #19326f;
+    letter-spacing: -0.025em;
+    margin: 0 0 6px 0;
+    line-height: 1.2;
+}
+
+.overview-stats-subtitle {
+    font-size: 1rem;
+    color: #64748b;
+    font-weight: 400;
+    display: block;
+    line-height: 1.4;
+}
+
+.overview-stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.85rem;
+}
+
+.overview-stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.overview-stat-label {
+    font-size: 1.1rem;
+    color: #64748b;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.overview-stat-value-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+/* Trend Pill (Matching screenshot pixel-for-pixel) */
+.overview-trend-pill {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overview-trend-pill--pos {
+    background: #2563eb;
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+.overview-trend-pill--neg {
+    background: rgba(239, 68, 68, 0.12);
+    color: #dc2626;
+}
+
+.overview-stat-value {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #19326f;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    min-width: 50px;
+    text-align: right;
+}
+
+@media (max-width: 640px) {
+    .overview-stats-card {
+        padding: 1.75rem 1.5rem;
+        border-radius: 20px;
+    }
+
+    .overview-stats-title {
+        font-size: 1.5rem;
+    }
+
+    .overview-stat-label {
+        font-size: 1rem;
+    }
+
+    .overview-stat-value {
+        font-size: 1.45rem;
+    }
+}

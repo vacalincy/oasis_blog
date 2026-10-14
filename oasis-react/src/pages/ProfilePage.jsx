@@ -4,6 +4,7 @@ import { supabase } from '../supabaseClient';
 import Header from '../components/Header';
 import PostCard from '../components/PostCard';
 import Footer from '../components/Footer';
+import OverviewStatsCard from '../components/OverviewStatsCard';
 import '../assets/css/dashboard.css'; // We reuse dashboard CSS for the hero layout
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
@@ -238,7 +239,14 @@ export default function ProfilePage() {
         </div>
       </header>
 
-      <section className="latest-posts-section" style={{ marginTop: '64px', marginBottom: '96px' }}>
+      {/* 30-Day Monthly Activity Overview */}
+      <section className="profile-overview-section" style={{ marginTop: '48px', padding: '0 20px' }}>
+        <div className="container" style={{ maxWidth: '480px', margin: '0 auto' }}>
+          <OverviewStatsCard targetUserId={profile.id} />
+        </div>
+      </section>
+
+      <section className="latest-posts-section" style={{ marginTop: '56px', marginBottom: '96px' }}>
         <div className="container">
             <h2 className="author-posts__title" style={{ fontSize: '2.5rem', marginBottom: '40px', color: 'var(--color-text)' }}>Latest from {profileName}</h2>
             

@@ -27,6 +27,8 @@ import SettingsPage from './pages/SettingsPage'
 import SupportPage from './pages/SupportPage'
 import ContactPage from './pages/ContactPage'
 import QrAuthPage from './pages/QrAuthPage'
+import CookiePolicyPage from './pages/CookiePolicyPage'
+import CookieBanner from './components/CookieBanner'
 import ProtectedRoute from './components/ProtectedRoute'
 import './assets/css/legal.css'
 import './index.css'
@@ -79,7 +81,8 @@ function ScrollObserver() {
       '/onboarding': 'Welcome to OASIS — Onboarding',
       '/forgot-password': 'Reset Password — OASIS',
       '/reset-password': 'Create New Password — OASIS',
-      '/qr-auth': 'Approve Login — OASIS'
+      '/qr-auth': 'Approve Login — OASIS',
+      '/cookies': 'Cookie Policy — OASIS'
     };
 
     if (routeTitles[location.pathname]) {
@@ -212,7 +215,7 @@ function ProfileEnforcer({ children }) {
         
         // If user is logged in but has no username/profile, they are new!
         // Redirect them to onboarding unless they are already there or on auth pages
-        const isAuthPage = ['/', '/onboarding', '/terms', '/privacy', '/forgot-password', '/reset-password', '/qr-auth'].includes(location.pathname);
+        const isAuthPage = ['/', '/onboarding', '/terms', '/privacy', '/cookies', '/forgot-password', '/reset-password', '/qr-auth'].includes(location.pathname);
         if (user && (!profile || !profile.username)) {
             if (!isAuthPage) {
                 navigate('/onboarding', { replace: true });
@@ -234,6 +237,7 @@ function App() {
             <ScrollObserver />
             <SupabaseAuthCallbackListener />
             <TabBar />
+            <CookieBanner />
             <ProfileEnforcer>
             <Routes>
               <Route path="/" element={<LandingPage />} />
@@ -242,6 +246,7 @@ function App() {
               <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="/cookies" element={<CookiePolicyPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/post" element={<Navigate to="/discover" replace />} />

@@ -258,3 +258,29 @@ END $$;
 CREATE INDEX IF NOT EXISTS idx_qr_logins_status ON public.qr_logins(status);
 CREATE INDEX IF NOT EXISTS idx_qr_logins_expires_at ON public.qr_logins(expires_at);
 
+-- ==============================================================================
+-- 11. STORAGE BUCKET: AVATARS & POST COVERS
+-- ==============================================================================
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('avatars', 'avatars', true)
+ON CONFLICT (id) DO NOTHING;
+
+DROP POLICY IF EXISTS "Public avatars are viewable by everyone" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can upload avatars" ON storage.objects;
+DROP POLICY IF EXISTS "Users can update own files in avatars" ON storage.objects;
+
+CREATE POLICY "Public avatars are viewable by everyone"
+ON storage.objects FOR SELECT
+USING (bucket_id = 'avatars');
+
+CREATE POLICY "Authenticated users can upload avatars"
+ON storage.objects FOR INSERT
+TO authenticated
+WITH CHECK (bucket_id = 'avatars');
+
+CREATE POLICY "Users can update own files in avatars"
+ON storage.objects FOR UPDATE
+TO authenticated
+USING (bucket_id = 'avatars');
+
+

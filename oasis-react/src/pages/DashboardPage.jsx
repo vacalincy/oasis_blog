@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabaseClient';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import OverviewStatsCard from '../components/OverviewStatsCard';
 import '../assets/css/dashboard.css'; // Direct import
 import { useToast } from '../context/ToastContext';
 import { resizeImage } from '../utils/imageUtils';
@@ -312,26 +313,7 @@ export default function DashboardPage() {
 <main className="dashboard-main">
 
     <aside className="dashboard-sidebar">
-        <div className="stats-card">
-            <div className="stats-card-header">
-                <h3>Overview</h3>
-                <span className="text-muted">Activity</span>
-            </div>
-            <div className="stats-card-row">
-                <span>Published Stories</span>
-                <strong>{publishedPosts.length}</strong>
-            </div>
-            <div className="stats-card-row">
-                <span>Saved Stories</span>
-                <strong>{savedPosts.length}</strong>
-            </div>
-            <div className="stats-card-row">
-                <span>Followers</span>
-                <div className="stat-value-group">
-                    <strong>{followersCount}</strong>
-                </div>
-            </div>
-        </div>
+        <OverviewStatsCard targetUserId={user?.id} />
 
         <div className="sidebar-actions">
             <Link to="/add-post" className="btn-primary" style={{ textDecoration: "none" }}>
