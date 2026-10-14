@@ -33,7 +33,9 @@ export default function NotificationsPage() {
       if (!prefComments && (type === 'comment' || type === 'mention')) return false;
       if (!prefFollowers && type === 'follower') return false;
       if (!prefAlerts && type === 'system') return false;
-    } catch { }
+    } catch {
+      // Ignore localStorage read errors
+    }
     return true;
   };
 

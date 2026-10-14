@@ -4,7 +4,6 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SplitText from '../components/SplitText';
 import { supabase } from '../supabaseClient';
-import { CATEGORIES } from '../constants/categories';
 
 export default function PopularPage() {
   const CACHE_KEY = 'oasis_popular_posts_cache';
@@ -45,27 +44,6 @@ export default function PopularPage() {
       return plain.length > length ? plain.slice(0, length) + '...' : plain;
     }
     return 'Read this popular story and explore deep perspectives on OASIS.';
-  };
-
-  // Helper to find category slug
-  const getCategorySlug = (categoryString) => {
-    if (!categoryString) return 'design-interfaces';
-    const main = categoryString.split(' - ')[0].trim().toLowerCase();
-    const found = CATEGORIES.find(c =>
-      c.name.toLowerCase() === main ||
-      c.slug.toLowerCase() === main ||
-      (c.aliases && c.aliases.some(a => a.toLowerCase() === main))
-    );
-    return found ? found.slug : 'design-interfaces';
-  };
-
-  const formatDate = (dateString) => {
-    if (!dateString) return '';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
   };
 
   // Fetch published posts, likes, and comments from Supabase
@@ -113,7 +91,9 @@ export default function PopularPage() {
           try {
             localStorage.setItem(CACHE_KEY, JSON.stringify(postsData));
             localStorage.setItem(CACHE_LIKES, JSON.stringify(lMap));
-          } catch { }
+          } catch {
+            // Ignore storage cache errors
+          }
         }
       } catch (err) {
         console.warn('Error fetching popular posts:', err);
@@ -158,15 +138,7 @@ export default function PopularPage() {
     return filtered.slice(0, 5);
   }, [sortedByLikes, activeFilter]);
 
-  // 3. Classics: two top-rated long-form stories
-  const classicsPosts = useMemo(() => {
-    if (sortedByLikes.length >= 2) {
-      return [sortedByLikes[0], sortedByLikes[1]];
-    }
-    return sortedByLikes;
-  }, [sortedByLikes]);
-
-  // 4. Hot Discussions: posts with the most comments
+  // 3. Hot Discussions: posts with the most comments
   const hotDiscussions = useMemo(() => {
     const withComments = [...posts].sort((a, b) => {
       const cA = commentsMap[a.id] || 0;

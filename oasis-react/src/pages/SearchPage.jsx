@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 import PostCard from '../components/PostCard';
 import { supabase } from '../supabaseClient';
 import { searchContent } from '../utils/searchService';
-import { findCategory, CATEGORIES } from '../constants/categories';
+import { findCategory } from '../constants/categories';
 import '../assets/css/search.css';
 
 const QUICK_SEARCH_TAGS = [

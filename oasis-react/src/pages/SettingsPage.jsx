@@ -165,7 +165,9 @@ export default function SettingsPage() {
       let cachedRegistrationDob = null;
       try {
         cachedRegistrationDob = localStorage.getItem('oasis_registration_dob');
-      } catch { }
+      } catch {
+        // Ignore localStorage read error
+      }
 
       // Look for DOB in user metadata, profiles table, or localStorage registration cache
       const rawDob = 
@@ -357,7 +359,9 @@ export default function SettingsPage() {
       if (formattedDob) {
         try {
           localStorage.setItem('oasis_registration_dob', formattedDob);
-        } catch { }
+        } catch {
+          // Ignore localStorage write error
+        }
       }
       if (fetchProfile) {
         await fetchProfile(user.id);
@@ -682,13 +686,17 @@ export default function SettingsPage() {
         try {
           await supabase.from('posts').delete().eq('author_id', user.id);
           await supabase.from('profiles').delete().eq('id', user.id);
-        } catch { }
+        } catch {
+          // Ignore manual deletion error
+        }
       }
 
       // 2. Clear local storage and sign out
       try {
         localStorage.clear();
-      } catch { }
+      } catch {
+        // Ignore localStorage clear error
+      }
 
       if (signOut) {
         await signOut();

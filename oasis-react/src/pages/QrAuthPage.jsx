@@ -12,7 +12,7 @@ export default function QrAuthPage() {
   const { user, profile, loading: authLoading } = useAuth();
   const addToast = useToast();
 
-  const [sessionRecord, setSessionRecord] = useState(null);
+  const [_sessionRecord, setSessionRecord] = useState(null);
   const [pageLoading, setPageLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);

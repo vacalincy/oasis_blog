@@ -23,7 +23,9 @@ export const NotificationProvider = ({ children }) => {
       if (!prefComments && (n.type === 'comment' || n.type === 'mention')) return false;
       if (!prefFollowers && n.type === 'follower') return false;
       if (!prefAlerts && n.type === 'system') return false;
-    } catch { }
+    } catch {
+      // Ignore localStorage read errors
+    }
     return true;
   }).length;
 
@@ -103,7 +105,9 @@ export const NotificationProvider = ({ children }) => {
         setNotifications(loadedData);
         try {
           localStorage.setItem(`oasis_notifications_${user.id}`, JSON.stringify(loadedData));
-        } catch { }
+        } catch {
+          // Ignore localStorage write errors
+        }
       } else {
         // Fallback to local storage
         const saved = localStorage.getItem(`oasis_notifications_${user.id}`);

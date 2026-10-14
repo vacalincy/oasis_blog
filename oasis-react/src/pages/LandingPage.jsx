@@ -23,7 +23,7 @@ export default function LandingPage() {
   const [showcasePostId, setShowcasePostId] = useState(null);
 
   // QR Login State
-  const [qrSessionId, setQrSessionId] = useState(null);
+  const [_qrSessionId, setQrSessionId] = useState(null);
   const [qrStatus, setQrStatus] = useState('idle'); // 'idle' | 'loading' | 'ready' | 'approved' | 'declined' | 'expired'
   const [qrAuthUrl, setQrAuthUrl] = useState('');
   const [qrTimeLeft, setQrTimeLeft] = useState(300);
@@ -241,7 +241,7 @@ const formatToDateInput = (val) => {
   if (typeof val === 'string') {
     val = val.trim();
     if (/^\d{4}-\d{2}-\d{2}$/.test(val)) return val;
-    const dmyMatch = val.match(/^(\d{1,2})[\.\/](\d{1,2})[\.\/](\d{4})$/);
+    const dmyMatch = val.match(/^(\d{1,2})[./](\d{1,2})[./](\d{4})$/);
     if (dmyMatch) {
       const first = parseInt(dmyMatch[1], 10);
       const second = parseInt(dmyMatch[2], 10);
@@ -252,7 +252,7 @@ const formatToDateInput = (val) => {
         return `${year}-${String(first).padStart(2, '0')}-${String(second).padStart(2, '0')}`;
       }
     }
-    const ymdMatch = val.match(/^(\d{4})[\.\/](\d{1,2})[\.\/](\d{1,2})$/);
+    const ymdMatch = val.match(/^(\d{4})[./](\d{1,2})[./](\d{1,2})$/);
     if (ymdMatch) {
       return `${ymdMatch[1]}-${ymdMatch[2].padStart(2, '0')}-${ymdMatch[3].padStart(2, '0')}`;
     }
@@ -307,7 +307,9 @@ const formatToDateInput = (val) => {
         if (dobFormatted) {
             try {
                 localStorage.setItem('oasis_registration_dob', dobFormatted);
-            } catch { }
+            } catch {
+                // Ignore storage write error
+            }
         }
 
         const { data, error } = await supabase.auth.signUp({

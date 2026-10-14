@@ -49,6 +49,8 @@ export default function DashboardPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [profileName, setProfileName] = useState("");
   const [profileBio, setProfileBio] = useState("");
+  const [editName, setEditName] = useState("");
+  const [editBio, setEditBio] = useState("");
   const [activeTab, setActiveTab] = useState("published");
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
@@ -103,9 +105,6 @@ export default function DashboardPage() {
       }
     }
   }, [activeTab]);
-  
-  const [editName, setEditName] = useState(profileName);
-  const [editBio, setEditBio] = useState(profileBio);
   
   const handleCoverChange = async (e) => {
     const file = e.target.files[0];
@@ -272,7 +271,9 @@ export default function DashboardPage() {
                                 avatar_url: uploadedUrl
                             };
                             localStorage.setItem('oasis_cached_profile', JSON.stringify(updatedProfile));
-                        } catch (e) {}
+                        } catch {
+                            // Ignore storage quota or disabled errors
+                        }
 
                         if (fetchProfile && user?.id) {
                             fetchProfile(user.id);

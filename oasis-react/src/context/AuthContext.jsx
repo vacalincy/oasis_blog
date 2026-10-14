@@ -17,6 +17,29 @@ export const AuthProvider = ({ children }) => {
     });
     const [loading, setLoading] = useState(true);
 
+    const fetchProfile = async (userId) => {
+        try {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', userId)
+                .single();
+            
+            if (!error && data) {
+                setProfile(data);
+                try {
+                    localStorage.setItem(CACHED_PROFILE_KEY, JSON.stringify(data));
+                } catch {
+                    // Ignore storage quota or disabled errors
+                }
+            }
+        } catch (err) {
+            console.error("Error fetching profile:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         // Fetch current session
         supabase.auth.getSession().then(({ data: { session } }) => {
@@ -37,7 +60,9 @@ export const AuthProvider = ({ children }) => {
                 setProfile(null);
                 try {
                     localStorage.removeItem(CACHED_PROFILE_KEY);
-                } catch { }
+                } catch {
+                    // Ignore storage errors
+                }
                 setLoading(false);
             }
         });
@@ -45,31 +70,12 @@ export const AuthProvider = ({ children }) => {
         return () => subscription.unsubscribe();
     }, []);
 
-    const fetchProfile = async (userId) => {
-        try {
-            const { data, error } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', userId)
-                .single();
-            
-            if (!error && data) {
-                setProfile(data);
-                try {
-                    localStorage.setItem(CACHED_PROFILE_KEY, JSON.stringify(data));
-                } catch { }
-            }
-        } catch (err) {
-            console.error("Error fetching profile:", err);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     const signOut = async () => {
         try {
             localStorage.removeItem(CACHED_PROFILE_KEY);
-        } catch { }
+        } catch {
+            // Ignore storage errors
+        }
         setUser(null);
         setProfile(null);
         await supabase.auth.signOut();

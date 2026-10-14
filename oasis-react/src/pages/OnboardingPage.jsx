@@ -66,7 +66,9 @@ export default function OnboardingPage() {
             let savedDob = null;
             try {
                 savedDob = localStorage.getItem('oasis_registration_dob');
-            } catch { }
+            } catch {
+                // Ignore storage read error
+            }
             savedDob = savedDob || user.user_metadata?.dob || user.user_metadata?.date_of_birth || null;
 
             const profilePayload = {
@@ -93,7 +95,9 @@ export default function OnboardingPage() {
                             date_of_birth: savedDob
                         }
                     });
-                } catch { }
+                } catch {
+                    // Ignore metadata sync error
+                }
             }
 
             if (profileError) {
@@ -119,7 +123,9 @@ export default function OnboardingPage() {
             let savedDob = null;
             try {
                 savedDob = localStorage.getItem('oasis_registration_dob');
-            } catch { }
+            } catch {
+                // Ignore storage read error
+            }
             if (savedDob) {
                 const { data: { user } } = await supabase.auth.getUser();
                 if (user) {
@@ -136,7 +142,9 @@ export default function OnboardingPage() {
                     });
                 }
             }
-        } catch { }
+        } catch {
+            // Ignore skip errors
+        }
         navigate('/discover');
     };
 
