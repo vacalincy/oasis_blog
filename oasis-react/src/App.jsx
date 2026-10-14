@@ -210,20 +210,21 @@ function App() {
               <Route path="/" element={<LandingPage />} />
               <Route path="/discover" element={<DiscoverPage />} />
               <Route path="/onboarding" element={<ProtectedRoute><OnboardingPage /></ProtectedRoute>} />
-              <Route path="/search" element={<SearchPage />} />
+              <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />
+              <Route path="/post" element={<Navigate to="/discover" replace />} />
               <Route path="/post/:id" element={<PostPage />} />
               <Route path="/category" element={<CategoryPage />} />
               <Route path="/profile/:id" element={<ProfilePage />} />
               <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/following" element={<FollowingPage />} />
-              <Route path="/popular" element={<PopularPage />} />
-              <Route path="/topics" element={<TopicsPage />} />
+              <Route path="/following" element={<ProtectedRoute><FollowingPage /></ProtectedRoute>} />
+              <Route path="/popular" element={<ProtectedRoute><PopularPage /></ProtectedRoute>} />
+              <Route path="/topics" element={<ProtectedRoute><TopicsPage /></ProtectedRoute>} />
               <Route path="/about" element={<AboutPage />} />
-              <Route path="/notifications" element={<NotificationsPage />} />
+              <Route path="/notifications" element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
               <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
               <Route path="/add-post" element={<ProtectedRoute><AddPostPage /></ProtectedRoute>} />
               <Route path="/edit-post/:id" element={<ProtectedRoute><AddPostPage /></ProtectedRoute>} />

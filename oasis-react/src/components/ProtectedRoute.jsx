@@ -14,9 +14,9 @@ export default function ProtectedRoute({ children }) {
         );
     }
 
-    // If no user is logged in, redirect to the landing page (which has the login form)
+    // If no user is logged in, redirect to the landing page with login modal open
     if (!user) {
-        return <Navigate to="/" replace />;
+        return <Navigate to="/?auth=login" replace />;
     }
 
     // Otherwise, render the protected component

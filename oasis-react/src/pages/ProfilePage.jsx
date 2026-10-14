@@ -22,6 +22,7 @@ export default function ProfilePage() {
   const { user } = useAuth();
   const [followersCount, setFollowersCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   useEffect(() => {
     if (!id) {
@@ -111,6 +112,12 @@ export default function ProfilePage() {
   const profileBio = profile.bio || "No bio available.";
   const coverImage = profile.avatar_url;
 
+  const profileUrl = `${window.location.origin}/profile/${profile.username || profile.id}`;
+
+  const handleShareProfile = () => {
+    setShowShareModal(true);
+  };
+
   return (
     <div className="dashboard-page">
       <Header />
@@ -139,14 +146,14 @@ export default function ProfilePage() {
                 <p className="profile-bio">{profileBio}</p>
             </div>
             
-            {user?.id !== profile.id ? (
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', marginTop: '32px', flexWrap: 'wrap' }}>
+                {user?.id !== profile.id ? (
                     <button 
                         className="btn-glass" 
                         style={{ 
-                            padding: '12px 40px', 
-                            fontSize: '1.05rem', 
-                            width: '160px',
+                            padding: '12px 36px', 
+                            fontSize: '1rem', 
+                            minWidth: '140px',
                             background: !isFollowing ? 'rgba(255, 255, 255, 0.9)' : '',
                             color: !isFollowing ? '#0f172a' : '',
                             borderColor: !isFollowing ? 'transparent' : ''
@@ -177,9 +184,7 @@ export default function ProfilePage() {
                     >
                         {isFollowing ? 'Unfollow' : 'Follow'}
                     </button>
-                </div>
-            ) : (
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
+                ) : (
                     <Link 
                         to="/dashboard" 
                         className="btn-glass" 
@@ -195,8 +200,25 @@ export default function ProfilePage() {
                         <img loading="lazy" src="/assets/images/icons/editprofile_icon.svg" style={{ width: '16px', height: '16px' }} alt="" />
                         Edit Profile
                     </Link>
-                </div>
-            )}
+                )}
+
+                <button 
+                    className="btn-glass" 
+                    onClick={handleShareProfile}
+                    style={{ 
+                        padding: '12px 28px', 
+                        fontSize: '1rem', 
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        cursor: 'pointer'
+                    }}
+                    aria-label="Share Profile"
+                >
+                    <span className="dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/share.svg')", maskImage: "url('/assets/images/icons/share.svg')", width: "16px", height: "16px" }}></span>
+                    Share Profile
+                </button>
+            </div>
         </div>
         
         <div className="hero-fade">
@@ -236,6 +258,145 @@ export default function ProfilePage() {
             )}
         </div>
       </section>
+
+      {/* SHARE MODAL */}
+      {showShareModal && (
+        <div className="share-modal-overlay active" id="shareProfileModal" onClick={(e) => { if(e.target.id === 'shareProfileModal') setShowShareModal(false); }}>
+            <div className="share-modal">
+                <div className="share-modal__top-icon">
+                    <img loading="lazy" src="/assets/images/icons/link.png" alt="Link Icon" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
+                </div>
+                
+                <button className="share-modal__close" id="closeShareModal" onClick={() => setShowShareModal(false)}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                
+                <h3 className="share-modal__title">Share with Friends</h3>
+                <p className="share-modal__subtitle">Curating is more effective when<br/>you connect with friends!</p>
+                
+                <div className="share-modal__section">
+                    <label htmlFor="shareLinkInput">Share your link</label>
+                    <div className="share-modal__link-box">
+                        <input type="text" value={profileUrl} readOnly id="shareLinkInput" />
+                        <button className="share-modal__copy-btn" id="copyShareLink" aria-label="Copy link" onClick={() => {
+                            navigator.clipboard.writeText(profileUrl);
+                            addToast('Profile link copied to clipboard!', 'success');
+                            setShowShareModal(false);
+                        }}>
+                            <img loading="lazy" src="/assets/images/icons/copy.png" alt="Copy" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />
+                        </button>
+                    </div>
+                </div>
+                
+                <div className="share-modal__section">
+                    <label>Share to</label>
+                    <div className="share-modal__socials">
+                        <a 
+                            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(profileUrl)}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="social-btn facebook" 
+                            aria-label="Facebook"
+                        >
+                            <div className="social-icon">
+                                <img loading="lazy" src="/assets/images/brand/Facebook - Original.png" alt="Facebook" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            </div>
+                            <span>Facebook</span>
+                        </a>
+                        <a 
+                            href="https://www.instagram.com/" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="social-btn instagram" 
+                            aria-label="Instagram"
+                            onClick={() => {
+                                navigator.clipboard.writeText(profileUrl);
+                                addToast('Profile link copied! Paste it in Instagram.', 'info');
+                            }}
+                        >
+                            <div className="social-icon">
+                                <img loading="lazy" src="/assets/images/brand/instagram.png" alt="Instagram" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            </div>
+                            <span>Instagram</span>
+                        </a>
+                        <a 
+                            href={`https://api.whatsapp.com/send?text=${encodeURIComponent('Check out this profile on Oasis: ' + profileUrl)}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="social-btn whatsapp" 
+                            aria-label="WhatsApp"
+                        >
+                            <div className="social-icon">
+                                <img loading="lazy" src="/assets/images/brand/whatsapp.png" alt="WhatsApp" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            </div>
+                            <span>WhatsApp</span>
+                        </a>
+                        <a 
+                            href={`https://t.me/share/url?url=${encodeURIComponent(profileUrl)}&text=${encodeURIComponent('Check out this profile on Oasis!')}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="social-btn telegram" 
+                            aria-label="Telegram"
+                        >
+                            <div className="social-icon">
+                                <img loading="lazy" src="/assets/images/brand/Telegram - Original.png" alt="Telegram" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            </div>
+                            <span>Telegram</span>
+                        </a>
+                        <a 
+                            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(profileUrl)}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="social-btn linkedin" 
+                            aria-label="LinkedIn"
+                        >
+                            <div className="social-icon">
+                                <img loading="lazy" src="/assets/images/brand/LinkedIn - Original.png" alt="LinkedIn" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            </div>
+                            <span>LinkedIn</span>
+                        </a>
+                    </div>
+                </div>
+                {typeof navigator !== 'undefined' && navigator.share && (
+                    <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                        <button 
+                            type="button"
+                            onClick={() => {
+                                navigator.share({
+                                    title: `${profileName} on Oasis`,
+                                    text: profileBio || `Check out ${profileName}'s profile on Oasis!`,
+                                    url: profileUrl
+                                }).catch(() => {});
+                            }}
+                            style={{
+                                background: 'transparent',
+                                border: 'none',
+                                color: 'var(--color-primary)',
+                                fontSize: '0.85rem',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px'
+                            }}
+                        >
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="18" cy="5" r="3"></circle>
+                                <circle cx="6" cy="12" r="3"></circle>
+                                <circle cx="18" cy="19" r="3"></circle>
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                            </svg>
+                            More sharing options...
+                        </button>
+                    </div>
+                )}
+            </div>
+        </div>
+      )}
 
       <Footer />
     </div>

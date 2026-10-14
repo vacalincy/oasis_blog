@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function TabBar() {
   const location = useLocation();
+  const { user } = useAuth();
   const [activeIndex, setActiveIndex] = useState(0);
 
   const navItems = [
@@ -24,7 +26,7 @@ export default function TabBar() {
     }
   }, [location.pathname]);
 
-  if (location.pathname === '/') {
+  if (location.pathname === '/' || !user) {
     return null;
   }
 

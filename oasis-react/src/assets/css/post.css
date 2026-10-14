@@ -94,6 +94,10 @@
 }
 
 .post-actions__btn:hover { color: var(--color-text-main); }
+.post-actions__btn--readonly {
+    cursor: default;
+    pointer-events: none;
+}
 .post-actions__icon { width: 20px; height: 20px; }
 .post-actions__icon-path { transition: var(--transition); }
 .post-actions__input { position: absolute; width: 1px; height: 1px; opacity: 0; }
@@ -154,6 +158,41 @@
 }
 
 .comment-form__submit:hover { background-color: var(--color-primary-dark); }
+
+.comments__guest-box {
+    background-color: #f8fafc;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    max-width: 800px;
+    margin-bottom: 2rem;
+}
+
+.comments__guest-text {
+    color: var(--color-text-secondary);
+    font-size: 0.98rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.comments__guest-link {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.comments__guest-link:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
+
+.comment__like--readonly {
+    cursor: default;
+    pointer-events: none;
+    opacity: 0.85;
+}
 
 .comment-list { list-style: none; display: flex; flex-direction: column; gap: 1.5rem; }
 .comment { display: flex; gap: 1rem; align-items: flex-start; }

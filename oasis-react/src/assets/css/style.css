@@ -144,6 +144,47 @@ nav {
     background-color: rgba(37, 82, 254, 0.08);
 }
 
+/* Header Guest Auth Buttons */
+.header-guest-auth {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.header-guest-login {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.header-guest-login:hover {
+    color: var(--color-primary-dark);
+}
+
+.header-guest-signup {
+    padding: 0.55rem 1.35rem;
+    border-radius: var(--btn-border-radius);
+    background: var(--color-primary);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: var(--transition);
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.header-guest-signup:hover {
+    background: var(--color-primary-dark);
+}
+
+.nav__items-guest-auth {
+    display: none;
+}
+
 .notification-btn img { 
     width: 20px; 
     height: 20px; 
@@ -227,6 +268,17 @@ nav {
     }
     .nav__actions .avatar { display: none; }
     #open__nav-btn { display: block; }
+    .header-guest-auth { gap: 0.75rem; }
+    .header-guest-login { font-size: 0.82rem; }
+    .header-guest-signup { padding: 0.45rem 0.9rem; font-size: 0.82rem; }
+    .nav__items-guest-auth {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--color-border);
+    }
 }
 
 .tab-bar {

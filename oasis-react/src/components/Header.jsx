@@ -14,7 +14,7 @@ export default function Header() {
   const searchWrapperRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const { profile, loading } = useAuth();
+  const { profile, loading, user } = useAuth();
   const { unreadCount } = useNotifications();
 
   // Close dropdown on route change
@@ -99,10 +99,20 @@ export default function Header() {
             <button id="close__nav-btn" onClick={() => setIsNavOpen(false)}>✕</button>
           </li>
           <li><NavLink to="/discover" onClick={() => setIsNavOpen(false)}>Discover</NavLink></li>
-          <li><NavLink to="/following" onClick={() => setIsNavOpen(false)}>Following</NavLink></li>
-          <li><NavLink to="/popular" onClick={() => setIsNavOpen(false)}>Popular</NavLink></li>
-          <li><NavLink to="/topics" onClick={() => setIsNavOpen(false)}>Topics</NavLink></li>
+          {user && (
+            <>
+              <li><NavLink to="/following" onClick={() => setIsNavOpen(false)}>Following</NavLink></li>
+              <li><NavLink to="/popular" onClick={() => setIsNavOpen(false)}>Popular</NavLink></li>
+              <li><NavLink to="/topics" onClick={() => setIsNavOpen(false)}>Topics</NavLink></li>
+            </>
+          )}
           <li><NavLink to="/about" onClick={() => setIsNavOpen(false)}>About</NavLink></li>
+          {!user && (
+            <li className="nav__items-guest-auth">
+              <Link to="/?auth=login" onClick={() => setIsNavOpen(false)} className="header-guest-login">Log in</Link>
+              <Link to="/?auth=signup" onClick={() => setIsNavOpen(false)} className="header-guest-signup">Sign up</Link>
+            </li>
+          )}
         </ul>
 
         {/* Mobile menu backdrop overlay */}
@@ -124,7 +134,8 @@ export default function Header() {
 
         {/* 3. Right side: search with instant dropdown, notifications, avatar, burger */}
         <div className="nav__actions">
-          <div className="search-bar-wrapper" ref={searchWrapperRef}>
+          {user && (
+            <div className="search-bar-wrapper" ref={searchWrapperRef}>
             <form onSubmit={handleSearch} className="search-bar">
               <img loading="lazy" src="/assets/images/icons/search.svg" alt="Search" />
               <input 
@@ -263,34 +274,42 @@ export default function Header() {
               </div>
             )}
           </div>
-
-          <Link 
-            to="/notifications" 
-            className={`notification-btn ${location.pathname === '/notifications' ? 'active' : ''}`} 
-            aria-label="Notifications"
-          >
-            <img src="/assets/images/icons/notification_icon.svg" alt="Notifications" width="20" height="20" />
-            {unreadCount > 0 && (
-              <span className="notification-btn__badge">{unreadCount > 9 ? '9+' : unreadCount}</span>
-            )}
-          </Link>
-          
-          {profile?.avatar_url ? (
-            <Link to="/dashboard" className="avatar" style={{ padding: 0, overflow: 'hidden' }}>
-              <img 
-                decoding="async" 
-                src={profile.avatar_url} 
-                alt="Profile" 
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
-              />
-            </Link>
-          ) : profile?.username ? (
-            <Link to="/dashboard" className="avatar">{profile.username.substring(0, 2).toUpperCase()}</Link>
-          ) : loading ? (
-             <div className="avatar" style={{ background: '#e2e8f0', color: 'transparent', animation: 'pulse 1.5s infinite' }}>..</div>
-          ) : (
-            <Link to="/dashboard" className="avatar">EA</Link>
           )}
+
+          {user ? (
+            <>
+              <Link 
+                to="/notifications" 
+                className={`notification-btn ${location.pathname === '/notifications' ? 'active' : ''}`} 
+                aria-label="Notifications"
+              >
+                <img src="/assets/images/icons/notification_icon.svg" alt="Notifications" width="20" height="20" />
+                {unreadCount > 0 && (
+                  <span className="notification-btn__badge">{unreadCount > 9 ? '9+' : unreadCount}</span>
+                )}
+              </Link>
+              
+              {profile?.avatar_url ? (
+                <Link to="/dashboard" className="avatar" style={{ padding: 0, overflow: 'hidden' }}>
+                  <img 
+                    decoding="async" 
+                    src={profile.avatar_url} 
+                    alt="Profile" 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
+                  />
+                </Link>
+              ) : profile?.username ? (
+                <Link to="/dashboard" className="avatar">{profile.username.substring(0, 2).toUpperCase()}</Link>
+              ) : (
+                <Link to="/dashboard" className="avatar">U</Link>
+              )}
+            </>
+          ) : !loading ? (
+            <div className="header-guest-auth">
+              <Link to="/?auth=login" className="header-guest-login">Log in</Link>
+              <Link to="/?auth=signup" className="header-guest-signup">Sign up</Link>
+            </div>
+          ) : null}
 
           {/* burger button, only visible on mobile */}
           <button id="open__nav-btn" onClick={() => setIsNavOpen(true)}>☰</button>

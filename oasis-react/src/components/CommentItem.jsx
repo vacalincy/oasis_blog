@@ -137,12 +137,21 @@ export default function CommentItem({ id, post_id, author_id, author, avatar, ti
                     <p className="comment__text">{text}</p>
                 </div>
                 <div className="comment__actions" style={{ paddingLeft: '8px' }}>
-                    <label className="comment__like">
-                        <input type="checkbox" className="comment__like-input" checked={isLiked} onChange={handleLike} />
-                        <span className="comment__like-icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/heart.svg')", width: "16px", height: "16px" }}></span>
-                        <span className="comment__like-count">{likesCount}</span>
-                    </label>
-                    <button className="comment__reply" onClick={() => setIsReplying(!isReplying)} style={{ border: 'none', background: 'none', color: 'var(--color-text-secondary)', fontWeight: '500', cursor: 'pointer' }}>Reply</button>
+                    {user ? (
+                        <label className="comment__like">
+                            <input type="checkbox" className="comment__like-input" checked={isLiked} onChange={handleLike} />
+                            <span className="comment__like-icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/heart.svg')", width: "16px", height: "16px" }}></span>
+                            <span className="comment__like-count">{likesCount}</span>
+                        </label>
+                    ) : (
+                        <span className="comment__like comment__like--readonly">
+                            <span className="comment__like-icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/heart.svg')", width: "16px", height: "16px", opacity: 0.6 }}></span>
+                            <span className="comment__like-count">{likesCount}</span>
+                        </span>
+                    )}
+                    {user && (
+                        <button className="comment__reply" onClick={() => setIsReplying(!isReplying)} style={{ border: 'none', background: 'none', color: 'var(--color-text-secondary)', fontWeight: '500', cursor: 'pointer' }}>Reply</button>
+                    )}
                     {user && user.id === author_id && (
                         <button onClick={() => setShowDeleteModal(true)} style={{ border: 'none', background: 'none', color: 'var(--color-text-secondary)', fontWeight: '500', cursor: 'pointer', marginLeft: '8px', fontSize: '0.9rem' }}>Delete</button>
                     )}

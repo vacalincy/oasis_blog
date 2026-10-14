@@ -398,11 +398,18 @@ export default function PostPage() {
     <div className="container post-actions__container">
 
         <div className="post-actions__group">
-            <label className="post-actions__btn" aria-label="Like">
-                <input type="checkbox" className="post-actions__input post-actions__input--like" checked={isLiked} onChange={handleLike} />
-                <span className="post-actions__icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/heart.svg')", width: "16px", height: "16px" }}></span>
-                <span>{likesCount}</span>
-            </label>
+            {user ? (
+                <label className="post-actions__btn" aria-label="Like">
+                    <input type="checkbox" className="post-actions__input post-actions__input--like" checked={isLiked} onChange={handleLike} />
+                    <span className="post-actions__icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/heart.svg')", width: "16px", height: "16px" }}></span>
+                    <span>{likesCount}</span>
+                </label>
+            ) : (
+                <span className="post-actions__btn post-actions__btn--readonly" aria-label="Likes">
+                    <span className="post-actions__icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/heart.svg')", width: "16px", height: "16px", opacity: 0.6 }}></span>
+                    <span>{likesCount}</span>
+                </span>
+            )}
 
             <button className="post-actions__btn" aria-label="Comments" onClick={() => setShowCommentsModal(true)}>
                 <span className="post-actions__icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/comment.svg')", width: "20px", height: "20px" }}></span>
@@ -410,16 +417,18 @@ export default function PostPage() {
             </button>
         </div>
 
-        <div className="post-actions__group">
-            <label className="post-actions__btn" aria-label="Save">
-                <input type="checkbox" className="post-actions__input post-actions__input--save" checked={isSaved} onChange={handleSave} />
-                <span className="post-actions__icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/bookmark.svg')", width: "16px", height: "16px" }}></span>
-            </label>
-            
-            <button className="post-actions__btn" aria-label="Share" onClick={handleShare}>
-                <span className="post-actions__icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/share.svg')", width: "16px", height: "16px" }}></span>
-            </button>
-        </div>
+        {user && (
+            <div className="post-actions__group">
+                <label className="post-actions__btn" aria-label="Save">
+                    <input type="checkbox" className="post-actions__input post-actions__input--save" checked={isSaved} onChange={handleSave} />
+                    <span className="post-actions__icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/bookmark.svg')", width: "16px", height: "16px" }}></span>
+                </label>
+                
+                <button className="post-actions__btn" aria-label="Share" onClick={handleShare}>
+                    <span className="post-actions__icon dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/share.svg')", width: "16px", height: "16px" }}></span>
+                </button>
+            </div>
+        )}
 
     </div>
 </section>
@@ -440,22 +449,30 @@ export default function PostPage() {
             <button className="comments__view-all" onClick={() => setShowCommentsModal(true)}>View all</button>
         </div>
 
-        <form className="comment-form" onSubmit={handleCommentSubmit}>
-            <Link to="/dashboard" className="avatar" style={profile?.avatar_url ? { backgroundImage: `url(${profile.avatar_url})`, backgroundSize: 'cover', backgroundPosition: 'center', color: 'transparent' } : {}}>
-                {!profile?.avatar_url && (profile?.username ? profile.username.substring(0,2).toUpperCase() : (user ? user.email.substring(0,2).toUpperCase() : "GU"))}
-            </Link>
-            <textarea 
-                className="comment-form__input" 
-                placeholder="What are your thoughts?" 
-                aria-label="Comment text"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                disabled={isSubmittingComment}
-            ></textarea>
-            <button type="submit" className="comment-form__submit" disabled={isSubmittingComment || !newComment.trim()}>
-                {isSubmittingComment ? "..." : "Respond"}
-            </button>
-        </form>
+        {user ? (
+            <form className="comment-form" onSubmit={handleCommentSubmit}>
+                <Link to="/dashboard" className="avatar" style={profile?.avatar_url ? { backgroundImage: `url(${profile.avatar_url})`, backgroundSize: 'cover', backgroundPosition: 'center', color: 'transparent' } : {}}>
+                    {!profile?.avatar_url && (profile?.username ? profile.username.substring(0,2).toUpperCase() : user.email.substring(0,2).toUpperCase())}
+                </Link>
+                <textarea 
+                    className="comment-form__input" 
+                    placeholder="What are your thoughts?" 
+                    aria-label="Comment text"
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    disabled={isSubmittingComment}
+                ></textarea>
+                <button type="submit" className="comment-form__submit" disabled={isSubmittingComment || !newComment.trim()}>
+                    {isSubmittingComment ? "..." : "Respond"}
+                </button>
+            </form>
+        ) : (
+            <div className="comments__guest-box">
+                <p className="comments__guest-text">
+                    <Link to="/?auth=login" className="comments__guest-link">Log in</Link> or <Link to="/?auth=signup" className="comments__guest-link">Sign up</Link> to join the discussion and leave a comment.
+                </p>
+            </div>
+        )}
 
         <ul className="comment-list">
             {comments.map(c => (

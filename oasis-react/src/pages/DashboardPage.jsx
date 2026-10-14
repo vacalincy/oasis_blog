@@ -127,6 +127,12 @@ export default function DashboardPage() {
     return () => { document.body.style.overflow = ''; };
   }, [showFollowingModal]);
 
+  const profileUrl = `${window.location.origin}/profile/${profile?.username || user?.id}`;
+
+  const handleShareProfile = () => {
+    setShowShareModal(true);
+  };
+
   return (
     <div className="dashboard-page">
       <Header />
@@ -337,7 +343,7 @@ export default function DashboardPage() {
             <button 
                 className="btn-outline-dark" 
                 id="btn-share-profile"
-                onClick={() => setShowShareModal(true)}
+                onClick={handleShareProfile}
             >
                 <span className="dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/share.svg')", width: "20px", height: "20px" }}></span>
                 Share Profile
@@ -515,9 +521,9 @@ export default function DashboardPage() {
         <div className="share-modal__section">
             <label htmlFor="shareLinkInput">Share your link</label>
             <div className="share-modal__link-box">
-                <input type="text" value={window.location.href} readOnly id="shareLinkInput" />
+                <input type="text" value={profileUrl} readOnly id="shareLinkInput" />
                 <button className="share-modal__copy-btn" id="copyShareLink" aria-label="Copy link" onClick={() => {
-                    navigator.clipboard.writeText(window.location.href);
+                    navigator.clipboard.writeText(profileUrl);
                     addToast('Profile link copied to clipboard!', 'success');
                     setShowShareModal(false);
                 }}>
@@ -529,31 +535,65 @@ export default function DashboardPage() {
         <div className="share-modal__section">
             <label>Share to</label>
             <div className="share-modal__socials">
-                <a href="#" className="social-btn facebook" aria-label="Facebook">
+                <a 
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(profileUrl)}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="social-btn facebook" 
+                    aria-label="Facebook"
+                >
                     <div className="social-icon">
                         <img loading="lazy" src="/assets/images/brand/Facebook - Original.png" alt="Facebook" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                     <span>Facebook</span>
                 </a>
-                <a href="#" className="social-btn instagram" aria-label="Instagram">
+                <a 
+                    href="https://www.instagram.com/" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="social-btn instagram" 
+                    aria-label="Instagram"
+                    onClick={() => {
+                        navigator.clipboard.writeText(profileUrl);
+                        addToast('Profile link copied! Paste it in Instagram.', 'info');
+                    }}
+                >
                     <div className="social-icon">
                         <img loading="lazy" src="/assets/images/brand/instagram.png" alt="Instagram" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                     <span>Instagram</span>
                 </a>
-                <a href="#" className="social-btn whatsapp" aria-label="WhatsApp">
+                <a 
+                    href={`https://api.whatsapp.com/send?text=${encodeURIComponent('Check out my profile on Oasis: ' + profileUrl)}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="social-btn whatsapp" 
+                    aria-label="WhatsApp"
+                >
                     <div className="social-icon">
                         <img loading="lazy" src="/assets/images/brand/whatsapp.png" alt="WhatsApp" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                     <span>WhatsApp</span>
                 </a>
-                <a href="#" className="social-btn telegram" aria-label="Telegram">
+                <a 
+                    href={`https://t.me/share/url?url=${encodeURIComponent(profileUrl)}&text=${encodeURIComponent('Check out my profile on Oasis!')}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="social-btn telegram" 
+                    aria-label="Telegram"
+                >
                     <div className="social-icon">
                         <img loading="lazy" src="/assets/images/brand/Telegram - Original.png" alt="Telegram" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                     <span>Telegram</span>
                 </a>
-                <a href="#" className="social-btn linkedin" aria-label="LinkedIn">
+                <a 
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(profileUrl)}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="social-btn linkedin" 
+                    aria-label="LinkedIn"
+                >
                     <div className="social-icon">
                         <img loading="lazy" src="/assets/images/brand/LinkedIn - Original.png" alt="LinkedIn" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
@@ -561,6 +601,40 @@ export default function DashboardPage() {
                 </a>
             </div>
         </div>
+        {typeof navigator !== 'undefined' && navigator.share && (
+            <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                <button 
+                    type="button"
+                    onClick={() => {
+                        navigator.share({
+                            title: `${profileName || 'My Profile'} on Oasis`,
+                            text: profileBio || `Check out my profile on Oasis!`,
+                            url: profileUrl
+                        }).catch(() => {});
+                    }}
+                    style={{
+                        background: 'transparent',
+                        border: 'none',
+                        color: 'var(--color-primary)',
+                        fontSize: '0.85rem',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                    }}
+                >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                    More sharing options...
+                </button>
+            </div>
+        )}
     </div>
 </div>
 )}

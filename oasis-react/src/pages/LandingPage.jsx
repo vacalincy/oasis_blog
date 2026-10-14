@@ -19,6 +19,46 @@ export default function LandingPage() {
   const addToast = useToast();
   const navigate = useNavigate();
   const location = useLocation();
+  const [showcasePostId, setShowcasePostId] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchShowcasePost = async () => {
+      try {
+        const { data: snowPost } = await supabase
+          .from('posts')
+          .select('id')
+          .or('title.ilike.%snowboard%,title.ilike.%gravity%')
+          .eq('status', 'published')
+          .limit(1)
+          .maybeSingle();
+
+        if (snowPost && isMounted) {
+          setShowcasePostId(snowPost.id);
+          return;
+        }
+
+        const { data: latestPost } = await supabase
+          .from('posts')
+          .select('id')
+          .eq('status', 'published')
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (latestPost && isMounted) {
+          setShowcasePostId(latestPost.id);
+        }
+      } catch (err) {
+        console.error('Failed to fetch showcase post:', err);
+      }
+    };
+
+    fetchShowcasePost();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -267,7 +307,7 @@ const formatToDateInput = (val) => {
         <h2 className="showcase__big-title">A curated space to share <span>your</span> <br /> creative vision.</h2>
         <div className="showcase__media">
             <img src="/assets/images/content/snowboard.jpg" alt="Snowboarder carving through deep powder" className="showcase__image" loading="lazy" />
-            <Link to="/category?cat=travel-outdoors" className="showcase__preview-card">
+            <Link to={showcasePostId ? `/post/${showcasePostId}` : '/discover'} className="showcase__preview-card">
                 <div className="showcase__preview-content">
                     <span className="showcase__preview-badge">Action &amp; Extreme</span>
                     <h3 className="showcase__preview-title">Defying Gravity: The Art of High-Altitude Snowboarding</h3>
