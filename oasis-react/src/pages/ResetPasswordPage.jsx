@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function ResetPasswordPage() {
   const [pass1, setPass1] = useState('');
@@ -11,7 +12,7 @@ export default function ResetPasswordPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   
   const navigate = useNavigate();
-
+  const { user } = useAuth();
   const addToast = useToast();
   
   const handleReset = async (e) => {
@@ -24,7 +25,7 @@ export default function ResetPasswordPage() {
     setError(false);
     setIsLoading(true);
     
-    const { data, error } = await supabase.auth.updateUser({
+    const { error } = await supabase.auth.updateUser({
       password: pass1
     });
     
@@ -37,7 +38,7 @@ export default function ResetPasswordPage() {
       addToast('Password successfully reset!', 'success');
       
       setTimeout(() => {
-        navigate('/');
+        navigate(user ? '/settings' : '/');
       }, 1500);
     }
   };
@@ -92,7 +93,9 @@ export default function ResetPasswordPage() {
         </form>
 
         <div className="auth-links">
-          <Link to="/">← Back to sign in</Link>
+          <Link to={user ? "/settings" : "/"}>
+            ← {user ? "Back to settings" : "Back to sign in"}
+          </Link>
         </div>
       </div>
     </div>

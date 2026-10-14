@@ -150,3 +150,36 @@ DROP POLICY IF EXISTS "Users can delete follows" ON public.follows;
 CREATE POLICY "Anyone can view follows" ON public.follows FOR SELECT USING (true);
 CREATE POLICY "Users can insert follows" ON public.follows FOR INSERT TO authenticated WITH CHECK (auth.uid() = follower_id);
 CREATE POLICY "Users can delete follows" ON public.follows FOR DELETE TO authenticated USING (auth.uid() = follower_id);
+
+
+-- ==============================================================================
+-- 6. RPC: SECURE ACCOUNT DELETION
+-- ==============================================================================
+CREATE OR REPLACE FUNCTION public.delete_user_account()
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, auth
+AS $$
+DECLARE
+  v_user_id UUID;
+BEGIN
+  v_user_id := auth.uid();
+  IF v_user_id IS NULL THEN
+    RAISE EXCEPTION 'Not authenticated';
+  END IF;
+
+  -- Delete user's public posts and comments
+  DELETE FROM public.posts WHERE author_id = v_user_id;
+  DELETE FROM public.comments WHERE user_id = v_user_id;
+  DELETE FROM public.likes WHERE user_id = v_user_id;
+  DELETE FROM public.notifications WHERE user_id = v_user_id;
+  DELETE FROM public.follows WHERE follower_id = v_user_id OR following_id = v_user_id;
+  
+  -- Delete user profile
+  DELETE FROM public.profiles WHERE id = v_user_id;
+  
+  -- Delete from auth.users (cascades all auth identities and sessions)
+  DELETE FROM auth.users WHERE id = v_user_id;
+END;
+$$;

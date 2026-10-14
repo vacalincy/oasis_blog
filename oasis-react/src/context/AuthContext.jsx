@@ -70,6 +70,7 @@ export const AuthProvider = ({ children }) => {
         try {
             localStorage.removeItem(CACHED_PROFILE_KEY);
         } catch { }
+        setUser(null);
         setProfile(null);
         await supabase.auth.signOut();
     };

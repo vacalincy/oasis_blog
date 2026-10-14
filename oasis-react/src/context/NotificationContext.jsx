@@ -75,8 +75,22 @@ export const NotificationProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [followingMap, setFollowingMap] = useState({});
 
-  // Helper to calculate unread count
-  const unreadCount = notifications.filter(n => !n.is_read).length;
+  // Helper to calculate unread count respecting user preferences
+  const unreadCount = notifications.filter(n => {
+    if (n.is_read) return false;
+    try {
+      const prefLikes = localStorage.getItem('oasis_pref_likes') !== 'false';
+      const prefComments = localStorage.getItem('oasis_pref_comments') !== 'false';
+      const prefFollowers = localStorage.getItem('oasis_pref_followers') !== 'false';
+      const prefAlerts = localStorage.getItem('oasis_pref_email_alerts') !== 'false';
+
+      if (!prefLikes && n.type === 'like') return false;
+      if (!prefComments && (n.type === 'comment' || n.type === 'mention')) return false;
+      if (!prefFollowers && n.type === 'follower') return false;
+      if (!prefAlerts && n.type === 'system') return false;
+    } catch { }
+    return true;
+  }).length;
 
   // Fetch notifications from Supabase
   const fetchNotifications = useCallback(async () => {

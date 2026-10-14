@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState('');
+  const location = useLocation();
+  const { user } = useAuth();
+  const fromSettings = location.state?.from === '/settings' || !!user;
+
+  const [email, setEmail] = useState(user?.email || '');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (user?.email && !email) {
+      setEmail(user.email);
+    }
+  }, [user]);
 
   const addToast = useToast();
   
@@ -15,8 +26,8 @@ export default function ForgotPasswordPage() {
     if (!email) return;
     
     setIsLoading(true);
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'http://localhost:5173/reset-password',
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
     });
     
     setIsLoading(false);
@@ -31,7 +42,7 @@ export default function ForgotPasswordPage() {
   return (
     <div className="auth-body">
       <div className="auth-card">
-        <Link to="/">
+        <Link to={fromSettings ? "/settings" : "/"}>
           <img src="/assets/images/brand/logo.svg" alt="OASIS Logo" className="auth-logo" />
         </Link>
         
@@ -65,16 +76,30 @@ export default function ForgotPasswordPage() {
             </div>
             <h1 className="auth-title">Check your inbox</h1>
             <p className="auth-subtitle">We've sent a password reset link to <strong>{email}</strong>. Please check your spam folder if you don't see it within a few minutes.</p>
-            
+            {fromSettings && (
+              <Link 
+                to="/settings" 
+                className="btn-auth" 
+                style={{ textAlign: 'center', textDecoration: 'none', marginTop: '16px', display: 'inline-block' }}
+              >
+                Return to Settings
+              </Link>
+            )}
           </div>
         )}
 
         <div className="auth-links">
-          <Link to="/">
-             {/* Using standard text and entity instead of weird CSS mask for simplicity, or we can use SVG */}
-             <span style={{ marginRight: '8px' }}>←</span>
-             Back to sign in
-          </Link>
+          {fromSettings ? (
+            <Link to="/settings">
+              <span style={{ marginRight: '8px' }}>←</span>
+              Back to settings
+            </Link>
+          ) : (
+            <Link to="/">
+              <span style={{ marginRight: '8px' }}>←</span>
+              Back to sign in
+            </Link>
+          )}
         </div>
       </div>
     </div>

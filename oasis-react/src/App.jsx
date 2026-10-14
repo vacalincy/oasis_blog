@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, useLocation , Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom'
 import { ToastProvider } from './context/ToastContext'
 import { AuthProvider } from './context/AuthContext'
 import { NotificationProvider } from './context/NotificationContext'
@@ -103,23 +103,77 @@ function ScrollObserver() {
 
 
 import { useAuth } from './context/AuthContext'
+import { useToast } from './context/ToastContext'
+
+function SupabaseAuthCallbackListener() {
+  const addToast = useToast();
+
+  useEffect(() => {
+    // Check hash for Supabase auth responses / errors
+    const hash = window.location.hash;
+    if (hash) {
+      try {
+        const params = new URLSearchParams(hash.replace(/^#/, ''));
+        const errorDesc = params.get('error_description');
+        const errorCode = params.get('error_code');
+        const type = params.get('type');
+
+        if (errorDesc) {
+          const decoded = decodeURIComponent(errorDesc.replace(/\+/g, ' '));
+          if (errorCode === 'otp_expired') {
+            addToast('This verification link has already been used or expired. Please request a new link from your computer.', 'error');
+          } else {
+            addToast(decoded, 'error');
+          }
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        } else if (type === 'email_change' || hash.includes('type=email_change')) {
+          addToast('Your email address has been successfully confirmed and updated!', 'success');
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+      } catch (e) {
+        console.error('Error parsing auth hash:', e);
+      }
+    }
+
+    // Also check query search params for errors (?error=...)
+    if (window.location.search) {
+      try {
+        const searchParams = new URLSearchParams(window.location.search);
+        const searchError = searchParams.get('error_description');
+        if (searchError) {
+          addToast(decodeURIComponent(searchError.replace(/\+/g, ' ')), 'error');
+          searchParams.delete('error');
+          searchParams.delete('error_code');
+          searchParams.delete('error_description');
+          const cleanSearch = searchParams.toString() ? `?${searchParams.toString()}` : '';
+          window.history.replaceState(null, '', window.location.pathname + cleanSearch);
+        }
+      } catch (e) {
+        console.error('Error parsing search params:', e);
+      }
+    }
+  }, [addToast]);
+
+  return null;
+}
 
 function ProfileEnforcer({ children }) {
     const { user, profile, loading } = useAuth();
     const location = useLocation();
+    const navigate = useNavigate();
     
     useEffect(() => {
         if (loading) return;
         
         // If user is logged in but has no username/profile, they are new!
         // Redirect them to onboarding unless they are already there or on auth pages
-        const isAuthPage = ['/', '/onboarding', '/terms', '/privacy'].includes(location.pathname);
+        const isAuthPage = ['/', '/onboarding', '/terms', '/privacy', '/forgot-password', '/reset-password'].includes(location.pathname);
         if (user && (!profile || !profile.username)) {
             if (!isAuthPage) {
-                window.location.href = '/onboarding';
+                navigate('/onboarding', { replace: true });
             }
         }
-    }, [user, profile, loading, location]);
+    }, [user, profile, loading, location, navigate]);
     
     return children;
 }
@@ -133,12 +187,13 @@ function App() {
           <Router>
             <ScrollToTop />
             <ScrollObserver />
+            <SupabaseAuthCallbackListener />
             <TabBar />
             <ProfileEnforcer>
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/discover" element={<DiscoverPage />} />
-              <Route path="/onboarding" element={<OnboardingPage />} />
+              <Route path="/onboarding" element={<ProtectedRoute><OnboardingPage /></ProtectedRoute>} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />

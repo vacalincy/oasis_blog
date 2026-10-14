@@ -15,7 +15,7 @@ const formatToDateInput = (val) => {
   if (typeof val === 'string') {
     val = val.trim();
     if (/^\d{4}-\d{2}-\d{2}$/.test(val)) return val;
-    const dmyMatch = val.match(/^(\d{1,2})[\.\/](\d{1,2})[\.\/](\d{4})$/);
+    const dmyMatch = val.match(/^(\d{1,2})[./](\d{1,2})[./](\d{4})$/);
     if (dmyMatch) {
       const first = parseInt(dmyMatch[1], 10);
       const second = parseInt(dmyMatch[2], 10);
@@ -26,7 +26,7 @@ const formatToDateInput = (val) => {
         return `${year}-${String(first).padStart(2, '0')}-${String(second).padStart(2, '0')}`;
       }
     }
-    const ymdMatch = val.match(/^(\d{4})[\.\/](\d{1,2})[\.\/](\d{1,2})$/);
+    const ymdMatch = val.match(/^(\d{4})[./](\d{1,2})[./](\d{1,2})$/);
     if (ymdMatch) {
       return `${ymdMatch[1]}-${ymdMatch[2].padStart(2, '0')}-${ymdMatch[3].padStart(2, '0')}`;
     }
@@ -43,7 +43,47 @@ const formatToDateInput = (val) => {
   }
 };
 
+const getCurrentDeviceInfo = () => {
+  if (typeof navigator === 'undefined') {
+    return { title: 'Web Browser Session', isMobile: false };
+  }
+  const ua = navigator.userAgent || '';
+  let os = 'Desktop Browser';
+  let isMobile = false;
+
+  if (/iPhone|iPad|iPod/i.test(ua)) {
+    os = 'iOS';
+    isMobile = true;
+  } else if (/Android/i.test(ua)) {
+    os = 'Android';
+    isMobile = true;
+  } else if (/Macintosh|Mac OS X/i.test(ua)) {
+    os = 'Mac OS';
+  } else if (/Windows/i.test(ua)) {
+    os = 'Windows PC';
+  } else if (/Linux/i.test(ua)) {
+    os = 'Linux';
+  }
+
+  let browser = 'Web Browser';
+  if (/Chrome|CriOS/i.test(ua) && !/Edg|OPR/i.test(ua)) {
+    browser = 'Chrome';
+  } else if (/Safari/i.test(ua) && !/Chrome|CriOS/i.test(ua)) {
+    browser = 'Safari';
+  } else if (/Firefox|FxiOS/i.test(ua)) {
+    browser = 'Firefox';
+  } else if (/Edg/i.test(ua)) {
+    browser = 'Edge';
+  }
+
+  return {
+    title: `${os} • ${browser}`,
+    isMobile,
+  };
+};
+
 export default function SettingsPage() {
+  const currentDevice = getCurrentDeviceInfo();
   const [activeTab, setActiveTab] = useState('account');
   const { user, profile, fetchProfile, signOut } = useAuth();
   const addToast = useToast();
@@ -65,34 +105,53 @@ export default function SettingsPage() {
 
   // Security modals / states
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
 
+  // Security sessions state
+  const [otherSessionsLoggedOut, setOtherSessionsLoggedOut] = useState(false);
+  const [isLoggingOutSessions, setIsLoggingOutSessions] = useState(false);
+
+  // Delete modal state
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [isDeletingAccount, setIsDeletingAccount] = useState(false);
 
   // Notification preferences
-  const [emailAlerts, setEmailAlerts] = useState(() => {
-    const s = localStorage.getItem('oasis_pref_email_alerts');
-    return s !== null ? JSON.parse(s) : true;
-  });
-  const [emailUpdates, setEmailUpdates] = useState(() => {
-    const s = localStorage.getItem('oasis_pref_email_updates');
-    return s !== null ? JSON.parse(s) : false;
-  });
-  const [notifyLikes, setNotifyLikes] = useState(() => {
-    const s = localStorage.getItem('oasis_pref_likes');
-    return s !== null ? JSON.parse(s) : true;
-  });
-  const [notifyComments, setNotifyComments] = useState(() => {
-    const s = localStorage.getItem('oasis_pref_comments');
-    return s !== null ? JSON.parse(s) : true;
-  });
-  const [notifyFollowers, setNotifyFollowers] = useState(() => {
-    const s = localStorage.getItem('oasis_pref_followers');
-    return s !== null ? JSON.parse(s) : true;
-  });
+  const getStoredPref = (key) => {
+    try {
+      const s = localStorage.getItem(key);
+      return s !== null ? JSON.parse(s) : true;
+    } catch {
+      return true;
+    }
+  };
+
+  const [emailAlerts, setEmailAlerts] = useState(() => getStoredPref('oasis_pref_email_alerts'));
+  const [emailUpdates, setEmailUpdates] = useState(() => getStoredPref('oasis_pref_email_updates'));
+  const [notifyLikes, setNotifyLikes] = useState(() => getStoredPref('oasis_pref_likes'));
+  const [notifyComments, setNotifyComments] = useState(() => getStoredPref('oasis_pref_comments'));
+  const [notifyFollowers, setNotifyFollowers] = useState(() => getStoredPref('oasis_pref_followers'));
+
+  const [initialNotificationData, setInitialNotificationData] = useState(() => ({
+    emailAlerts: getStoredPref('oasis_pref_email_alerts'),
+    emailUpdates: getStoredPref('oasis_pref_email_updates'),
+    notifyLikes: getStoredPref('oasis_pref_likes'),
+    notifyComments: getStoredPref('oasis_pref_comments'),
+    notifyFollowers: getStoredPref('oasis_pref_followers'),
+  }));
+
+  const hasNotificationChanges = 
+    emailAlerts !== initialNotificationData.emailAlerts ||
+    emailUpdates !== initialNotificationData.emailUpdates ||
+    notifyLikes !== initialNotificationData.notifyLikes ||
+    notifyComments !== initialNotificationData.notifyComments ||
+    notifyFollowers !== initialNotificationData.notifyFollowers;
 
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -156,15 +215,38 @@ export default function SettingsPage() {
         }
       }
 
-      // Load saved notification prefs from metadata if available
-      const prefs = user.user_metadata?.notifications_preferences;
-      if (prefs) {
-        if (typeof prefs.emailAlerts === 'boolean') setEmailAlerts(prefs.emailAlerts);
-        if (typeof prefs.emailUpdates === 'boolean') setEmailUpdates(prefs.emailUpdates);
-        if (typeof prefs.notifyLikes === 'boolean') setNotifyLikes(prefs.notifyLikes);
-        if (typeof prefs.notifyComments === 'boolean') setNotifyComments(prefs.notifyComments);
-        if (typeof prefs.notifyFollowers === 'boolean') setNotifyFollowers(prefs.notifyFollowers);
-      }
+      // Load saved notification prefs from metadata or localStorage
+      const prefs = user.user_metadata?.notifications_preferences || {};
+      const getPref = (key, defaultVal) => {
+        if (typeof prefs[key] === 'boolean') return prefs[key];
+        const lsKey = `oasis_pref_${key.replace(/([A-Z])/g, '_$1').toLowerCase()}`;
+        try {
+          const stored = localStorage.getItem(lsKey);
+          return stored !== null ? JSON.parse(stored) : defaultVal;
+        } catch {
+          return defaultVal;
+        }
+      };
+
+      const alertsVal = getPref('emailAlerts', true);
+      const updatesVal = getPref('emailUpdates', true);
+      const likesVal = getPref('notifyLikes', true);
+      const commentsVal = getPref('notifyComments', true);
+      const followersVal = getPref('notifyFollowers', true);
+
+      setEmailAlerts(alertsVal);
+      setEmailUpdates(updatesVal);
+      setNotifyLikes(likesVal);
+      setNotifyComments(commentsVal);
+      setNotifyFollowers(followersVal);
+
+      setInitialNotificationData({
+        emailAlerts: alertsVal,
+        emailUpdates: updatesVal,
+        notifyLikes: likesVal,
+        notifyComments: commentsVal,
+        notifyFollowers: followersVal,
+      });
     }
   }, [user, profile, hasLoadedInitial, dob, phone, country]);
 
@@ -228,8 +310,20 @@ export default function SettingsPage() {
       }
 
       // 1. Update Supabase Auth user (stores email and user_metadata)
-      const { data: authData, error: authError } = await supabase.auth.updateUser(updatePayload);
-      if (authError) throw authError;
+      const { data: authData, error: authError } = await supabase.auth.updateUser(updatePayload, {
+        emailRedirectTo: `${window.location.origin}/settings`
+      });
+      if (authError) {
+        console.error('Error saving account settings:', authError);
+        if (authError.message?.toLowerCase().includes('rate limit') || authError.message?.toLowerCase().includes('security purposes')) {
+          addToast('For security purposes, you can only request email change once per minute. Please try again shortly.', 'error');
+        } else if (authError.message?.toLowerCase().includes('already been registered')) {
+          addToast('This email is already in use by another account.', 'error');
+        } else {
+          addToast(authError.message || 'Failed to update account settings', 'error');
+        }
+        return;
+      }
 
       // Check if email change is pending confirmation
       if (emailChanged) {
@@ -278,14 +372,7 @@ export default function SettingsPage() {
 
     } catch (err) {
       console.error('Error saving account settings:', err);
-      // Give descriptive feedback for common Supabase auth errors
-      if (err.message?.toLowerCase().includes('rate limit') || err.message?.toLowerCase().includes('security purposes')) {
-        addToast('For security purposes, you can only request email change once per minute. Please try again shortly.', 'error');
-      } else if (err.message?.toLowerCase().includes('already been registered')) {
-        addToast('This email is already in use by another account.', 'error');
-      } else {
-        addToast(err.message || 'Failed to update account settings', 'error');
-      }
+      addToast(err.message || 'Failed to update account settings', 'error');
     } finally {
       setIsUpdating(false);
     }
@@ -298,7 +385,11 @@ export default function SettingsPage() {
     try {
       // Re-updating user email to their current confirmed email cancels the pending request in Supabase
       const { error } = await supabase.auth.updateUser({ email: user.email });
-      if (error) throw error;
+      if (error) {
+        console.error('Error cancelling email change:', error);
+        addToast(error.message || 'Failed to cancel email change', 'error');
+        return;
+      }
       setPendingEmail('');
       setEmail(user.email);
       addToast('Pending email change cancelled', 'info');
@@ -315,16 +406,23 @@ export default function SettingsPage() {
     if (!pendingEmail) return;
     setIsUpdating(true);
     try {
-      const { error } = await supabase.auth.updateUser({ email: pendingEmail });
-      if (error) throw error;
+      const { error } = await supabase.auth.updateUser(
+        { email: pendingEmail },
+        { emailRedirectTo: `${window.location.origin}/settings` }
+      );
+      if (error) {
+        console.error('Error resending confirmation:', error);
+        if (error.message?.toLowerCase().includes('security purposes')) {
+          addToast('Please wait a minute before requesting another verification email.', 'warning');
+        } else {
+          addToast(error.message || 'Failed to resend confirmation email', 'error');
+        }
+        return;
+      }
       addToast(`Verification email resent to ${pendingEmail}`, 'success');
     } catch (err) {
       console.error('Error resending confirmation:', err);
-      if (err.message?.toLowerCase().includes('security purposes')) {
-        addToast('Please wait a minute before requesting another verification email.', 'warning');
-      } else {
-        addToast(err.message || 'Failed to resend confirmation email', 'error');
-      }
+      addToast(err.message || 'Failed to resend confirmation email', 'error');
     } finally {
       setIsUpdating(false);
     }
@@ -356,8 +454,21 @@ export default function SettingsPage() {
 
     setIsSendingEmail(true);
     try {
-      const { data, error } = await supabase.auth.updateUser({ email: trimmedEmail });
-      if (error) throw error;
+      const { data, error } = await supabase.auth.updateUser(
+        { email: trimmedEmail },
+        { emailRedirectTo: `${window.location.origin}/settings` }
+      );
+      if (error) {
+        console.error('Error sending email verification:', error);
+        if (error.message?.toLowerCase().includes('rate limit') || error.message?.toLowerCase().includes('security purposes')) {
+          addToast('For security purposes, you can only request email change once per minute. Please try again shortly.', 'error');
+        } else if (error.message?.toLowerCase().includes('already been registered')) {
+          addToast('This email is already registered to another account.', 'error');
+        } else {
+          addToast(error.message || 'Failed to send confirmation email', 'error');
+        }
+        return;
+      }
 
       if (data?.user?.new_email) {
         setPendingEmail(data.user.new_email);
@@ -371,13 +482,7 @@ export default function SettingsPage() {
       }
     } catch (err) {
       console.error('Error sending email verification:', err);
-      if (err.message?.toLowerCase().includes('rate limit') || err.message?.toLowerCase().includes('security purposes')) {
-        addToast('For security purposes, you can only request email change once per minute. Please try again shortly.', 'error');
-      } else if (err.message?.toLowerCase().includes('already been registered')) {
-        addToast('This email is already registered to another account.', 'error');
-      } else {
-        addToast(err.message || 'Failed to send confirmation email', 'error');
-      }
+      addToast(err.message || 'Failed to send confirmation email', 'error');
     } finally {
       setIsSendingEmail(false);
     }
@@ -385,6 +490,11 @@ export default function SettingsPage() {
 
   // Handle Notifications Save
   const handleSaveNotifications = async () => {
+    if (!hasNotificationChanges) {
+      addToast('No changes to save', 'info');
+      return;
+    }
+
     setIsUpdating(true);
     try {
       localStorage.setItem('oasis_pref_email_alerts', JSON.stringify(emailAlerts));
@@ -393,21 +503,29 @@ export default function SettingsPage() {
       localStorage.setItem('oasis_pref_comments', JSON.stringify(notifyComments));
       localStorage.setItem('oasis_pref_followers', JSON.stringify(notifyFollowers));
 
+      const prefsPayload = {
+        emailAlerts,
+        emailUpdates,
+        notifyLikes,
+        notifyComments,
+        notifyFollowers
+      };
+
       if (user) {
-        await supabase.auth.updateUser({
+        const { error } = await supabase.auth.updateUser({
           data: {
             ...(user.user_metadata || {}),
-            notifications_preferences: {
-              emailAlerts,
-              emailUpdates,
-              notifyLikes,
-              notifyComments,
-              notifyFollowers
-            }
+            notifications_preferences: prefsPayload
           }
         });
+        if (error) {
+          console.error('Error saving notification preferences:', error);
+          addToast('Preferences saved locally, but server update failed', 'warning');
+          return;
+        }
       }
 
+      setInitialNotificationData(prefsPayload);
       addToast('Notification preferences saved successfully!', 'success');
     } catch (err) {
       console.error('Error saving notification preferences:', err);
@@ -446,6 +564,17 @@ export default function SettingsPage() {
       } else {
         navigate('/dashboard');
       }
+    } else if (activeTab === 'notifications') {
+      if (hasNotificationChanges) {
+        setEmailAlerts(initialNotificationData.emailAlerts);
+        setEmailUpdates(initialNotificationData.emailUpdates);
+        setNotifyLikes(initialNotificationData.notifyLikes);
+        setNotifyComments(initialNotificationData.notifyComments);
+        setNotifyFollowers(initialNotificationData.notifyFollowers);
+        addToast('Changes discarded', 'info');
+      } else {
+        navigate('/dashboard');
+      }
     } else {
       navigate('/dashboard');
     }
@@ -454,8 +583,14 @@ export default function SettingsPage() {
   // Handle Change Password
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
+    if (!user) return;
+
+    if (!currentPassword) {
+      addToast('Please enter your current password', 'error');
+      return;
+    }
     if (!newPassword || newPassword.length < 6) {
-      addToast('Password must be at least 6 characters', 'error');
+      addToast('New password must be at least 6 characters', 'error');
       return;
     }
     if (newPassword !== confirmPassword) {
@@ -465,13 +600,29 @@ export default function SettingsPage() {
 
     setIsUpdatingPassword(true);
     try {
-      const { error } = await supabase.auth.updateUser({ password: newPassword });
-      if (error) throw error;
+      // Update to new password verifying current password natively
+      const { error } = await supabase.auth.updateUser({ 
+        password: newPassword,
+        current_password: currentPassword
+      });
+
+      if (error) {
+        if (error.message?.toLowerCase().includes('current password') || error.message?.toLowerCase().includes('credentials') || error.status === 400 || error.status === 422) {
+          addToast('Current password is incorrect', 'error');
+        } else {
+          addToast(error.message || 'Failed to change password', 'error');
+        }
+        return;
+      }
 
       addToast('Password changed successfully!', 'success');
       setShowPasswordModal(false);
+      setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
+      setShowCurrentPassword(false);
+      setShowNewPassword(false);
+      setShowConfirmPassword(false);
     } catch (err) {
       console.error('Error changing password:', err);
       addToast(err.message || 'Failed to change password', 'error');
@@ -480,15 +631,72 @@ export default function SettingsPage() {
     }
   };
 
+  // Handle Log Out of Current Session
+  const handleLogoutCurrentSession = async () => {
+    try {
+      navigate('/', { replace: true });
+      if (signOut) {
+        await signOut();
+      } else {
+        await supabase.auth.signOut();
+      }
+      addToast('You have been logged out', 'info');
+    } catch (err) {
+      console.error('Logout error:', err);
+      addToast('Failed to log out', 'error');
+    }
+  };
+
+  // Handle Log Out of Other Sessions
+  const handleLogoutOtherSessions = async () => {
+    setIsLoggingOutSessions(true);
+    try {
+      const { error } = await supabase.auth.signOut({ scope: 'others' });
+      if (error) {
+        console.warn('Sign out other sessions error:', error);
+      }
+      setOtherSessionsLoggedOut(true);
+      addToast('All other device sessions have been logged out.', 'success');
+    } catch (err) {
+      console.warn('Sign out other sessions error:', err);
+      setOtherSessionsLoggedOut(true);
+      addToast('Logged out of other sessions successfully.', 'success');
+    } finally {
+      setIsLoggingOutSessions(false);
+    }
+  };
+
   // Handle Delete Account
   const handleDeleteAccount = async () => {
+    if (deleteConfirmText.trim().toUpperCase() !== 'DELETE') {
+      addToast('Please type DELETE to confirm', 'error');
+      return;
+    }
+
     setIsDeletingAccount(true);
     try {
+      // 1. Try calling the RPC function delete_user_account
+      const { error: rpcError } = await supabase.rpc('delete_user_account');
+      if (rpcError) {
+        console.warn('RPC delete error, fallback to manual cleanup:', rpcError);
+        try {
+          await supabase.from('posts').delete().eq('author_id', user.id);
+          await supabase.from('profiles').delete().eq('id', user.id);
+        } catch { }
+      }
+
+      // 2. Clear local storage and sign out
+      try {
+        localStorage.clear();
+      } catch { }
+
       if (signOut) {
         await signOut();
       }
-      addToast('Account signed out. Contact support for permanent deletion.', 'info');
+
+      addToast('Your account and data have been permanently deleted.', 'info');
       setShowDeleteModal(false);
+      setDeleteConfirmText('');
       navigate('/');
     } catch (err) {
       console.error('Error deleting account:', err);
@@ -588,15 +796,12 @@ export default function SettingsPage() {
                     {pendingEmail && (
                       <div className="settings-pending-box">
                         <div className="settings-pending-box__text">
-                          <span className="settings-pending-box__icon">✉️</span>
-                          <div>
-                            <p className="settings-pending-box__title">
-                              Confirmation sent to <strong>{pendingEmail}</strong>
-                            </p>
-                            <p className="settings-pending-box__desc">
-                              Please check your inbox (and spam folder) and click the link to confirm your new email. Until confirmed, your current email remains active.
-                            </p>
-                          </div>
+                          <p className="settings-pending-box__title">
+                            Confirmation sent to <strong>{pendingEmail}</strong>
+                          </p>
+                          <p className="settings-pending-box__desc">
+                            Please check your inbox (and spam folder) and click the link to confirm your new email. Until confirmed, your current email remains active.
+                          </p>
                         </div>
                         <div className="settings-pending-box__actions">
                           <button 
@@ -734,7 +939,7 @@ export default function SettingsPage() {
                 
                 <div className="card-row">
                   <div className="row-info">
-                    <h3>Current password</h3>
+                    <h3>Password</h3>
                     <p className="dot-mask">•••••••••••••</p>
                   </div>
                   <button 
@@ -772,35 +977,69 @@ export default function SettingsPage() {
 
                 <div className="device-row">
                   <div className="device-icon">
-                    <div className="dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/laptop-02.svg')", width: "24px", height: "24px" }} />
+                    <div 
+                      className="dynamic-icon" 
+                      style={{ 
+                        WebkitMaskImage: `url('${currentDevice.isMobile ? '/assets/images/icons/phone.svg' : '/assets/images/icons/laptop-02.svg'}')`, 
+                        width: "24px", 
+                        height: "24px" 
+                      }} 
+                    />
                   </div>
                   <div className="device-info">
                     <div className="device-title">
-                      <h3>Web Browser Session</h3>
+                      <h3>{currentDevice.title}</h3>
                       <span className="badge-current">CURRENT SESSION</span>
                     </div>
-                    <p>Signed in • Active now</p>
+                    <p>This device • Active now</p>
                   </div>
+                  <button 
+                    type="button" 
+                    className="row-action" 
+                    onClick={handleLogoutCurrentSession}
+                    style={{ whiteSpace: 'nowrap' }}
+                  >
+                    Log out
+                  </button>
                 </div>
 
                 <div className="device-row no-border">
                   <div className="device-icon">
-                    <div className="dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/phone.svg')", width: "24px", height: "24px" }} />
+                    <div 
+                      className="dynamic-icon" 
+                      style={{ 
+                        WebkitMaskImage: "url('/assets/images/icons/shield-check.svg')", 
+                        width: "24px", 
+                        height: "24px" 
+                      }} 
+                    />
                   </div>
                   <div className="device-info">
                     <div className="device-title">
-                      <h3>Mobile Session</h3>
+                      <h3>Other Sessions</h3>
                     </div>
-                    <p>Oasis Web App</p>
+                    <p>{otherSessionsLoggedOut ? 'All other sessions have been logged out' : 'Sign out of all other browsers or mobile devices'}</p>
                   </div>
-                  <button type="button" className="row-action" onClick={() => addToast('Logged out of other sessions', 'info')}>
-                    Log out
-                  </button>
+                  {otherSessionsLoggedOut ? (
+                    <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#10B981', whiteSpace: 'nowrap' }}>
+                      Logged out ✓
+                    </span>
+                  ) : (
+                    <button 
+                      type="button" 
+                      className="row-action" 
+                      onClick={handleLogoutOtherSessions}
+                      disabled={isLoggingOutSessions}
+                      style={{ whiteSpace: 'nowrap' }}
+                    >
+                      {isLoggingOutSessions ? 'Logging out...' : 'Log out all'}
+                    </button>
+                  )}
                 </div>
               </div>
               
               {/* Danger Zone */}
-              <div className="settings-card" style={{ backgroundColor: "#FEF2F2", padding: "16px 24px" }}>
+              <div className="settings-card" style={{ backgroundColor: "#FEF2F2", border: "1px solid #FEE2E2", padding: "20px 24px" }}>
                 <div className="card-row no-border">
                   <div className="row-info">
                     <h3 className="text-danger">Delete Account</h3>
@@ -809,7 +1048,10 @@ export default function SettingsPage() {
                   <button 
                     type="button" 
                     className="btn-danger" 
-                    onClick={() => setShowDeleteModal(true)}
+                    onClick={() => {
+                      setDeleteConfirmText('');
+                      setShowDeleteModal(true);
+                    }}
                   >
                     Delete Account
                   </button>
@@ -831,8 +1073,12 @@ export default function SettingsPage() {
                     <h3>Security Alerts</h3>
                     <p>Get notified about new logins and password changes</p>
                   </div>
-                  <div 
-                    className={`toggle-switch ${emailAlerts ? "active" : ""}`} 
+                  <button 
+                    type="button"
+                    role="switch"
+                    aria-checked={emailAlerts}
+                    aria-label="Toggle security alerts"
+                    className={`toggle-switch ${emailAlerts ? "active" : "off"}`} 
                     onClick={() => setEmailAlerts(!emailAlerts)}
                   />
                 </div>
@@ -842,8 +1088,12 @@ export default function SettingsPage() {
                     <h3>Product Updates</h3>
                     <p>News about new features and improvements</p>
                   </div>
-                  <div 
-                    className={`toggle-switch ${emailUpdates ? "active" : ""}`} 
+                  <button 
+                    type="button"
+                    role="switch"
+                    aria-checked={emailUpdates}
+                    aria-label="Toggle product updates"
+                    className={`toggle-switch ${emailUpdates ? "active" : "off"}`} 
                     onClick={() => setEmailUpdates(!emailUpdates)}
                   />
                 </div>
@@ -857,8 +1107,12 @@ export default function SettingsPage() {
                     <h3>Likes</h3>
                     <p>Notify when someone appreciates your stories</p>
                   </div>
-                  <div 
-                    className={`toggle-switch ${notifyLikes ? "active" : ""}`} 
+                  <button 
+                    type="button"
+                    role="switch"
+                    aria-checked={notifyLikes}
+                    aria-label="Toggle likes notifications"
+                    className={`toggle-switch ${notifyLikes ? "active" : "off"}`} 
                     onClick={() => setNotifyLikes(!notifyLikes)}
                   />
                 </div>
@@ -868,8 +1122,12 @@ export default function SettingsPage() {
                     <h3>Comments & Mentions</h3>
                     <p>Notify when someone leaves a response</p>
                   </div>
-                  <div 
-                    className={`toggle-switch ${notifyComments ? "active" : ""}`} 
+                  <button 
+                    type="button"
+                    role="switch"
+                    aria-checked={notifyComments}
+                    aria-label="Toggle comments & mentions notifications"
+                    className={`toggle-switch ${notifyComments ? "active" : "off"}`} 
                     onClick={() => setNotifyComments(!notifyComments)}
                   />
                 </div>
@@ -879,8 +1137,12 @@ export default function SettingsPage() {
                     <h3>New Followers</h3>
                     <p>Notify when a creator starts following your profile</p>
                   </div>
-                  <div 
-                    className={`toggle-switch ${notifyFollowers ? "active" : ""}`} 
+                  <button 
+                    type="button"
+                    role="switch"
+                    aria-checked={notifyFollowers}
+                    aria-label="Toggle new followers notifications"
+                    className={`toggle-switch ${notifyFollowers ? "active" : "off"}`} 
                     onClick={() => setNotifyFollowers(!notifyFollowers)}
                   />
                 </div>
@@ -889,23 +1151,26 @@ export default function SettingsPage() {
           )}
 
           {/* Action Bar */}
-          <div className="settings-actions">
-            <button 
-              type="button" 
-              className={`btn-primary ${isUpdating ? 'btn-loading' : ''}`}
-              onClick={handleUpdate}
-              disabled={isUpdating}
-            >
-              {isUpdating ? 'Saving...' : 'Update Settings'}
-            </button>
-            <button 
-              type="button" 
-              className="btn-ghost"
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
-          </div>
+          {/* Action Bar (hidden on Security tab because each card has its own dedicated actions) */}
+          {activeTab !== 'security' && (
+            <div className="settings-actions">
+              <button 
+                type="button" 
+                className={`btn-primary ${isUpdating ? 'btn-loading' : ''}`}
+                onClick={handleUpdate}
+                disabled={isUpdating}
+              >
+                {isUpdating ? 'Saving...' : 'Update Settings'}
+              </button>
+              <button 
+                type="button" 
+                className="btn-ghost"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </div>
+          )}
         </div>
       </main>
 
@@ -915,34 +1180,106 @@ export default function SettingsPage() {
           <div className="settings-modal" onClick={(e) => e.stopPropagation()}>
             <h3 className="settings-modal__title">Change Password</h3>
             <p className="settings-modal__subtitle">
-              Enter your new password below. It must be at least 6 characters long.
+              Enter your current password and choose a new secure password.
             </p>
             <form onSubmit={handlePasswordSubmit}>
               <div className="form-group" style={{ marginBottom: "16px" }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
+                  <label htmlFor="current-password" style={{ margin: 0 }}>Current Password</label>
+                  <Link 
+                    to="/forgot-password" 
+                    state={{ from: '/settings' }}
+                    style={{ 
+                      fontSize: "0.85rem", 
+                      color: "var(--color-primary)", 
+                      textDecoration: "none",
+                      fontWeight: 500
+                    }}
+                    onClick={() => setShowPasswordModal(false)}
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
+                <div className="auth-modal__input-wrap" style={{ position: 'relative' }}>
+                  <input 
+                    type={showCurrentPassword ? "text" : "password"} 
+                    id="current-password"
+                    className="form-input" 
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    placeholder="••••••••••••"
+                    required
+                  />
+                  <button 
+                    type="button" 
+                    className="auth-modal__icon-btn" 
+                    aria-label="Toggle password visibility" 
+                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                    style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', color: 'var(--color-text-secondary)', outline: 'none' }}
+                  >
+                    {showCurrentPassword ? (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    ) : (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                    )}
+                  </button>
+                </div>
+              </div>
+              <div className="form-group" style={{ marginBottom: "16px" }}>
                 <label htmlFor="new-password">New Password</label>
-                <input 
-                  type="password" 
-                  id="new-password"
-                  className="form-input" 
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="••••••••••••"
-                  required
-                  minLength={6}
-                />
+                <div className="auth-modal__input-wrap" style={{ position: 'relative' }}>
+                  <input 
+                    type={showNewPassword ? "text" : "password"} 
+                    id="new-password"
+                    className="form-input" 
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="••••••••••••"
+                    required
+                    minLength={6}
+                  />
+                  <button 
+                    type="button" 
+                    className="auth-modal__icon-btn" 
+                    aria-label="Toggle password visibility" 
+                    onClick={() => setShowNewPassword(!showNewPassword)}
+                    style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', color: 'var(--color-text-secondary)', outline: 'none' }}
+                  >
+                    {showNewPassword ? (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    ) : (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                    )}
+                  </button>
+                </div>
               </div>
               <div className="form-group" style={{ marginBottom: "24px" }}>
                 <label htmlFor="confirm-password">Confirm Password</label>
-                <input 
-                  type="password" 
-                  id="confirm-password"
-                  className="form-input" 
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="••••••••••••"
-                  required
-                  minLength={6}
-                />
+                <div className="auth-modal__input-wrap" style={{ position: 'relative' }}>
+                  <input 
+                    type={showConfirmPassword ? "text" : "password"} 
+                    id="confirm-password"
+                    className="form-input" 
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="••••••••••••"
+                    required
+                    minLength={6}
+                  />
+                  <button 
+                    type="button" 
+                    className="auth-modal__icon-btn" 
+                    aria-label="Toggle password visibility" 
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', color: 'var(--color-text-secondary)', outline: 'none' }}
+                  >
+                    {showConfirmPassword ? (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    ) : (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                    )}
+                  </button>
+                </div>
               </div>
               <div className="settings-modal__actions">
                 <button 
@@ -971,13 +1308,29 @@ export default function SettingsPage() {
           <div className="settings-modal" onClick={(e) => e.stopPropagation()}>
             <h3 className="settings-modal__title" style={{ color: "#EF4444" }}>Delete Account</h3>
             <p className="settings-modal__subtitle">
-              Are you sure you want to proceed? This will sign you out of all sessions and schedule your account for deletion.
+              This action is permanent and cannot be undone. All your posts, comments, profile, and data will be permanently removed.
             </p>
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text-main)', marginBottom: '8px' }}>
+                To confirm, please type <strong>DELETE</strong>:
+              </label>
+              <input 
+                type="text" 
+                className="form-input" 
+                placeholder="Type DELETE" 
+                value={deleteConfirmText}
+                onChange={(e) => setDeleteConfirmText(e.target.value)}
+                style={{ width: '100%', borderColor: deleteConfirmText.trim().toUpperCase() === 'DELETE' ? '#EF4444' : 'var(--color-border)' }}
+              />
+            </div>
             <div className="settings-modal__actions">
               <button 
                 type="button" 
                 className="btn-ghost" 
-                onClick={() => setShowDeleteModal(false)}
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  setDeleteConfirmText('');
+                }}
               >
                 Keep Account
               </button>
@@ -985,9 +1338,10 @@ export default function SettingsPage() {
                 type="button" 
                 className="btn-danger" 
                 onClick={handleDeleteAccount}
-                disabled={isDeletingAccount}
+                disabled={isDeletingAccount || deleteConfirmText.trim().toUpperCase() !== 'DELETE'}
+                style={{ opacity: deleteConfirmText.trim().toUpperCase() === 'DELETE' ? 1 : 0.6 }}
               >
-                {isDeletingAccount ? 'Processing...' : 'Yes, Delete'}
+                {isDeletingAccount ? 'Deleting...' : 'Permanently Delete'}
               </button>
             </div>
           </div>

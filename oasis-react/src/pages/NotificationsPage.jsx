@@ -21,20 +21,38 @@ export default function NotificationsPage() {
     toggleFollowActor
   } = useNotifications();
 
+  // Helper to filter notifications by user preferences
+  const isTypeAllowed = (type) => {
+    try {
+      const prefLikes = localStorage.getItem('oasis_pref_likes') !== 'false';
+      const prefComments = localStorage.getItem('oasis_pref_comments') !== 'false';
+      const prefFollowers = localStorage.getItem('oasis_pref_followers') !== 'false';
+      const prefAlerts = localStorage.getItem('oasis_pref_email_alerts') !== 'false';
+
+      if (!prefLikes && type === 'like') return false;
+      if (!prefComments && (type === 'comment' || type === 'mention')) return false;
+      if (!prefFollowers && type === 'follower') return false;
+      if (!prefAlerts && type === 'system') return false;
+    } catch { }
+    return true;
+  };
+
+  const allowedNotifications = notifications.filter(n => isTypeAllowed(n.type));
+
   // Dynamic unread counters (reset to 0 once notifications are read)
-  const countAll = notifications.filter(n => !n.is_read).length;
-  const countMentions = notifications.filter(
+  const countAll = allowedNotifications.filter(n => !n.is_read).length;
+  const countMentions = allowedNotifications.filter(
     n => !n.is_read && (n.type === 'like' || n.type === 'comment' || n.type === 'mention')
   ).length;
-  const countFollowers = notifications.filter(n => !n.is_read && n.type === 'follower').length;
-  const countSystem = notifications.filter(n => !n.is_read && n.type === 'system').length;
+  const countFollowers = allowedNotifications.filter(n => !n.is_read && n.type === 'follower').length;
+  const countSystem = allowedNotifications.filter(n => !n.is_read && n.type === 'system').length;
 
   const handleMarkAllRead = () => {
     markAllAsRead();
     addToast('All notifications marked as read', 'success');
   };
 
-  const filteredNotifications = notifications.filter(n => {
+  const filteredNotifications = allowedNotifications.filter(n => {
     if (filter === 'all') return true;
     if (filter === 'mention') return n.type === 'like' || n.type === 'comment' || n.type === 'mention';
     return n.type === filter;

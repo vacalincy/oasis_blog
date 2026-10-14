@@ -435,33 +435,48 @@ body {
     position: relative;
     width: 44px;
     height: 24px;
-    background: var(--color-primary);
+    background: #CBD5E1;
     border-radius: 100px;
+    border: none;
+    padding: 0;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background 0.25s ease, box-shadow 0.2s ease;
     flex-shrink: 0;
+    outline: none;
+    display: inline-block;
 }
 
 .toggle-switch::after {
     content: '';
     position: absolute;
     top: 2px;
-    right: 2px;
+    left: 2px;
     width: 20px;
     height: 20px;
     background: #ffffff;
     border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-switch.active {
+    background: var(--color-primary);
+}
+
+.toggle-switch.active::after {
+    transform: translateX(20px);
 }
 
 .toggle-switch.off {
-    background: var(--color-border);
+    background: #CBD5E1;
 }
+
 .toggle-switch.off::after {
-    right: auto;
-    left: 2px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    transform: translateX(0);
+}
+
+.toggle-switch:focus-visible {
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
 }
 
 /* Tags */
@@ -495,7 +510,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Custom Date of Birth Icon */
 input[type="date"]::-webkit-calendar-picker-indicator {
-    background: url('/assets/images/icons/dateofbirth.svg') no-repeat center;
+    background: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.14286 7.90176H16.7812M6.48512 2.4375V4.07698M17.3125 2.4375V4.07678M20.5 7.07678L20.5 18.5625C20.5 20.2194 19.1569 21.5625 17.5 21.5625H6.5C4.84315 21.5625 3.5 20.2194 3.5 18.5625V7.07678C3.5 5.41992 4.84315 4.07678 6.5 4.07678H17.5C19.1569 4.07678 20.5 5.41992 20.5 7.07678Z' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center;
     background-size: contain;
     width: 18px;
     height: 18px;
@@ -737,16 +752,16 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .email-status-tag.pending {
-    background-color: #FEF3C7;
-    color: #92400E;
-    border: 1px solid #FDE68A;
+    background-color: #E2E8F0;
+    color: #334155;
+    border: 1px solid #CBD5E1;
 }
 
 .settings-pending-box {
     margin-top: 10px;
-    padding: 14px 16px;
-    background-color: #FFFBEB;
-    border: 1px solid #FDE68A;
+    padding: 16px 18px;
+    background-color: #F1F5F9;
+    border: 1px solid #CBD5E1;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
@@ -755,34 +770,30 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .settings-pending-box__text {
     display: flex;
-    gap: 12px;
-    align-items: flex-start;
-}
-
-.settings-pending-box__icon {
-    font-size: 1.25rem;
-    line-height: 1;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .settings-pending-box__title {
     font-size: 0.88rem;
     font-weight: 600;
-    color: #92400E;
-    margin: 0 0 3px 0;
+    color: var(--color-text-main);
+    margin: 0;
 }
 
 .settings-pending-box__desc {
     font-size: 0.82rem;
-    color: #B45309;
-    line-height: 1.4;
+    color: #475569;
+    line-height: 1.45;
     margin: 0;
 }
 
 .settings-pending-box__actions {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding-left: 32px;
+    gap: 12px;
+    padding-left: 0;
+    margin-top: 2px;
 }
 
 .btn-link-action {
@@ -793,23 +804,29 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     font-weight: 600;
     color: var(--color-primary);
     cursor: pointer;
-    text-decoration: underline;
+    text-decoration: none;
+    transition: color 0.15s ease, opacity 0.15s ease;
 }
 
 .btn-link-action:hover {
     color: #1D4ED8;
+    text-decoration: none;
+    opacity: 0.85;
 }
 
 .btn-link-action.text-danger {
-    color: #DC2626;
+    color: #EF4444;
+    text-decoration: none;
 }
 
 .btn-link-action.text-danger:hover {
-    color: #B91C1C;
+    color: #DC2626;
+    text-decoration: none;
+    opacity: 0.85;
 }
 
 .dot-sep {
-    color: #D97706;
+    color: #94A3B8;
     font-size: 0.82rem;
 }
 
@@ -870,21 +887,43 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .settings-modal__actions {
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
     gap: 12px;
     margin-top: 24px;
 }
 
+.settings-modal__actions button,
 .settings-modal__actions .btn-primary,
 .settings-modal__actions .btn-ghost,
 .settings-modal__actions .btn-danger {
-    padding: 10px 20px;
-    font-size: 0.9rem;
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px !important;
+    padding: 0 16px !important;
+    font-size: 0.95rem;
     font-weight: 600;
     border-radius: var(--btn-border-radius);
     cursor: pointer;
     border: 1px solid var(--color-border);
     transition: all 0.2s ease;
+    text-align: center;
+    min-width: 0;
+    box-sizing: border-box;
+    line-height: 1;
+    margin: 0;
+}
+
+.settings-modal__actions .btn-primary:focus-visible,
+.settings-modal__actions .btn-ghost:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
+.settings-modal__actions .btn-danger:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2);
 }
 
 .settings-modal__actions .btn-primary {
