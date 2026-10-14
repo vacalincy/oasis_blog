@@ -1275,9 +1275,6 @@ export default function AboutPage() {
 
 
 
-<script src="/assets/js/pages/about.js"></script>
-
-
 {/* ============================================= */}
 {/* FOOTER                                        */}
 {/* ============================================= */}

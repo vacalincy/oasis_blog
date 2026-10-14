@@ -3,13 +3,9 @@
  * Swiss Minimalist Editor Styles
  */
 
-/* Reuse global variables, but enforce prompt rules where specific */
-
-
 body.editor-page {
     background-color: #ffffff;
     color: #19326F;
-    /* The prompt specified Inter. Assuming 'Inter', sans-serif is Inter. */
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
 }

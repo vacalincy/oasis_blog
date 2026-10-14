@@ -1,8 +1,5 @@
 -- ==============================================================================
--- OASIS: Complete Database Setup & Permissions (RLS Policies)
--- ==============================================================================
--- Run this in your Supabase SQL Editor:
--- Supabase Dashboard -> SQL Editor -> New Query -> Paste & Run
+-- OASIS: Database Schema, Tables, and Row Level Security (RLS)
 -- ==============================================================================
 
 -- 1. PROFILES TABLE: Ensure columns and public read access
@@ -220,7 +217,7 @@ CREATE INDEX IF NOT EXISTS idx_contact_messages_created_at ON public.contact_mes
 CREATE INDEX IF NOT EXISTS idx_contact_messages_status ON public.contact_messages(status);
 
 -- ==============================================================================
--- 10. QR CODE LOGINS (Instant Mobile Scan Login)
+-- 8. QR CODE LOGINS (Instant Mobile Scan Login)
 -- ==============================================================================
 CREATE TABLE IF NOT EXISTS public.qr_logins (
     session_id TEXT PRIMARY KEY,
@@ -259,7 +256,7 @@ CREATE INDEX IF NOT EXISTS idx_qr_logins_status ON public.qr_logins(status);
 CREATE INDEX IF NOT EXISTS idx_qr_logins_expires_at ON public.qr_logins(expires_at);
 
 -- ==============================================================================
--- 11. STORAGE BUCKET: AVATARS & POST COVERS
+-- 9. STORAGE BUCKET: AVATARS & POST COVERS
 -- ==============================================================================
 INSERT INTO storage.buckets (id, name, public)
 VALUES ('avatars', 'avatars', true)

@@ -176,12 +176,12 @@ VITE_SUPABASE_URL=https://your-supabase-project-id.supabase.co
 VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 ```
 
-### 4. Database Setup (Supabase SQL)
-In your Supabase project's **SQL Editor**, run the following migration scripts located in the root repository:
-1. `supabase_setup.sql` — Profiles, posts, comments, likes, saves, follows tables and RLS security policies.
-2. `supabase_notifications.sql` — Notifications table and automated trigger functions.
-3. `supabase_qr_logins.sql` — Schema and realtime access for cross-device QR authentication.
-4. `supabase_contact_messages.sql` — Support message inbox schema.
+### 4. Database Setup
+Initialize the database tables, triggers, storage bucket, and Row Level Security policies using `supabase_setup.sql`:
+
+```bash
+# Execute supabase_setup.sql in your Supabase SQL Editor
+```
 
 ### 5. Launch the Development Server
 ```bash
@@ -200,10 +200,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 ```
 oasis_blog/
 ├── design/                             # Brand assets & vectors (logo.ai, favicon.ai)
-├── supabase_setup.sql                  # Primary PostgreSQL schema, tables, and RLS policies
-├── supabase_notifications.sql          # Real-time notification triggers and schema
-├── supabase_qr_logins.sql              # Cross-device QR login session architecture
-├── supabase_contact_messages.sql       # Support inquiry messaging pipeline
+├── supabase_setup.sql                  # PostgreSQL schema, tables, storage, and RLS policies
 ├── oasis-react/                        # Main React 19 Frontend Application
 │   ├── public/
 │   │   └── assets/
