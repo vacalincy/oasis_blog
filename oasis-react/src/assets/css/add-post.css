@@ -290,19 +290,78 @@ body.editor-page {
 
 /* Responsive */
 @media (max-width: 768px) {
-    .editor-title {
-    font-size: 3rem;
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 32px;
-    letter-spacing: -0.02em;
-    color: #19326F;
-}
-    .editor-subtitle {
-        font-size: 1.35rem;
+    .editor-main {
+        margin: 20px auto 120px !important;
+        padding: 0 16px !important;
     }
+
+    .editor-title {
+        font-size: 1.85rem !important;
+        font-weight: 800;
+        line-height: 1.25 !important;
+        margin-bottom: 20px !important;
+        letter-spacing: -0.02em;
+        color: #19326F;
+    }
+
+    .editor-subtitle {
+        font-size: 1.2rem !important;
+        margin-top: 20px !important;
+    }
+
     .editor-upload-zone {
-        aspect-ratio: 4/3;
+        aspect-ratio: 16 / 9;
+        min-height: 160px;
+        margin-top: 20px;
+        padding: 16px;
+    }
+
+    .editor-upload-zone p {
+        font-size: 0.85rem;
+        text-align: center;
+        padding: 0 8px;
+    }
+
+    .editor-toolbar {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        max-width: 100%;
+        padding: 6px;
+        gap: 6px;
+    }
+
+    .editor-toolbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .editor-footer {
+        flex-direction: column-reverse !important;
+        gap: 16px !important;
+        margin-top: 40px !important;
+        padding-top: 20px !important;
+        align-items: stretch !important;
+    }
+
+    .editor-footer .tooltip-wrapper {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 10px !important;
+    }
+
+    .editor-footer button {
+        width: 100% !important;
+        justify-content: center !important;
+        height: 48px !important;
+    }
+
+    .editor-footer .btn-cancel {
+        margin: 0 auto !important;
+        text-align: center !important;
+        justify-content: center !important;
+        padding: 8px !important;
+        width: 100% !important;
     }
 }
 

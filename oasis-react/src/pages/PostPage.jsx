@@ -290,18 +290,45 @@ export default function PostPage() {
 
         <h1 className="post-header__title">{post.title || "Untitled Story"}</h1>
 
-        <Link to={`/profile/${post.author_id}`} className="post-header__author">
-            <img 
-                decoding="async" 
-                src={post.profiles?.avatar_url || "/assets/images/icons/avatar.svg"} 
-                alt={post.profiles?.username} 
-                onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/assets/images/icons/avatar.svg'; }}
-            />
-            <div className="post-header__author-info">
-                <p><b>{post.profiles?.username || 'Unknown Author'}</b></p>
-                <time dateTime={post.created_at}>{new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</time>
-            </div>
-        </Link>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
+            <Link to={`/profile/${post.author_id}`} className="post-header__author">
+                <img 
+                    decoding="async" 
+                    src={post.profiles?.avatar_url || "/assets/images/icons/avatar.svg"} 
+                    alt={post.profiles?.username} 
+                    onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/assets/images/icons/avatar.svg'; }}
+                />
+                <div className="post-header__author-info">
+                    <p><b>{post.profiles?.username || 'Unknown Author'}</b></p>
+                    <time dateTime={post.created_at}>{new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</time>
+                </div>
+            </Link>
+
+            {user && post.author_id === user.id && (
+                <Link 
+                    to={`/edit-post/${post.id}`} 
+                    className="btn-primary" 
+                    style={{ 
+                        padding: '8px 18px', 
+                        fontSize: '0.85rem', 
+                        borderRadius: '100px', 
+                        textDecoration: 'none', 
+                        display: 'inline-flex', 
+                        alignItems: 'center', 
+                        gap: '6px',
+                        height: 'auto',
+                        minHeight: '34px',
+                        width: 'auto'
+                    }}
+                >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 20h9"></path>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                    </svg>
+                    Edit Story
+                </Link>
+            )}
+        </div>
 
     </div>
 </section>

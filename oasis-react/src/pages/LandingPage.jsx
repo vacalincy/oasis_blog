@@ -98,6 +98,7 @@ const formatToDateInput = (val) => {
           email,
           password,
           options: {
+            emailRedirectTo: `${window.location.origin}/onboarding`,
             data: {
               dob: dobFormatted,
               date_of_birth: dobFormatted

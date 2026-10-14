@@ -40,29 +40,49 @@ export default function AddPostPage() {
   React.useEffect(() => {
     if (id) {
         const fetchPost = async () => {
-            const { data } = await supabase.from('posts').select('*').eq('id', id).single();
-            if (data) {
-                setTitle(data.title || '');
-                setSubtitle(data.subtitle || '');
-                setBodyContent(data.content || '');
-                if (editorRef.current && data.content) {
-                    editorRef.current.innerHTML = data.content;
-                }
-                setCoverImage(data.cover_image || null);
-                setOriginalStatus(data.status || 'draft');
-                
-                if (data.category) {
-                    const parts = data.category.split(' - ');
-                    setActiveMainCat(parts[0]);
-                    if (parts.length > 1) {
-                        setActiveSubCats(parts[1].split(', '));
-                    }
+            const { data, error } = await supabase.from('posts').select('*').eq('id', id).maybeSingle();
+            if (error || !data) {
+                addToast('Post not found', 'error');
+                navigate('/dashboard');
+                return;
+            }
+
+            if (data.author_id && user && data.author_id !== user.id) {
+                addToast('You do not have permission to edit this post', 'error');
+                navigate('/dashboard');
+                return;
+            }
+
+            setTitle(data.title || '');
+            setSubtitle(data.subtitle || '');
+            setBodyContent(data.content || '');
+            if (editorRef.current && data.content) {
+                editorRef.current.innerHTML = data.content;
+            }
+            setCoverImage(data.cover_image || null);
+            setOriginalStatus(data.status || 'draft');
+            
+            if (data.category) {
+                const parts = data.category.split(' - ').map(s => s.trim());
+                const matchedCat = Object.keys(categoryData).find(
+                    k => k.toLowerCase() === parts[0].toLowerCase()
+                ) || parts[0];
+                setActiveMainCat(matchedCat);
+                if (parts.length > 1) {
+                    setActiveSubCats(parts[1].split(',').map(s => s.trim()).filter(Boolean));
                 }
             }
         };
         fetchPost();
     }
-  }, [id]);
+  }, [id, user, navigate, addToast]);
+
+  // Keep editor DOM in sync when bodyContent is loaded from database
+  React.useEffect(() => {
+    if (editorRef.current && bodyContent && !editorRef.current.innerHTML) {
+      editorRef.current.innerHTML = bodyContent;
+    }
+  }, [bodyContent]);
 
   // Validation
   let missingFields = [];
@@ -97,9 +117,8 @@ export default function AddPostPage() {
     }
   };
 
-    
   const handleConfirmDelete = async () => {
-    setSavingType(status);
+    setSavingType('deleting');
     try {
         const { error } = await supabase.from('posts').delete().eq('id', id);
         if (error) {

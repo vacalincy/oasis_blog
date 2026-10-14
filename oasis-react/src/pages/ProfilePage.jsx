@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import Header from '../components/Header';
 import PostCard from '../components/PostCard';
@@ -139,44 +139,74 @@ export default function ProfilePage() {
                 <p className="profile-bio">{profileBio}</p>
             </div>
             
-            {user?.id !== profile.id && (<div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
-                <button 
-                    className="btn-glass" 
-                    style={{ 
-                        padding: '12px 40px', 
-                        fontSize: '1.05rem', 
-                        width: '160px',
-                        background: !isFollowing ? 'rgba(255, 255, 255, 0.9)' : '',
-                        color: !isFollowing ? '#0f172a' : '',
-                        borderColor: !isFollowing ? 'transparent' : ''
-                    }} 
-                    onClick={async () => {
-                        if (!user) {
-                            addToast("Please sign in to follow", "error");
-                            return;
-                        }
+            {user?.id !== profile.id ? (
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
+                    <button 
+                        className="btn-glass" 
+                        style={{ 
+                            padding: '12px 40px', 
+                            fontSize: '1.05rem', 
+                            width: '160px',
+                            background: !isFollowing ? 'rgba(255, 255, 255, 0.9)' : '',
+                            color: !isFollowing ? '#0f172a' : '',
+                            borderColor: !isFollowing ? 'transparent' : ''
+                        }} 
+                        onClick={async () => {
+                            if (!user) {
+                                addToast("Please sign in to follow", "error");
+                                return;
+                            }
 
-                        if (isFollowing) {
-                            setIsFollowing(false);
-                            setFollowersCount(prev => Math.max(0, prev - 1));
-                            await supabase.from('follows').delete().eq('follower_id', user.id).eq('following_id', profile.id);
-                            addToast(`Unfollowed ${profileName}`, 'info');
-                        } else {
-                            setIsFollowing(true);
-                            setFollowersCount(prev => prev + 1);
-                            await supabase.from('follows').insert({ follower_id: user.id, following_id: profile.id });
-                            addToast(`Followed ${profileName}!`, 'success');
-                            createNotification({
-                                userId: profile.id,
-                                actorId: user.id,
-                                type: 'follower'
-                            });
-                        }
-                    }}
-                >
-                    {isFollowing ? 'Unfollow' : 'Follow'}
-                </button>
-            </div>)}
+                            if (isFollowing) {
+                                setIsFollowing(false);
+                                setFollowersCount(prev => Math.max(0, prev - 1));
+                                await supabase.from('follows').delete().eq('follower_id', user.id).eq('following_id', profile.id);
+                                addToast(`Unfollowed ${profileName}`, 'info');
+                            } else {
+                                setIsFollowing(true);
+                                setFollowersCount(prev => prev + 1);
+                                await supabase.from('follows').insert({ follower_id: user.id, following_id: profile.id });
+                                addToast(`Followed ${profileName}!`, 'success');
+                                createNotification({
+                                    userId: profile.id,
+                                    actorId: user.id,
+                                    type: 'follower'
+                                });
+                            }
+                        }}
+                    >
+                        {isFollowing ? 'Unfollow' : 'Follow'}
+                    </button>
+                </div>
+            ) : (
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
+                    <Link 
+                        to="/dashboard" 
+                        className="btn-glass" 
+                        style={{ 
+                            padding: '12px 32px', 
+                            fontSize: '1rem', 
+                            textDecoration: 'none',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '8px'
+                        }}
+                    >
+                        <img loading="lazy" src="/assets/images/icons/editprofile_icon.svg" style={{ width: '16px', height: '16px' }} alt="" />
+                        Edit Profile
+                    </Link>
+                </div>
+            )}
+        </div>
+        
+        <div className="hero-fade">
+            <div className="hero-fade-blur">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
       </header>
 

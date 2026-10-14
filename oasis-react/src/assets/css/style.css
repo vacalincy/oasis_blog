@@ -206,11 +206,14 @@ nav {
         top: 0;
         left: -100%;
         flex-direction: column;
-        background: var(--color-bg);
-        width: 250px;
+        background: #ffffff;
+        width: 260px;
         height: 100vh;
-        padding: 2rem;
-        transition: var(--transition);
+        padding: 2rem 1.5rem;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+        z-index: 1001;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        gap: 1.25rem;
     }
     .nav__actions .search-bar { display: none; }
     .nav__items.show { display: flex; left: 0; }
@@ -421,7 +424,7 @@ nav {
    --------------------------------------------- */
 .tab-bar-wrapper {
   position: fixed;
-  bottom: 1.5rem;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
   left: 0; right: 0; margin: 0 auto;
   
   width: 340px; max-width: calc(100% - 32px);

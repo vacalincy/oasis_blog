@@ -105,6 +105,23 @@ export default function Header() {
           <li><NavLink to="/about" onClick={() => setIsNavOpen(false)}>About</NavLink></li>
         </ul>
 
+        {/* Mobile menu backdrop overlay */}
+        {isNavOpen && (
+          <div 
+            className="nav__overlay" 
+            onClick={() => setIsNavOpen(false)}
+            aria-hidden="true"
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(15, 23, 42, 0.45)',
+              backdropFilter: 'blur(3px)',
+              WebkitBackdropFilter: 'blur(3px)',
+              zIndex: 1000
+            }}
+          />
+        )}
+
         {/* 3. Right side: search with instant dropdown, notifications, avatar, burger */}
         <div className="nav__actions">
           <div className="search-bar-wrapper" ref={searchWrapperRef}>

@@ -534,7 +534,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     }
 
     .settings-layout {
-        padding: 16px 12px !important;
+        padding: 16px 12px 110px 12px !important;
         width: 100% !important;
         box-sizing: border-box !important;
         margin: 0 !important;
@@ -636,6 +636,16 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
         width: 100% !important;
         box-sizing: border-box !important;
         padding: 12px 0 !important;
+    }
+
+    /* Notification toggle rows keep horizontal layout on mobile */
+    .card-row:has(.toggle-switch),
+    .card-row:has([role="switch"]),
+    .card-row--toggle {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 16px !important;
     }
     
     .row-info h3 {
