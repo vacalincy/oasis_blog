@@ -12,14 +12,6 @@
   <img src="https://img.shields.io/badge/-CSS3-black?style=for-the-badge&logoColor=white&logo=css3&color=1572B6" alt="css3" />
 </p>
 
-[![OASIS Live Preview](oasis-react/public/assets/images/oasis-live-card.svg)](https://oasis-blog-one.vercel.app/)
-
-<p align="center">
-  <a href="https://oasis-blog-one.vercel.app" target="_blank" rel="noopener noreferrer">
-    <strong>Explore OASIS</strong> ↗
-  </a>
-</p>
-
 [![OASIS Landing Preview](oasis-react/public/assets/video/landing.gif)](https://oasis-blog-one.vercel.app/)
 
 </div>
@@ -120,6 +112,20 @@ Creator dashboard providing rolling performance telemetry by tracking 30-day gro
 
 ### 3. Smart Discovery & Feed Ranking Engine
 Custom weighted recommendation algorithm combining interaction signals, time-decay gravity, and author affinity with automated author diversification.
+
+---
+
+<div align="center">
+
+[![OASIS Live Preview](oasis-react/public/assets/images/oasis-live-card.svg)](https://oasis-blog-one.vercel.app/)
+
+<p align="center">
+  <a href="https://oasis-blog-one.vercel.app" target="_blank" rel="noopener noreferrer">
+    <strong>Explore OASIS</strong> ↗
+  </a>
+</p>
+
+</div>
 
 ---
 
