@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="44" viewBox="0 0 420 44" fill="none">
+  <rect x="0.5" y="0.5" width="419" height="43" rx="21.5" fill="#EDEDED" stroke="#D1D5DB" stroke-width="0.8"/>
+  <g transform="translate(142, 0)">
+    <text x="0" y="27" fill="#171717" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif" font-size="15" font-weight="600" letter-spacing="-0.1">Explore OASIS</text>
+    <g transform="translate(110, 14)">
+      <path d="M10 6v5.5a1.5 1.5 0 0 1-1.5 1.5h-6A1.5 1.5 0 0 1 1 11.5V5.5A1.5 1.5 0 0 1 2.5 4H8" stroke="#171717" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="9.5 2 13.5 2 13.5 6" stroke="#171717" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="6.5" y1="9" x2="13.2" y2="2.3" stroke="#171717" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

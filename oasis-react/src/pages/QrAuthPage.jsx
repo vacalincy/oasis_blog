@@ -84,6 +84,11 @@ export default function QrAuthPage() {
   // Handle Approve Login
   const handleApprove = async () => {
     if (!sessionId || !user) return;
+    if (sessionRecord?.expires_at && new Date(sessionRecord.expires_at) < new Date()) {
+      setResolvedStatus('expired');
+      addToast('This QR code has expired. Please refresh the code on your desktop screen.', 'error');
+      return;
+    }
     setIsSubmitting(true);
 
     try {

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="320" viewBox="0 0 880 320" fill="none">
+  <!-- Card Background with subtle border and rounded corners -->
+  <rect x="0.75" y="0.75" width="878.5" height="318.5" rx="16" fill="#05070A" stroke="#1F2937" stroke-width="1.2"/>
+
+  <!-- Title -->
+  <text x="44" y="54" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif" font-size="28" font-weight="700" letter-spacing="-0.3">OASIS</text>
+
+  <!-- Slogan -->
+  <text x="44" y="88" fill="#9CA3AF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif" font-size="15.5" font-weight="400">Escape the noise. Curate your reality.</text>
+
+  <!-- Live Demo Tag -->
+  <rect x="44" y="108" width="92" height="24" rx="12" fill="#071B0B" stroke="#10B981" stroke-opacity="0.35" stroke-width="1"/>
+  <text x="90" y="124.5" fill="#10B981" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif" font-size="12" font-weight="600" text-anchor="middle" letter-spacing="0.2">Live Demo</text>
+
+  <!-- Subheading -->
+  <text x="44" y="172" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif" font-size="20" font-weight="700" letter-spacing="-0.2">Explore OASIS</text>
+
+  <!-- Subtitle -->
+  <text x="44" y="200" fill="#9CA3AF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif" font-size="14.5" font-weight="400">Experience a quieter corner of the internet.</text>
+
+  <!-- Action Button -->
+  <rect x="44" y="228" width="792" height="46" rx="23" fill="#EDEDED" stroke="#D1D5DB" stroke-width="0.8"/>
+  <g transform="translate(440, 228)">
+    <text x="-12" y="29" fill="#171717" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif" font-size="15" font-weight="600" text-anchor="middle" letter-spacing="-0.1">Explore OASIS</text>
+    <g transform="translate(48, 16)">
+      <path d="M10 6v5.5a1.5 1.5 0 0 1-1.5 1.5h-6A1.5 1.5 0 0 1 1 11.5V5.5A1.5 1.5 0 0 1 2.5 4H8" stroke="#171717" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <polyline points="9.5 2 13.5 2 13.5 6" stroke="#171717" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <line x1="6.5" y1="9" x2="13.2" y2="2.3" stroke="#171717" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

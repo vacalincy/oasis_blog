@@ -233,11 +233,17 @@ CREATE TABLE IF NOT EXISTS public.qr_logins (
 ALTER TABLE public.qr_logins ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Public full access to qr_logins" ON public.qr_logins;
-CREATE POLICY "Public full access to qr_logins"
-ON public.qr_logins FOR ALL
-TO public
-USING (true)
-WITH CHECK (true);
+DROP POLICY IF EXISTS "Public read qr_logins" ON public.qr_logins;
+DROP POLICY IF EXISTS "Public insert qr_logins" ON public.qr_logins;
+DROP POLICY IF EXISTS "Public update unexpired qr_logins" ON public.qr_logins;
+DROP POLICY IF EXISTS "Public delete qr_logins" ON public.qr_logins;
+
+CREATE POLICY "Public read qr_logins" ON public.qr_logins FOR SELECT TO public USING (true);
+CREATE POLICY "Public insert qr_logins" ON public.qr_logins FOR INSERT TO public WITH CHECK (true);
+CREATE POLICY "Public update unexpired qr_logins" ON public.qr_logins FOR UPDATE TO public 
+USING (now() <= expires_at)
+WITH CHECK (now() <= expires_at);
+CREATE POLICY "Public delete qr_logins" ON public.qr_logins FOR DELETE TO public USING (true);
 
 DO $$
 BEGIN
