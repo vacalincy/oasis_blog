@@ -372,7 +372,7 @@ nav {
   interest-delay: 0.3s;
 }
 
-.action-bar:has(:interest-source) [interestfor] {
+.action-bar:has(:hover) [interestfor] {
   interest-delay: 0.1s;
 }
 
