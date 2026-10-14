@@ -50,7 +50,7 @@ No endless scrolling or opaque engagement loops. Just thoughtful content, transp
 ### 🌐 Discovery & Community
 
 - **Tri-Modal Discovery Feed:**
-  - ✦ For You — personalized, score-based recommendations.
+  - For You — personalized, score-based recommendations.
   - Latest — chronological publications.
   - Top — community-engagement ranking.
 - Search stories and creators.
