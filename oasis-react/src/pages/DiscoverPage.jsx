@@ -1,19 +1,29 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PostCard from '../components/PostCard';
 import { supabase } from '../supabaseClient';
 import { CATEGORIES } from '../constants/categories';
-
-
+import { useAuth } from '../context/AuthContext';
+import { rankPosts, extractUserAffinity } from '../utils/feedAlgorithm';
 
 export default function DiscoverPage() {
+  const { user } = useAuth();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [featuredPost, setFeaturedPost] = useState(null);
   const [visibleCount, setVisibleCount] = useState(8);
   const [selectedFilter, setSelectedFilter] = useState('all');
+  const [feedMode, setFeedMode] = useState('for-you');
+  const [followedAuthorIds, setFollowedAuthorIds] = useState(new Set());
+  const [preferredCategories, setPreferredCategories] = useState(new Set());
+
+  const handleModeChange = (newMode) => {
+    if (newMode === feedMode) return;
+    setFeedMode(newMode);
+    setVisibleCount(8);
+  };
 
   const filterScrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -93,7 +103,7 @@ export default function DiscoverPage() {
                   .select('*, profiles(username, avatar_url)')
                   .eq('status', 'published')
                   .order('created_at', { ascending: false })
-                  .limit(50);
+                  .limit(100);
                   
               if (error) {
                   console.warn('Posts join query issue, falling back to base select:', error.message);
@@ -102,7 +112,7 @@ export default function DiscoverPage() {
                       .select('*')
                       .eq('status', 'published')
                       .order('created_at', { ascending: false })
-                      .limit(50);
+                      .limit(100);
                   if (rawData) loadedPosts = rawData;
               } else if (data) {
                   loadedPosts = data;
@@ -113,35 +123,60 @@ export default function DiscoverPage() {
 
           if (loadedPosts.length > 0) {
               try {
-                  // Fetch likes to determine the most popular post for the hero banner
-                  const { data: likesData } = await supabase
-                      .from('likes')
-                      .select('post_id');
+                  const [likesRes, commentsRes, savesRes, followsRes] = await Promise.all([
+                      supabase.from('likes').select('post_id, user_id'),
+                      supabase.from('comments').select('post_id'),
+                      supabase.from('saved_posts').select('post_id, user_id'),
+                      user ? supabase.from('follows').select('following_id').eq('follower_id', user.id) : Promise.resolve({ data: [] }),
+                  ]);
 
                   const likesCountMap = {};
-                  (likesData || []).forEach(l => {
+                  const userLikedIds = new Set();
+                  (likesRes.data || []).forEach(l => {
                       likesCountMap[l.post_id] = (likesCountMap[l.post_id] || 0) + 1;
+                      if (user && l.user_id === user.id) userLikedIds.add(l.post_id);
                   });
 
-                  const postsWithLikes = loadedPosts.map(p => ({
+                  const commentsCountMap = {};
+                  (commentsRes.data || []).forEach(c => {
+                      commentsCountMap[c.post_id] = (commentsCountMap[c.post_id] || 0) + 1;
+                  });
+
+                  const savesCountMap = {};
+                  const userSavedIds = new Set();
+                  (savesRes.data || []).forEach(s => {
+                      savesCountMap[s.post_id] = (savesCountMap[s.post_id] || 0) + 1;
+                      if (user && s.user_id === user.id) userSavedIds.add(s.post_id);
+                  });
+
+                  const followsSet = new Set((followsRes.data || []).map(f => f.following_id));
+                  setFollowedAuthorIds(followsSet);
+
+                  const userPrefCategories = extractUserAffinity(userLikedIds, userSavedIds, loadedPosts);
+                  setPreferredCategories(userPrefCategories);
+
+                  const postsWithCounts = loadedPosts.map(p => ({
                       ...p,
-                      likes_count: likesCountMap[p.id] || 0
+                      likes_count: likesCountMap[p.id] || 0,
+                      comments_count: commentsCountMap[p.id] || 0,
+                      saves_count: savesCountMap[p.id] || 0,
                   }));
 
-                  // 1. Check if any post is explicitly pinned as featured
-                  let topPost = postsWithLikes.find(p => p.is_featured);
-
-                  // 2. Otherwise pick the most popular (highest likes, fallback to newest)
+                  // 1. Featured hero banner: pinned is_featured or highest overall engagement
+                  let topPost = postsWithCounts.find(p => p.is_featured);
                   if (!topPost) {
-                      const sortedByPopularity = [...postsWithLikes].sort((a, b) => b.likes_count - a.likes_count);
-                      topPost = sortedByPopularity[0];
+                      const sortedByEngagement = [...postsWithCounts].sort((a, b) => {
+                          const engA = (a.likes_count * 2) + (a.comments_count * 3) + (a.saves_count * 4);
+                          const engB = (b.likes_count * 2) + (b.comments_count * 3) + (b.saves_count * 4);
+                          return engB - engA;
+                      });
+                      topPost = sortedByEngagement[0];
                   }
 
                   setFeaturedPost(topPost);
-                  // The rest of published posts go to the grid feed
-                  setPosts(postsWithLikes.filter(p => p.id !== topPost.id));
+                  setPosts(postsWithCounts.filter(p => p.id !== topPost.id));
               } catch (likesErr) {
-                  console.warn('Likes count fetch issue:', likesErr);
+                  console.warn('Engagement metrics fetch issue:', likesErr);
                   const topPost = loadedPosts[0];
                   setFeaturedPost(topPost);
                   setPosts(loadedPosts.slice(1));
@@ -154,7 +189,15 @@ export default function DiscoverPage() {
       };
       
       fetchDiscoverPosts();
-  }, []);
+  }, [user]);
+
+  const rankedFeedPosts = useMemo(() => {
+    return rankPosts(posts, {
+      mode: feedMode,
+      followedAuthorIds,
+      preferredCategories,
+    });
+  }, [posts, feedMode, followedAuthorIds, preferredCategories]);
   return (
     <div className="discover-page">
       <Header />
@@ -232,8 +275,50 @@ export default function DiscoverPage() {
 
     <div className="container">
 
-        <div className="section-header" style={{ marginBottom: '0.75rem' }}>
-            <h2>Explore the latest</h2>
+        <div className="feed-header-wrapper">
+            <div className="feed-header-left">
+                <h2 className="feed-title">
+                    {feedMode === 'for-you' && 'Curated for you'}
+                    {feedMode === 'latest' && 'Explore the latest'}
+                    {feedMode === 'top' && 'All-time top stories'}
+                </h2>
+                <p className="feed-subtitle">
+                    {feedMode === 'for-you' && (user ? 'Tailored to your reading habits, saved stories, and creator connections.' : 'Dynamically ranked by community momentum, freshness, and quality.')}
+                    {feedMode === 'latest' && 'Chronological stream of the newest hand-crafted essays and visual stories.'}
+                    {feedMode === 'top' && 'Most appreciated, saved, and discussed articles across OASIS.'}
+                </p>
+            </div>
+
+            <div className="feed-mode-switch" role="tablist" aria-label="Feed mode">
+                <button
+                    type="button"
+                    role="tab"
+                    aria-selected={feedMode === 'for-you'}
+                    className={`feed-mode-tab ${feedMode === 'for-you' ? 'active' : ''}`}
+                    onClick={() => handleModeChange('for-you')}
+                >
+                    <span className="feed-mode-icon">✦</span>
+                    <span>For You</span>
+                </button>
+                <button
+                    type="button"
+                    role="tab"
+                    aria-selected={feedMode === 'latest'}
+                    className={`feed-mode-tab ${feedMode === 'latest' ? 'active' : ''}`}
+                    onClick={() => handleModeChange('latest')}
+                >
+                    <span>Latest</span>
+                </button>
+                <button
+                    type="button"
+                    role="tab"
+                    aria-selected={feedMode === 'top'}
+                    className={`feed-mode-tab ${feedMode === 'top' ? 'active' : ''}`}
+                    onClick={() => handleModeChange('top')}
+                >
+                    <span>Top</span>
+                </button>
+            </div>
         </div>
 
         <div className={`category-scroll-container ${canScrollLeft ? 'has-left-fade' : ''} ${canScrollRight ? 'has-right-fade' : ''}`}>
@@ -294,7 +379,7 @@ export default function DiscoverPage() {
         </div>
 
         {(() => {
-            const filteredPosts = posts.filter(post => {
+            const filteredPosts = rankedFeedPosts.filter(post => {
                 if (selectedFilter === 'all') return true;
                 if (!post.category) return false;
                 const catObj = CATEGORIES.find(c => c.id === selectedFilter);

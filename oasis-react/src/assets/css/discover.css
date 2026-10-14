@@ -72,6 +72,109 @@ h2 {
 .latest-posts-section { padding: 3rem 4rem; }
 
 /* =========================================
+   Feed Header & Mode Switcher
+   ========================================= */
+.feed-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1.5rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.feed-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.feed-title {
+    font-family: var(--font-heading), sans-serif;
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.feed-subtitle {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+    max-width: 580px;
+    line-height: 1.45;
+}
+
+.feed-mode-switch {
+    display: inline-flex;
+    align-items: center;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 9999px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.feed-mode-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.15rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    font-family: var(--font-body), sans-serif;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+}
+
+.feed-mode-tab:hover:not(.active) {
+    color: var(--color-text-main);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.feed-mode-tab.active {
+    background: #ffffff;
+    color: var(--color-primary-dark);
+    box-shadow: 0 2px 8px rgba(25, 50, 111, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.feed-mode-icon {
+    font-size: 0.95rem;
+    color: #eab308;
+    display: inline-block;
+    line-height: 1;
+}
+
+@media (max-width: 768px) {
+    .feed-header-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .feed-title {
+        font-size: 1.75rem;
+    }
+    .feed-mode-switch {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .feed-mode-tab {
+        flex: 1;
+        justify-content: center;
+        padding: 0.45rem 0.6rem;
+        font-size: 0.82rem;
+    }
+}
+
+/* =========================================
    Discover Category Horizontal Scroll Bar
    ========================================= */
 .category-scroll-container {
