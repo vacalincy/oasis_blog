@@ -262,7 +262,7 @@ export default function PostPage() {
     };
     
     fetchPost();
-  }, [id]);
+  }, [id, addToast]);
 
   useEffect(() => {
     if (post?.title) {

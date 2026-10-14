@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -19,7 +19,7 @@ export default function FollowingPage() {
   const [loading, setLoading] = useState(true);
   const observerRef = useRef(null);
 
-  const fetchFollowingPosts = async () => {
+  const fetchFollowingPosts = useCallback(async () => {
     setLoading(true);
     setHasFollowedAnyNew(false);
 
@@ -76,11 +76,11 @@ export default function FollowingPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     fetchFollowingPosts();
-  }, [user]);
+  }, [fetchFollowingPosts]);
 
   useEffect(() => {
     if (loading || posts.length === 0) return;

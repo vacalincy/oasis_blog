@@ -20,11 +20,11 @@ export default function ContactPage() {
 
     // Auto-fill name and email if user is logged in
     useEffect(() => {
-        if (profile?.username && !name) {
-            setName(profile.username);
+        if (profile?.username) {
+            setName(prev => prev || profile.username);
         }
-        if (user?.email && !email) {
-            setEmail(user.email);
+        if (user?.email) {
+            setEmail(prev => prev || user.email);
         }
     }, [user, profile]);
 
