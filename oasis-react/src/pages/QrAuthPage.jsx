@@ -7,7 +7,7 @@ import '../assets/css/qr-auth.css';
 
 export default function QrAuthPage() {
   const [searchParams] = useSearchParams();
-  const sessionId = searchParams.get('session');
+  const sessionId = searchParams.get('session') || (typeof window !== 'undefined' ? localStorage.getItem('oasis_qr_pending_session') : null);
   const navigate = useNavigate();
   const { user, profile, loading: authLoading } = useAuth();
   const addToast = useToast();
@@ -17,6 +17,7 @@ export default function QrAuthPage() {
   const [errorMsg, setErrorMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [resolvedStatus, setResolvedStatus] = useState(''); // 'approved' | 'declined' | 'expired'
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   // Guest login state if user opens QR link without being logged in on this browser
   const [guestEmail, setGuestEmail] = useState('');
@@ -82,8 +83,8 @@ export default function QrAuthPage() {
   }, [fetchSession]);
 
   // Handle Approve Login
-  const handleApprove = async () => {
-    if (!sessionId || !user) return;
+  const handleApprove = useCallback(async () => {
+    if (!sessionId) return;
     if (sessionRecord?.expires_at && new Date(sessionRecord.expires_at) < new Date()) {
       setResolvedStatus('expired');
       addToast('This QR code has expired. Please refresh the code on your desktop screen.', 'error');
@@ -92,9 +93,17 @@ export default function QrAuthPage() {
     setIsSubmitting(true);
 
     try {
-      // 1. Get current valid tokens from Supabase auth session
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-      if (sessionError || !session) {
+      // 1. Get current valid tokens from Supabase auth session (retry briefly if returning from OAuth)
+      let session = (await supabase.auth.getSession())?.data?.session;
+      if (!session) {
+        for (let i = 0; i < 8; i++) {
+          await new Promise((r) => setTimeout(r, 250));
+          session = (await supabase.auth.getSession())?.data?.session;
+          if (session) break;
+        }
+      }
+
+      if (!session) {
         addToast('Your session has expired. Please log in again to approve.', 'error');
         setIsSubmitting(false);
         return;
@@ -119,6 +128,12 @@ export default function QrAuthPage() {
         return;
       }
 
+      try {
+        localStorage.removeItem('oasis_qr_pending_session');
+      } catch {
+        // Ignore storage errors
+      }
+
       setResolvedStatus('approved');
       addToast('Login approved successfully!', 'success');
     } catch (err) {
@@ -127,7 +142,49 @@ export default function QrAuthPage() {
     } finally {
       setIsSubmitting(false);
     }
+  }, [sessionId, sessionRecord, addToast]);
+
+  // Handle Instant Google Login & Approval
+  const handleGoogleLogin = async () => {
+    if (!sessionId) {
+      addToast('No active QR session was found.', 'error');
+      return;
+    }
+
+    setGoogleLoading(true);
+    try {
+      try {
+        localStorage.setItem('oasis_qr_pending_session', sessionId);
+      } catch {
+        // Ignore storage errors
+      }
+
+      const redirectUrl = `${window.location.origin}/qr-auth?session=${encodeURIComponent(sessionId)}&autoApprove=true`;
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: redirectUrl
+        }
+      });
+
+      if (error) {
+        addToast('Google login error: ' + error.message, 'error');
+        setGoogleLoading(false);
+      }
+    } catch (err) {
+      console.error('Google sign-in exception:', err);
+      addToast('Failed to connect to Google.', 'error');
+      setGoogleLoading(false);
+    }
   };
+
+  // Auto-approve if returned from Google OAuth redirect
+  useEffect(() => {
+    const isAutoApprove = searchParams.get('autoApprove') === 'true';
+    if (isAutoApprove && user && sessionId && resolvedStatus !== 'approved' && !isSubmitting && !pageLoading) {
+      handleApprove();
+    }
+  }, [searchParams, user, sessionId, resolvedStatus, isSubmitting, pageLoading, handleApprove]);
 
   // Handle Decline Login
   const handleDecline = async () => {
@@ -347,6 +404,21 @@ export default function QrAuthPage() {
             Sign in to your OASIS account to authorize the desktop device.
           </p>
 
+          {/* Instant Google Login for Mobile Devices */}
+          <button
+            type="button"
+            className="qr-auth-google-btn"
+            onClick={handleGoogleLogin}
+            disabled={googleLoading}
+          >
+            <img src="/assets/images/brand/Google - Original.png" alt="Google icon" className="qr-auth-google-icon" />
+            <span>{googleLoading ? 'Connecting to Google...' : 'Continue with Google'}</span>
+          </button>
+
+          <div className="qr-auth-divider">
+            <span>OR SIGN IN WITH EMAIL</span>
+          </div>
+
           <form className="qr-auth-guest-form" onSubmit={handleGuestLogin}>
             <div>
               <label htmlFor="guest-email">Email address</label>
@@ -493,6 +565,16 @@ export default function QrAuthPage() {
             onClick={handleGoBack}
           >
             ← Back to OASIS
+          </button>
+
+          <button
+            type="button"
+            className="qr-auth-switch-user-btn"
+            onClick={async () => {
+              await supabase.auth.signOut();
+            }}
+          >
+            Sign in with a different Google / OASIS account
           </button>
         </div>
       </div>
