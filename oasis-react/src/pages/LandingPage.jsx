@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -26,7 +27,7 @@ export default function LandingPage() {
   const [_qrSessionId, setQrSessionId] = useState(null);
   const [qrStatus, setQrStatus] = useState('idle'); // 'idle' | 'loading' | 'ready' | 'approved' | 'declined' | 'expired'
   const [qrAuthUrl, setQrAuthUrl] = useState('');
-  const [qrTimeLeft, setQrTimeLeft] = useState(300);
+  const [_qrTimeLeft, setQrTimeLeft] = useState(300);
   const qrChannelRef = useRef(null);
   const qrPollRef = useRef(null);
   const qrTimerRef = useRef(null);
@@ -566,8 +567,9 @@ const formatToDateInput = (val) => {
 {/* AUTH MODALS (LOGIN & SIGNUP)                  */}
 {/* ============================================= */}
 
-{/* 1. LOGIN MODAL (Wide layout with QR code) */}
-<div className={`auth-modal ${showLogin ? "is-active" : ""}`} id="loginModal">
+{/* 1. LOGIN MODAL (Wide layout with QR code, portaled to document.body) */}
+{showLogin && createPortal(
+<div className="auth-modal is-active" id="loginModal">
     <div className="auth-modal__overlay" onClick={() => setShowLogin(false)}></div>
     <div className="auth-modal__container auth-modal__container--wide">
         <button className="auth-modal__close" onClick={() => setShowLogin(false)} aria-label="Close modal">✕</button>
@@ -620,7 +622,7 @@ const formatToDateInput = (val) => {
             </p>
         </div>
 
-        {/* Right Column: QR Code Scan */}
+        {/* Right Column: QR Code Scan (Figma glassmorphism) */}
         <div className="auth-modal__right">
             <div className="auth-modal__qr-box">
                 {qrStatus === 'loading' && (
@@ -678,23 +680,17 @@ const formatToDateInput = (val) => {
             </div>
 
             <p className="auth-modal__qr-text">
-                <strong>Log in with QR Code</strong><br />
-                <span style={{ fontSize: '0.84rem', opacity: 0.8, fontWeight: 400 }}>
-                    Scan with your mobile camera or device
-                </span>
+                Or, log in instantly by scanning code<br />with your phone.
             </p>
-
-            {qrStatus === 'ready' && qrTimeLeft > 0 && (
-                <div className="auth-modal__qr-countdown">
-                    Valid for {Math.floor(qrTimeLeft / 60)}:{(qrTimeLeft % 60).toString().padStart(2, '0')}
-                </div>
-            )}
         </div>
     </div>
-</div>
+</div>,
+document.body
+)}
 
-{/* 2. SIGN UP MODAL (Narrow layout, pill buttons) */}
-<div className={`auth-modal ${showSignup ? "is-active" : ""}`} id="signupModal">
+{/* 2. SIGN UP MODAL (Narrow layout, pill buttons, portaled to document.body) */}
+{showSignup && createPortal(
+<div className="auth-modal is-active" id="signupModal">
     <div className="auth-modal__overlay" onClick={() => setShowSignup(false)}></div>
     <div className="auth-modal__container auth-modal__container--narrow">
         <button className="auth-modal__close" onClick={() => setShowSignup(false)} aria-label="Close modal">✕</button>
@@ -771,7 +767,9 @@ const formatToDateInput = (val) => {
             </p>
         </div>
     </div>
-</div>
+</div>,
+document.body
+)}
 
 {/* ============================================= */}
 
