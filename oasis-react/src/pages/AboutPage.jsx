@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SplitText from '../components/SplitText';
@@ -13,6 +14,7 @@ const hiwImages = [
 ];
 
 export default function AboutPage() {
+  const { user } = useAuth();
   const [currentIndex, setCurrentIndex] = useState(0);
   const hiwSectionRef = useRef(null);
   const timerRef = useRef(null);
@@ -1268,8 +1270,14 @@ export default function AboutPage() {
         </div>
     <div className="cta-foreground">
         <h3 className="cta-subtitle">Curate your world.</h3>
-        <Link to="/" className="cta-button">Join OASIS</Link>
-        <Link to="/discover" className="cta-secondary-button" style={{ textDecoration: "none", display: "inline-flex", justifyContent: "center", alignItems: "center" }}>Discover</Link>
+        {user ? (
+            <Link to="/discover" className="cta-button">Discover OASIS</Link>
+        ) : (
+            <>
+                <Link to="/" className="cta-button">Join OASIS</Link>
+                <Link to="/discover" className="cta-secondary-button" style={{ textDecoration: "none", display: "inline-flex", justifyContent: "center", alignItems: "center" }}>Discover</Link>
+            </>
+        )}
     </div>
 </section>
 
