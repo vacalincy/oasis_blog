@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/-GSAP_3-black?style=for-the-badge&logoColor=white&logo=greensock&color=88CE02" alt="gsap" />
   <img src="https://img.shields.io/badge/-React_Router_7-black?style=for-the-badge&logoColor=white&logo=reactrouter&color=CA4245" alt="react-router" />
   <img src="https://img.shields.io/badge/-CSS3-black?style=for-the-badge&logoColor=white&logo=css3&color=1572B6" alt="css3" />
-  <img src="https://img.shields.io/badge/-MIT_License-black?style=for-the-badge&logoColor=white&color=brightgreen" alt="license" />
+  <img src="https://img.shields.io/badge/-All_Rights_Reserved-black?style=for-the-badge&logoColor=white&color=red" alt="license" />
 </p>
 
 [![OASIS Landing Preview](oasis-react/public/assets/video/landing.gif)](https://oasis-blog-one.vercel.app/)
@@ -142,7 +142,7 @@ oasis_blog/
 │   │   ├── App.jsx                     # Route architecture, auth guards & navigation
 │   │   └── main.jsx                    # Application entry root
 │   └── vite.config.js                  # Vite bundler configuration
-├── LICENSE                             # MIT Open Source License
+├── LICENSE                             # Proprietary / All Rights Reserved Notice
 └── README.md
 ```
 
@@ -158,4 +158,6 @@ oasis_blog/
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE) — see the [LICENSE](LICENSE) file for details.
+Copyright © 2026 Alina Bezsonova. All rights reserved.
+
+This repository and all associated source code, design assets, and documentation are **proprietary**. No part of this project may be copied, modified, distributed, reproduced, or used in any form without prior written permission from the author.
