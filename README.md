@@ -10,6 +10,7 @@
   <img src="https://img.shields.io/badge/-GSAP_3-black?style=for-the-badge&logoColor=white&logo=greensock&color=88CE02" alt="gsap" />
   <img src="https://img.shields.io/badge/-React_Router_7-black?style=for-the-badge&logoColor=white&logo=reactrouter&color=CA4245" alt="react-router" />
   <img src="https://img.shields.io/badge/-CSS3-black?style=for-the-badge&logoColor=white&logo=css3&color=1572B6" alt="css3" />
+  <img src="https://img.shields.io/badge/-MIT_License-black?style=for-the-badge&logoColor=white&color=brightgreen" alt="license" />
 </p>
 
 [![OASIS Landing Preview](oasis-react/public/assets/video/landing.gif)](https://oasis-blog-one.vercel.app/)
@@ -26,6 +27,7 @@
 4. [Technical Highlights](#technical-highlights)
 5. [Project Structure](#project-structure)
 6. [Privacy & Security](#privacy--security)
+7. [License](#license)
 
 ---
 
@@ -140,6 +142,7 @@ oasis_blog/
 │   │   ├── App.jsx                     # Route architecture, auth guards & navigation
 │   │   └── main.jsx                    # Application entry root
 │   └── vite.config.js                  # Vite bundler configuration
+├── LICENSE                             # MIT Open Source License
 └── README.md
 ```
 
@@ -150,3 +153,9 @@ oasis_blog/
 - **Row Level Security:** PostgreSQL policies protecting user data and restricting database operations.
 - **Guest Access:** Public content is accessible without authentication, while protected interactions require sign-in.
 - **Privacy & Cookie Management:** Consent preferences with `localStorage` persistence, alongside dedicated Privacy Policy, Cookie Policy, and Terms pages.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE) — see the [LICENSE](LICENSE) file for details.
