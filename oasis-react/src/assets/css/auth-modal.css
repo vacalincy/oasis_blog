@@ -286,8 +286,8 @@
 
     /* Perfect glass effect matching Figma parameters */
     background: linear-gradient(120deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 100%);
-    backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
 
     /* Subtle refraction and depth edges */
     border-left: 1px solid rgba(255, 255, 255, 0.6);
