@@ -118,6 +118,7 @@ export default function ProfilePage() {
   const profileName = profile.username || "Unknown Author";
   const profileBio = profile.bio || "No bio available.";
   const coverImage = profile.avatar_url;
+  const isOwnProfile = Boolean(user && user.id === profile.id);
 
   const profileUrl = `${window.location.origin}/profile/${profile.username || profile.id}`;
 
@@ -154,7 +155,7 @@ export default function ProfilePage() {
             </div>
             
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', marginTop: '32px', flexWrap: 'wrap' }}>
-                {user?.id !== profile.id ? (
+                {!isOwnProfile ? (
                     <button 
                         className="btn-glass" 
                         style={{ 
@@ -192,39 +193,41 @@ export default function ProfilePage() {
                         {isFollowing ? 'Unfollow' : 'Follow'}
                     </button>
                 ) : (
-                    <Link 
-                        to="/dashboard" 
-                        className="btn-glass" 
-                        style={{ 
-                            padding: '12px 32px', 
-                            fontSize: '1rem', 
-                            textDecoration: 'none',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '8px'
-                        }}
-                    >
-                        <img loading="lazy" src="/assets/images/icons/editprofile_icon.svg" style={{ width: '16px', height: '16px' }} alt="" />
-                        Edit Profile
-                    </Link>
-                )}
+                    <>
+                        <Link 
+                            to="/dashboard" 
+                            className="btn-glass" 
+                            style={{ 
+                                padding: '12px 32px', 
+                                fontSize: '1rem', 
+                                textDecoration: 'none',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '8px'
+                            }}
+                        >
+                            <img loading="lazy" src="/assets/images/icons/editprofile_icon.svg" style={{ width: '16px', height: '16px' }} alt="" />
+                            Edit Profile
+                        </Link>
 
-                <button 
-                    className="btn-glass" 
-                    onClick={handleShareProfile}
-                    style={{ 
-                        padding: '12px 28px', 
-                        fontSize: '1rem', 
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        cursor: 'pointer'
-                    }}
-                    aria-label="Share Profile"
-                >
-                    <span className="dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/share.svg')", maskImage: "url('/assets/images/icons/share.svg')", width: "16px", height: "16px" }}></span>
-                    Share Profile
-                </button>
+                        <button 
+                            className="btn-glass" 
+                            onClick={handleShareProfile}
+                            style={{ 
+                                padding: '12px 28px', 
+                                fontSize: '1rem', 
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                cursor: 'pointer'
+                            }}
+                            aria-label="Share Profile"
+                        >
+                            <span className="dynamic-icon" style={{ WebkitMaskImage: "url('/assets/images/icons/share.svg')", maskImage: "url('/assets/images/icons/share.svg')", width: "16px", height: "16px" }}></span>
+                            Share Profile
+                        </button>
+                    </>
+                )}
             </div>
         </div>
         
@@ -239,12 +242,14 @@ export default function ProfilePage() {
         </div>
       </header>
 
-      {/* 30-Day Monthly Activity Overview */}
-      <section className="profile-overview-section" style={{ marginTop: '48px', padding: '0 20px' }}>
-        <div className="container" style={{ maxWidth: '480px', margin: '0 auto' }}>
-          <OverviewStatsCard targetUserId={profile.id} />
-        </div>
-      </section>
+      {/* 30-Day Monthly Activity Overview (Only visible to profile owner) */}
+      {isOwnProfile && (
+        <section className="profile-overview-section" style={{ marginTop: '48px', padding: '0 20px' }}>
+          <div className="container" style={{ maxWidth: '480px', margin: '0 auto' }}>
+            <OverviewStatsCard targetUserId={profile.id} />
+          </div>
+        </section>
+      )}
 
       <section className="latest-posts-section" style={{ marginTop: '56px', marginBottom: '96px' }}>
         <div className="container">
