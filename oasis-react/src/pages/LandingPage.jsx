@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+const LazyDatePicker = React.lazy(() => import('../components/LazyDatePicker'));
 import { supabase } from '../supabaseClient';
 import { useToast } from '../context/ToastContext';
 import '../assets/css/qr-auth.css';
@@ -438,12 +437,12 @@ const formatToDateInput = (val) => {
         <h1 className="cards-intro__title">A place to display your <br />masterpiece.</h1>
 
         <div className="cards-intro__content">
-            <img src="/assets/images/content/landing_p1.jpg" alt="Artwork 1" className="cards-intro__card cards-intro__card--1" width="190" height="190" fetchpriority="high" />
-            <img src="/assets/images/content/landing_p2.jpg" alt="Artwork 2" className="cards-intro__card cards-intro__card--2" width="190" height="190" />
-            <img src="/assets/images/content/landing_p3.jpg" alt="Artwork 3" className="cards-intro__card cards-intro__card--3" width="190" height="190" />
-            <img src="/assets/images/content/landing_p4.jpg" alt="Artwork 4" className="cards-intro__card cards-intro__card--4" width="190" height="190" />
-            <img src="/assets/images/content/landing_p5.jpg" alt="Artwork 5" className="cards-intro__card cards-intro__card--5" width="190" height="190" />
-            <img src="/assets/images/content/landing_p6.jpg" alt="Artwork 6" className="cards-intro__card cards-intro__card--6" width="190" height="190" />
+            <img src="/assets/images/content/landing_p1.avif" alt="Artwork 1" className="cards-intro__card cards-intro__card--1" width="190" height="190" fetchpriority="high" />
+            <img src="/assets/images/content/landing_p2.avif" alt="Artwork 2" className="cards-intro__card cards-intro__card--2" width="190" height="190" />
+            <img src="/assets/images/content/landing_p3.avif" alt="Artwork 3" className="cards-intro__card cards-intro__card--3" width="190" height="190" />
+            <img src="/assets/images/content/landing_p4.avif" alt="Artwork 4" className="cards-intro__card cards-intro__card--4" width="190" height="190" />
+            <img src="/assets/images/content/landing_p5.avif" alt="Artwork 5" className="cards-intro__card cards-intro__card--5" width="190" height="190" />
+            <img src="/assets/images/content/landing_p6.avif" alt="Artwork 6" className="cards-intro__card cards-intro__card--6" width="190" height="190" />
 
             <span className="cards-intro__bubble cards-intro__bubble--left">Awesome!</span>
             <span className="cards-intro__bubble cards-intro__bubble--right">Nice!</span>
@@ -527,7 +526,8 @@ const formatToDateInput = (val) => {
                 <div className="signup-cta__field">
                     <label htmlFor="signup-dob" className="sr-only">Date of birth</label>
                     <div className="auth-modal__input-wrap">
-                        <DatePicker selected={dob} onChange={(date) => { setDob(date); if (showYearGrid2) setShowYearGrid2(false); }} id="signup-dob" name="dob" placeholderText="Date of birth (MM/DD/YYYY)" required ref={datePickerRef2} maxDate={new Date()} popperPlacement="bottom-start" popperModifiers={[ { name: "flip", enabled: false }, { name: "offset", options: { offset: [0, 15] } } ]} showYearPicker={showYearGrid2} showMonthYearDropdown={false} shouldCloseOnSelect={!showYearGrid2} renderCustomHeader={({ date, decreaseMonth, increaseMonth, decreaseYear, increaseYear, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
+                        <React.Suspense fallback={<input type="text" placeholder="Date of birth (MM/DD/YYYY)" readOnly style={{ width: '100%', height: '48px', border: '1px solid #cbd5e1', borderRadius: '12px', padding: '0 16px' }} />}>
+                          <LazyDatePicker selected={dob} onChange={(date) => { setDob(date); if (showYearGrid2) setShowYearGrid2(false); }} id="signup-dob" name="dob" placeholderText="Date of birth (MM/DD/YYYY)" required ref={datePickerRef2} maxDate={new Date()} popperPlacement="bottom-start" popperModifiers={[ { name: "flip", enabled: false }, { name: "offset", options: { offset: [0, 15] } } ]} showYearPicker={showYearGrid2} showMonthYearDropdown={false} shouldCloseOnSelect={!showYearGrid2} renderCustomHeader={({ date, decreaseMonth, increaseMonth, decreaseYear, increaseYear, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 8px 12px' }}>
             <button type="button" onClick={() => setShowYearGrid2(!showYearGrid2)} style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', color: 'var(--color-primary-dark)', fontSize: '1.1rem', background: 'none', border: 'none', cursor: 'pointer', outline: 'none' }}>
                 {showYearGrid2 ? date.getFullYear() : date.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
@@ -539,6 +539,7 @@ const formatToDateInput = (val) => {
             </div>
           </div>
         )} />
+                        </React.Suspense>
                         <button type="button" className="auth-modal__icon-btn" aria-label="Open calendar" onClick={() => datePickerRef2.current?.setOpen(true)} style={{position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', outline: 'none'}}>
                             <span className="dynamic-icon" style={{ WebkitMaskImage: 'url(/assets/images/icons/dateofbirth.svg)', width: '20px', height: '20px', backgroundColor: 'var(--color-text-light)' }}></span>
                         </button>
@@ -729,7 +730,8 @@ document.body
                 <div className="auth-modal__field">
                     <label htmlFor="modal-signup-dob" className="sr-only">Date of birth</label>
                     <div className="auth-modal__input-wrap">
-                        <DatePicker selected={dob} onChange={(date) => { setDob(date); if (showYearGrid1) setShowYearGrid1(false); }} id="modal-signup-dob" name="dob" placeholderText="Date of birth (MM/DD/YYYY)" required ref={datePickerRef1} maxDate={new Date()} popperPlacement="bottom-start" popperModifiers={[ { name: "flip", enabled: false }, { name: "offset", options: { offset: [0, 15] } } ]} showYearPicker={showYearGrid1} showMonthYearDropdown={false} shouldCloseOnSelect={!showYearGrid1} renderCustomHeader={({ date, decreaseMonth, increaseMonth, decreaseYear, increaseYear, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
+                        <React.Suspense fallback={<input type="text" placeholder="Date of birth (MM/DD/YYYY)" readOnly style={{ width: '100%', height: '48px', border: '1px solid #cbd5e1', borderRadius: '12px', padding: '0 16px' }} />}>
+                          <LazyDatePicker selected={dob} onChange={(date) => { setDob(date); if (showYearGrid1) setShowYearGrid1(false); }} id="modal-signup-dob" name="dob" placeholderText="Date of birth (MM/DD/YYYY)" required ref={datePickerRef1} maxDate={new Date()} popperPlacement="bottom-start" popperModifiers={[ { name: "flip", enabled: false }, { name: "offset", options: { offset: [0, 15] } } ]} showYearPicker={showYearGrid1} showMonthYearDropdown={false} shouldCloseOnSelect={!showYearGrid1} renderCustomHeader={({ date, decreaseMonth, increaseMonth, decreaseYear, increaseYear, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 8px 12px' }}>
             <button type="button" onClick={() => setShowYearGrid1(!showYearGrid1)} style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', color: 'var(--color-primary-dark)', fontSize: '1.1rem', background: 'none', border: 'none', cursor: 'pointer', outline: 'none' }}>
                 {showYearGrid1 ? date.getFullYear() : date.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
@@ -741,6 +743,7 @@ document.body
             </div>
           </div>
         )} />
+                        </React.Suspense>
                         <button type="button" className="auth-modal__icon-btn" aria-label="Open calendar" onClick={() => datePickerRef1.current?.setOpen(true)} style={{ outline: 'none' }}>
                             <span className="dynamic-icon" style={{ WebkitMaskImage: 'url(/assets/images/icons/dateofbirth.svg)', width: '20px', height: '20px' }}></span>
                         </button>

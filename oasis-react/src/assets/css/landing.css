@@ -133,7 +133,7 @@ html, body.landing-page {
 
 .cards-intro__bubble--left {
     background: #f3c4fb;
-    color: #ffffff;
+    color: #580b72;
     top: -40px;
     left: -40px;
     transform: rotate(-16deg);
@@ -148,7 +148,7 @@ html, body.landing-page {
 
 .cards-intro__bubble--right {
     background: #8eecf5;
-    color: #ffffff;
+    color: #004756;
     top: -65px;
     left: 700px;
     transform: rotate(10deg);
