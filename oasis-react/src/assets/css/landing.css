@@ -400,6 +400,10 @@ html, body.landing-page {
 
 .signup-cta {
     background-image: url('/assets/images/ui/gradient_background1.png');
+    background-image: image-set(
+        url('/assets/images/ui/gradient_background1.avif') type('image/avif'),
+        url('/assets/images/ui/gradient_background1.png') type('image/png')
+    );
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

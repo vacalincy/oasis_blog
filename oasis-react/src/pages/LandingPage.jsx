@@ -410,7 +410,7 @@ const formatToDateInput = (val) => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }}>
-            <img src="/assets/images/brand/logo.svg" alt="OASIS Logo" />
+            <img src="/assets/images/brand/logo.svg" alt="OASIS Logo" width="96" height="32" />
         </Link>
         <div className="landing-nav__actions">
             <button type="button" className="landing-nav__login" onClick={() => setShowLogin(true)}>Log in</button>
@@ -419,7 +419,7 @@ const formatToDateInput = (val) => {
     </div>
 </nav>
 
-{/* ============================================= */}
+<main id="main-content" className="landing-main">
 
 {/* ============================================= */}
 {/* SCROLL UNIVERSE (GSAP Pinned Section)         */}
@@ -431,12 +431,12 @@ const formatToDateInput = (val) => {
         <h1 className="cards-intro__title">A place to display your <br />masterpiece.</h1>
 
         <div className="cards-intro__content">
-            <img src="/assets/images/content/landing_p1.jpg" alt="Artwork 1" className="cards-intro__card cards-intro__card--1" loading="lazy" />
-            <img src="/assets/images/content/landing_p2.jpg" alt="Artwork 2" className="cards-intro__card cards-intro__card--2" loading="lazy" />
-            <img src="/assets/images/content/landing_p3.jpg" alt="Artwork 3" className="cards-intro__card cards-intro__card--3" loading="lazy" />
-            <img src="/assets/images/content/landing_p4.jpg" alt="Artwork 4" className="cards-intro__card cards-intro__card--4" loading="lazy" />
-            <img src="/assets/images/content/landing_p5.jpg" alt="Artwork 5" className="cards-intro__card cards-intro__card--5" loading="lazy" />
-            <img src="/assets/images/content/landing_p6.jpg" alt="Artwork 6" className="cards-intro__card cards-intro__card--6" loading="lazy" />
+            <img src="/assets/images/content/landing_p1.jpg" alt="Artwork 1" className="cards-intro__card cards-intro__card--1" width="190" height="190" fetchpriority="high" />
+            <img src="/assets/images/content/landing_p2.jpg" alt="Artwork 2" className="cards-intro__card cards-intro__card--2" width="190" height="190" />
+            <img src="/assets/images/content/landing_p3.jpg" alt="Artwork 3" className="cards-intro__card cards-intro__card--3" width="190" height="190" />
+            <img src="/assets/images/content/landing_p4.jpg" alt="Artwork 4" className="cards-intro__card cards-intro__card--4" width="190" height="190" />
+            <img src="/assets/images/content/landing_p5.jpg" alt="Artwork 5" className="cards-intro__card cards-intro__card--5" width="190" height="190" />
+            <img src="/assets/images/content/landing_p6.jpg" alt="Artwork 6" className="cards-intro__card cards-intro__card--6" width="190" height="190" />
 
             <span className="cards-intro__bubble cards-intro__bubble--left">Awesome!</span>
             <span className="cards-intro__bubble cards-intro__bubble--right">Nice!</span>
@@ -472,7 +472,7 @@ const formatToDateInput = (val) => {
     <div className="container">
         <h2 className="showcase__big-title">A curated space to share <span>your</span> <br /> creative vision.</h2>
         <div className="showcase__media">
-            <img src="/assets/images/content/snowboard.jpg" alt="Snowboarder carving through deep powder" className="showcase__image" loading="lazy" />
+            <img src="/assets/images/content/snowboard.jpg" alt="Snowboarder carving through deep powder" className="showcase__image" width="1199" height="800" loading="lazy" />
             <Link to={showcasePostId ? `/post/${showcasePostId}` : '/discover'} className="showcase__preview-card">
                 <div className="showcase__preview-content">
                     <span className="showcase__preview-badge">Action &amp; Extreme</span>
@@ -504,7 +504,7 @@ const formatToDateInput = (val) => {
         </div>
         <div className="signup-cta__form">
             <div className="signup-cta__form-header">
-                <img src="/assets/images/brand/favicon-label.png" alt="OASIS" className="signup-cta__form-icon" />
+                <img src="/assets/images/brand/favicon-label.png" alt="OASIS" className="signup-cta__form-icon" width="64" height="64" />
                 <p className="signup-cta__form-headline">Join Oasis for free to discover more ideas and stories.</p>
             </div>
             <form className="signup-cta__fields" onSubmit={(e) => e.preventDefault()}>
@@ -553,7 +553,7 @@ const formatToDateInput = (val) => {
                 }}>Continue</button>
                 <div className="signup-cta__divider"><span>or</span></div>
                 <button type="button" className="signup-cta__google-btn react-datepicker-ignore-onclickoutside" onClick={handleGoogleLogin}>
-                    <img src="/assets/images/brand/Google - Original.png" alt="Google Logo" className="signup-cta__google-icon" loading="lazy" />
+                    <img src="/assets/images/brand/Google - Original.png" alt="Google Logo" className="signup-cta__google-icon" width="18" height="18" loading="lazy" />
                     Continue with Google
                 </button>
                 <p className="signup-cta__login-link">Already have an account? <button type="button" className="landing-nav__login" onClick={() => setShowLogin(true)}>Log in</button></p>
@@ -562,6 +562,7 @@ const formatToDateInput = (val) => {
         </div>
     </div>
 </section>
+</main>
 
 {/* ============================================= */}
 {/* AUTH MODALS (LOGIN & SIGNUP)                  */}
@@ -576,7 +577,7 @@ const formatToDateInput = (val) => {
 
         {/* Left Column: Login Form */}
         <div className="auth-modal__left">
-            <img src="/assets/images/brand/favicon-label.png" alt="Oasis Logo" className="auth-modal__logo" />
+            <img src="/assets/images/brand/favicon-label.png" alt="Oasis Logo" className="auth-modal__logo" width="64" height="64" />
             <h2 className="auth-modal__title">Welcome to OASIS</h2>
             <p className="auth-modal__subtitle">Log in to discover more ideas just for you</p>
 
@@ -612,7 +613,7 @@ const formatToDateInput = (val) => {
                 <div className="auth-modal__divider"><span>OR</span></div>
 
                 <button type="button" className="auth-modal__google react-datepicker-ignore-onclickoutside" onClick={handleGoogleLogin}>
-                    <img src="/assets/images/brand/Google - Original.png" alt="Google icon" className="auth-modal__google-icon" loading="lazy" />
+                    <img src="/assets/images/brand/Google - Original.png" alt="Google icon" className="auth-modal__google-icon" width="18" height="18" loading="lazy" />
                     Continue with Google
                 </button>
             </form>
@@ -697,7 +698,7 @@ document.body
 
         {/* Full Width Column: Registration Form */}
         <div className="auth-modal__left auth-modal__left--full">
-            <img src="/assets/images/brand/favicon-label.png" alt="Oasis Logo" className="auth-modal__logo" />
+            <img src="/assets/images/brand/favicon-label.png" alt="Oasis Logo" className="auth-modal__logo" width="64" height="64" />
             <h2 className="auth-modal__title">Welcome to OASIS</h2>
             <p className="auth-modal__subtitle">Sign up to discover more ideas<br />just for you.</p>
 
@@ -757,7 +758,7 @@ document.body
                 <div className="auth-modal__divider"><span>OR</span></div>
 
                 <button type="button" className="auth-modal__google react-datepicker-ignore-onclickoutside" onClick={handleGoogleLogin}>
-                    <img src="/assets/images/brand/Google - Original.png" alt="Google icon" className="auth-modal__google-icon" loading="lazy" />
+                    <img src="/assets/images/brand/Google - Original.png" alt="Google icon" className="auth-modal__google-icon" width="18" height="18" loading="lazy" />
                     Continue with Google
                 </button>
             </form>

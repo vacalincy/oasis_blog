@@ -6,28 +6,28 @@ import { NotificationProvider } from './context/NotificationContext'
 import ScrollToTop from './components/ScrollToTop'
 import TabBar from './components/TabBar'
 import LandingPage from './pages/LandingPage'
-import OnboardingPage from './pages/OnboardingPage'
-import DiscoverPage from './pages/DiscoverPage'
-import SearchPage from './pages/SearchPage'
-import TermsPage from './pages/TermsPage'
-import PrivacyPage from './pages/PrivacyPage'
-import ForgotPasswordPage from './pages/ForgotPasswordPage'
-import ResetPasswordPage from './pages/ResetPasswordPage'
-import PostPage from './pages/PostPage'
-import CategoryPage from './pages/CategoryPage'
-import ProfilePage from './pages/ProfilePage'
-import FollowingPage from './pages/FollowingPage'
-import PopularPage from './pages/PopularPage'
-import TopicsPage from './pages/TopicsPage'
-import AboutPage from './pages/AboutPage'
-import NotificationsPage from './pages/NotificationsPage'
-import DashboardPage from './pages/DashboardPage'
-import AddPostPage from './pages/AddPostPage'
-import SettingsPage from './pages/SettingsPage'
-import SupportPage from './pages/SupportPage'
-import ContactPage from './pages/ContactPage'
-import QrAuthPage from './pages/QrAuthPage'
-import CookiePolicyPage from './pages/CookiePolicyPage'
+const OnboardingPage = React.lazy(() => import('./pages/OnboardingPage'))
+const DiscoverPage = React.lazy(() => import('./pages/DiscoverPage'))
+const SearchPage = React.lazy(() => import('./pages/SearchPage'))
+const TermsPage = React.lazy(() => import('./pages/TermsPage'))
+const PrivacyPage = React.lazy(() => import('./pages/PrivacyPage'))
+const ForgotPasswordPage = React.lazy(() => import('./pages/ForgotPasswordPage'))
+const ResetPasswordPage = React.lazy(() => import('./pages/ResetPasswordPage'))
+const PostPage = React.lazy(() => import('./pages/PostPage'))
+const CategoryPage = React.lazy(() => import('./pages/CategoryPage'))
+const ProfilePage = React.lazy(() => import('./pages/ProfilePage'))
+const FollowingPage = React.lazy(() => import('./pages/FollowingPage'))
+const PopularPage = React.lazy(() => import('./pages/PopularPage'))
+const TopicsPage = React.lazy(() => import('./pages/TopicsPage'))
+const AboutPage = React.lazy(() => import('./pages/AboutPage'))
+const NotificationsPage = React.lazy(() => import('./pages/NotificationsPage'))
+const DashboardPage = React.lazy(() => import('./pages/DashboardPage'))
+const AddPostPage = React.lazy(() => import('./pages/AddPostPage'))
+const SettingsPage = React.lazy(() => import('./pages/SettingsPage'))
+const SupportPage = React.lazy(() => import('./pages/SupportPage'))
+const ContactPage = React.lazy(() => import('./pages/ContactPage'))
+const QrAuthPage = React.lazy(() => import('./pages/QrAuthPage'))
+const CookiePolicyPage = React.lazy(() => import('./pages/CookiePolicyPage'))
 import CookieBanner from './components/CookieBanner'
 import ProtectedRoute from './components/ProtectedRoute'
 import './assets/css/legal.css'
@@ -239,6 +239,7 @@ function App() {
             <TabBar />
             <CookieBanner />
             <ProfileEnforcer>
+            <React.Suspense fallback={null}>
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/discover" element={<DiscoverPage />} />
@@ -268,6 +269,7 @@ function App() {
               <Route path="/qr-auth" element={<QrAuthPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
+            </React.Suspense>
             </ProfileEnforcer>
           </Router>
         </NotificationProvider>

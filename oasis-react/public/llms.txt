@@ -1,0 +1,19 @@
+# OASIS
+
+> A curated digital space to read, write, and explore insightful stories, ideas, and perspectives.
+
+OASIS brings together designers, developers, and writers to share deep insights on design systems, code architecture, creative engineering, and modern culture.
+
+## Core Pages
+
+- [Home](https://oasis-blog-one.vercel.app/): OASIS landing page, featuring curated stories and publication showcase.
+- [Discover](https://oasis-blog-one.vercel.app/discover): Explore curated articles and trending topics across design and technology.
+- [About](https://oasis-blog-one.vercel.app/about): Learn about OASIS mission, principles, and community.
+- [Support](https://oasis-blog-one.vercel.app/support): Frequently asked questions and help center.
+- [Contact](https://oasis-blog-one.vercel.app/contact): Get in touch with the OASIS team.
+
+## Optional
+
+- [Terms of Service](https://oasis-blog-one.vercel.app/terms): Terms and conditions for using OASIS.
+- [Privacy Policy](https://oasis-blog-one.vercel.app/privacy): OASIS privacy and data policies.
+- [Cookie Policy](https://oasis-blog-one.vercel.app/cookies): Information about cookies used on OASIS.
