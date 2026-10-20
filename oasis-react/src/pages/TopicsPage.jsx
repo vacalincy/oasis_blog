@@ -183,6 +183,7 @@ export default function TopicsPage() {
   return (
     <div className="topics-page">
       <Header />
+      <main id="main-content" className="topics-main">
       
       {/* TOPIC HERO SECTION START */}
       <section className="topic-hero" ref={heroRef} id="topic-hero">
@@ -195,7 +196,15 @@ export default function TopicsPage() {
                 className={`topic-card ${topic.posClass}`}
                 style={{ textDecoration: 'none', color: 'inherit' }}
               >
-                <img loading="lazy" src={topic.image} alt={topic.title} />
+                <img 
+                  loading="eager" 
+                  fetchPriority={topic.posClass === 'topic-card--main' || topic.id === 1 ? 'high' : 'low'}
+                  decoding="async"
+                  width="426"
+                  height="639"
+                  src={topic.image} 
+                  alt={topic.title} 
+                />
                 <div className="topic-card__caption">
                   <time>{topic.date}</time>
                   <p>{topic.title}</p>
@@ -283,6 +292,7 @@ export default function TopicsPage() {
       </section>
       {/* FEATURED ARTICLES SECTION END */}
 
+      </main>
       <Footer />
     </div>
   );
