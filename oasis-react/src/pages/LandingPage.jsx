@@ -377,25 +377,39 @@ const formatToDateInput = (val) => {
 
   
   useEffect(() => {
-    // Inject the GSAP script properly
-    const script = document.createElement('script');
-    script.src = '/assets/js/landing-scroll.js';
-    script.async = true;
-    script.onload = () => {
-        if (window.initLandingAnimations) {
-            window.initLandingAnimations();
+    let isCancelled = false;
+
+    const loadScript = (src) => {
+      return new Promise((resolve, reject) => {
+        if (document.querySelector(`script[src="${src}"]`)) {
+          resolve();
+          return;
         }
+        const s = document.createElement('script');
+        s.src = src;
+        s.async = true;
+        s.onload = () => resolve();
+        s.onerror = reject;
+        document.body.appendChild(s);
+      });
     };
-    document.body.appendChild(script);
+
+    Promise.all([
+      loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js'),
+      loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js'),
+    ])
+      .then(() => loadScript('/assets/js/landing-scroll.js'))
+      .then(() => {
+        if (!isCancelled && window.initLandingAnimations) {
+          window.initLandingAnimations();
+        }
+      })
+      .catch((err) => console.warn('Landing animation load issue:', err));
 
     return () => {
-      // Clean up script if component unmounts
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-      // Also kill ScrollTriggers to prevent duplication
+      isCancelled = true;
       if (window.ScrollTrigger) {
-          window.ScrollTrigger.getAll().forEach(t => t.kill());
+        window.ScrollTrigger.getAll().forEach(t => t.kill());
       }
       document.body.removeAttribute('data-landing-anim');
     };
