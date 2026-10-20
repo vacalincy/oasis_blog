@@ -164,12 +164,12 @@ export default function FollowingPage() {
       <Header />
 
       {loading ? (
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '60vh', color: '#64748b', gap: '1rem' }}>
-          <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '3px solid rgba(28, 43, 237, 0.15)', borderTopColor: 'var(--color-primary)', animation: 'spin 0.8s linear infinite' }}></div>
-          <p style={{ fontWeight: 500 }}>Loading your feed...</p>
-        </div>
+        <main style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100%', color: '#94a3b8', gap: '1rem', background: '#0f172a' }}>
+          <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '3px solid rgba(255, 255, 255, 0.15)', borderTopColor: 'var(--color-primary)', animation: 'spin 0.8s linear infinite' }}></div>
+          <p style={{ fontWeight: 500, color: 'rgba(255,255,255,0.8)' }}>Loading your feed...</p>
+        </main>
       ) : !user ? (
-        <section className="following-hero">
+        <main className="following-hero">
           <div className="following-hero__glow"></div>
           <div className="container following-hero__container">
             <div className="following-hero__icon-wrap">
@@ -194,7 +194,7 @@ export default function FollowingPage() {
               </Link>
             </div>
           </div>
-        </section>
+        </main>
       ) : posts.length === 0 ? (
         <main className="following-empty-layout">
           {/* Hero Banner */}
@@ -344,11 +344,27 @@ export default function FollowingPage() {
         </main>
       ) : (
         <main className="following-feed">
+          <h1 className="sr-only">Following Stories Feed</h1>
           {posts.map((post, index) => (
             <article key={post.id} className="slide">
               <div className="slide__bg">
-                <img loading="lazy" src={post.cover_image || "/assets/images/content/modernbuildingfacade.jpg"} alt="" className="slide__bg-blur" aria-hidden="true" />
-                <img loading="lazy" src={post.cover_image || "/assets/images/content/modernbuildingfacade.jpg"} alt={post.title} className="slide__bg-image" />
+                <img 
+                  loading={index === 0 ? "eager" : "lazy"} 
+                  fetchPriority={index === 0 ? "high" : "low"}
+                  decoding="async"
+                  src={post.cover_image || "/assets/images/content/modernbuildingfacade.jpg"} 
+                  alt="" 
+                  className="slide__bg-blur" 
+                  aria-hidden="true" 
+                />
+                <img 
+                  loading={index === 0 ? "eager" : "lazy"} 
+                  fetchPriority={index === 0 ? "high" : "low"}
+                  decoding="async"
+                  src={post.cover_image || "/assets/images/content/modernbuildingfacade.jpg"} 
+                  alt={post.title} 
+                  className="slide__bg-image" 
+                />
               </div>
               <div className="slide__content">
                 <div className="slide__author">
@@ -369,7 +385,13 @@ export default function FollowingPage() {
                 <h2 className="slide__title">{post.title}</h2>
                 <p className="slide__excerpt">{post.subtitle}</p>
 
-                <Link to={`/post/${post.id}`} className="slide__cta">Read Article</Link>
+                <Link 
+                  to={`/post/${post.id}`} 
+                  className="slide__cta"
+                  aria-label={`Read article: ${post.title}`}
+                >
+                  Read Article
+                </Link>
               </div>
 
               <div className="slide__scroll-hint">
@@ -380,11 +402,23 @@ export default function FollowingPage() {
               </div>
             </article>
           ))}
+
+          <article className="slide slide--end" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', background: '#0f172a', color: '#fff', gap: '1.25rem', padding: '2rem' }}>
+            <div style={{ fontSize: '2.5rem', color: '#eab308' }}>✦</div>
+            <h2 style={{ fontSize: '2.25rem', color: '#fff', margin: 0, fontFamily: 'var(--font-heading)' }}>You're all caught up!</h2>
+            <p style={{ color: '#94a3b8', maxWidth: '460px', margin: 0, fontSize: '1.05rem', lineHeight: '1.6' }}>
+              You have explored all the newest stories from the creators you follow.
+            </p>
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <Link to="/discover" className="btn btn--primary" style={{ padding: '12px 28px', borderRadius: '999px', textDecoration: 'none', fontWeight: 600 }}>Explore Discover</Link>
+              <Link to="/topics" className="btn btn--secondary" style={{ padding: '12px 28px', borderRadius: '999px', textDecoration: 'none', fontWeight: 600, background: 'rgba(255,255,255,0.1)', color: '#fff' }}>Browse Topics</Link>
+            </div>
+          </article>
         </main>
       )}
 
-      {/* Footer is rendered for the empty state or when bottom of feed is reached */}
-      <Footer />
+      {/* Footer is rendered for the empty state or guest state */}
+      {(isEmpty || !user) && <Footer />}
     </div>
   );
 }

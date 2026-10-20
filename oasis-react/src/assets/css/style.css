@@ -39,6 +39,19 @@ body {
     padding: 0 2rem;
 }
 
+/* Screen reader only utility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 nav, .site-header {
     background: rgba(255, 255, 255, 0.8);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -580,7 +593,9 @@ nav, .site-header {
     margin: 0 auto;
 }
 
-.footer-column h4 {
+.footer-column h4,
+.footer-column h3,
+.footer-column-heading {
     color: var(--color-text-main);
     font-family: var(--font-heading), sans-serif;
     font-size: 1.1rem;

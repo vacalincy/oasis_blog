@@ -13,7 +13,7 @@ export default function Footer() {
                 </ul>
             </div>
             <div className="footer-column">
-                <h4>Discover</h4>
+                <h3 className="footer-column-heading">Discover</h3>
                 <ul>
                     <li><Link to="/topics">All Topics</Link></li>
                     <li><Link to="/popular">Popular Stories</Link></li>
@@ -21,7 +21,7 @@ export default function Footer() {
                 </ul>
             </div>
             <div className="footer-column">
-                <h4>Legal &amp; Help</h4>
+                <h3 className="footer-column-heading">Legal &amp; Help</h3>
                 <ul>
                     <li><Link to="/terms">Terms of Service</Link></li>
                     <li><Link to="/privacy">Privacy Policy</Link></li>
