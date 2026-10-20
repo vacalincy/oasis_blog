@@ -58,6 +58,7 @@ export default function AboutPage() {
     <div className="about-page">
       <Header />
       
+      <main id="main-content" className="about-main">
       <section className="about-hero">
     <div className="about-hero__text">
         <h1 className="about-hero__title"><SplitText text="Curated Stories." stagger={0.25} /><br /><SplitText text="Meaningful Whitespace." stagger={0.25} delayOffset={0.5} /></h1>
@@ -68,23 +69,23 @@ export default function AboutPage() {
         <div className="about-hero__carousel">
             {/* Card 1 (Far Left) */}
             <div className="about-card about-card--1">
-                <img loading="lazy" src="/assets/images/content/about_3.jpg" alt="Dunes" />
+                <img loading="eager" decoding="async" fetchPriority="low" width="400" height="500" src="/assets/images/content/about_3.jpg" alt="Dunes" />
             </div>
             {/* Card 2 (Mid Left) */}
             <div className="about-card about-card--2">
-                <img loading="lazy" src="/assets/images/content/about_2.jpg" alt="Photography" />
+                <img loading="eager" decoding="async" fetchPriority="low" width="400" height="500" src="/assets/images/content/about_2.jpg" alt="Photography" />
             </div>
             {/* Card 3 (Center) */}
             <div className="about-card about-card--3">
-                <img loading="lazy" src="/assets/images/content/about_1.jpg" alt="Villa Architecture" />
+                <img loading="eager" decoding="async" fetchPriority="high" width="400" height="500" src="/assets/images/content/about_1.jpg" alt="Villa Architecture" />
             </div>
             {/* Card 4 (Mid Right) */}
             <div className="about-card about-card--4">
-                <img loading="lazy" src="/assets/images/content/about_4.jpg" alt="Music Concert" />
+                <img loading="eager" decoding="async" fetchPriority="low" width="400" height="500" src="/assets/images/content/about_4.jpg" alt="Music Concert" />
             </div>
             {/* Card 5 (Far Right) */}
             <div className="about-card about-card--5">
-                <img loading="lazy" src="/assets/images/content/about_5.jpg" alt="Editorial" />
+                <img loading="eager" decoding="async" fetchPriority="low" width="400" height="500" src="/assets/images/content/about_5.jpg" alt="Editorial" />
             </div>
         </div>
     </div>
@@ -143,7 +144,7 @@ export default function AboutPage() {
         <div className="hiw-grid">
             {/* Left: Mockup Image */}
             <div className="hiw-image-container">
-                <img loading="lazy" id="hiw-image" className="hiw-fade" key={currentIndex} src={hiwImages[currentIndex]} alt="Platform Interface Mockup" />
+                <img loading="lazy" decoding="async" id="hiw-image" className="hiw-fade" key={currentIndex} src={hiwImages[currentIndex]} alt="Platform Interface Mockup" width="1013" height="567" />
             </div>
             
             {/* Right: Timeline */}
@@ -1284,24 +1285,22 @@ export default function AboutPage() {
 
 
 {/* ============================================= */}
-{/* FOOTER                                        */}
+{/* BRAND STATEMENT BANNER                        */}
 {/* ============================================= */}
-<footer className="oasis-footer">
+<section className="oasis-footer" aria-label="Brand statement">
     <div className="container footer-container">
         <div className="footer-left">
-            <img src="/assets/images/brand/logo.svg" alt="OASIS Logo" />
+            <img src="/assets/images/brand/logo.svg" alt="OASIS Logo" width="120" height="40" />
         </div>
         <div className="footer-center">
-            <img loading="lazy" src="/assets/images/brand/favicon-label.png" alt="OASIS Icon" />
+            <img loading="lazy" decoding="async" src="/assets/images/brand/favicon-label.png" alt="OASIS Icon" width="90" height="90" />
         </div>
         <div className="footer-right">
             <p>Escape the noise.<br />Curate your world.</p>
         </div>
     </div>
-</footer>
-
-
-    
+</section>
+      </main>
 
       <Footer />
     </div>

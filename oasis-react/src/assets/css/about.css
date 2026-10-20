@@ -431,7 +431,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 540px;
 }
 
 .orbit-container {
