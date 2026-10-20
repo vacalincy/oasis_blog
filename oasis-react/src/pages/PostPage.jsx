@@ -276,7 +276,33 @@ export default function PostPage() {
       return (
           <div className="single-post-page">
               <Header />
-              <main style={{ padding: '100px 0', textAlign: 'center' }}>Loading story...</main>
+              <main style={{ paddingTop: "80px", minHeight: "100vh" }}>
+                  <section className="post-header">
+                      <div className="container post-header__container">
+                          <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                              <span className="post-header__badge" style={{ width: '140px', height: '28px', display: 'inline-block', background: 'var(--color-surface, #f1f5f9)', border: 'none' }}></span>
+                          </div>
+                          <div style={{ maxWidth: '640px', height: '48px', margin: '0 auto 1.5rem', background: 'var(--color-surface, #f1f5f9)', borderRadius: '8px' }}></div>
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+                              <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--color-surface, #f1f5f9)' }}></div>
+                              <div style={{ width: '120px', height: '18px', background: 'var(--color-surface, #f1f5f9)', borderRadius: '4px' }}></div>
+                          </div>
+                      </div>
+                  </section>
+                  <section className="post-media">
+                      <div className="container post-media__container">
+                          <div style={{ width: '100%', aspectRatio: '16 / 9', maxHeight: '600px', background: 'var(--color-surface, #f1f5f9)', borderRadius: 'var(--card-border-radius)' }}></div>
+                      </div>
+                  </section>
+                  <section className="post-body">
+                      <div className="container post-body__container" style={{ minHeight: '350px' }}>
+                          <div style={{ width: '100%', height: '18px', background: 'var(--color-surface, #f1f5f9)', borderRadius: '4px', marginBottom: '12px' }}></div>
+                          <div style={{ width: '92%', height: '18px', background: 'var(--color-surface, #f1f5f9)', borderRadius: '4px', marginBottom: '12px' }}></div>
+                          <div style={{ width: '96%', height: '18px', background: 'var(--color-surface, #f1f5f9)', borderRadius: '4px', marginBottom: '12px' }}></div>
+                          <div style={{ width: '85%', height: '18px', background: 'var(--color-surface, #f1f5f9)', borderRadius: '4px', marginBottom: '12px' }}></div>
+                      </div>
+                  </section>
+              </main>
               <Footer />
           </div>
       );
@@ -313,7 +339,7 @@ export default function PostPage() {
                     key={sub}
                     to={`/category?cat=${encodeURIComponent(post.category?.split(' - ')[0] || '')}&sub=${encodeURIComponent(sub.trim())}`}
                     className="post-header__badge"
-                    style={{ background: 'var(--color-surface, #f1f5f9)', color: 'var(--color-text-secondary)', border: '1px solid var(--color-border)' }}
+                    style={{ background: 'var(--color-surface, #f1f5f9)', color: '#334155', border: '1px solid var(--color-border)' }}
                 >
                     {sub.trim()}
                 </Link>
@@ -376,7 +402,16 @@ export default function PostPage() {
 <section className="post-media">
     <div className="container post-media__container">
         {post.cover_image && (
-            <img src={post.cover_image} alt="Cover" className="post-media__img" style={{ maxHeight: '600px', objectFit: 'cover' }} />
+            <img 
+                src={post.cover_image} 
+                alt={post.title ? `Cover image for ${post.title}` : "Cover"} 
+                className="post-media__img" 
+                width="800" 
+                height="450" 
+                fetchPriority="high" 
+                decoding="async" 
+                style={{ maxHeight: '600px', objectFit: 'cover' }} 
+            />
         )}
         {post.subtitle && <p className="post-media__caption">{post.subtitle}</p>}
     </div>
@@ -391,6 +426,7 @@ export default function PostPage() {
 {/* (user-formatted content: headings, quotes, p)  */}
 {/* ============================================= */}
 <section className="post-body">
+    <h2 className="sr-only">Story Content</h2>
     <div className="container post-body__container" dangerouslySetInnerHTML={{ __html: post.content }}>
     </div>
 </section>
@@ -459,7 +495,7 @@ export default function PostPage() {
 
         {user ? (
             <form className="comment-form" onSubmit={handleCommentSubmit}>
-                <Link to="/dashboard" className="avatar" style={profile?.avatar_url ? { backgroundImage: `url(${profile.avatar_url})`, backgroundSize: 'cover', backgroundPosition: 'center', color: 'transparent' } : {}}>
+                <Link to="/dashboard" className="avatar" aria-label="Go to your dashboard" style={profile?.avatar_url ? { backgroundImage: `url(${profile.avatar_url})`, backgroundSize: 'cover', backgroundPosition: 'center', color: 'transparent' } : {}}>
                     {!profile?.avatar_url && (profile?.username ? profile.username.substring(0,2).toUpperCase() : user.email.substring(0,2).toUpperCase())}
                 </Link>
                 <textarea 

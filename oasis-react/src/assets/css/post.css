@@ -14,7 +14,7 @@
     padding: 0.4rem 1.25rem;
     border-radius: var(--btn-border-radius);
     background: var(--color-gray-light);
-    color: var(--color-text-secondary);
+    color: #334155;
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -35,7 +35,7 @@
 .post-header__author { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
 .post-header__author-info p { color: var(--color-text-main); }
 .post-header__author-info { text-align: left; }
-.post-header__author-info time { color: var(--color-text-secondary); font-size: 0.85rem; }
+.post-header__author-info time { color: #475569; font-size: 0.85rem; }
 
 .post-media { padding: 0 2rem 2rem; }
 .post-media__container { max-width: 800px; margin: 0 auto; }
@@ -43,12 +43,13 @@
 .post-media__img {
     width: 100%;
     height: auto;
+    aspect-ratio: 16 / 9;
     border-radius: var(--card-border-radius);
     display: block;
     object-fit: cover;
 }
 
-.post-media__caption { margin-top: 0.75rem; text-align: center; font-size: 0.85rem; color: var(--color-text-secondary); }
+.post-media__caption { margin-top: 0.75rem; text-align: center; font-size: 0.85rem; color: #475569; }
 
 .post-body { padding: 0 0.5rem 0.5rem; }
 
@@ -200,7 +201,7 @@
 .comment__content { flex: 1; display: flex; flex-direction: column; }
 .comment__body { background: var(--color-surface); border-radius: var(--card-border-radius); padding: 1.25rem 1.5rem; }
 .comment__author { font-weight: 700; color: var(--color-text-main); margin-bottom: 0.15rem; }
-.comment__time { display: block; color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 0.75rem; }
+.comment__time { display: block; color: #475569; font-size: 0.85rem; margin-bottom: 0.75rem; }
 .comment__text { color: var(--color-text-main); line-height: 1.5; }
 .comment__actions { display: flex; align-items: center; gap: 1.5rem; margin-top: 0.75rem; }
 
@@ -212,7 +213,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--color-text-secondary);
+    color: #475569;
     font-family: var(--font-body), sans-serif;
     font-size: 0.9rem;
     font-weight: 500;

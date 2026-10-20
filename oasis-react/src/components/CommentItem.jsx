@@ -118,7 +118,7 @@ export default function CommentItem({ id, post_id, author_id, author, avatar, ti
 
     return (
         <li className="comment">
-            <Link to={`/profile/${author_id}`}>
+            <Link to={`/profile/${author_id}`} aria-label={`View ${author}'s profile`}>
                 <img 
                     decoding="async" 
                     src={avatar} 
@@ -150,10 +150,10 @@ export default function CommentItem({ id, post_id, author_id, author, avatar, ti
                         </span>
                     )}
                     {user && (
-                        <button className="comment__reply" onClick={() => setIsReplying(!isReplying)} style={{ border: 'none', background: 'none', color: 'var(--color-text-secondary)', fontWeight: '500', cursor: 'pointer' }}>Reply</button>
+                        <button className="comment__reply" onClick={() => setIsReplying(!isReplying)} style={{ border: 'none', background: 'none', color: '#475569', fontWeight: '500', cursor: 'pointer' }}>Reply</button>
                     )}
                     {user && user.id === author_id && (
-                        <button onClick={() => setShowDeleteModal(true)} style={{ border: 'none', background: 'none', color: 'var(--color-text-secondary)', fontWeight: '500', cursor: 'pointer', marginLeft: '8px', fontSize: '0.9rem' }}>Delete</button>
+                        <button onClick={() => setShowDeleteModal(true)} style={{ border: 'none', background: 'none', color: '#475569', fontWeight: '500', cursor: 'pointer', marginLeft: '8px', fontSize: '0.9rem' }}>Delete</button>
                     )}
                 </div>
                 {isReplying && (
