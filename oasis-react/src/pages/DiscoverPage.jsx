@@ -201,6 +201,7 @@ export default function DiscoverPage() {
   return (
     <div className="discover-page">
       <Header />
+      <main id="main-content" className="discover-main">
       
       {/* FEATURED POST SECTION START                    */}
 {/* ============================================= */}
@@ -212,7 +213,15 @@ export default function DiscoverPage() {
                 <>
                     {/* Left column: image, links to the full post */}
                     <Link to={`/post/${featuredPost.id}`} className="featured-post__link">
-                        <img src={featuredPost.cover_image || '/assets/images/content/default.jpg'} alt={featuredPost.title} />
+                        <img 
+                            src={featuredPost.cover_image || '/assets/images/content/default.jpg'} 
+                            alt={featuredPost.title}
+                            fetchpriority="high"
+                            loading="eager"
+                            decoding="async"
+                            width="640"
+                            height="480"
+                        />
                     </Link>
 
                     {/* Right column: badge, title, text, author */}
@@ -248,8 +257,23 @@ export default function DiscoverPage() {
                     </div>
                 </>
             ) : loading ? (
-                <div style={{ padding: '60px 24px', textAlign: 'center', color: 'var(--color-text-secondary)', width: '100%' }}>
-                    Loading featured story...
+                <div className="featured-post--skeleton" style={{ display: 'flex', width: '100%', gap: '2rem' }} aria-busy="true" aria-label="Loading featured story">
+                    <div className="featured-post__skeleton-img skeleton-shimmer" />
+                    <div className="featured-post__skeleton-content">
+                        <div className="skeleton-shimmer" style={{ width: '90px', height: '32px', borderRadius: 'var(--btn-border-radius)' }} />
+                        <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                            <div className="skeleton-shimmer" style={{ width: '92%', height: '48px', borderRadius: '8px' }} />
+                            <div className="skeleton-shimmer" style={{ width: '60%', height: '48px', borderRadius: '8px' }} />
+                            <div className="skeleton-shimmer" style={{ width: '80%', height: '20px', borderRadius: '4px', marginTop: '8px' }} />
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', width: '100%' }}>
+                            <div className="skeleton-shimmer" style={{ width: '48px', height: '48px', borderRadius: '50%', flexShrink: 0 }} />
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                <div className="skeleton-shimmer" style={{ width: '120px', height: '14px', borderRadius: '4px' }} />
+                                <div className="skeleton-shimmer" style={{ width: '80px', height: '12px', borderRadius: '4px' }} />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             ) : (
                 <div style={{ padding: '60px 24px', textAlign: 'center', color: 'var(--color-text-secondary)', width: '100%' }}>
@@ -398,7 +422,13 @@ export default function DiscoverPage() {
                 <>
                     <div className="posts-grid">
                         {loading ? (
-                            <p>Loading stories...</p>
+                            Array.from({ length: 8 }).map((_, idx) => (
+                                <div key={`skeleton-${idx}`} className="post-card post-card--skeleton" aria-hidden="true">
+                                    <div className="post-card__skeleton-img skeleton-shimmer" />
+                                    <div className="post-card__skeleton-title skeleton-shimmer" />
+                                    <div className="post-card__skeleton-meta skeleton-shimmer" />
+                                </div>
+                            ))
                         ) : filteredPosts.length > 0 ? (
                             filteredPosts.slice(0, visibleCount).map(post => (
                                 <PostCard 
@@ -436,11 +466,7 @@ export default function DiscoverPage() {
 {/* LATEST POSTS SECTION END                       */}
 {/* ============================================= */}
 
-
-
-
-
-
+      </main>
       <Footer />
     </div>
   );

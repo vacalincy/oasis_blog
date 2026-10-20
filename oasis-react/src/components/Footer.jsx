@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="site-footer">
         <div className="footer-content">
             <div className="footer-column">
-                <img src="/assets/images/brand/logo.svg" alt="OASIS Logo" style={{ height: '24px', marginBottom: '20px', display: 'block' }} />
+                <img src="/assets/images/brand/logo.svg" alt="OASIS Logo" width="72" height="24" style={{ height: '24px', width: '72px', marginBottom: '20px', display: 'block' }} />
                 <ul>
                     <li><Link to="/about">About Us</Link></li>
                     <li><Link to="/contact">Contact</Link></li>

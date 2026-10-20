@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import LazyDatePicker from '../components/LazyDatePicker';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../assets/css/settings.css';
@@ -847,7 +846,7 @@ export default function SettingsPage() {
                   <div className="form-group">
                     <label htmlFor="settings-dob">Date of Birth</label>
                     <div className="auth-modal__input-wrap" style={{ position: 'relative', width: '100%' }}>
-                      <DatePicker
+                      <LazyDatePicker
                         selected={dob ? new Date(dob) : null}
                         onChange={(date) => {
                           if (date && date instanceof Date && !isNaN(date.getTime())) {

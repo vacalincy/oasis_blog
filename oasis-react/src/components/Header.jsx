@@ -97,7 +97,7 @@ export default function Header() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         }}>
-          <img src="/assets/images/brand/logo.svg" alt="OASIS Logo" />
+          <img src="/assets/images/brand/logo.svg" alt="OASIS Logo" width="96" height="32" />
         </Link>
 
         {/* 2. Center menu (desktop) / sliding panel (mobile) */}

@@ -11,7 +11,7 @@ export default function PostCard({ title, image, category, categoryLink, author,
         <article className="post-card">
             <div className="post-card__image">
                 <Link to={link} className="post-card__image-link">
-                    <img loading="lazy" src={image} alt={title} />
+                    <img loading="lazy" decoding="async" width="300" height="300" src={image} alt={title} />
                 </Link>
                 {category && (
                     <Link 
