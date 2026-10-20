@@ -80,7 +80,14 @@ export default function Header() {
   };
 
   return (
-    <nav>
+    <nav 
+      className="site-header"
+      style={{
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+      }}
+    >
       <div className="container nav__container">
         
         {/* 1. Logo */}

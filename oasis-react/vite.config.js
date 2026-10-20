@@ -1,5 +1,7 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+import { browserslistToTargets } from 'lightningcss'
+import browserslist from 'browserslist'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -7,6 +9,11 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173,
+  },
+  css: {
+    lightningcss: {
+      targets: browserslistToTargets(browserslist('defaults, safari >= 13, chrome >= 80'))
+    }
   },
   build: {
     rollupOptions: {

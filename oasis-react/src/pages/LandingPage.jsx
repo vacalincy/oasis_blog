@@ -404,7 +404,14 @@ const formatToDateInput = (val) => {
 
   return (
     <div className="landing-page-wrapper">
-      <nav className="landing-nav">
+      <nav 
+        className="landing-nav"
+        style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+        }}
+      >
     <div className="container landing-nav__container">
         <Link to="/" className="landing-nav__logo" onClick={(e) => {
             e.preventDefault();
